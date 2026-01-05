@@ -24,7 +24,10 @@
       "Bash(git init:*)",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(del /f nul)"
+      "Bash(del /f nul)",
+      "Bash(git commit:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)"
     ]
   }
 }
