@@ -1,4 +1,4 @@
-const AMAZON_TAG = 'stocktheevent-20'; // Placeholder - replace with actual tag
+const AMAZON_TAG = 'probuild20-20';
 
 export const affiliateLinks: Record<string, string> = {
   'corkscrew': `https://www.amazon.com/s?k=wine+corkscrew&tag=${AMAZON_TAG}`,
