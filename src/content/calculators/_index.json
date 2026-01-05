@@ -1,0 +1,2018 @@
+[
+  {
+    "slug": "wine-for-wedding-10-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-wedding-20-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-wedding-25-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-wedding-30-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-wedding-40-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-wedding-50-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-wedding-75-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-wedding-100-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-wedding-150-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-wedding-200-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-wedding-250-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-wedding-300-guests",
+    "item": "wine",
+    "event": "wedding",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-graduation-party-10-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-graduation-party-20-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-graduation-party-25-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-graduation-party-30-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-graduation-party-40-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-graduation-party-50-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-graduation-party-75-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-graduation-party-100-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-graduation-party-150-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-graduation-party-200-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-graduation-party-250-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-graduation-party-300-guests",
+    "item": "wine",
+    "event": "graduation",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-corporate-event-10-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-corporate-event-20-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-corporate-event-25-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-corporate-event-30-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-corporate-event-40-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-corporate-event-50-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-corporate-event-75-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-corporate-event-100-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-corporate-event-150-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-corporate-event-200-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-corporate-event-250-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-corporate-event-300-guests",
+    "item": "wine",
+    "event": "corporate",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-birthday-party-10-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-birthday-party-20-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-birthday-party-25-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-birthday-party-30-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-birthday-party-40-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-birthday-party-50-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-birthday-party-75-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-birthday-party-100-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-birthday-party-150-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-birthday-party-200-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-birthday-party-250-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-birthday-party-300-guests",
+    "item": "wine",
+    "event": "birthday",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-super-bowl-party-10-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-super-bowl-party-20-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-super-bowl-party-25-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-super-bowl-party-30-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-super-bowl-party-40-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-super-bowl-party-50-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-super-bowl-party-75-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-super-bowl-party-100-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-super-bowl-party-150-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-super-bowl-party-200-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-super-bowl-party-250-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-super-bowl-party-300-guests",
+    "item": "wine",
+    "event": "super-bowl",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-holiday-party-10-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-holiday-party-20-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-holiday-party-25-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-holiday-party-30-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-holiday-party-40-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-holiday-party-50-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-holiday-party-75-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-holiday-party-100-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-holiday-party-150-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-holiday-party-200-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-holiday-party-250-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-holiday-party-300-guests",
+    "item": "wine",
+    "event": "holiday-party",
+    "guests": 300
+  },
+  {
+    "slug": "wine-for-wedding-shower-10-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 10
+  },
+  {
+    "slug": "wine-for-wedding-shower-20-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 20
+  },
+  {
+    "slug": "wine-for-wedding-shower-25-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 25
+  },
+  {
+    "slug": "wine-for-wedding-shower-30-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 30
+  },
+  {
+    "slug": "wine-for-wedding-shower-40-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 40
+  },
+  {
+    "slug": "wine-for-wedding-shower-50-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 50
+  },
+  {
+    "slug": "wine-for-wedding-shower-75-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 75
+  },
+  {
+    "slug": "wine-for-wedding-shower-100-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 100
+  },
+  {
+    "slug": "wine-for-wedding-shower-150-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 150
+  },
+  {
+    "slug": "wine-for-wedding-shower-200-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 200
+  },
+  {
+    "slug": "wine-for-wedding-shower-250-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 250
+  },
+  {
+    "slug": "wine-for-wedding-shower-300-guests",
+    "item": "wine",
+    "event": "wedding-shower",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-wedding-10-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-wedding-20-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-wedding-25-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-wedding-30-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-wedding-40-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-wedding-50-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-wedding-75-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-wedding-100-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-wedding-150-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-wedding-200-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-wedding-250-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-wedding-300-guests",
+    "item": "beer",
+    "event": "wedding",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-graduation-party-10-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-graduation-party-20-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-graduation-party-25-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-graduation-party-30-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-graduation-party-40-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-graduation-party-50-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-graduation-party-75-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-graduation-party-100-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-graduation-party-150-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-graduation-party-200-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-graduation-party-250-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-graduation-party-300-guests",
+    "item": "beer",
+    "event": "graduation",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-corporate-event-10-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-corporate-event-20-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-corporate-event-25-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-corporate-event-30-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-corporate-event-40-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-corporate-event-50-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-corporate-event-75-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-corporate-event-100-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-corporate-event-150-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-corporate-event-200-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-corporate-event-250-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-corporate-event-300-guests",
+    "item": "beer",
+    "event": "corporate",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-birthday-party-10-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-birthday-party-20-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-birthday-party-25-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-birthday-party-30-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-birthday-party-40-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-birthday-party-50-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-birthday-party-75-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-birthday-party-100-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-birthday-party-150-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-birthday-party-200-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-birthday-party-250-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-birthday-party-300-guests",
+    "item": "beer",
+    "event": "birthday",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-super-bowl-party-10-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-super-bowl-party-20-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-super-bowl-party-25-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-super-bowl-party-30-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-super-bowl-party-40-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-super-bowl-party-50-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-super-bowl-party-75-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-super-bowl-party-100-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-super-bowl-party-150-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-super-bowl-party-200-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-super-bowl-party-250-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-super-bowl-party-300-guests",
+    "item": "beer",
+    "event": "super-bowl",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-holiday-party-10-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-holiday-party-20-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-holiday-party-25-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-holiday-party-30-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-holiday-party-40-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-holiday-party-50-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-holiday-party-75-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-holiday-party-100-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-holiday-party-150-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-holiday-party-200-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-holiday-party-250-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-holiday-party-300-guests",
+    "item": "beer",
+    "event": "holiday-party",
+    "guests": 300
+  },
+  {
+    "slug": "beer-for-wedding-shower-10-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 10
+  },
+  {
+    "slug": "beer-for-wedding-shower-20-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 20
+  },
+  {
+    "slug": "beer-for-wedding-shower-25-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 25
+  },
+  {
+    "slug": "beer-for-wedding-shower-30-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 30
+  },
+  {
+    "slug": "beer-for-wedding-shower-40-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 40
+  },
+  {
+    "slug": "beer-for-wedding-shower-50-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 50
+  },
+  {
+    "slug": "beer-for-wedding-shower-75-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 75
+  },
+  {
+    "slug": "beer-for-wedding-shower-100-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 100
+  },
+  {
+    "slug": "beer-for-wedding-shower-150-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 150
+  },
+  {
+    "slug": "beer-for-wedding-shower-200-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 200
+  },
+  {
+    "slug": "beer-for-wedding-shower-250-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 250
+  },
+  {
+    "slug": "beer-for-wedding-shower-300-guests",
+    "item": "beer",
+    "event": "wedding-shower",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-wedding-10-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-wedding-20-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-wedding-25-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-wedding-30-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-wedding-40-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-wedding-50-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-wedding-75-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-wedding-100-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-wedding-150-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-wedding-200-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-wedding-250-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-wedding-300-guests",
+    "item": "champagne",
+    "event": "wedding",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-graduation-party-10-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-graduation-party-20-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-graduation-party-25-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-graduation-party-30-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-graduation-party-40-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-graduation-party-50-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-graduation-party-75-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-graduation-party-100-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-graduation-party-150-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-graduation-party-200-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-graduation-party-250-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-graduation-party-300-guests",
+    "item": "champagne",
+    "event": "graduation",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-corporate-event-10-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-corporate-event-20-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-corporate-event-25-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-corporate-event-30-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-corporate-event-40-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-corporate-event-50-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-corporate-event-75-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-corporate-event-100-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-corporate-event-150-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-corporate-event-200-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-corporate-event-250-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-corporate-event-300-guests",
+    "item": "champagne",
+    "event": "corporate",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-birthday-party-10-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-birthday-party-20-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-birthday-party-25-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-birthday-party-30-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-birthday-party-40-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-birthday-party-50-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-birthday-party-75-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-birthday-party-100-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-birthday-party-150-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-birthday-party-200-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-birthday-party-250-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-birthday-party-300-guests",
+    "item": "champagne",
+    "event": "birthday",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-10-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-20-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-25-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-30-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-40-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-50-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-75-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-100-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-150-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-200-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-250-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-super-bowl-party-300-guests",
+    "item": "champagne",
+    "event": "super-bowl",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-holiday-party-10-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-holiday-party-20-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-holiday-party-25-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-holiday-party-30-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-holiday-party-40-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-holiday-party-50-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-holiday-party-75-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-holiday-party-100-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-holiday-party-150-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-holiday-party-200-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-holiday-party-250-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-holiday-party-300-guests",
+    "item": "champagne",
+    "event": "holiday-party",
+    "guests": 300
+  },
+  {
+    "slug": "champagne-for-wedding-shower-10-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 10
+  },
+  {
+    "slug": "champagne-for-wedding-shower-20-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 20
+  },
+  {
+    "slug": "champagne-for-wedding-shower-25-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 25
+  },
+  {
+    "slug": "champagne-for-wedding-shower-30-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 30
+  },
+  {
+    "slug": "champagne-for-wedding-shower-40-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 40
+  },
+  {
+    "slug": "champagne-for-wedding-shower-50-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 50
+  },
+  {
+    "slug": "champagne-for-wedding-shower-75-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 75
+  },
+  {
+    "slug": "champagne-for-wedding-shower-100-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 100
+  },
+  {
+    "slug": "champagne-for-wedding-shower-150-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 150
+  },
+  {
+    "slug": "champagne-for-wedding-shower-200-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 200
+  },
+  {
+    "slug": "champagne-for-wedding-shower-250-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 250
+  },
+  {
+    "slug": "champagne-for-wedding-shower-300-guests",
+    "item": "champagne",
+    "event": "wedding-shower",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-wedding-10-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-wedding-20-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-wedding-25-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-wedding-30-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-wedding-40-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-wedding-50-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-wedding-75-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-wedding-100-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-wedding-150-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-wedding-200-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-wedding-250-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-wedding-300-guests",
+    "item": "spirits",
+    "event": "wedding",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-graduation-party-10-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-graduation-party-20-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-graduation-party-25-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-graduation-party-30-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-graduation-party-40-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-graduation-party-50-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-graduation-party-75-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-graduation-party-100-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-graduation-party-150-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-graduation-party-200-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-graduation-party-250-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-graduation-party-300-guests",
+    "item": "spirits",
+    "event": "graduation",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-corporate-event-10-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-corporate-event-20-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-corporate-event-25-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-corporate-event-30-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-corporate-event-40-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-corporate-event-50-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-corporate-event-75-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-corporate-event-100-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-corporate-event-150-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-corporate-event-200-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-corporate-event-250-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-corporate-event-300-guests",
+    "item": "spirits",
+    "event": "corporate",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-birthday-party-10-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-birthday-party-20-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-birthday-party-25-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-birthday-party-30-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-birthday-party-40-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-birthday-party-50-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-birthday-party-75-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-birthday-party-100-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-birthday-party-150-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-birthday-party-200-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-birthday-party-250-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-birthday-party-300-guests",
+    "item": "spirits",
+    "event": "birthday",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-10-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-20-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-25-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-30-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-40-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-50-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-75-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-100-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-150-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-200-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-250-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-super-bowl-party-300-guests",
+    "item": "spirits",
+    "event": "super-bowl",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-holiday-party-10-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-holiday-party-20-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-holiday-party-25-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-holiday-party-30-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-holiday-party-40-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-holiday-party-50-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-holiday-party-75-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-holiday-party-100-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-holiday-party-150-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-holiday-party-200-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-holiday-party-250-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-holiday-party-300-guests",
+    "item": "spirits",
+    "event": "holiday-party",
+    "guests": 300
+  },
+  {
+    "slug": "spirits-for-wedding-shower-10-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 10
+  },
+  {
+    "slug": "spirits-for-wedding-shower-20-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 20
+  },
+  {
+    "slug": "spirits-for-wedding-shower-25-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 25
+  },
+  {
+    "slug": "spirits-for-wedding-shower-30-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 30
+  },
+  {
+    "slug": "spirits-for-wedding-shower-40-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 40
+  },
+  {
+    "slug": "spirits-for-wedding-shower-50-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 50
+  },
+  {
+    "slug": "spirits-for-wedding-shower-75-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 75
+  },
+  {
+    "slug": "spirits-for-wedding-shower-100-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 100
+  },
+  {
+    "slug": "spirits-for-wedding-shower-150-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 150
+  },
+  {
+    "slug": "spirits-for-wedding-shower-200-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 200
+  },
+  {
+    "slug": "spirits-for-wedding-shower-250-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 250
+  },
+  {
+    "slug": "spirits-for-wedding-shower-300-guests",
+    "item": "spirits",
+    "event": "wedding-shower",
+    "guests": 300
+  }
+]

@@ -1,0 +1,167 @@
+{
+  "slug": "spirits-for-wedding-20-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "wedding",
+    "name": "Wedding",
+    "slug": "wedding",
+    "description": "Wedding reception celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.2,
+      "beer": 0.9,
+      "champagne": 1.5,
+      "spirits": 1
+    },
+    "proTips": [
+      "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
+      "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
+      "Pre-pour wine at dinner tables 5 minutes before guests sit to prevent service bottlenecks.",
+      "Order 10-15% extra and ask vendors about their return policy on unopened bottles.",
+      "If dancing goes past 10pm, reopen a simplified bar: beer, wine, and 2 signature drinks only."
+    ],
+    "buyingGuide": "For weddings, plan a 60/40 split between red and white wine for fall/winter, or flip it for spring/summer. Budget $12-18 per bottle for a crowd-pleasing selection - guests can't tell the difference between $15 and $40 wine at a party. Consider having champagne for toasts separate from your open bar calculation."
+  },
+  "guestCount": {
+    "value": 20,
+    "label": "20 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 90,
+    "unitsNeeded": 7,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.5,
+    "buffer": 1,
+    "rawUnits": 5.3,
+    "actualDrinkers": 16
+  },
+  "meta": {
+    "title": "How Much Spirits for 20 Guest Wedding? | 7 bottles",
+    "description": "Need spirits for a 20-person wedding? You'll need exactly 7 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 20 Guest Wedding?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-wedding-20-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "20 guests × 80% drinking rate",
+      "result": "16 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "16 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "120 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "90 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply wedding modifier",
+      "formula": "× 1 (0% for spirits)",
+      "result": "90 spirits servings needed",
+      "explanation": "Weddings have standard spirits consumption."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "90 servings ÷ 17 servings per bottle",
+      "result": "5.3 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "5.3 × 1.15 = 6.1, rounded up",
+      "result": "7 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 7,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 30,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 32,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 32,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 12,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-wedding-20-guests",
+      "title": "Wine for Wedding (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-wedding-20-guests",
+      "title": "Beer for Wedding (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-wedding-20-guests",
+      "title": "Champagne for Wedding (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-10-guests",
+      "title": "Spirits for Wedding (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-25-guests",
+      "title": "Spirits for Wedding (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-graduation-party-20-guests",
+      "title": "Spirits for Graduation Party (20 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-corporate-event-20-guests",
+      "title": "Spirits for Corporate Event (20 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

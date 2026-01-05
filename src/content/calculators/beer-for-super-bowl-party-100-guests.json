@@ -1,0 +1,156 @@
+{
+  "slug": "beer-for-super-bowl-party-100-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "super-bowl",
+    "name": "Super Bowl Party",
+    "slug": "super-bowl-party",
+    "description": "Super Bowl viewing party",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.4,
+      "champagne": 0.4,
+      "spirits": 0.8
+    },
+    "proTips": [
+      "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
+      "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
+      "Use halftime to restock ALL coolers - you have exactly 25 minutes.",
+      "Heavy food like wings and nachos reduces alcohol consumption by 15%.",
+      "Light beers disappear fastest - they're easier to drink during a 4-hour game."
+    ],
+    "buyingGuide": "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party."
+  },
+  "guestCount": {
+    "value": 100,
+    "label": "100 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 551,
+    "unitsNeeded": 27,
+    "unitsDisplay": "cases",
+    "perPersonServings": 5.5,
+    "buffer": 4,
+    "rawUnits": 23,
+    "actualDrinkers": 70
+  },
+  "meta": {
+    "title": "How Much Beer for 100 Guest Super Bowl Party? | 27 cases",
+    "description": "Need beer for a 100-person super bowl party? You'll need exactly 27 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 100 Guest Super Bowl Party?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-super-bowl-party-100-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "100 guests × 70% drinking rate",
+      "result": "70 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "70 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "525 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "394 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply super bowl party modifier",
+      "formula": "× 1.4 (+40% for beer)",
+      "result": "551 beer servings needed",
+      "explanation": "Super Bowl Partys typically consume 40% more beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "551 servings ÷ 24 servings per case",
+      "result": "23 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "23 × 1.15 = 26.4, rounded up",
+      "result": "27 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 27,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 324,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 14,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-super-bowl-party-100-guests",
+      "title": "Wine for Super Bowl Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-super-bowl-party-100-guests",
+      "title": "Champagne for Super Bowl Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-super-bowl-party-100-guests",
+      "title": "Spirits for Super Bowl Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-super-bowl-party-75-guests",
+      "title": "Beer for Super Bowl Party (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-super-bowl-party-150-guests",
+      "title": "Beer for Super Bowl Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-100-guests",
+      "title": "Beer for Wedding (100 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-100-guests",
+      "title": "Beer for Graduation Party (100 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

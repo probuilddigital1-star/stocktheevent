@@ -1,0 +1,156 @@
+{
+  "slug": "beer-for-birthday-party-20-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 20,
+    "label": "20 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 86,
+    "unitsNeeded": 5,
+    "unitsDisplay": "cases",
+    "perPersonServings": 4.3,
+    "buffer": 1,
+    "rawUnits": 3.6,
+    "actualDrinkers": 16
+  },
+  "meta": {
+    "title": "How Much Beer for 20 Guest Birthday Party? | 5 cases",
+    "description": "Need beer for a 20-person birthday party? You'll need exactly 5 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 20 Guest Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-birthday-party-20-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "20 guests × 80% drinking rate",
+      "result": "16 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "16 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "96 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "78 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1.1 (+10% for beer)",
+      "result": "86 beer servings needed",
+      "explanation": "Birthday Partys typically consume 10% more beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "86 servings ÷ 24 servings per case",
+      "result": "3.6 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "3.6 × 1.15 = 4.1, rounded up",
+      "result": "5 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 5,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 60,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 3,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-birthday-party-20-guests",
+      "title": "Wine for Birthday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-birthday-party-20-guests",
+      "title": "Champagne for Birthday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-20-guests",
+      "title": "Spirits for Birthday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-10-guests",
+      "title": "Beer for Birthday Party (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-birthday-party-25-guests",
+      "title": "Beer for Birthday Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-20-guests",
+      "title": "Beer for Wedding (20 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-20-guests",
+      "title": "Beer for Graduation Party (20 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

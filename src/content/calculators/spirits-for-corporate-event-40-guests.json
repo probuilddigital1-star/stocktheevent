@@ -1,0 +1,167 @@
+{
+  "slug": "spirits-for-corporate-event-40-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 40,
+    "label": "40 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 83,
+    "unitsNeeded": 6,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 2.1,
+    "buffer": 1,
+    "rawUnits": 4.9,
+    "actualDrinkers": 30
+  },
+  "meta": {
+    "title": "How Much Spirits for 40 Guest Corporate Event? | 6 bottles",
+    "description": "Need spirits for a 40-person corporate event? You'll need exactly 6 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 40 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-corporate-event-40-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "40 guests × 75% drinking rate",
+      "result": "30 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "30 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "135 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "119 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.7 (-30% for spirits)",
+      "result": "83 spirits servings needed",
+      "explanation": "Corporate Events typically consume 30% less spirits than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "83 servings ÷ 17 servings per bottle",
+      "result": "4.9 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "4.9 × 1.15 = 5.6, rounded up",
+      "result": "6 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 6,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 28,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 60,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 60,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 11,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-corporate-event-40-guests",
+      "title": "Wine for Corporate Event (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-40-guests",
+      "title": "Beer for Corporate Event (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-40-guests",
+      "title": "Champagne for Corporate Event (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-30-guests",
+      "title": "Spirits for Corporate Event (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-corporate-event-50-guests",
+      "title": "Spirits for Corporate Event (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-40-guests",
+      "title": "Spirits for Wedding (40 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-40-guests",
+      "title": "Spirits for Graduation Party (40 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

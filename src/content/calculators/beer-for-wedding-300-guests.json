@@ -1,0 +1,151 @@
+{
+  "slug": "beer-for-wedding-300-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "wedding",
+    "name": "Wedding",
+    "slug": "wedding",
+    "description": "Wedding reception celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.2,
+      "beer": 0.9,
+      "champagne": 1.5,
+      "spirits": 1
+    },
+    "proTips": [
+      "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
+      "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
+      "Pre-pour wine at dinner tables 5 minutes before guests sit to prevent service bottlenecks.",
+      "Order 10-15% extra and ask vendors about their return policy on unopened bottles.",
+      "If dancing goes past 10pm, reopen a simplified bar: beer, wine, and 2 signature drinks only."
+    ],
+    "buyingGuide": "For weddings, plan a 60/40 split between red and white wine for fall/winter, or flip it for spring/summer. Budget $12-18 per bottle for a crowd-pleasing selection - guests can't tell the difference between $15 and $40 wine at a party. Consider having champagne for toasts separate from your open bar calculation."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 987,
+    "unitsNeeded": 48,
+    "unitsDisplay": "cases",
+    "perPersonServings": 3.3,
+    "buffer": 6,
+    "rawUnits": 41.1,
+    "actualDrinkers": 195
+  },
+  "meta": {
+    "title": "How Much Beer for 300 Guest Wedding? | 48 cases",
+    "description": "Need beer for a 300-person wedding? You'll need exactly 48 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 300 Guest Wedding?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-wedding-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "300 guests × 65% drinking rate",
+      "result": "195 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "195 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "1463 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "1097 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply wedding modifier",
+      "formula": "× 0.9 (-10% for beer)",
+      "result": "987 beer servings needed",
+      "explanation": "Weddings typically consume 10% less beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "987 servings ÷ 24 servings per case",
+      "result": "41.1 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "41.1 × 1.15 = 47.3, rounded up",
+      "result": "48 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 48,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 576,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 24,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-wedding-300-guests",
+      "title": "Wine for Wedding (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-wedding-300-guests",
+      "title": "Champagne for Wedding (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-300-guests",
+      "title": "Spirits for Wedding (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-wedding-250-guests",
+      "title": "Beer for Wedding (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-graduation-party-300-guests",
+      "title": "Beer for Graduation Party (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-corporate-event-300-guests",
+      "title": "Beer for Corporate Event (300 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

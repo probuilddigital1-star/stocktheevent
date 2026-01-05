@@ -1,0 +1,118 @@
+---
+import type { ShoppingItem } from '../lib/types';
+
+interface Props {
+  eventType?: string;
+  placement?: 'inline' | 'footer';
+  shoppingList?: ShoppingItem[];
+  eventName?: string;
+  guestCount?: number;
+}
+const {
+  eventType = 'general',
+  placement = 'inline',
+  shoppingList = [],
+  eventName = '',
+  guestCount = 0
+} = Astro.props;
+
+// Serialize shopping list for the form
+const shoppingListJson = JSON.stringify(shoppingList);
+---
+
+<div class="email-capture bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 my-8">
+  <div class="text-center">
+    <h3 class="font-display text-xl font-bold text-emerald-900 mb-2">
+      {shoppingList.length > 0 ? 'Email Your Shopping List' : 'Get Party Planning Tips'}
+    </h3>
+    <p class="text-emerald-700 text-sm mb-4">
+      {shoppingList.length > 0
+        ? "We'll send your complete list plus pro tips for a stress-free event"
+        : "Get expert tips and never run out at your next event"}
+    </p>
+    <form id="email-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        required
+        class="flex-1 px-4 py-3 rounded-xl border border-emerald-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+      />
+      <input type="hidden" name="eventType" value={eventType} />
+      <input type="hidden" name="eventName" value={eventName} />
+      <input type="hidden" name="guestCount" value={guestCount} />
+      <input type="hidden" name="source" value={placement} />
+      <input type="hidden" name="shoppingList" value={shoppingListJson} />
+      <input type="hidden" name="pageUrl" id="page-url" value="" />
+      <button
+        type="submit"
+        class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+      >
+        {shoppingList.length > 0 ? 'Send My List' : 'Get Tips'}
+      </button>
+    </form>
+    <p id="form-message" class="text-sm mt-3 hidden"></p>
+    <p class="text-xs text-emerald-600 mt-3">No spam, unsubscribe anytime</p>
+  </div>
+</div>
+
+<script>
+  // Set the page URL on load
+  const pageUrlInput = document.getElementById('page-url') as HTMLInputElement;
+  if (pageUrlInput) {
+    pageUrlInput.value = window.location.href;
+  }
+
+  const form = document.getElementById('email-form');
+  const message = document.getElementById('form-message');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form as HTMLFormElement);
+
+    // Build the payload
+    const payload: Record<string, unknown> = {
+      email: formData.get('email'),
+      eventType: formData.get('eventType'),
+      eventName: formData.get('eventName'),
+      guestCount: formData.get('guestCount'),
+      source: formData.get('source'),
+      pageUrl: formData.get('pageUrl'),
+      timestamp: new Date().toISOString(),
+    };
+
+    // Parse shopping list if present
+    const shoppingListStr = formData.get('shoppingList') as string;
+    if (shoppingListStr && shoppingListStr !== '[]') {
+      try {
+        payload.shoppingList = JSON.parse(shoppingListStr);
+      } catch {
+        payload.shoppingList = [];
+      }
+    }
+
+    try {
+      const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        if (message) {
+          message.textContent = 'Check your inbox!';
+          message.className = 'text-sm mt-3 text-emerald-600';
+        }
+        (form as HTMLFormElement).reset();
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (err) {
+      if (message) {
+        message.textContent = 'Something went wrong. Try again?';
+        message.className = 'text-sm mt-3 text-red-600';
+      }
+    }
+    message?.classList.remove('hidden');
+  });
+</script>

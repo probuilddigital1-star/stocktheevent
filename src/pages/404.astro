@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found - StockTheEvent"
+  description="Oops! The page you're looking for doesn't exist. Let's get you back to planning your event."
+>
+  <section class="py-20 px-4">
+    <div class="max-w-2xl mx-auto text-center">
+      <!-- Big 404 -->
+      <div class="mb-8">
+        <span class="text-8xl md:text-9xl font-display font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+          404
+        </span>
+      </div>
+
+      <!-- Emoji and Message -->
+      <div class="mb-8">
+        <span class="text-6xl mb-4 block">🍾</span>
+        <h1 class="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">
+          This Party Ended Early
+        </h1>
+        <p class="text-lg text-slate-600 max-w-md mx-auto">
+          Looks like this page doesn't exist. Maybe it ran out of drinks?
+          Let's get you back to the main event.
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <a
+          href="/"
+          class="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all"
+        >
+          Go to Calculator
+        </a>
+        <a
+          href="/calculators"
+          class="bg-white text-slate-700 px-8 py-4 rounded-xl font-semibold border border-slate-200 hover:border-emerald-500 hover:text-emerald-600 transition-all"
+        >
+          Browse All Calculators
+        </a>
+      </div>
+
+      <!-- Popular Suggestions -->
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+        <h2 class="text-lg font-semibold text-slate-900 mb-6">Popular Calculators</h2>
+        <div class="grid sm:grid-cols-2 gap-4 text-left">
+          <a
+            href="/wine-for-wedding-100-guests"
+            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+          >
+            <span class="text-2xl">🍷</span>
+            <div>
+              <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine for Wedding</div>
+              <div class="text-sm text-slate-500">100 guests</div>
+            </div>
+          </a>
+          <a
+            href="/beer-for-super-bowl-party-50-guests"
+            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+          >
+            <span class="text-2xl">🍺</span>
+            <div>
+              <div class="font-medium text-slate-900 group-hover:text-amber-700">Beer for Super Bowl</div>
+              <div class="text-sm text-slate-500">50 guests</div>
+            </div>
+          </a>
+          <a
+            href="/champagne-for-holiday-party-75-guests"
+            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+          >
+            <span class="text-2xl">🥂</span>
+            <div>
+              <div class="font-medium text-slate-900 group-hover:text-amber-700">Champagne for Holiday</div>
+              <div class="text-sm text-slate-500">75 guests</div>
+            </div>
+          </a>
+          <a
+            href="/spirits-for-birthday-party-30-guests"
+            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+          >
+            <span class="text-2xl">🥃</span>
+            <div>
+              <div class="font-medium text-slate-900 group-hover:text-amber-700">Spirits for Birthday</div>
+              <div class="text-sm text-slate-500">30 guests</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

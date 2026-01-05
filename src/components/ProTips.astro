@@ -1,0 +1,49 @@
+---
+import type { EventType } from '../lib/types';
+
+interface Props {
+  event: EventType;
+}
+
+const { event } = Astro.props;
+
+const tipIcons = ['💡', '⏰', '🎯', '🧊', '✨'];
+---
+
+<section class="py-16 bg-gradient-to-b from-slate-50 to-white">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="text-center mb-10">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+        Pro Tips for Your {event.name}
+      </h2>
+      <p class="text-slate-500">
+        Insider advice from experienced bartenders
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {event.proTips.map((tip, index) => (
+        <div class="flex gap-4 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all group">
+          <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+            <span class="text-2xl">
+              {tipIcons[index % tipIcons.length]}
+            </span>
+          </div>
+          <p class="text-slate-700 leading-relaxed pt-2 flex-1">{tip}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Buying Guide -->
+    <div class="mt-10 p-8 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 rounded-2xl border border-amber-200 shadow-lg relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-24 h-24 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+      <div class="relative z-10">
+        <h3 class="font-display font-bold text-xl text-slate-900 mb-4 flex items-center gap-3">
+          <span class="text-3xl">🛒</span>
+          Buying Guide
+        </h3>
+        <p class="text-slate-700 leading-relaxed">{event.buyingGuide}</p>
+      </div>
+    </div>
+  </div>
+</section>

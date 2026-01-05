@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InteractiveCalculator from '../components/InteractiveCalculator.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+---
+
+<BaseLayout
+  title="StockTheEvent - Drink Calculator for Parties & Events"
+  description="Calculate exactly how much wine, beer, champagne, and spirits you need for your event. Bartender-tested formulas for weddings, parties, corporate events, and more."
+>
+  <!-- Interactive Calculator Hero -->
+  <InteractiveCalculator />
+
+  <!-- Email Capture - Primary Conversion Point -->
+  <section class="py-12 bg-gradient-to-b from-slate-50 to-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <EmailCapture eventType="homepage" placement="inline" />
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+        Why Trust Our Calculator?
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">🎯</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Industry Standards</h3>
+          <p class="text-slate-600 text-sm">Based on the 1.5 drinks per hour rule used by professional bartenders worldwide.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">📉</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Consumption Decay</h3>
+          <p class="text-slate-600 text-sm">We factor in that people drink less as events progress - so you don't over-buy.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="text-3xl">🎊</span>
+          </div>
+          <h3 class="font-bold text-lg mb-2">Event-Specific</h3>
+          <p class="text-slate-600 text-sm">Weddings drink more wine, Super Bowl parties need more beer. We adjust for each event.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Calculators -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-slate-900 mb-8 text-center">
+        Popular Calculators
+      </h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <a href="/wine-for-wedding-100-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+          <div class="flex items-center gap-4">
+            <span class="text-3xl">🍷</span>
+            <div>
+              <div class="font-bold text-slate-900 group-hover:text-amber-600">Wine for 100 Guest Wedding</div>
+              <div class="text-sm text-slate-500">Most popular calculator</div>
+            </div>
+          </div>
+        </a>
+        <a href="/beer-for-super-bowl-party-50-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+          <div class="flex items-center gap-4">
+            <span class="text-3xl">🍺</span>
+            <div>
+              <div class="font-bold text-slate-900 group-hover:text-amber-600">Beer for 50 Guest Super Bowl</div>
+              <div class="text-sm text-slate-500">Game day essential</div>
+            </div>
+          </div>
+        </a>
+        <a href="/champagne-for-holiday-party-75-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+          <div class="flex items-center gap-4">
+            <span class="text-3xl">🥂</span>
+            <div>
+              <div class="font-bold text-slate-900 group-hover:text-amber-600">Champagne for 75 Guest Holiday Party</div>
+              <div class="text-sm text-slate-500">Celebrate in style</div>
+            </div>
+          </div>
+        </a>
+        <a href="/spirits-for-birthday-party-30-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+          <div class="flex items-center gap-4">
+            <span class="text-3xl">🥃</span>
+            <div>
+              <div class="font-bold text-slate-900 group-hover:text-amber-600">Spirits for 30 Guest Birthday</div>
+              <div class="text-sm text-slate-500">Party planning made easy</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="text-center mt-8">
+        <a href="/calculators" class="text-amber-600 hover:text-amber-700 font-medium hover:underline">
+          View all 336 calculators →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-slate-900 mb-4">
+        Trusted by Event Planners
+      </h2>
+      <p class="text-slate-600 mb-8">
+        Our formulas are based on industry standards and refined by bartenders with decades of experience.
+      </p>
+      <div class="flex justify-center gap-8 text-slate-400">
+        <div class="text-center">
+          <div class="text-4xl font-bold text-amber-500">30+</div>
+          <div class="text-sm">Years Experience</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-amber-500">336</div>
+          <div class="text-sm">Calculators</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-amber-500">15%</div>
+          <div class="text-sm">Safety Buffer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

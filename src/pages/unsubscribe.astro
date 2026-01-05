@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Unsubscribe | StockTheEvent"
+  description="Unsubscribe from StockTheEvent emails."
+>
+  <section class="py-20 bg-gradient-to-b from-slate-50 to-white min-h-[60vh]">
+    <div class="max-w-md mx-auto px-4">
+      <div class="text-center mb-8">
+        <div class="text-6xl mb-4">📧</div>
+        <h1 class="font-display text-3xl font-bold text-slate-900 mb-4">Unsubscribe</h1>
+        <p class="text-slate-600">We're sorry to see you go!</p>
+      </div>
+
+      <div id="unsubscribe-form" class="bg-white rounded-2xl shadow-lg p-8">
+        <p class="text-slate-600 mb-6 text-center">
+          Enter your email to unsubscribe from our mailing list.
+        </p>
+        <form id="unsub-form" class="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            required
+            class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 outline-none"
+          />
+          <button
+            type="submit"
+            class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-xl font-semibold transition-colors"
+          >
+            Unsubscribe
+          </button>
+        </form>
+        <p id="form-message" class="text-sm mt-4 text-center hidden"></p>
+      </div>
+
+      <div id="success-message" class="hidden bg-white rounded-2xl shadow-lg p-8 text-center">
+        <div class="text-5xl mb-4">✓</div>
+        <h2 class="text-xl font-bold text-slate-900 mb-2">You've been unsubscribed</h2>
+        <p class="text-slate-600 mb-6">
+          You won't receive any more emails from us.
+        </p>
+        <a
+          href="/"
+          class="inline-block bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+        >
+          Back to Calculator
+        </a>
+      </div>
+
+      <p class="text-center text-slate-400 text-sm mt-8">
+        Changed your mind? You can always sign up again on our <a href="/" class="text-amber-600 hover:underline">homepage</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('unsub-form');
+  const formContainer = document.getElementById('unsubscribe-form');
+  const successMessage = document.getElementById('success-message');
+  const message = document.getElementById('form-message');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form as HTMLFormElement);
+    const email = formData.get('email');
+
+    try {
+      // Send unsubscribe request to n8n webhook
+      const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          action: 'unsubscribe',
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      // Show success regardless (don't reveal if email exists)
+      if (formContainer) formContainer.classList.add('hidden');
+      if (successMessage) successMessage.classList.remove('hidden');
+
+    } catch (err) {
+      // Show success anyway for privacy (don't reveal if request failed)
+      if (formContainer) formContainer.classList.add('hidden');
+      if (successMessage) successMessage.classList.remove('hidden');
+    }
+  });
+</script>

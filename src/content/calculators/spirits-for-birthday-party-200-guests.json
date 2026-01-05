@@ -1,0 +1,167 @@
+{
+  "slug": "spirits-for-birthday-party-200-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 200,
+    "label": "200 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 761,
+    "unitsNeeded": 52,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.8,
+    "buffer": 7,
+    "rawUnits": 44.8,
+    "actualDrinkers": 130
+  },
+  "meta": {
+    "title": "How Much Spirits for 200 Guest Birthday Party? | 52 bottles",
+    "description": "Need spirits for a 200-person birthday party? You'll need exactly 52 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 200 Guest Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-birthday-party-200-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "200 guests × 65% drinking rate",
+      "result": "130 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "130 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "780 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "634 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1.2 (+20% for spirits)",
+      "result": "761 spirits servings needed",
+      "explanation": "Birthday Partys typically consume 20% more spirits than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "761 servings ÷ 17 servings per bottle",
+      "result": "44.8 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "44.8 × 1.15 = 51.5, rounded up",
+      "result": "52 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 52,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 254,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 260,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 260,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 96,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-birthday-party-200-guests",
+      "title": "Wine for Birthday Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-200-guests",
+      "title": "Beer for Birthday Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-birthday-party-200-guests",
+      "title": "Champagne for Birthday Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-150-guests",
+      "title": "Spirits for Birthday Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-birthday-party-250-guests",
+      "title": "Spirits for Birthday Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-200-guests",
+      "title": "Spirits for Wedding (200 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-200-guests",
+      "title": "Spirits for Graduation Party (200 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

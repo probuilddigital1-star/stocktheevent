@@ -1,0 +1,167 @@
+{
+  "slug": "spirits-for-holiday-party-30-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 30,
+    "label": "30 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 135,
+    "unitsNeeded": 10,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.5,
+    "buffer": 2,
+    "rawUnits": 7.9,
+    "actualDrinkers": 24
+  },
+  "meta": {
+    "title": "How Much Spirits for 30 Guest Holiday Party? | 10 bottles",
+    "description": "Need spirits for a 30-person holiday party? You'll need exactly 10 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 30 Guest Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-holiday-party-30-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "30 guests × 80% drinking rate",
+      "result": "24 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "24 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "144 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "117 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply holiday party modifier",
+      "formula": "× 1.15 (+15% for spirits)",
+      "result": "135 spirits servings needed",
+      "explanation": "Holiday Partys typically consume 15% more spirits than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "135 servings ÷ 17 servings per bottle",
+      "result": "7.9 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "7.9 × 1.15 = 9.1, rounded up",
+      "result": "10 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 10,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 45,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 48,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 48,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 17,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-holiday-party-30-guests",
+      "title": "Wine for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-holiday-party-30-guests",
+      "title": "Beer for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-holiday-party-30-guests",
+      "title": "Champagne for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-25-guests",
+      "title": "Spirits for Holiday Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-holiday-party-40-guests",
+      "title": "Spirits for Holiday Party (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-30-guests",
+      "title": "Spirits for Wedding (30 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-30-guests",
+      "title": "Spirits for Graduation Party (30 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

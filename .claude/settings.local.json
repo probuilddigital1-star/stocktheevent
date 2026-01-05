@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npx astro add:*)",
+      "Bash(npm install)",
+      "Bash(npm run generate:*)",
+      "Bash(npm run build:*)",
+      "Bash(cat:*)",
+      "Bash(dir:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(npm install:*)",
+      "Bash(npx playwright install:*)",
+      "Bash(node:*)",
+      "Bash(npx playwright test:*)",
+      "Bash(move:*)",
+      "WebSearch",
+      "Bash(curl:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(find:*)",
+      "Bash(copy \"C:\\\\Users\\\\zckpe\\\\Downloads\\\\Gemini_Generated_Image_7tadd67tadd67tad\\(1\\).png\" \"C:\\\\Users\\\\zckpe\\\\Documents\\\\claude-projects\\\\stocktheevent\\\\public\\\\og-default.png\")",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(del /f nul)"
+    ]
+  }
+}

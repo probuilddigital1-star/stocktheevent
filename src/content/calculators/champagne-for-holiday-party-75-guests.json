@@ -1,0 +1,156 @@
+{
+  "slug": "champagne-for-holiday-party-75-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 384,
+    "unitsNeeded": 74,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 5.1,
+    "buffer": 10,
+    "rawUnits": 64,
+    "actualDrinkers": 56
+  },
+  "meta": {
+    "title": "How Much Champagne for 75 Guest Holiday Party? | 74 bottles",
+    "description": "Need champagne for a 75-person holiday party? You'll need exactly 74 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 75 Guest Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-holiday-party-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "75 guests × 75% drinking rate",
+      "result": "56 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "56 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "336 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "273 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply holiday party modifier",
+      "formula": "× 1.4 (+40% for champagne)",
+      "result": "384 champagne servings needed",
+      "explanation": "Holiday Partys typically consume 40% more champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "384 servings ÷ 6 servings per bottle",
+      "result": "64 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "64 × 1.15 = 73.6, rounded up",
+      "result": "74 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 74,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 84,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 19,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-holiday-party-75-guests",
+      "title": "Wine for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-holiday-party-75-guests",
+      "title": "Beer for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-75-guests",
+      "title": "Spirits for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-holiday-party-50-guests",
+      "title": "Champagne for Holiday Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-holiday-party-100-guests",
+      "title": "Champagne for Holiday Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-75-guests",
+      "title": "Champagne for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-75-guests",
+      "title": "Champagne for Graduation Party (75 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

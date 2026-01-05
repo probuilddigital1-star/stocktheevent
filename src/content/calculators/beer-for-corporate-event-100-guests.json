@@ -1,0 +1,156 @@
+{
+  "slug": "beer-for-corporate-event-100-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 100,
+    "label": "100 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 237,
+    "unitsNeeded": 12,
+    "unitsDisplay": "cases",
+    "perPersonServings": 2.4,
+    "buffer": 2,
+    "rawUnits": 9.9,
+    "actualDrinkers": 70
+  },
+  "meta": {
+    "title": "How Much Beer for 100 Guest Corporate Event? | 12 cases",
+    "description": "Need beer for a 100-person corporate event? You'll need exactly 12 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 100 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-corporate-event-100-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "100 guests × 70% drinking rate",
+      "result": "70 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "70 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "315 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "278 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.85 (-15% for beer)",
+      "result": "237 beer servings needed",
+      "explanation": "Corporate Events typically consume 15% less beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "237 servings ÷ 24 servings per case",
+      "result": "9.9 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "9.9 × 1.15 = 11.4, rounded up",
+      "result": "12 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 12,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 144,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 6,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-corporate-event-100-guests",
+      "title": "Wine for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-100-guests",
+      "title": "Champagne for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-100-guests",
+      "title": "Spirits for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-75-guests",
+      "title": "Beer for Corporate Event (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-corporate-event-150-guests",
+      "title": "Beer for Corporate Event (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-100-guests",
+      "title": "Beer for Wedding (100 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-100-guests",
+      "title": "Beer for Graduation Party (100 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

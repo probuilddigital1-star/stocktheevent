@@ -1,0 +1,156 @@
+{
+  "slug": "wine-for-birthday-party-50-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 50,
+    "label": "50 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 183,
+    "unitsNeeded": 43,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.7,
+    "buffer": 6,
+    "rawUnits": 36.6,
+    "actualDrinkers": 38
+  },
+  "meta": {
+    "title": "How Much Wine for 50 Guest Birthday Party? | 43 bottles",
+    "description": "Need wine for a 50-person birthday party? You'll need exactly 43 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 50 Guest Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-birthday-party-50-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "50 guests × 75% drinking rate",
+      "result": "38 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "38 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "228 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "185 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1 (0% for wine)",
+      "result": "183 wine servings needed",
+      "explanation": "Birthday Partys have standard wine consumption."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "183 servings ÷ 5 servings per bottle",
+      "result": "36.6 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "36.6 × 1.15 = 42.1, rounded up",
+      "result": "43 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 43,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 76,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-birthday-party-50-guests",
+      "title": "Beer for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-birthday-party-50-guests",
+      "title": "Champagne for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-50-guests",
+      "title": "Spirits for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-birthday-party-40-guests",
+      "title": "Wine for Birthday Party (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-birthday-party-75-guests",
+      "title": "Wine for Birthday Party (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-50-guests",
+      "title": "Wine for Wedding (50 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-50-guests",
+      "title": "Wine for Graduation Party (50 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

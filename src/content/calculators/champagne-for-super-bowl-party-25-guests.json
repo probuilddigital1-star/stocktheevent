@@ -1,0 +1,156 @@
+{
+  "slug": "champagne-for-super-bowl-party-25-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "super-bowl",
+    "name": "Super Bowl Party",
+    "slug": "super-bowl-party",
+    "description": "Super Bowl viewing party",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.4,
+      "champagne": 0.4,
+      "spirits": 0.8
+    },
+    "proTips": [
+      "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
+      "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
+      "Use halftime to restock ALL coolers - you have exactly 25 minutes.",
+      "Heavy food like wings and nachos reduces alcohol consumption by 15%.",
+      "Light beers disappear fastest - they're easier to drink during a 4-hour game."
+    ],
+    "buyingGuide": "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party."
+  },
+  "guestCount": {
+    "value": 25,
+    "label": "25 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 45,
+    "unitsNeeded": 9,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 1.8,
+    "buffer": 1,
+    "rawUnits": 7.5,
+    "actualDrinkers": 20
+  },
+  "meta": {
+    "title": "How Much Champagne for 25 Guest Super Bowl Party? | 9 bottles",
+    "description": "Need champagne for a 25-person super bowl party? You'll need exactly 9 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 25 Guest Super Bowl Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-super-bowl-party-25-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "25 guests × 80% drinking rate",
+      "result": "20 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "20 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "150 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "113 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply super bowl party modifier",
+      "formula": "× 0.4 (-60% for champagne)",
+      "result": "45 champagne servings needed",
+      "explanation": "Super Bowl Partys typically consume 60% less champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "45 servings ÷ 6 servings per bottle",
+      "result": "7.5 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "7.5 × 1.15 = 8.6, rounded up",
+      "result": "9 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 9,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 30,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 3,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-super-bowl-party-25-guests",
+      "title": "Wine for Super Bowl Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-super-bowl-party-25-guests",
+      "title": "Beer for Super Bowl Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-super-bowl-party-25-guests",
+      "title": "Spirits for Super Bowl Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-super-bowl-party-20-guests",
+      "title": "Champagne for Super Bowl Party (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-super-bowl-party-30-guests",
+      "title": "Champagne for Super Bowl Party (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-25-guests",
+      "title": "Champagne for Wedding (25 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-25-guests",
+      "title": "Champagne for Graduation Party (25 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

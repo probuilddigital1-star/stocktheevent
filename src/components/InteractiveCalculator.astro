@@ -1,0 +1,646 @@
+---
+import { items } from '../data/items';
+import { events } from '../data/events';
+import { guestCounts } from '../data/guestCounts';
+
+// Pass data to client
+const itemsData = items.map(i => ({
+  id: i.id,
+  name: i.name,
+  emoji: i.emoji,
+  unit: i.unit,
+  unitSingular: i.unitSingular,
+  servingsPerUnit: i.servingsPerUnit,
+}));
+
+const eventsData = events.map(e => ({
+  id: e.id,
+  name: e.name,
+  slug: e.slug,
+  defaultDuration: e.defaultDuration,
+  modifiers: e.modifiers,
+}));
+
+const guestCountsData = guestCounts.map(g => ({
+  value: g.value,
+  label: g.label,
+  tier: g.tier,
+}));
+---
+
+<section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
+  <div class="max-w-5xl mx-auto px-4">
+    <!-- Header with display font -->
+    <div class="text-center mb-12">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 leading-tight">
+        Plan the Perfect Party
+      </h1>
+      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        Calculate exactly what you need with our <span class="text-amber-600 font-semibold">bartender-tested formulas</span>
+      </p>
+      <p class="text-sm text-slate-500 mt-2">336 drink + event + guest combinations available</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <!-- Input Panel -->
+      <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8 animate-fade-in-up">
+        <div class="space-y-8">
+          <!-- Drink Type - Multi-select -->
+          <div>
+            <label class="block text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">
+              What are you serving?
+            </label>
+            <p class="text-sm text-slate-500 mb-4">Select all that apply</p>
+            <div class="grid grid-cols-2 gap-3" id="item-selector">
+              {items.map((item, idx) => (
+                <button
+                  type="button"
+                  data-item={item.id}
+                  class:list={[
+                    'item-btn group flex items-center gap-3 p-4 rounded-2xl border-2 transition-all text-left hover:scale-105 hover:shadow-lg relative',
+                    idx === 0
+                      ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 shadow-md selected'
+                      : 'border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
+                  ]}
+                >
+                  <span class="text-4xl group-hover:scale-110 transition-transform">{item.emoji}</span>
+                  <span class="font-semibold text-slate-900">{item.name}</span>
+                  <!-- Checkmark badge -->
+                  <span class:list={[
+                    'checkmark absolute top-2 right-2 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white transition-all',
+                    idx === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+                  ]}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div id="selection-count" class="text-center mt-3 text-sm text-amber-600 font-medium">
+              1 drink selected
+            </div>
+          </div>
+
+          <!-- Event Type -->
+          <div>
+            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
+              What's the occasion?
+            </label>
+            <select id="event-select" class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg bg-white hover:border-slate-300 transition-colors cursor-pointer">
+              {events.map(event => (
+                <option value={event.id}>{event.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <!-- Duration Slider (NEW!) -->
+          <div>
+            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
+              How long is your event?
+            </label>
+            <div class="relative">
+              <input
+                type="range"
+                id="duration-slider"
+                min="1"
+                max="6"
+                value="5"
+                class="w-full h-3 bg-gradient-to-r from-slate-200 via-slate-200 to-slate-200 rounded-full appearance-none cursor-pointer slider-thumb"
+              />
+              <div class="flex justify-between mt-3 text-xs text-slate-400 font-medium">
+                <span>1hr</span>
+                <span>2hr</span>
+                <span>3hr</span>
+                <span>4hr</span>
+                <span>5hr</span>
+                <span>6hr+</span>
+              </div>
+            </div>
+            <div class="text-center mt-4">
+              <span id="duration-display" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">5</span>
+              <span class="text-slate-500 ml-1 text-lg">hours</span>
+            </div>
+            <p id="duration-hint" class="text-center text-sm text-slate-500 mt-2">
+              Recommended for weddings
+            </p>
+          </div>
+
+          <!-- Guest Count -->
+          <div>
+            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
+              How many guests?
+            </label>
+            <div class="relative">
+              <input
+                type="range"
+                id="guest-slider"
+                min="0"
+                max="11"
+                value="7"
+                class="w-full h-3 bg-gradient-to-r from-slate-200 via-slate-200 to-slate-200 rounded-full appearance-none cursor-pointer slider-thumb"
+              />
+              <div class="relative mt-3 text-xs text-slate-400 font-medium h-4">
+                <!-- Labels positioned to match actual slider thumb positions -->
+                <!-- Thumb is 32px, so center travels from 16px to calc(100% - 16px) -->
+                <!-- Formula: left = 16px + (index/11) * (100% - 32px) -->
+                <span class="absolute" style="left: 16px; transform: translateX(-50%);">10</span>
+                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.4545); transform: translateX(-50%);">50</span>
+                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.6364); transform: translateX(-50%);">100</span>
+                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.8182); transform: translateX(-50%);">200</span>
+                <span class="absolute" style="left: calc(100% - 16px); transform: translateX(-50%);">300</span>
+              </div>
+            </div>
+            <div class="text-center mt-6 bg-slate-50 rounded-2xl py-4">
+              <span id="guest-display" class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">100</span>
+              <span class="text-slate-500 ml-2 text-lg">guests</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Panel - Adaptive -->
+      <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-fade-in-up animate-delay-100">
+        <!-- Single Drink Result (default) -->
+        <div id="single-result" class="result-panel">
+          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-10 text-center text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+            <div id="result-emoji" class="text-8xl mb-4 drop-shadow-lg transition-transform">🍷</div>
+            <div class="text-7xl md:text-8xl font-black mb-2 drop-shadow-sm" id="result-units">24</div>
+            <div class="text-xl opacity-95 font-medium" id="result-unit-label">bottles of wine</div>
+            <div class="mt-4 text-amber-100 text-sm">
+              for your event • 15% buffer included
+            </div>
+          </div>
+        </div>
+
+        <!-- Multi-Drink Result (2-3 drinks) -->
+        <div id="multi-result" class="result-panel hidden">
+          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-6 text-center text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="text-lg font-semibold mb-4 opacity-90">Your Bar Setup</div>
+            <div id="multi-drink-grid" class="grid gap-3">
+              <!-- Dynamically populated -->
+            </div>
+            <div class="mt-4 text-amber-100 text-sm">
+              15% buffer included on each
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Bar Result (4 drinks) -->
+        <div id="fullbar-result" class="result-panel hidden">
+          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-6 text-center text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="text-4xl mb-2">🎉</div>
+            <div class="text-xl font-semibold mb-1">Your Complete Bar</div>
+            <div class="text-5xl font-black" id="total-items">106</div>
+            <div class="text-amber-100 text-sm mb-4">total items</div>
+            <div id="fullbar-grid" class="grid grid-cols-2 gap-2">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats - Shared -->
+        <div class="grid grid-cols-3 bg-gradient-to-b from-slate-50 to-white">
+          <div class="p-5 text-center border-r border-slate-100">
+            <div class="text-3xl font-bold text-slate-900" id="result-servings">120</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">servings</div>
+          </div>
+          <div class="p-5 text-center border-r border-slate-100">
+            <div class="text-3xl font-bold text-slate-900" id="result-per-person">1.2</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">per person</div>
+          </div>
+          <div class="p-5 text-center">
+            <div class="text-3xl font-bold text-slate-900" id="result-duration">5</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">hours</div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="p-6 bg-white">
+          <a
+            href="#"
+            id="detail-link"
+            class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-4 rounded-2xl font-bold transition-all hover:scale-105 hover:shadow-xl shadow-lg shadow-emerald-200"
+          >
+            <span id="cta-text">Get Full Breakdown & Shopping List →</span>
+          </a>
+          <p class="text-center text-sm text-slate-500 mt-4">
+            Pro tips • Step-by-step math • Copy-ready shopping list
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .slider-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 3px solid white;
+  }
+  .slider-thumb::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+  }
+  .slider-thumb::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  }
+  .slider-thumb::-moz-range-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  /* Animation for results */
+  @keyframes resultPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  .result-animate {
+    animation: resultPop 0.3s ease-out;
+  }
+
+  /* Multi-drink card style */
+  .drink-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px;
+    backdrop-filter: blur(4px);
+  }
+  .drink-card-sm {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 8px 12px;
+    backdrop-filter: blur(4px);
+  }
+</style>
+
+<script define:vars={{ itemsData, eventsData, guestCountsData }}>
+  // Bartender constants
+  const BASE_DRINKS_PER_HOUR = 1.5;
+  const BUFFER_PERCENTAGE = 0.15;
+  const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
+  const DRINKING_PERCENTAGE = {
+    small: 0.80,
+    medium: 0.75,
+    large: 0.70,
+    xlarge: 0.65,
+  };
+
+  // Event-specific drink splits (bartender-approved, totals > 1.0 to account for variety/switching)
+  // Keys must match event.id values from events.ts
+  const EVENT_SPLITS = {
+    wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },        // 1.20 total
+    'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },   // 1.15 total
+    corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },      // 1.15 total
+    birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },       // 1.15 total
+    'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },// 1.15 total
+    graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },     // 1.15 total
+    'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },// 1.18 total
+  };
+
+  // Variety factor scales with number of drink types (bartender recommendation)
+  // More variety = need more of each to ensure you don't run out
+  const VARIETY_FACTORS = {
+    1: 1.00,  // Single drink - no variety factor
+    2: 1.25,  // 2 drink types
+    3: 1.40,  // 3 drink types
+    4: 1.60,  // Full bar - need significant variety buffer
+  };
+
+  // Minimum units per category for full bar (ensures viable stock of each type)
+  const MINIMUM_UNITS = {
+    wine: 6,      // At least 6 bottles (30 drinks)
+    beer: 2,      // At least 2 cases (48 drinks)
+    champagne: 4, // At least 4 bottles (24 drinks)
+    spirits: 8,   // At least 8 bottles for variety (vodka, rum, whiskey, gin, tequila)
+  };
+
+  // State
+  let selectedItems = [itemsData[0]]; // Start with wine selected
+  let selectedEvent = eventsData[0];
+  let selectedGuestCount = guestCountsData[7]; // 100 guests default
+  let selectedDuration = eventsData[0].defaultDuration;
+
+  // DOM elements
+  const itemBtns = document.querySelectorAll('.item-btn');
+  const eventSelect = document.getElementById('event-select');
+  const guestSlider = document.getElementById('guest-slider');
+  const durationSlider = document.getElementById('duration-slider');
+  const guestDisplay = document.getElementById('guest-display');
+  const durationDisplay = document.getElementById('duration-display');
+  const durationHint = document.getElementById('duration-hint');
+  const selectionCount = document.getElementById('selection-count');
+
+  // Result panels
+  const singleResult = document.getElementById('single-result');
+  const multiResult = document.getElementById('multi-result');
+  const fullbarResult = document.getElementById('fullbar-result');
+
+  // Single result elements
+  const resultEmoji = document.getElementById('result-emoji');
+  const resultUnits = document.getElementById('result-units');
+  const resultUnitLabel = document.getElementById('result-unit-label');
+
+  // Multi result elements
+  const multiDrinkGrid = document.getElementById('multi-drink-grid');
+
+  // Full bar result elements
+  const fullbarGrid = document.getElementById('fullbar-grid');
+  const totalItems = document.getElementById('total-items');
+
+  // Shared result elements
+  const resultServings = document.getElementById('result-servings');
+  const resultPerPerson = document.getElementById('result-per-person');
+  const resultDuration = document.getElementById('result-duration');
+  const detailLink = document.getElementById('detail-link');
+  const ctaText = document.getElementById('cta-text');
+
+  // Calculate consumption multiplier with decay
+  function calculateConsumptionMultiplier(durationHours) {
+    let total = 0;
+    for (let hour = 0; hour < durationHours; hour++) {
+      const decayIndex = Math.min(hour, HOURLY_DECAY.length - 1);
+      total += HOURLY_DECAY[decayIndex];
+    }
+    return total;
+  }
+
+  // Calculate single drink quantity
+  function calculateSingleDrink(item, guests, tier, duration, eventModifier) {
+    const drinkingPct = DRINKING_PERCENTAGE[tier];
+    const actualDrinkers = guests * drinkingPct;
+    const consumptionMult = calculateConsumptionMultiplier(duration);
+    const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * eventModifier);
+    const rawUnits = totalServings / item.servingsPerUnit;
+    const unitsNeeded = Math.ceil(rawUnits * (1 + BUFFER_PERCENTAGE));
+    return { totalServings, unitsNeeded };
+  }
+
+  // Main calculation - handles single and multi-drink
+  function calculate() {
+    const guests = selectedGuestCount.value;
+    const tier = selectedGuestCount.tier;
+    const duration = selectedDuration;
+    const eventId = selectedEvent.id;
+    const splits = EVENT_SPLITS[eventId] || EVENT_SPLITS.wedding;
+    const drinkCount = selectedItems.length;
+    const isMulti = drinkCount > 1;
+    const varietyFactor = VARIETY_FACTORS[drinkCount] || 1.0;
+
+    // Calculate total split for selected drinks (to normalize)
+    const totalSplit = selectedItems.reduce((sum, item) => sum + (splits[item.id] || 0.25), 0);
+
+    let grandTotalServings = 0;
+    let grandTotalUnits = 0;
+    const results = [];
+
+    selectedItems.forEach(item => {
+      const modifier = selectedEvent.modifiers[item.id] || 1.0;
+      const singleCalc = calculateSingleDrink(item, guests, tier, duration, modifier);
+
+      let unitsNeeded = singleCalc.unitsNeeded;
+      let servings = singleCalc.totalServings;
+
+      if (isMulti) {
+        // Apply normalized split and scaled variety factor
+        const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
+        unitsNeeded = Math.ceil(singleCalc.unitsNeeded * normalizedSplit * varietyFactor);
+        servings = Math.round(singleCalc.totalServings * normalizedSplit * varietyFactor);
+
+        // Apply minimum units for full bar (4 drinks) to ensure viable stock
+        if (drinkCount === 4) {
+          const minUnits = MINIMUM_UNITS[item.id] || 4;
+          unitsNeeded = Math.max(unitsNeeded, minUnits);
+        }
+      }
+
+      grandTotalServings += servings;
+      grandTotalUnits += unitsNeeded;
+
+      results.push({
+        item,
+        unitsNeeded,
+        servings,
+      });
+    });
+
+    const perPerson = Math.round((grandTotalServings / guests) * 10) / 10;
+
+    return { results, grandTotalServings, grandTotalUnits, perPerson, duration };
+  }
+
+  // Update UI with animation
+  function updateResults() {
+    const calc = calculate();
+    const count = selectedItems.length;
+
+    // Hide all result panels first
+    singleResult.classList.add('hidden');
+    multiResult.classList.add('hidden');
+    fullbarResult.classList.add('hidden');
+
+    // Show appropriate panel based on selection count
+    if (count === 1) {
+      // Single drink - hero display
+      singleResult.classList.remove('hidden');
+      const result = calc.results[0];
+
+      resultEmoji.style.transform = 'scale(1.1) rotate(5deg)';
+      setTimeout(() => { resultEmoji.style.transform = 'scale(1) rotate(0deg)'; }, 200);
+
+      resultEmoji.textContent = result.item.emoji;
+      resultUnits.textContent = result.unitsNeeded;
+      resultUnits.classList.add('result-animate');
+      setTimeout(() => { resultUnits.classList.remove('result-animate'); }, 300);
+      resultUnitLabel.textContent = `${result.unitsNeeded === 1 ? result.item.unitSingular : result.item.unit} of ${result.item.name.toLowerCase()}`;
+
+      // Update link and CTA (include duration for consistency)
+      const slug = `${result.item.id}-for-${selectedEvent.slug}-${selectedGuestCount.value}-guests`;
+      detailLink.href = `/${slug}?duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Full Breakdown & Shopping List →';
+
+    } else if (count <= 3) {
+      // 2-3 drinks - stacked cards
+      multiResult.classList.remove('hidden');
+
+      multiDrinkGrid.innerHTML = calc.results.map(r => `
+        <div class="drink-card flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">${r.item.emoji}</span>
+            <span class="font-medium">${r.item.name}</span>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-bold">${r.unitsNeeded}</div>
+            <div class="text-xs opacity-80">${r.item.unit}</div>
+          </div>
+        </div>
+      `).join('');
+
+      // Link to multi-drink bar-setup page
+      const drinks = selectedItems.map(i => i.id).join(',');
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${selectedGuestCount.value}-guests?drinks=${drinks}&duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Your Bar Breakdown →';
+
+    } else {
+      // 4 drinks - full bar grid
+      fullbarResult.classList.remove('hidden');
+
+      totalItems.textContent = calc.grandTotalUnits;
+
+      fullbarGrid.innerHTML = calc.results.map(r => `
+        <div class="drink-card-sm flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">${r.item.emoji}</span>
+            <span class="text-sm font-medium">${r.item.name}</span>
+          </div>
+          <div class="font-bold">${r.unitsNeeded}</div>
+        </div>
+      `).join('');
+
+      // Link to multi-drink bar-setup page (full bar)
+      const drinks = selectedItems.map(i => i.id).join(',');
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${selectedGuestCount.value}-guests?drinks=${drinks}&duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Your Complete Bar Guide →';
+    }
+
+    // Update shared stats
+    resultServings.textContent = calc.grandTotalServings;
+    resultPerPerson.textContent = calc.perPerson;
+    resultDuration.textContent = calc.duration;
+  }
+
+  // Update selection count display
+  function updateSelectionCount() {
+    const count = selectedItems.length;
+    if (count === 1) {
+      selectionCount.textContent = '1 drink selected';
+    } else if (count === 4) {
+      selectionCount.textContent = 'Full bar selected!';
+      selectionCount.classList.add('text-emerald-600');
+      selectionCount.classList.remove('text-amber-600');
+    } else {
+      selectionCount.textContent = `${count} drinks selected`;
+      selectionCount.classList.remove('text-emerald-600');
+      selectionCount.classList.add('text-amber-600');
+    }
+  }
+
+  // Update duration hint based on event
+  function updateDurationHint() {
+    const eventName = selectedEvent.name.toLowerCase();
+    if (selectedDuration === selectedEvent.defaultDuration) {
+      durationHint.textContent = `Recommended for ${eventName}s`;
+    } else if (selectedDuration === 1) {
+      durationHint.textContent = 'Perfect for cocktail hour or toasts only';
+    } else if (selectedDuration >= 6) {
+      durationHint.textContent = 'Extended events may need mid-event restocking';
+    } else {
+      durationHint.textContent = `Adjusted from ${selectedEvent.defaultDuration}hr default`;
+    }
+  }
+
+  // Toggle button selected state
+  function updateButtonStates() {
+    itemBtns.forEach(btn => {
+      const itemId = btn.dataset.item;
+      const isSelected = selectedItems.some(i => i.id === itemId);
+      const checkmark = btn.querySelector('.checkmark');
+
+      if (isSelected) {
+        btn.classList.remove('border-slate-200');
+        btn.classList.add('border-amber-500', 'bg-gradient-to-br', 'from-amber-50', 'to-orange-50', 'shadow-md', 'selected');
+        checkmark.classList.remove('opacity-0', 'scale-0');
+        checkmark.classList.add('opacity-100', 'scale-100');
+      } else {
+        btn.classList.add('border-slate-200');
+        btn.classList.remove('border-amber-500', 'bg-gradient-to-br', 'from-amber-50', 'to-orange-50', 'shadow-md', 'selected');
+        checkmark.classList.add('opacity-0', 'scale-0');
+        checkmark.classList.remove('opacity-100', 'scale-100');
+      }
+    });
+  }
+
+  // Event listeners - Multi-select drink buttons
+  itemBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const itemId = btn.dataset.item;
+      const item = itemsData.find(i => i.id === itemId);
+      const isCurrentlySelected = selectedItems.some(i => i.id === itemId);
+
+      if (isCurrentlySelected) {
+        // Don't allow deselecting if it's the only one
+        if (selectedItems.length === 1) {
+          // Shake animation to indicate can't deselect
+          btn.classList.add('animate-shake');
+          setTimeout(() => btn.classList.remove('animate-shake'), 300);
+          return;
+        }
+        // Remove from selection
+        selectedItems = selectedItems.filter(i => i.id !== itemId);
+      } else {
+        // Add to selection
+        selectedItems.push(item);
+      }
+
+      updateButtonStates();
+      updateSelectionCount();
+      updateResults();
+    });
+  });
+
+  eventSelect.addEventListener('change', (e) => {
+    selectedEvent = eventsData.find(ev => ev.id === e.target.value);
+    // Update duration to event default
+    selectedDuration = selectedEvent.defaultDuration;
+    durationSlider.value = selectedDuration;
+    durationDisplay.textContent = selectedDuration;
+    updateDurationHint();
+    updateResults();
+  });
+
+  durationSlider.addEventListener('input', (e) => {
+    selectedDuration = parseInt(e.target.value);
+    durationDisplay.textContent = selectedDuration;
+    updateDurationHint();
+    updateResults();
+  });
+
+  guestSlider.addEventListener('input', (e) => {
+    selectedGuestCount = guestCountsData[parseInt(e.target.value)];
+    guestDisplay.textContent = selectedGuestCount.value;
+    updateResults();
+  });
+
+  // Initial calculation
+  updateDurationHint();
+  updateResults();
+</script>
+
+<style>
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+  .animate-shake {
+    animation: shake 0.3s ease-in-out;
+  }
+</style>

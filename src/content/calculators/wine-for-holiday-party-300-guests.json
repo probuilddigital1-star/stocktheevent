@@ -1,0 +1,151 @@
+{
+  "slug": "wine-for-holiday-party-300-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 1188,
+    "unitsNeeded": 274,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4,
+    "buffer": 36,
+    "rawUnits": 237.6,
+    "actualDrinkers": 195
+  },
+  "meta": {
+    "title": "How Much Wine for 300 Guest Holiday Party? | 274 bottles",
+    "description": "Need wine for a 300-person holiday party? You'll need exactly 274 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 300 Guest Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-holiday-party-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "300 guests × 65% drinking rate",
+      "result": "195 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "195 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "1170 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "951 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply holiday party modifier",
+      "formula": "× 1.25 (+25% for wine)",
+      "result": "1188 wine servings needed",
+      "explanation": "Holiday Partys typically consume 25% more wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "1188 servings ÷ 5 servings per bottle",
+      "result": "237.6 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "237.6 × 1.15 = 273.2, rounded up",
+      "result": "274 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 274,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 390,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-holiday-party-300-guests",
+      "title": "Beer for Holiday Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-holiday-party-300-guests",
+      "title": "Champagne for Holiday Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-300-guests",
+      "title": "Spirits for Holiday Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-holiday-party-250-guests",
+      "title": "Wine for Holiday Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-300-guests",
+      "title": "Wine for Wedding (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-300-guests",
+      "title": "Wine for Graduation Party (300 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

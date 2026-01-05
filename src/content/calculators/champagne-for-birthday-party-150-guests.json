@@ -1,0 +1,156 @@
+{
+  "slug": "champagne-for-birthday-party-150-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 150,
+    "label": "150 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 614,
+    "unitsNeeded": 118,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.1,
+    "buffer": 15,
+    "rawUnits": 102.3,
+    "actualDrinkers": 105
+  },
+  "meta": {
+    "title": "How Much Champagne for 150 Guest Birthday Party? | 118 bottles",
+    "description": "Need champagne for a 150-person birthday party? You'll need exactly 118 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 150 Guest Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-birthday-party-150-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "150 guests × 70% drinking rate",
+      "result": "105 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "105 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "630 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "512 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1.2 (+20% for champagne)",
+      "result": "614 champagne servings needed",
+      "explanation": "Birthday Partys typically consume 20% more champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "614 servings ÷ 6 servings per bottle",
+      "result": "102.3 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "102.3 × 1.15 = 117.6, rounded up",
+      "result": "118 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 118,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 158,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 30,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-birthday-party-150-guests",
+      "title": "Wine for Birthday Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-150-guests",
+      "title": "Beer for Birthday Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-150-guests",
+      "title": "Spirits for Birthday Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-birthday-party-100-guests",
+      "title": "Champagne for Birthday Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-birthday-party-200-guests",
+      "title": "Champagne for Birthday Party (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-150-guests",
+      "title": "Champagne for Wedding (150 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-150-guests",
+      "title": "Champagne for Graduation Party (150 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "slug": "champagne-for-graduation-party-200-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "graduation",
+    "name": "Graduation Party",
+    "slug": "graduation-party",
+    "description": "Graduation celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.7,
+      "beer": 1.25,
+      "champagne": 1.3,
+      "spirits": 0.85
+    },
+    "proTips": [
+      "Set up a visible '21+ only' bar area and a killer mocktail station so younger guests feel included.",
+      "Parents of graduates drink about 30% less than the graduate's friends - plan your ratios accordingly.",
+      "Keep champagne cold but corked until group photo time - pop bottles for the shot!",
+      "Outdoor graduations in summer need extra cold drinks and 2x the ice you think you need.",
+      "Mix of generations means variety is key - have options for every age group."
+    ],
+    "buyingGuide": "Graduation parties typically skew toward beer and lighter drinks. Stock up on popular light beers and have a good selection of non-alcoholic options since many guests will be under 21. Sparkling cider is a great champagne alternative for toasts that includes everyone."
+  },
+  "guestCount": {
+    "value": 200,
+    "label": "200 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 824,
+    "unitsNeeded": 158,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.1,
+    "buffer": 20,
+    "rawUnits": 137.3,
+    "actualDrinkers": 130
+  },
+  "meta": {
+    "title": "How Much Champagne for 200 Guest Graduation Party? | 158 bottles",
+    "description": "Need champagne for a 200-person graduation party? You'll need exactly 158 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 200 Guest Graduation Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-graduation-party-200-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "200 guests × 65% drinking rate",
+      "result": "130 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "130 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "780 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "634 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply graduation party modifier",
+      "formula": "× 1.3 (+30% for champagne)",
+      "result": "824 champagne servings needed",
+      "explanation": "Graduation Partys typically consume 30% more champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "824 servings ÷ 6 servings per bottle",
+      "result": "137.3 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "137.3 × 1.15 = 157.9, rounded up",
+      "result": "158 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 158,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 195,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 40,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-graduation-party-200-guests",
+      "title": "Wine for Graduation Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-graduation-party-200-guests",
+      "title": "Beer for Graduation Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-graduation-party-200-guests",
+      "title": "Spirits for Graduation Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-graduation-party-150-guests",
+      "title": "Champagne for Graduation Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-graduation-party-250-guests",
+      "title": "Champagne for Graduation Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-200-guests",
+      "title": "Champagne for Wedding (200 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-corporate-event-200-guests",
+      "title": "Champagne for Corporate Event (200 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

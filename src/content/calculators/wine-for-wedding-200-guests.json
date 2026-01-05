@@ -1,0 +1,156 @@
+{
+  "slug": "wine-for-wedding-200-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "wedding",
+    "name": "Wedding",
+    "slug": "wedding",
+    "description": "Wedding reception celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.2,
+      "beer": 0.9,
+      "champagne": 1.5,
+      "spirits": 1
+    },
+    "proTips": [
+      "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
+      "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
+      "Pre-pour wine at dinner tables 5 minutes before guests sit to prevent service bottlenecks.",
+      "Order 10-15% extra and ask vendors about their return policy on unopened bottles.",
+      "If dancing goes past 10pm, reopen a simplified bar: beer, wine, and 2 signature drinks only."
+    ],
+    "buyingGuide": "For weddings, plan a 60/40 split between red and white wine for fall/winter, or flip it for spring/summer. Budget $12-18 per bottle for a crowd-pleasing selection - guests can't tell the difference between $15 and $40 wine at a party. Consider having champagne for toasts separate from your open bar calculation."
+  },
+  "guestCount": {
+    "value": 200,
+    "label": "200 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 878,
+    "unitsNeeded": 202,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.4,
+    "buffer": 26,
+    "rawUnits": 175.6,
+    "actualDrinkers": 130
+  },
+  "meta": {
+    "title": "How Much Wine for 200 Guest Wedding? | 202 bottles",
+    "description": "Need wine for a 200-person wedding? You'll need exactly 202 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 200 Guest Wedding?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-wedding-200-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "200 guests × 65% drinking rate",
+      "result": "130 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "130 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "975 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "731 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply wedding modifier",
+      "formula": "× 1.2 (+20% for wine)",
+      "result": "878 wine servings needed",
+      "explanation": "Weddings typically consume 20% more wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "878 servings ÷ 5 servings per bottle",
+      "result": "175.6 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "175.6 × 1.15 = 201.9, rounded up",
+      "result": "202 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 202,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 260,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-wedding-200-guests",
+      "title": "Beer for Wedding (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-wedding-200-guests",
+      "title": "Champagne for Wedding (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-200-guests",
+      "title": "Spirits for Wedding (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-wedding-150-guests",
+      "title": "Wine for Wedding (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-250-guests",
+      "title": "Wine for Wedding (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-graduation-party-200-guests",
+      "title": "Wine for Graduation Party (200 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-corporate-event-200-guests",
+      "title": "Wine for Corporate Event (200 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

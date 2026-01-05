@@ -1,0 +1,204 @@
+---
+import * as fs from 'fs';
+import * as path from 'path';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DrinkSwitcher from '../components/DrinkSwitcher.astro';
+import AnswerHero from '../components/AnswerHero.astro';
+import MathBreakdown from '../components/MathBreakdown.astro';
+import ShoppingList from '../components/ShoppingList.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import ProTips from '../components/ProTips.astro';
+import RelatedPages from '../components/RelatedPages.astro';
+import type { CalculatorPage } from '../lib/types';
+
+export async function getStaticPaths() {
+  // Read the index file
+  const indexPath = path.join(process.cwd(), 'src/content/calculators/_index.json');
+  const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+
+  // Generate paths from each entry
+  return indexData.map((entry: { slug: string }) => {
+    const dataPath = path.join(process.cwd(), `src/content/calculators/${entry.slug}.json`);
+    const pageData: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+
+    return {
+      params: { slug: entry.slug },
+      props: { page: pageData },
+    };
+  });
+}
+
+interface Props {
+  page: CalculatorPage;
+}
+
+const { page } = Astro.props;
+
+// Generate JSON-LD schema
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": page.meta.h1,
+  "description": page.meta.description,
+  "step": page.mathExplanation.map((step, i) => ({
+    "@type": "HowToStep",
+    "position": i + 1,
+    "name": step.label,
+    "text": step.explanation,
+  })),
+  "totalTime": "PT1M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Drink Calculator"
+    }
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": page.meta.h1,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for a ${page.guestCount.value}-guest ${page.event.name.toLowerCase()}. This accounts for ${page.calculation.totalServings} total servings with a 15% buffer.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How much ${page.item.name.toLowerCase()} per person for a ${page.event.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Plan for about ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This factors in that not everyone drinks and consumption slows as the event progresses.`
+      }
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={page.meta.title}
+  description={page.meta.description}
+  canonicalUrl={page.meta.canonicalUrl}
+>
+  <!-- JSON-LD Schema -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- Bar Setup Context Banner (shown when coming from bar-setup page) -->
+  <div id="bar-context-banner" class="hidden bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">{page.item.emoji}</span>
+          <div>
+            <div class="font-semibold">As part of your bar setup:</div>
+            <div class="text-emerald-100">
+              You need <span id="bar-units" class="font-bold text-white">--</span> {page.item.unit}
+              (<span id="bar-servings" class="font-medium">--</span> servings)
+            </div>
+          </div>
+        </div>
+        <a href="#" id="back-to-bar" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+          ← Back to Bar Setup
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drink Switcher -->
+  <DrinkSwitcher
+    currentItemId={page.item.id}
+    eventSlug={page.event.slug}
+    guestCount={page.guestCount.value}
+  />
+
+  <!-- Hero with Main Answer -->
+  <AnswerHero
+    item={page.item}
+    event={page.event}
+    guestCount={page.guestCount}
+    calculation={page.calculation}
+    h1={page.meta.h1}
+  />
+
+  <!-- Math Breakdown -->
+  <MathBreakdown steps={page.mathExplanation} />
+
+  <!-- Shopping List -->
+  <ShoppingList items={page.shoppingList} mainItem={page.item} />
+
+  <!-- Email Capture -->
+  <div class="max-w-3xl mx-auto px-4">
+    <EmailCapture
+      eventType={page.event.id}
+      eventName={page.event.name}
+      guestCount={page.guestCount.value}
+      shoppingList={page.shoppingList}
+      placement="inline"
+    />
+  </div>
+
+  <!-- Pro Tips -->
+  <ProTips event={page.event} />
+
+  <!-- Related Pages -->
+  <RelatedPages
+    pages={page.relatedPages}
+    currentEvent={page.event.name}
+    currentGuests={page.guestCount.value}
+  />
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+    <div class="absolute top-1/2 right-10 w-24 h-24 bg-white/5 rounded-full hidden md:block"></div>
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <div class="text-6xl mb-6">🎉</div>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+        Planning a different event?
+      </h2>
+      <p class="text-amber-100 mb-8 text-lg max-w-xl mx-auto">
+        Use our free calculator for any combination of drinks, events, and guest counts.
+      </p>
+      <a
+        href="/calculators"
+        class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
+      >
+        Browse All 336 Calculators
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ eventSlug: page.event.slug, guestCount: page.guestCount.value }}>
+  // Check if user came from bar-setup page
+  const urlParams = new URLSearchParams(window.location.search);
+  const fromBar = urlParams.get('fromBar');
+  const units = urlParams.get('units');
+  const servings = urlParams.get('servings');
+
+  if (fromBar === '1' && units && servings) {
+    // Show the bar context banner
+    const banner = document.getElementById('bar-context-banner');
+    const barUnits = document.getElementById('bar-units');
+    const barServings = document.getElementById('bar-servings');
+    const backLink = document.getElementById('back-to-bar');
+
+    if (banner) banner.classList.remove('hidden');
+    if (barUnits) barUnits.textContent = units;
+    if (barServings) barServings.textContent = servings;
+    if (backLink) {
+      // Build the back link to bar-setup
+      backLink.href = `/bar-setup/${eventSlug}-${guestCount}-guests`;
+    }
+  }
+</script>

@@ -1,0 +1,156 @@
+{
+  "slug": "champagne-for-corporate-event-25-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 25,
+    "label": "25 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 80,
+    "unitsNeeded": 16,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.2,
+    "buffer": 2,
+    "rawUnits": 13.3,
+    "actualDrinkers": 20
+  },
+  "meta": {
+    "title": "How Much Champagne for 25 Guest Corporate Event? | 16 bottles",
+    "description": "Need champagne for a 25-person corporate event? You'll need exactly 16 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 25 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-corporate-event-25-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "25 guests × 80% drinking rate",
+      "result": "20 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "20 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "90 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "80 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 1 (0% for champagne)",
+      "result": "80 champagne servings needed",
+      "explanation": "Corporate Events have standard champagne consumption."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "80 servings ÷ 6 servings per bottle",
+      "result": "13.3 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "13.3 × 1.15 = 15.3, rounded up",
+      "result": "16 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 16,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 30,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 4,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-corporate-event-25-guests",
+      "title": "Wine for Corporate Event (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-25-guests",
+      "title": "Beer for Corporate Event (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-25-guests",
+      "title": "Spirits for Corporate Event (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-20-guests",
+      "title": "Champagne for Corporate Event (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-corporate-event-30-guests",
+      "title": "Champagne for Corporate Event (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-25-guests",
+      "title": "Champagne for Wedding (25 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-25-guests",
+      "title": "Champagne for Graduation Party (25 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "slug": "wine-for-corporate-event-150-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 150,
+    "label": "150 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 459,
+    "unitsNeeded": 106,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.1,
+    "buffer": 14,
+    "rawUnits": 91.8,
+    "actualDrinkers": 105
+  },
+  "meta": {
+    "title": "How Much Wine for 150 Guest Corporate Event? | 106 bottles",
+    "description": "Need wine for a 150-person corporate event? You'll need exactly 106 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 150 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-corporate-event-150-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "150 guests × 70% drinking rate",
+      "result": "105 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "105 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "473 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "417 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 1.1 (+10% for wine)",
+      "result": "459 wine servings needed",
+      "explanation": "Corporate Events typically consume 10% more wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "459 servings ÷ 5 servings per bottle",
+      "result": "91.8 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "91.8 × 1.15 = 105.6, rounded up",
+      "result": "106 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 106,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 210,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-corporate-event-150-guests",
+      "title": "Beer for Corporate Event (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-150-guests",
+      "title": "Champagne for Corporate Event (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-150-guests",
+      "title": "Spirits for Corporate Event (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-corporate-event-100-guests",
+      "title": "Wine for Corporate Event (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-corporate-event-200-guests",
+      "title": "Wine for Corporate Event (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-150-guests",
+      "title": "Wine for Wedding (150 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-150-guests",
+      "title": "Wine for Graduation Party (150 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

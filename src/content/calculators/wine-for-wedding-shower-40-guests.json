@@ -1,0 +1,156 @@
+{
+  "slug": "wine-for-wedding-shower-40-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "wedding-shower",
+    "name": "Wedding Shower",
+    "slug": "wedding-shower",
+    "description": "Bridal or wedding shower celebration",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.4,
+      "beer": 0.3,
+      "champagne": 1.8,
+      "spirits": 0.5
+    },
+    "proTips": [
+      "Mimosa bars are the gold standard. Stock 1 bottle of sparkling per 3 guests, plus orange juice and peach nectar for variety.",
+      "Skip heavy reds. Go 70% white/rosé (Pinot Grigio, Sauvignon Blanc) and 30% light red (Pinot Noir).",
+      "Create one signature cocktail (Aperol Spritz, French 75) and batch it ahead of time - plan 2 servings per guest.",
+      "25-30% of guests won't drink alcohol. Offer elegant non-alcoholic options like mocktails or flavored sparkling water.",
+      "Afternoon timing means lower consumption - most guests have 1-2 drinks max."
+    ],
+    "buyingGuide": "For a 2-3 hour afternoon shower, plan for 1.3 drinks per guest. Champagne and wine dominate - stock 1 bottle of sparkling per 3 guests for mimosas, plus 1 wine bottle per 2 drinking guests. Buy 10-15% extra; unopened bottles can be returned or saved for the wedding. Prosecco is cost-effective for mimosas; save real Champagne for the toast."
+  },
+  "guestCount": {
+    "value": 40,
+    "label": "40 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 167,
+    "unitsNeeded": 39,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.2,
+    "buffer": 5,
+    "rawUnits": 33.4,
+    "actualDrinkers": 30
+  },
+  "meta": {
+    "title": "How Much Wine for 40 Guest Wedding Shower? | 39 bottles",
+    "description": "Need wine for a 40-person wedding shower? You'll need exactly 39 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 40 Guest Wedding Shower?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-wedding-shower-40-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "40 guests × 75% drinking rate",
+      "result": "30 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "30 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "135 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "119 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply wedding shower modifier",
+      "formula": "× 1.4 (+40% for wine)",
+      "result": "167 wine servings needed",
+      "explanation": "Wedding Showers typically consume 40% more wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "167 servings ÷ 5 servings per bottle",
+      "result": "33.4 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "33.4 × 1.15 = 38.4, rounded up",
+      "result": "39 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 39,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 60,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-wedding-shower-40-guests",
+      "title": "Beer for Wedding Shower (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-wedding-shower-40-guests",
+      "title": "Champagne for Wedding Shower (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-shower-40-guests",
+      "title": "Spirits for Wedding Shower (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-wedding-shower-30-guests",
+      "title": "Wine for Wedding Shower (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-shower-50-guests",
+      "title": "Wine for Wedding Shower (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-40-guests",
+      "title": "Wine for Wedding (40 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-40-guests",
+      "title": "Wine for Graduation Party (40 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -1,0 +1,539 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { items } from '../../data/items';
+import { events } from '../../data/events';
+import { guestCounts } from '../../data/guestCounts';
+
+// Generate static paths for all event/guest combinations
+export function getStaticPaths() {
+  const paths: { params: { slug: string }; props: { eventSlug: string; guestCount: number } }[] = [];
+
+  for (const event of events) {
+    for (const guest of guestCounts) {
+      // Create the full slug: e.g., "graduation-party-100-guests"
+      const slug = `${event.slug}-${guest.value}-guests`;
+      paths.push({
+        params: { slug },
+        props: { eventSlug: event.slug, guestCount: guest.value }
+      });
+    }
+  }
+
+  return paths;
+}
+
+// Get props from getStaticPaths (avoids URL parsing issues)
+const { eventSlug, guestCount } = Astro.props;
+
+// Find event and guest data
+const event = events.find(e => e.slug === eventSlug) || events[0];
+const guestData = guestCounts.find(g => g.value === guestCount) || guestCounts[7];
+
+// Default duration from event (can be overridden client-side)
+const duration = event.defaultDuration;
+
+// Calculation constants (same as InteractiveCalculator)
+const BASE_DRINKS_PER_HOUR = 1.5;
+const BUFFER_PERCENTAGE = 0.15;
+const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
+const DRINKING_PERCENTAGE: Record<string, number> = {
+  small: 0.80,
+  medium: 0.75,
+  large: 0.70,
+  xlarge: 0.65,
+};
+
+const EVENT_SPLITS: Record<string, Record<string, number>> = {
+  wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },
+  'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },
+  corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },
+  birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },
+  'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },
+  graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },
+  'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },
+};
+
+const VARIETY_FACTORS: Record<number, number> = { 1: 1.00, 2: 1.25, 3: 1.40, 4: 1.60 };
+const MINIMUM_UNITS: Record<string, number> = { wine: 6, beer: 2, champagne: 4, spirits: 8 };
+
+// Calculate consumption multiplier
+function calculateConsumptionMultiplier(durationHours: number): number {
+  let total = 0;
+  for (let hour = 0; hour < durationHours; hour++) {
+    const decayIndex = Math.min(hour, HOURLY_DECAY.length - 1);
+    total += HOURLY_DECAY[decayIndex];
+  }
+  return total;
+}
+
+// ALWAYS calculate for ALL 4 drinks at build time
+// Client-side JS will filter based on query params
+const allDrinks = items; // wine, beer, champagne, spirits
+
+const drinkingPct = DRINKING_PERCENTAGE[guestData.tier];
+const actualDrinkers = guestCount * drinkingPct;
+const consumptionMult = calculateConsumptionMultiplier(duration);
+const splits = EVENT_SPLITS[event.id] || EVENT_SPLITS.wedding;
+
+// Calculate for full bar (4 drinks) - this will be filtered client-side
+const fullBarResults = allDrinks.map(item => {
+  const modifier = event.modifiers[item.id] || 1.0;
+  const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * modifier);
+  const rawUnits = totalServings / item.servingsPerUnit;
+  const baseUnits = Math.ceil(rawUnits * (1 + BUFFER_PERCENTAGE));
+
+  // Apply full bar calculation (4 drinks, variety factor 1.60)
+  const varietyFactor = VARIETY_FACTORS[4];
+  const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
+  const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
+  let unitsNeeded = Math.ceil(baseUnits * normalizedSplit * varietyFactor);
+  let servings = Math.round(totalServings * normalizedSplit * varietyFactor);
+
+  // Apply minimums for full bar
+  const minUnits = MINIMUM_UNITS[item.id] || 4;
+  unitsNeeded = Math.max(unitsNeeded, minUnits);
+
+  return {
+    item,
+    unitsNeeded,
+    servings,
+    // Also store single-drink calculation for client-side recalc
+    singleDrinkUnits: baseUnits,
+    singleDrinkServings: totalServings,
+  };
+});
+
+const grandTotalServings = fullBarResults.reduce((sum, r) => sum + r.servings, 0);
+const grandTotalUnits = fullBarResults.reduce((sum, r) => sum + r.unitsNeeded, 0);
+const perPerson = Math.round((grandTotalServings / guestCount) * 10) / 10;
+
+// Event emoji mapping (keys match event.id)
+const eventEmojis: Record<string, string> = {
+  wedding: '💒',
+  graduation: '🎓',
+  corporate: '💼',
+  birthday: '🎂',
+  'super-bowl': '🏈',
+  'holiday-party': '🎄',
+  'wedding-shower': '💐',
+};
+
+// Pass calculation data to client-side script
+const clientData = {
+  eventId: event.id,
+  guestCount,
+  duration,
+  splits,
+  varietyFactors: VARIETY_FACTORS,
+  minimumUnits: MINIMUM_UNITS,
+  results: fullBarResults.map(r => ({
+    id: r.item.id,
+    name: r.item.name,
+    emoji: r.item.emoji,
+    unit: r.item.unit,
+    servingsPerUnit: r.item.servingsPerUnit,
+    unitsNeeded: r.unitsNeeded,
+    servings: r.servings,
+    singleDrinkUnits: r.singleDrinkUnits,
+    singleDrinkServings: r.singleDrinkServings,
+  })),
+};
+
+// Generate JSON-LD schema for SEO/AIO
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `How much alcohol do I need for a ${guestCount} guest ${event.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `For a ${guestCount}-guest ${event.name.toLowerCase()}, you need approximately ${grandTotalUnits} total items: ${fullBarResults.map(r => `${r.unitsNeeded} ${r.item.unit} of ${r.item.name.toLowerCase()}`).join(', ')}. This provides ${grandTotalServings} total servings (${perPerson} drinks per person) with a 15% buffer included.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `What is the drink breakdown for a ${event.name.toLowerCase()} bar?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `A balanced bar for a ${event.name.toLowerCase()} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type - ${event.name.toLowerCase()}s tend to favor ${event.id === 'super-bowl' ? 'beer' : event.id === 'wedding-shower' ? 'champagne' : 'wine'}.`
+      }
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={`Complete Bar for ${event.name} (${guestCount} guests) | StockTheEvent`}
+  description={`Complete bar breakdown for your ${event.name.toLowerCase()} with ${guestCount} guests. Wine, beer, champagne, and spirits quantities with 15% buffer included.`}
+>
+  <!-- JSON-LD Schema for SEO/AIO -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <section class="py-12 md:py-16 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 text-sm text-slate-500 text-center">
+        <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/calculators" class="hover:text-emerald-600 transition-colors">Calculators</a>
+        <span class="mx-2">/</span>
+        <span class="text-slate-700">Bar Setup</span>
+      </nav>
+
+      <!-- Hero -->
+      <div class="text-center mb-8">
+        <div class="text-6xl mb-4">{eventEmojis[event.id] || '🎉'}</div>
+        <h1 id="page-title" class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+          Your Complete Bar
+        </h1>
+        <p class="text-xl text-slate-600">
+          {event.name} • {guestCount} guests • <span id="duration-display">{duration}</span> hours
+        </p>
+      </div>
+
+      <!-- Main Results Card -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
+        <!-- Drink Grid -->
+        <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-8 text-white">
+          <div id="drink-grid" class="grid gap-4 grid-cols-2">
+            {fullBarResults.map((r) => (
+              <div
+                class="drink-card bg-white/15 backdrop-blur rounded-2xl p-5 text-center"
+                data-drink-id={r.item.id}
+                data-units={r.unitsNeeded}
+                data-servings={r.servings}
+                data-single-units={r.singleDrinkUnits}
+                data-single-servings={r.singleDrinkServings}
+              >
+                <div class="text-5xl mb-2">{r.item.emoji}</div>
+                <div class="drink-units text-4xl font-black">{r.unitsNeeded}</div>
+                <div class="text-sm opacity-90">{r.item.unit}</div>
+                <div class="drink-servings text-xs opacity-75 mt-1">{r.servings} servings</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-6 pt-6 border-t border-white/20 text-center">
+            <div class="text-lg opacity-90">
+              Total: <span id="total-units" class="font-bold">{grandTotalUnits} items</span> •
+              <span id="total-servings">{grandTotalServings}</span> servings •
+              <span id="per-person">{perPerson}</span> drinks/person
+            </div>
+            <div class="text-sm opacity-75 mt-1">15% buffer included on each category</div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 bg-gradient-to-b from-slate-50 to-white">
+          <div class="p-5 text-center border-r border-slate-100">
+            <div id="stat-servings" class="text-3xl font-bold text-slate-900">{grandTotalServings}</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">total servings</div>
+          </div>
+          <div class="p-5 text-center border-r border-slate-100">
+            <div id="stat-per-person" class="text-3xl font-bold text-slate-900">{perPerson}</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">per person</div>
+          </div>
+          <div class="p-5 text-center">
+            <div id="stat-duration" class="text-3xl font-bold text-slate-900">{duration}</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">hours</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shopping List -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="font-display text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+          <span>🛒</span> Shopping List
+        </h2>
+        <div id="shopping-list" class="space-y-3">
+          {fullBarResults.map((r) => (
+            <div
+              class="shopping-item flex items-center justify-between py-3 border-b border-slate-100 last:border-0"
+              data-drink-id={r.item.id}
+            >
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">{r.item.emoji}</span>
+                <span class="font-medium text-slate-900">{r.item.name}</span>
+              </div>
+              <div class="text-right">
+                <span class="item-units font-bold text-lg text-slate-900">{r.unitsNeeded}</span>
+                <span class="text-slate-500 ml-1">{r.item.unit}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="mt-4 pt-4 border-t border-slate-200 flex items-center justify-between">
+          <span class="font-semibold text-slate-700">Total Items</span>
+          <span id="shopping-total" class="font-bold text-xl text-emerald-600">{grandTotalUnits}</span>
+        </div>
+        <button
+          id="copy-list"
+          class="mt-4 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-medium transition-colors"
+        >
+          📋 Copy Shopping List
+        </button>
+      </div>
+
+      <!-- Email Capture -->
+      <EmailCapture eventType={event.id} placement="inline" />
+
+      <!-- Detailed Breakdown Links -->
+      <div id="detail-links" class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <h2 class="font-display text-xl font-bold text-slate-900 mb-4">
+          Want more details on each drink?
+        </h2>
+        <div class="grid md:grid-cols-2 gap-3">
+          {fullBarResults.map((r) => (
+            <a
+              href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests?fromBar=1&units=${r.unitsNeeded}&servings=${r.servings}`}
+              class="detail-link flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 transition-all group"
+              data-drink-id={r.item.id}
+              data-units={r.unitsNeeded}
+              data-servings={r.servings}
+            >
+              <span class="text-3xl">{r.item.emoji}</span>
+              <div class="flex-1">
+                <div class="font-medium text-slate-900 group-hover:text-emerald-600">{r.item.name} Details</div>
+                <div class="text-sm text-slate-500">
+                  <span class="detail-units font-semibold text-amber-600">{r.unitsNeeded} {r.item.unit}</span> • Pro tips & math breakdown
+                </div>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Pro Tips -->
+      <div class="bg-emerald-50 rounded-2xl p-6">
+        <h2 class="font-display text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
+          <span>💡</span> Pro Tips for Your {event.name}
+        </h2>
+        <ul class="space-y-3">
+          {event.proTips.slice(0, 3).map((tip) => (
+            <li class="flex items-start gap-3">
+              <span class="text-emerald-500 mt-1">✓</span>
+              <span class="text-emerald-800">{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <h2 class="font-display text-3xl font-bold text-white mb-4">
+        Need to adjust your selection?
+      </h2>
+      <p class="text-amber-100 mb-8 text-lg">
+        Use our interactive calculator to try different combinations
+      </p>
+      <a
+        href="/"
+        class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
+      >
+        Back to Calculator
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ clientData }}>
+  // Client-side: Parse actual query params from browser URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const drinksParam = urlParams.get('drinks');
+  const durationParam = urlParams.get('duration');
+
+  // Default to all drinks if no param specified (direct navigation)
+  const selectedDrinkIds = drinksParam
+    ? drinksParam.split(',').filter(Boolean)
+    : ['wine', 'beer', 'champagne', 'spirits'];
+
+  const drinkCount = selectedDrinkIds.length;
+
+  // Update page title based on selection
+  const pageTitle = document.getElementById('page-title');
+  if (pageTitle) {
+    if (drinkCount === 4) {
+      pageTitle.textContent = 'Your Complete Bar';
+    } else if (drinkCount === 1) {
+      pageTitle.textContent = 'Your Bar Setup';
+    } else {
+      pageTitle.textContent = 'Your Bar Setup';
+    }
+  }
+
+  // Update duration if provided
+  if (durationParam) {
+    const dur = parseInt(durationParam);
+    document.getElementById('duration-display')?.textContent &&
+      (document.getElementById('duration-display').textContent = dur.toString());
+    document.getElementById('stat-duration')?.textContent &&
+      (document.getElementById('stat-duration').textContent = dur.toString());
+  }
+
+  // Hide drink cards that weren't selected
+  const drinkCards = document.querySelectorAll('.drink-card');
+  const shoppingItems = document.querySelectorAll('.shopping-item');
+  const detailLinks = document.querySelectorAll('.detail-link');
+
+  drinkCards.forEach(card => {
+    const drinkId = card.getAttribute('data-drink-id');
+    if (!selectedDrinkIds.includes(drinkId)) {
+      card.style.display = 'none';
+    }
+  });
+
+  shoppingItems.forEach(item => {
+    const drinkId = item.getAttribute('data-drink-id');
+    if (!selectedDrinkIds.includes(drinkId)) {
+      item.style.display = 'none';
+    }
+  });
+
+  detailLinks.forEach(link => {
+    const drinkId = link.getAttribute('data-drink-id');
+    if (!selectedDrinkIds.includes(drinkId)) {
+      link.style.display = 'none';
+    }
+  });
+
+  // Recalculate totals based on visible drinks
+  const varietyFactor = clientData.varietyFactors[drinkCount] || 1.0;
+  const splits = clientData.splits;
+
+  // Calculate total split for selected drinks only
+  const totalSplit = selectedDrinkIds.reduce((sum, id) => sum + (splits[id] || 0.25), 0);
+
+  let newTotalUnits = 0;
+  let newTotalServings = 0;
+
+  // Recalculate each visible drink
+  drinkCards.forEach(card => {
+    const drinkId = card.getAttribute('data-drink-id');
+    if (!selectedDrinkIds.includes(drinkId)) return;
+
+    const singleUnits = parseInt(card.getAttribute('data-single-units') || '0');
+    const singleServings = parseInt(card.getAttribute('data-single-servings') || '0');
+
+    let newUnits, newServings;
+
+    if (drinkCount === 1) {
+      // Single drink - use base calculation
+      newUnits = singleUnits;
+      newServings = singleServings;
+    } else {
+      // Multi-drink - apply normalized split and variety factor
+      const normalizedSplit = (splits[drinkId] || 0.25) / totalSplit;
+      newUnits = Math.ceil(singleUnits * normalizedSplit * varietyFactor);
+      newServings = Math.round(singleServings * normalizedSplit * varietyFactor);
+
+      // Apply minimums for full bar
+      if (drinkCount === 4) {
+        const minUnits = clientData.minimumUnits[drinkId] || 4;
+        newUnits = Math.max(newUnits, minUnits);
+      }
+    }
+
+    // Update card display
+    const unitsEl = card.querySelector('.drink-units');
+    const servingsEl = card.querySelector('.drink-servings');
+    if (unitsEl) unitsEl.textContent = newUnits.toString();
+    if (servingsEl) servingsEl.textContent = `${newServings} servings`;
+
+    // Update shopping list
+    const shoppingItem = document.querySelector(`.shopping-item[data-drink-id="${drinkId}"]`);
+    if (shoppingItem) {
+      const itemUnits = shoppingItem.querySelector('.item-units');
+      if (itemUnits) itemUnits.textContent = newUnits.toString();
+    }
+
+    // Update detail link with new values
+    const detailLink = document.querySelector(`.detail-link[data-drink-id="${drinkId}"]`);
+    if (detailLink) {
+      // Update the displayed units
+      const detailUnits = detailLink.querySelector('.detail-units');
+      const itemData = clientData.results.find(r => r.id === drinkId);
+      if (detailUnits && itemData) {
+        detailUnits.textContent = `${newUnits} ${itemData.unit}`;
+      }
+      // Update the href with new query params
+      const currentHref = detailLink.getAttribute('href') || '';
+      const baseHref = currentHref.split('?')[0];
+      detailLink.setAttribute('href', `${baseHref}?fromBar=1&units=${newUnits}&servings=${newServings}`);
+    }
+
+    newTotalUnits += newUnits;
+    newTotalServings += newServings;
+  });
+
+  // Update all totals
+  const perPerson = Math.round((newTotalServings / clientData.guestCount) * 10) / 10;
+
+  const totalUnitsEl = document.getElementById('total-units');
+  const totalServingsEl = document.getElementById('total-servings');
+  const perPersonEl = document.getElementById('per-person');
+  const statServingsEl = document.getElementById('stat-servings');
+  const statPerPersonEl = document.getElementById('stat-per-person');
+  const shoppingTotalEl = document.getElementById('shopping-total');
+
+  if (totalUnitsEl) totalUnitsEl.textContent = `${newTotalUnits} items`;
+  if (totalServingsEl) totalServingsEl.textContent = newTotalServings.toString();
+  if (perPersonEl) perPersonEl.textContent = perPerson.toString();
+  if (statServingsEl) statServingsEl.textContent = newTotalServings.toString();
+  if (statPerPersonEl) statPerPersonEl.textContent = perPerson.toString();
+  if (shoppingTotalEl) shoppingTotalEl.textContent = newTotalUnits.toString();
+
+  // Update grid layout based on drink count
+  const drinkGrid = document.getElementById('drink-grid');
+  if (drinkGrid) {
+    drinkGrid.className = drinkGrid.className.replace(/grid-cols-\d/g, '');
+    if (drinkCount === 4) {
+      drinkGrid.classList.add('grid-cols-2');
+    } else if (drinkCount === 3) {
+      drinkGrid.classList.add('grid-cols-1', 'md:grid-cols-3');
+    } else if (drinkCount === 2) {
+      drinkGrid.classList.add('grid-cols-1', 'md:grid-cols-2');
+    } else {
+      drinkGrid.classList.add('grid-cols-1');
+    }
+  }
+
+  // Copy shopping list functionality
+  const copyBtn = document.getElementById('copy-list');
+  copyBtn?.addEventListener('click', () => {
+    const visibleItems = [];
+    document.querySelectorAll('.shopping-item').forEach(item => {
+      if (item.style.display !== 'none') {
+        const name = item.querySelector('.font-medium')?.textContent;
+        const units = item.querySelector('.item-units')?.textContent;
+        const unit = item.querySelector('.text-slate-500')?.textContent?.trim();
+        if (name && units) {
+          visibleItems.push(`${units} ${unit} of ${name}`);
+        }
+      }
+    });
+
+    const listText = visibleItems.join('\n');
+    const fullText = `Shopping List:\n${listText}\n\nGenerated by StockTheEvent.com`;
+
+    navigator.clipboard.writeText(fullText).then(() => {
+      copyBtn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = '📋 Copy Shopping List';
+      }, 2000);
+    });
+  });
+</script>
