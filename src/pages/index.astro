@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InteractiveCalculator from '../components/InteractiveCalculator.astro';
 import EmailCapture from '../components/EmailCapture.astro';
+import { affiliateLinks } from '../lib/affiliates';
 ---
 
 <BaseLayout
@@ -15,6 +16,94 @@ import EmailCapture from '../components/EmailCapture.astro';
   <section class="py-12 bg-gradient-to-b from-slate-50 to-white">
     <div class="max-w-3xl mx-auto px-4">
       <EmailCapture eventType="homepage" placement="inline" />
+    </div>
+  </section>
+
+  <!-- Pro Tip: Stock Your Bar (Affiliate Links) -->
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="font-display text-2xl font-bold text-slate-900 mb-2">
+          Pro Tip: Stock Your Bar
+        </h2>
+        <p class="text-slate-600 text-sm">
+          Essential supplies every host needs
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <!-- Party Cups -->
+        <a
+          href={affiliateLinks['party-cups']}
+          target="_blank"
+          rel="noopener sponsored"
+          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
+        >
+          <span class="text-3xl">🥤</span>
+          <div class="flex-1">
+            <div class="font-medium text-slate-900 group-hover:text-amber-700">Party Cups</div>
+            <div class="text-sm text-slate-500">For beer, cocktails & more</div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+        <!-- Wine Glasses -->
+        <a
+          href={affiliateLinks['wine-glasses']}
+          target="_blank"
+          rel="noopener sponsored"
+          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
+        >
+          <span class="text-3xl">🍷</span>
+          <div class="flex-1">
+            <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Glasses</div>
+            <div class="text-sm text-slate-500">Elegant party stemware</div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+        <!-- Ice Bucket -->
+        <a
+          href={affiliateLinks['ice-bucket']}
+          target="_blank"
+          rel="noopener sponsored"
+          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
+        >
+          <span class="text-3xl">🪣</span>
+          <div class="flex-1">
+            <div class="font-medium text-slate-900 group-hover:text-amber-700">Ice Bucket</div>
+            <div class="text-sm text-slate-500">Keep bottles chilled</div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+        <!-- Corkscrew -->
+        <a
+          href={affiliateLinks['corkscrew']}
+          target="_blank"
+          rel="noopener sponsored"
+          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
+        >
+          <span class="text-3xl">🔧</span>
+          <div class="flex-1">
+            <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Opener</div>
+            <div class="text-sm text-slate-500">Every bar needs one</div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+      </div>
+
+      <p class="text-xs text-slate-500 text-center mt-6">
+        As an Amazon Associate, we earn from qualifying purchases at no extra cost to you.
+      </p>
     </div>
   </section>
 
