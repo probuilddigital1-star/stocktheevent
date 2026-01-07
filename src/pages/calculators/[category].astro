@@ -14,6 +14,12 @@ const eventEmojis: Record<string, string> = {
   'super-bowl': '🏈',
   'holiday-party': '🎄',
   'wedding-shower': '💐',
+  'march-madness': '🏀',
+  'fourth-of-july': '🎆',
+  'labor-day': '☀️',
+  'halloween': '🎃',
+  'thanksgiving': '🦃',
+  'new-years-eve': '🥳',
 };
 
 export function getStaticPaths() {
@@ -33,9 +39,18 @@ export function getStaticPaths() {
 const { category } = Astro.params;
 const { type, data } = Astro.props;
 
-// Read calculator index
-const indexPath = path.join(process.cwd(), 'src/content/calculators/_index.json');
-const allCalculators = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+// Read all calculator JSON files directly
+const calcDir = path.join(process.cwd(), 'src/content/calculators');
+const files = fs.readdirSync(calcDir).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+const allCalculators = files.map(file => {
+  const pageData = JSON.parse(fs.readFileSync(path.join(calcDir, file), 'utf-8'));
+  return {
+    slug: file.replace('.json', ''),
+    item: pageData.item.id,
+    event: pageData.event.id,
+    guests: pageData.guestCount.value
+  };
+});
 
 // Filter calculators based on category type
 let filteredCalculators;
