@@ -1,0 +1,206 @@
+{
+  "slug": "bbq-for-graduation-party-300-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "graduation",
+    "name": "Graduation Party",
+    "slug": "graduation-party",
+    "description": "Graduation celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.7,
+      "beer": 1.25,
+      "champagne": 1.3,
+      "spirits": 0.85
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 1.1,
+      "sliders": 1.1,
+      "appetizers": 1,
+      "bbq": 1.15
+    },
+    "foodTips": [
+      "Graduation parties often span 4+ hours - plan for grazing, not a sit-down meal.",
+      "Young adults eat more than you think - add 20% to your calculations for ages 18-25.",
+      "Set up a separate kids' food station with pizza and sliders to keep parents happy.",
+      "Outdoor graduation parties need food that won't spoil - keep hot foods hot and cold foods cold.",
+      "Photo ops happen constantly - finger foods beat anything requiring utensils."
+    ],
+    "foodBuyingGuide": "Graduation parties are grazing events. Finger foods work best - pizza slices, sliders, wings, and appetizers that guests can grab while mingling. If your graduate is 21+, expect their friends to eat AND drink more than the older guests.",
+    "proTips": [
+      "Set up a visible '21+ only' bar area and a killer mocktail station so younger guests feel included.",
+      "Parents of graduates drink about 30% less than the graduate's friends - plan your ratios accordingly.",
+      "Keep champagne cold but corked until group photo time - pop bottles for the shot!",
+      "Outdoor graduations in summer need extra cold drinks and 2x the ice you think you need.",
+      "Mix of generations means variety is key - have options for every age group."
+    ],
+    "buyingGuide": "Graduation parties typically skew toward beer and lighter drinks. Stock up on popular light beers and have a good selection of non-alcoholic options since many guests will be under 21. Sparkling cider is a great champagne alternative for toasts that includes everyone."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 276,
+    "unitsNeeded": 106,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.9,
+    "buffer": 14,
+    "rawUnits": 92,
+    "totalGuests": 300,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 300 Guests Graduation Party? | 106 lbs",
+    "description": "Need bbq/pulled pork for a 300-person graduation party? You'll need exactly 106 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 300 Guests Graduation Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-graduation-party-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "300 guests × 80% eating rate",
+      "result": "240 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "240 eaters × 1 pieces per person",
+      "result": "240 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply graduation party modifier",
+      "formula": "× 1.15 (+15% for bbq/pulled pork)",
+      "result": "276 pieces needed",
+      "explanation": "Graduation Partys typically consume 15% more bbq/pulled pork than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "276 pieces ÷ 3 per lb",
+      "result": "92 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "92 × 1.15 = 105.8, rounded up",
+      "result": "106 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 106,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 318,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 36,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 75,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 20,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-graduation-party-300-guests",
+      "title": "Pizza for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-graduation-party-300-guests",
+      "title": "Wings for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-graduation-party-300-guests",
+      "title": "Tacos for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-graduation-party-300-guests",
+      "title": "Sliders for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-300-guests",
+      "title": "Appetizers for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-graduation-party-250-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-300-guests",
+      "title": "BBQ/Pulled Pork for Wedding (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-corporate-event-300-guests",
+      "title": "BBQ/Pulled Pork for Corporate Event (300 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-graduation-party-300-guests",
+      "title": "Champagne for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-graduation-party-300-guests",
+      "title": "Beer for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-graduation-party-300-guests",
+      "title": "Spirits for Graduation Party (300 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

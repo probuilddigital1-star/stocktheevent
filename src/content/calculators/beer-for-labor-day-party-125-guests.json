@@ -1,0 +1,172 @@
+{
+  "slug": "beer-for-labor-day-party-125-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "labor-day",
+    "name": "Labor Day Party",
+    "slug": "labor-day-party",
+    "description": "Labor Day end of summer celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.7,
+      "beer": 1.3,
+      "champagne": 0.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 1,
+      "tacos": 1.1,
+      "sliders": 1.3,
+      "appetizers": 1,
+      "bbq": 1.4
+    },
+    "foodTips": [
+      "Last cookout of summer - make it count with premium BBQ.",
+      "Weather can be unpredictable - have an indoor backup plan for food.",
+      "Pool parties need poolside snacks that won't blow away.",
+      "Kids go back to school soon - family-friendly food is key.",
+      "Leftovers are expected - plan portions with next-day sandwiches in mind."
+    ],
+    "foodBuyingGuide": "Similar to 4th of July but slightly more relaxed. BBQ, grilled foods, and summer salads are perfect. This is often the last outdoor party of the year, so people tend to indulge a bit more.",
+    "proTips": [
+      "End of summer means people are ready to indulge one last time.",
+      "Weather can vary - have backup plans for rain.",
+      "Pool parties need drinks near the pool AND inside.",
+      "It's often slightly cooler than July - ice lasts longer.",
+      "Monday holiday means people may drink a bit more than usual."
+    ],
+    "buyingGuide": "Similar to 4th of July but slightly higher consumption as people celebrate the end of summer. Plan 5-6 drinks per person with heavy beer emphasis."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 640,
+    "unitsNeeded": 31,
+    "unitsDisplay": "cases",
+    "perPersonServings": 5.1,
+    "buffer": 4,
+    "rawUnits": 26.7,
+    "actualDrinkers": 88
+  },
+  "meta": {
+    "title": "How Much Beer for 125 Guest Labor Day Party? | 31 cases",
+    "description": "Need beer for a 125-person labor day party? You'll need exactly 31 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 125 Guest Labor Day Party?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-labor-day-party-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "125 guests × 70% drinking rate",
+      "result": "88 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "88 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "660 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "495 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply labor day party modifier",
+      "formula": "× 1.3 (+30% for beer)",
+      "result": "640 beer servings needed",
+      "explanation": "Labor Day Partys typically consume 30% more beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "640 servings ÷ 24 servings per case",
+      "result": "26.7 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "26.7 × 1.15 = 30.7, rounded up",
+      "result": "31 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 31,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 372,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 16,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-labor-day-party-125-guests",
+      "title": "Wine for Labor Day Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-labor-day-party-125-guests",
+      "title": "Champagne for Labor Day Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-labor-day-party-125-guests",
+      "title": "Spirits for Labor Day Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-labor-day-party-100-guests",
+      "title": "Beer for Labor Day Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-labor-day-party-150-guests",
+      "title": "Beer for Labor Day Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-125-guests",
+      "title": "Beer for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-125-guests",
+      "title": "Beer for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

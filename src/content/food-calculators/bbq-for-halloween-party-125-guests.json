@@ -1,0 +1,211 @@
+{
+  "slug": "bbq-for-halloween-party-125-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "halloween",
+    "name": "Halloween Party",
+    "slug": "halloween-party",
+    "description": "Halloween costume party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.9,
+      "beer": 1.1,
+      "champagne": 0.4,
+      "spirits": 1.3
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 0.9,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.7
+    },
+    "foodTips": [
+      "Themed food is expected - deviled eggs, 'finger' foods, spooky presentation.",
+      "Sweet treats matter - have Halloween candy and themed desserts.",
+      "Costumes make eating difficult - finger foods only, nothing messy.",
+      "Purple, orange, and black food coloring elevates everything.",
+      "Dry ice in punch bowls is dramatic but keep it away from kids."
+    ],
+    "foodBuyingGuide": "Halloween parties are all about presentation. Themed appetizers with spooky names, finger foods that won't mess up costumes, and plenty of candy. Budget for presentation supplies like themed plates and decorations.",
+    "proTips": [
+      "Specialty cocktails with spooky names are a must - batch them ahead.",
+      "Dark spirits (whiskey, dark rum) fit the theme better than clear spirits.",
+      "Punch bowls with dry ice create amazing effects.",
+      "People in elaborate costumes drink slower - they don't want to spill.",
+      "Adult-only parties consume 40% more than family Halloween events."
+    ],
+    "buyingGuide": "Halloween parties are cocktail-heavy. Plan for 2-3 specialty cocktails per person plus regular bar options. Red wine fits the theme well. Have themed cups and garnishes."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 74,
+    "unitsNeeded": 29,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.6,
+    "buffer": 4,
+    "rawUnits": 24.7,
+    "totalGuests": 125,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 125 Guests Halloween Party? | 29 lbs",
+    "description": "Need bbq/pulled pork for a 125-person halloween party? You'll need exactly 29 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 125 Guests Halloween Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-halloween-party-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "125 guests × 85% eating rate",
+      "result": "106 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "106 eaters × 1 pieces per person",
+      "result": "106 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply halloween party modifier",
+      "formula": "× 0.7 (-30% for bbq/pulled pork)",
+      "result": "74 pieces needed",
+      "explanation": "Halloween Partys typically consume 30% less bbq/pulled pork than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "74 pieces ÷ 3 per lb",
+      "result": "24.7 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "24.7 × 1.15 = 28.4, rounded up",
+      "result": "29 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 29,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 87,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 10,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 32,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 9,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-halloween-party-125-guests",
+      "title": "Pizza for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-halloween-party-125-guests",
+      "title": "Wings for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-halloween-party-125-guests",
+      "title": "Tacos for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-halloween-party-125-guests",
+      "title": "Sliders for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-halloween-party-125-guests",
+      "title": "Appetizers for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-halloween-party-100-guests",
+      "title": "BBQ/Pulled Pork for Halloween Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-halloween-party-150-guests",
+      "title": "BBQ/Pulled Pork for Halloween Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-125-guests",
+      "title": "BBQ/Pulled Pork for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-graduation-party-125-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "spirits-for-halloween-party-125-guests",
+      "title": "Spirits for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-halloween-party-125-guests",
+      "title": "Beer for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-halloween-party-125-guests",
+      "title": "Wine for Halloween Party (125 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

@@ -23,6 +23,22 @@
       "champagne": 0.4,
       "spirits": 0.8
     },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.3,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.3,
+      "bbq": 1.1
+    },
+    "foodTips": [
+      "40% of all food is consumed during the first quarter - front-load your spread.",
+      "Wings are the #1 Super Bowl food - err on the side of too many.",
+      "Set up a separate kids station if families are coming - they eat differently.",
+      "Prep dips in slow cookers - they stay warm and free up oven space.",
+      "Use halftime to refresh ALL food stations - you have exactly 25 minutes."
+    ],
+    "foodBuyingGuide": "Super Bowl is the biggest food day of the year after Thanksgiving. Plan 10-12 wings per person, 3 slices of pizza, and plenty of chips and dip. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
     "proTips": [
       "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
       "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
@@ -133,8 +149,8 @@
       "relationship": "same-event"
     },
     {
-      "slug": "beer-for-super-bowl-party-10-guests",
-      "title": "Beer for Super Bowl Party (10 guests)",
+      "slug": "beer-for-super-bowl-party-15-guests",
+      "title": "Beer for Super Bowl Party (15 guests)",
       "relationship": "adjacent-guests"
     },
     {

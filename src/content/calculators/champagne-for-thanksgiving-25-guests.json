@@ -1,0 +1,172 @@
+{
+  "slug": "champagne-for-thanksgiving-25-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 25,
+    "label": "25 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 88,
+    "unitsNeeded": 17,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.5,
+    "buffer": 2,
+    "rawUnits": 14.7,
+    "actualDrinkers": 20
+  },
+  "meta": {
+    "title": "How Much Champagne for 25 Guest Thanksgiving? | 17 bottles",
+    "description": "Need champagne for a 25-person thanksgiving? You'll need exactly 17 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 25 Guest Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-thanksgiving-25-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "25 guests × 80% drinking rate",
+      "result": "20 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "20 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "120 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "98 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 0.9 (-10% for champagne)",
+      "result": "88 champagne servings needed",
+      "explanation": "Thanksgivings typically consume 10% less champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "88 servings ÷ 6 servings per bottle",
+      "result": "14.7 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "14.7 × 1.15 = 16.9, rounded up",
+      "result": "17 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 17,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 30,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 5,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-thanksgiving-25-guests",
+      "title": "Wine for Thanksgiving (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-thanksgiving-25-guests",
+      "title": "Beer for Thanksgiving (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-25-guests",
+      "title": "Spirits for Thanksgiving (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-20-guests",
+      "title": "Champagne for Thanksgiving (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-30-guests",
+      "title": "Champagne for Thanksgiving (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-25-guests",
+      "title": "Champagne for Wedding (25 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-25-guests",
+      "title": "Champagne for Graduation Party (25 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

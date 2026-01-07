@@ -1,0 +1,172 @@
+{
+  "slug": "champagne-for-birthday-party-125-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.1,
+      "tacos": 1,
+      "sliders": 1,
+      "appetizers": 0.9,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Cake reduces other food consumption by 20% - factor this into your planning.",
+      "Kids' birthday parties need 30% less food per person - shorter attention spans.",
+      "Adult milestone birthdays (30, 40, 50) eat more - people linger longer.",
+      "Late-night birthdays need late-night food - pizza arrives around 10pm.",
+      "Set up food before activities and cake - people graze while waiting."
+    ],
+    "foodBuyingGuide": "Birthday party food depends heavily on the age group. Kids' parties: pizza and simple finger foods. Young adult birthdays: pizza, wings, and shareable platters. 40+ birthdays: more sophisticated appetizers and seated options.",
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 512,
+    "unitsNeeded": 99,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.1,
+    "buffer": 13,
+    "rawUnits": 85.3,
+    "actualDrinkers": 88
+  },
+  "meta": {
+    "title": "How Much Champagne for 125 Guest Birthday Party? | 99 bottles",
+    "description": "Need champagne for a 125-person birthday party? You'll need exactly 99 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 125 Guest Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-birthday-party-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "125 guests × 70% drinking rate",
+      "result": "88 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "88 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "528 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "429 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1.2 (+20% for champagne)",
+      "result": "512 champagne servings needed",
+      "explanation": "Birthday Partys typically consume 20% more champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "512 servings ÷ 6 servings per bottle",
+      "result": "85.3 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "85.3 × 1.15 = 98.1, rounded up",
+      "result": "99 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 99,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 132,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 25,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-birthday-party-125-guests",
+      "title": "Wine for Birthday Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-125-guests",
+      "title": "Beer for Birthday Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-125-guests",
+      "title": "Spirits for Birthday Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-birthday-party-100-guests",
+      "title": "Champagne for Birthday Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-birthday-party-150-guests",
+      "title": "Champagne for Birthday Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-125-guests",
+      "title": "Champagne for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-125-guests",
+      "title": "Champagne for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

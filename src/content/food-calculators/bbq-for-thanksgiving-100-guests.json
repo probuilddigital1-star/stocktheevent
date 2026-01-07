@@ -1,0 +1,211 @@
+{
+  "slug": "bbq-for-thanksgiving-100-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 100,
+    "label": "100 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 43,
+    "unitsNeeded": 17,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.4,
+    "buffer": 2,
+    "rawUnits": 14.3,
+    "totalGuests": 100,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 100 Guests Thanksgiving? | 17 lbs",
+    "description": "Need bbq/pulled pork for a 100-person thanksgiving? You'll need exactly 17 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 100 Guests Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-thanksgiving-100-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "100 guests × 85% eating rate",
+      "result": "85 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "85 eaters × 1 pieces per person",
+      "result": "85 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 0.5 (-50% for bbq/pulled pork)",
+      "result": "43 pieces needed",
+      "explanation": "Thanksgivings typically consume 50% less bbq/pulled pork than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "43 pieces ÷ 3 per lb",
+      "result": "14.3 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "14.3 × 1.15 = 16.4, rounded up",
+      "result": "17 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 17,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 51,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 6,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 25,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 7,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-thanksgiving-100-guests",
+      "title": "Pizza for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-thanksgiving-100-guests",
+      "title": "Wings for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-thanksgiving-100-guests",
+      "title": "Tacos for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-thanksgiving-100-guests",
+      "title": "Sliders for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-100-guests",
+      "title": "Appetizers for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-75-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-125-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (125 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-100-guests",
+      "title": "BBQ/Pulled Pork for Wedding (100 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-graduation-party-100-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (100 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-thanksgiving-100-guests",
+      "title": "Wine for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-100-guests",
+      "title": "Champagne for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-100-guests",
+      "title": "Spirits for Thanksgiving (100 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

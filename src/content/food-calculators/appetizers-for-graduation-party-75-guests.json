@@ -1,0 +1,210 @@
+{
+  "slug": "appetizers-for-graduation-party-75-guests",
+  "item": {
+    "id": "appetizers",
+    "name": "Appetizers",
+    "namePlural": "Appetizers",
+    "emoji": "🍢",
+    "unit": "pieces",
+    "unitSingular": "piece",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 8,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "platters",
+    "orderUnitSingular": "platter",
+    "servingsPerOrderUnit": 30
+  },
+  "event": {
+    "id": "graduation",
+    "name": "Graduation Party",
+    "slug": "graduation-party",
+    "description": "Graduation celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.7,
+      "beer": 1.25,
+      "champagne": 1.3,
+      "spirits": 0.85
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 1.1,
+      "sliders": 1.1,
+      "appetizers": 1,
+      "bbq": 1.15
+    },
+    "foodTips": [
+      "Graduation parties often span 4+ hours - plan for grazing, not a sit-down meal.",
+      "Young adults eat more than you think - add 20% to your calculations for ages 18-25.",
+      "Set up a separate kids' food station with pizza and sliders to keep parents happy.",
+      "Outdoor graduation parties need food that won't spoil - keep hot foods hot and cold foods cold.",
+      "Photo ops happen constantly - finger foods beat anything requiring utensils."
+    ],
+    "foodBuyingGuide": "Graduation parties are grazing events. Finger foods work best - pizza slices, sliders, wings, and appetizers that guests can grab while mingling. If your graduate is 21+, expect their friends to eat AND drink more than the older guests.",
+    "proTips": [
+      "Set up a visible '21+ only' bar area and a killer mocktail station so younger guests feel included.",
+      "Parents of graduates drink about 30% less than the graduate's friends - plan your ratios accordingly.",
+      "Keep champagne cold but corked until group photo time - pop bottles for the shot!",
+      "Outdoor graduations in summer need extra cold drinks and 2x the ice you think you need.",
+      "Mix of generations means variety is key - have options for every age group."
+    ],
+    "buyingGuide": "Graduation parties typically skew toward beer and lighter drinks. Stock up on popular light beers and have a good selection of non-alcoholic options since many guests will be under 21. Sparkling cider is a great champagne alternative for toasts that includes everyone."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 540,
+    "unitsNeeded": 21,
+    "unitsDisplay": "platters",
+    "perPersonServings": 7.2,
+    "buffer": 3,
+    "rawUnits": 18,
+    "totalGuests": 75,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Appetizers for 75 Guests Graduation Party? | 21 platters",
+    "description": "Need appetizers for a 75-person graduation party? You'll need exactly 21 platters. Free calculator with pro tips for party planning.",
+    "h1": "How Much Appetizers for a 75 Guests Graduation Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/appetizers-for-graduation-party-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "75 guests × 90% eating rate",
+      "result": "68 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "68 eaters × 8 pieces per person",
+      "result": "544 base servings",
+      "explanation": "As a main dish, plan for 8 pieces per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply graduation party modifier",
+      "formula": "× 1 (0% for appetizers)",
+      "result": "540 pieces needed",
+      "explanation": "Graduation Partys have standard appetizers consumption."
+    },
+    {
+      "step": 4,
+      "label": "Convert to platters",
+      "formula": "540 pieces ÷ 30 per platter",
+      "result": "18 platters (raw)",
+      "explanation": "Each platter provides 30 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "18 × 1.15 = 20.7, rounded up",
+      "result": "21 platters",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Appetizers",
+      "quantity": 21,
+      "unit": "platters",
+      "affiliateCategory": "appetizers"
+    },
+    {
+      "name": "Serving platters",
+      "quantity": 1,
+      "unit": "platters",
+      "notes": "For presentation"
+    },
+    {
+      "name": "Cocktail napkins",
+      "quantity": 300,
+      "unit": "napkins"
+    },
+    {
+      "name": "Toothpicks",
+      "quantity": 1,
+      "unit": "box",
+      "notes": "For skewered items"
+    },
+    {
+      "name": "Small plates",
+      "quantity": 113,
+      "unit": "plates"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-graduation-party-75-guests",
+      "title": "Pizza for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-graduation-party-75-guests",
+      "title": "Wings for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-graduation-party-75-guests",
+      "title": "Tacos for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-graduation-party-75-guests",
+      "title": "Sliders for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-graduation-party-75-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-50-guests",
+      "title": "Appetizers for Graduation Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-100-guests",
+      "title": "Appetizers for Graduation Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-wedding-75-guests",
+      "title": "Appetizers for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "appetizers-for-corporate-event-75-guests",
+      "title": "Appetizers for Corporate Event (75 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-graduation-party-75-guests",
+      "title": "Champagne for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-graduation-party-75-guests",
+      "title": "Beer for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-graduation-party-75-guests",
+      "title": "Spirits for Graduation Party (75 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

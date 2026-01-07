@@ -1,0 +1,172 @@
+{
+  "slug": "champagne-for-fourth-of-july-party-250-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "fourth-of-july",
+    "name": "4th of July Party",
+    "slug": "fourth-of-july-party",
+    "description": "Independence Day celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.6,
+      "beer": 1.4,
+      "champagne": 0.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 1,
+      "tacos": 1,
+      "sliders": 1.3,
+      "appetizers": 1,
+      "bbq": 1.5
+    },
+    "foodTips": [
+      "Outdoor grilling is expected - plan for burgers, hot dogs, and BBQ.",
+      "Hot weather means lighter appetites - reduce food quantities by 10-15%.",
+      "Keep cold foods cold - refresh ice every 90 minutes in summer heat.",
+      "Fireworks timing matters - have lighter snacks for after dark.",
+      "Patriotic presentation adds to the fun - use themed plates and decorations."
+    ],
+    "foodBuyingGuide": "4th of July is about grilled meats and outdoor eating. Plan 1 burger/hot dog + 1 side per person, or 6oz pulled pork with buns. Keep everything fresh with plenty of ice. Watermelon and cold sides are essential in summer heat.",
+    "proTips": [
+      "Outdoor heat increases beer consumption by 25% - have more than you think.",
+      "Ice melts FAST in July - buy 5lbs per person and have backup bags.",
+      "Coolers in shade last 40% longer than those in sun.",
+      "Red, white, and blue cocktails are a fun addition to the bar.",
+      "People drink less after sunset when fireworks start - front-load your ice."
+    ],
+    "buyingGuide": "This is a daytime outdoor beer event. Stock heavily on light, refreshing beers and have plenty of ice. Mixed drinks with vodka and lemonade or margaritas are popular. Plan 5-6 drinks per person for a 5-hour party."
+  },
+  "guestCount": {
+    "value": 250,
+    "label": "250 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 457,
+    "unitsNeeded": 88,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 1.8,
+    "buffer": 11,
+    "rawUnits": 76.2,
+    "actualDrinkers": 163
+  },
+  "meta": {
+    "title": "How Much Champagne for 250 Guest 4th of July Party? | 88 bottles",
+    "description": "Need champagne for a 250-person 4th of july party? You'll need exactly 88 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 250 Guest 4th of July Party?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-fourth-of-july-party-250-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "250 guests × 65% drinking rate",
+      "result": "163 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "163 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "1223 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "917 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply 4th of july party modifier",
+      "formula": "× 0.5 (-50% for champagne)",
+      "result": "457 champagne servings needed",
+      "explanation": "4th of July Partys typically consume 50% less champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "457 servings ÷ 6 servings per bottle",
+      "result": "76.2 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "76.2 × 1.15 = 87.6, rounded up",
+      "result": "88 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 88,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 245,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 22,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-fourth-of-july-party-250-guests",
+      "title": "Wine for 4th of July Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-fourth-of-july-party-250-guests",
+      "title": "Beer for 4th of July Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-fourth-of-july-party-250-guests",
+      "title": "Spirits for 4th of July Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-fourth-of-july-party-200-guests",
+      "title": "Champagne for 4th of July Party (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-fourth-of-july-party-300-guests",
+      "title": "Champagne for 4th of July Party (300 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-250-guests",
+      "title": "Champagne for Wedding (250 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-graduation-party-250-guests",
+      "title": "Champagne for Graduation Party (250 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

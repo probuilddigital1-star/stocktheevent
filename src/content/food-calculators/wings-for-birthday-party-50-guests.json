@@ -1,0 +1,212 @@
+{
+  "slug": "wings-for-birthday-party-50-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.1,
+      "tacos": 1,
+      "sliders": 1,
+      "appetizers": 0.9,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Cake reduces other food consumption by 20% - factor this into your planning.",
+      "Kids' birthday parties need 30% less food per person - shorter attention spans.",
+      "Adult milestone birthdays (30, 40, 50) eat more - people linger longer.",
+      "Late-night birthdays need late-night food - pizza arrives around 10pm.",
+      "Set up food before activities and cake - people graze while waiting."
+    ],
+    "foodBuyingGuide": "Birthday party food depends heavily on the age group. Kids' parties: pizza and simple finger foods. Young adult birthdays: pizza, wings, and shareable platters. 40+ birthdays: more sophisticated appetizers and seated options.",
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 50,
+    "label": "50 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 495,
+    "unitsNeeded": 57,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 9.9,
+    "buffer": 7,
+    "rawUnits": 49.5,
+    "totalGuests": 50,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 50 Guests Birthday Party? | 57 lbs",
+    "description": "Need wings for a 50-person birthday party? You'll need exactly 57 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 50 Guests Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-birthday-party-50-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "50 guests × 90% eating rate",
+      "result": "45 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "45 eaters × 10 pieces per person",
+      "result": "450 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1.1 (+10% for wings)",
+      "result": "495 pieces needed",
+      "explanation": "Birthday Partys typically consume 10% more wings than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "495 pieces ÷ 10 per lb",
+      "result": "49.5 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "49.5 × 1.15 = 56.9, rounded up",
+      "result": "57 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 57,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 19,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 13,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 100,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 6,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-birthday-party-50-guests",
+      "title": "Pizza for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-birthday-party-50-guests",
+      "title": "Tacos for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-birthday-party-50-guests",
+      "title": "Sliders for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-birthday-party-50-guests",
+      "title": "Appetizers for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-birthday-party-50-guests",
+      "title": "BBQ/Pulled Pork for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-birthday-party-40-guests",
+      "title": "Wings for Birthday Party (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-birthday-party-75-guests",
+      "title": "Wings for Birthday Party (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-50-guests",
+      "title": "Wings for Wedding (50 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-graduation-party-50-guests",
+      "title": "Wings for Graduation Party (50 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-birthday-party-50-guests",
+      "title": "Champagne for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-50-guests",
+      "title": "Spirits for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-50-guests",
+      "title": "Beer for Birthday Party (50 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

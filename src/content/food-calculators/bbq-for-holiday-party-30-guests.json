@@ -1,0 +1,211 @@
+{
+  "slug": "bbq-for-holiday-party-30-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.8,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.5,
+      "bbq": 0.6
+    },
+    "foodTips": [
+      "Holiday appetizers should be elevated - cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected - have a dessert station with cookies and holiday candies.",
+      "Warm appetizers disappear 40% faster in winter - plan accordingly.",
+      "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
+      "If it's a potluck, assume 30% of guests will forget to bring something."
+    ],
+    "foodBuyingGuide": "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 30,
+    "label": "30 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 17,
+    "unitsNeeded": 7,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.6,
+    "buffer": 1,
+    "rawUnits": 5.7,
+    "totalGuests": 30,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 30 Guests Holiday Party? | 7 lbs",
+    "description": "Need bbq/pulled pork for a 30-person holiday party? You'll need exactly 7 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 30 Guests Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-holiday-party-30-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "30 guests × 95% eating rate",
+      "result": "29 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "29 eaters × 1 pieces per person",
+      "result": "29 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply holiday party modifier",
+      "formula": "× 0.6 (-40% for bbq/pulled pork)",
+      "result": "17 pieces needed",
+      "explanation": "Holiday Partys typically consume 40% less bbq/pulled pork than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "17 pieces ÷ 3 per lb",
+      "result": "5.7 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "5.7 × 1.15 = 6.6, rounded up",
+      "result": "7 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 7,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 21,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 3,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 8,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 2,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-holiday-party-30-guests",
+      "title": "Pizza for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-holiday-party-30-guests",
+      "title": "Wings for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-holiday-party-30-guests",
+      "title": "Tacos for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-holiday-party-30-guests",
+      "title": "Sliders for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-holiday-party-30-guests",
+      "title": "Appetizers for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-holiday-party-25-guests",
+      "title": "BBQ/Pulled Pork for Holiday Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-holiday-party-40-guests",
+      "title": "BBQ/Pulled Pork for Holiday Party (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-30-guests",
+      "title": "BBQ/Pulled Pork for Wedding (30 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-graduation-party-30-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (30 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-holiday-party-30-guests",
+      "title": "Champagne for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-holiday-party-30-guests",
+      "title": "Wine for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-30-guests",
+      "title": "Spirits for Holiday Party (30 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

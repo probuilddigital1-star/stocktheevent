@@ -1,0 +1,212 @@
+{
+  "slug": "pizza-for-thanksgiving-50-guests",
+  "item": {
+    "id": "pizza",
+    "name": "Pizza",
+    "namePlural": "Pizzas",
+    "emoji": "🍕",
+    "unit": "pizzas",
+    "unitSingular": "pizza",
+    "servingsPerUnit": 8,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "pizzas",
+    "orderUnitSingular": "pizza",
+    "servingsPerOrderUnit": 8
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 50,
+    "label": "50 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 41,
+    "unitsNeeded": 6,
+    "unitsDisplay": "pizzas",
+    "perPersonServings": 0.8,
+    "buffer": 0,
+    "rawUnits": 5.1,
+    "totalGuests": 50,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Pizza for 50 Guests Thanksgiving? | 6 pizzas",
+    "description": "Need pizza for a 50-person thanksgiving? You'll need exactly 6 pizzas. Free calculator with pro tips for party planning.",
+    "h1": "How Much Pizza for a 50 Guests Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/food/pizza-for-thanksgiving-50-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "50 guests × 90% eating rate",
+      "result": "45 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "45 eaters × 3 pizzas per person",
+      "result": "135 base servings",
+      "explanation": "As a main dish, plan for 3 pizzas per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 0.3 (-70% for pizza)",
+      "result": "41 pizzas needed",
+      "explanation": "Thanksgivings typically consume 70% less pizza than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to pizzas",
+      "formula": "41 pizzas ÷ 8 per pizza",
+      "result": "5.1 pizzas (raw)",
+      "explanation": "Each pizza provides 8 pizzas."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "5.1 × 1.15 = 5.9, rounded up",
+      "result": "6 pizzas",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Pizza",
+      "quantity": 6,
+      "unit": "pizzas",
+      "affiliateCategory": "pizza"
+    },
+    {
+      "name": "Paper plates",
+      "quantity": 75,
+      "unit": "plates",
+      "notes": "For slices and seconds"
+    },
+    {
+      "name": "Napkins",
+      "quantity": 150,
+      "unit": "napkins",
+      "notes": "Pizza is messy!"
+    },
+    {
+      "name": "Red pepper flakes",
+      "quantity": 2,
+      "unit": "shakers",
+      "notes": "Table condiment"
+    },
+    {
+      "name": "Parmesan cheese",
+      "quantity": 1,
+      "unit": "container",
+      "notes": "Grated for topping"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wings-for-thanksgiving-50-guests",
+      "title": "Wings for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-thanksgiving-50-guests",
+      "title": "Tacos for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-thanksgiving-50-guests",
+      "title": "Sliders for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-50-guests",
+      "title": "Appetizers for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-50-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "pizza-for-thanksgiving-40-guests",
+      "title": "Pizza for Thanksgiving (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-thanksgiving-75-guests",
+      "title": "Pizza for Thanksgiving (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-wedding-50-guests",
+      "title": "Pizza for Wedding (50 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "pizza-for-graduation-party-50-guests",
+      "title": "Pizza for Graduation Party (50 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-thanksgiving-50-guests",
+      "title": "Wine for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-50-guests",
+      "title": "Champagne for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-50-guests",
+      "title": "Spirits for Thanksgiving (50 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

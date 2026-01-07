@@ -1,0 +1,209 @@
+{
+  "slug": "tacos-for-new-years-eve-party-20-guests",
+  "item": {
+    "id": "tacos",
+    "name": "Tacos",
+    "namePlural": "Tacos",
+    "emoji": "🌮",
+    "unit": "tacos",
+    "unitSingular": "taco",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "dozen",
+    "orderUnitSingular": "dozen",
+    "servingsPerOrderUnit": 12
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 20,
+    "label": "20 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 40,
+    "unitsNeeded": 4,
+    "unitsDisplay": "dozen",
+    "perPersonServings": 2,
+    "buffer": 0,
+    "rawUnits": 3.3,
+    "totalGuests": 20,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Tacos for 20 Guests New Year's Eve Party? | 4 dozen",
+    "description": "Need tacos for a 20-person new year's eve party? You'll need exactly 4 dozen. Free calculator with pro tips for party planning.",
+    "h1": "How Much Tacos for a 20 Guests New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/tacos-for-new-years-eve-party-20-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "20 guests × 95% eating rate",
+      "result": "19 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "19 eaters × 3 tacos per person",
+      "result": "57 base servings",
+      "explanation": "As a main dish, plan for 3 tacos per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 0.7 (-30% for tacos)",
+      "result": "40 tacos needed",
+      "explanation": "New Year's Eve Partys typically consume 30% less tacos than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to dozen",
+      "formula": "40 tacos ÷ 12 per dozen",
+      "result": "3.3 dozen (raw)",
+      "explanation": "Each dozen provides 12 tacos."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "3.3 × 1.15 = 3.8, rounded up",
+      "result": "4 dozen",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Tacos",
+      "quantity": 4,
+      "unit": "dozen",
+      "affiliateCategory": "tacos"
+    },
+    {
+      "name": "Salsa",
+      "quantity": 3,
+      "unit": "jars",
+      "notes": "Mild and hot options"
+    },
+    {
+      "name": "Sour cream",
+      "quantity": 2,
+      "unit": "containers"
+    },
+    {
+      "name": "Lime wedges",
+      "quantity": 10,
+      "unit": "limes"
+    },
+    {
+      "name": "Cilantro",
+      "quantity": 2,
+      "unit": "bunches"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-new-years-eve-party-20-guests",
+      "title": "Pizza for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-new-years-eve-party-20-guests",
+      "title": "Wings for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-new-years-eve-party-20-guests",
+      "title": "Sliders for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-new-years-eve-party-20-guests",
+      "title": "Appetizers for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-new-years-eve-party-20-guests",
+      "title": "BBQ/Pulled Pork for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-new-years-eve-party-15-guests",
+      "title": "Tacos for New Year's Eve Party (15 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "tacos-for-new-years-eve-party-25-guests",
+      "title": "Tacos for New Year's Eve Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "tacos-for-wedding-20-guests",
+      "title": "Tacos for Wedding (20 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "tacos-for-graduation-party-20-guests",
+      "title": "Tacos for Graduation Party (20 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-new-years-eve-party-20-guests",
+      "title": "Champagne for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-20-guests",
+      "title": "Spirits for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-new-years-eve-party-20-guests",
+      "title": "Wine for New Year's Eve Party (20 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

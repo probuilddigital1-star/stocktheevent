@@ -23,6 +23,22 @@
       "champagne": 1.3,
       "spirits": 0.85
     },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 1.1,
+      "sliders": 1.1,
+      "appetizers": 1,
+      "bbq": 1.15
+    },
+    "foodTips": [
+      "Graduation parties often span 4+ hours - plan for grazing, not a sit-down meal.",
+      "Young adults eat more than you think - add 20% to your calculations for ages 18-25.",
+      "Set up a separate kids' food station with pizza and sliders to keep parents happy.",
+      "Outdoor graduation parties need food that won't spoil - keep hot foods hot and cold foods cold.",
+      "Photo ops happen constantly - finger foods beat anything requiring utensils."
+    ],
+    "foodBuyingGuide": "Graduation parties are grazing events. Finger foods work best - pizza slices, sliders, wings, and appetizers that guests can grab while mingling. If your graduate is 21+, expect their friends to eat AND drink more than the older guests.",
     "proTips": [
       "Set up a visible '21+ only' bar area and a killer mocktail station so younger guests feel included.",
       "Parents of graduates drink about 30% less than the graduate's friends - plan your ratios accordingly.",
@@ -144,8 +160,8 @@
       "relationship": "same-event"
     },
     {
-      "slug": "spirits-for-graduation-party-100-guests",
-      "title": "Spirits for Graduation Party (100 guests)",
+      "slug": "spirits-for-graduation-party-125-guests",
+      "title": "Spirits for Graduation Party (125 guests)",
       "relationship": "adjacent-guests"
     },
     {

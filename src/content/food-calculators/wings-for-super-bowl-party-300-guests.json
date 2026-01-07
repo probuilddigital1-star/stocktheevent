@@ -1,0 +1,207 @@
+{
+  "slug": "wings-for-super-bowl-party-300-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "super-bowl",
+    "name": "Super Bowl Party",
+    "slug": "super-bowl-party",
+    "description": "Super Bowl viewing party",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.4,
+      "champagne": 0.4,
+      "spirits": 0.8
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.3,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.3,
+      "bbq": 1.1
+    },
+    "foodTips": [
+      "40% of all food is consumed during the first quarter - front-load your spread.",
+      "Wings are the #1 Super Bowl food - err on the side of too many.",
+      "Set up a separate kids station if families are coming - they eat differently.",
+      "Prep dips in slow cookers - they stay warm and free up oven space.",
+      "Use halftime to refresh ALL food stations - you have exactly 25 minutes."
+    ],
+    "foodBuyingGuide": "Super Bowl is the biggest food day of the year after Thanksgiving. Plan 10-12 wings per person, 3 slices of pizza, and plenty of chips and dip. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
+    "proTips": [
+      "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
+      "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
+      "Use halftime to restock ALL coolers - you have exactly 25 minutes.",
+      "Heavy food like wings and nachos reduces alcohol consumption by 15%.",
+      "Light beers disappear fastest - they're easier to drink during a 4-hour game."
+    ],
+    "buyingGuide": "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 3120,
+    "unitsNeeded": 359,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 10.4,
+    "buffer": 47,
+    "rawUnits": 312,
+    "totalGuests": 300,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 300 Guests Super Bowl Party? | 359 lbs",
+    "description": "Need wings for a 300-person super bowl party? You'll need exactly 359 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 300 Guests Super Bowl Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-super-bowl-party-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "300 guests × 80% eating rate",
+      "result": "240 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "240 eaters × 10 pieces per person",
+      "result": "2400 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply super bowl party modifier",
+      "formula": "× 1.3 (+30% for wings)",
+      "result": "3120 pieces needed",
+      "explanation": "Super Bowl Partys typically consume 30% more wings than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "3120 pieces ÷ 10 per lb",
+      "result": "312 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "312 × 1.15 = 358.8, rounded up",
+      "result": "359 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 359,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 120,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 75,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 600,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 36,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-super-bowl-party-300-guests",
+      "title": "Pizza for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-super-bowl-party-300-guests",
+      "title": "Tacos for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-super-bowl-party-300-guests",
+      "title": "Sliders for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-super-bowl-party-300-guests",
+      "title": "Appetizers for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-super-bowl-party-300-guests",
+      "title": "BBQ/Pulled Pork for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-super-bowl-party-250-guests",
+      "title": "Wings for Super Bowl Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-300-guests",
+      "title": "Wings for Wedding (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-graduation-party-300-guests",
+      "title": "Wings for Graduation Party (300 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "beer-for-super-bowl-party-300-guests",
+      "title": "Beer for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-super-bowl-party-300-guests",
+      "title": "Spirits for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-super-bowl-party-300-guests",
+      "title": "Wine for Super Bowl Party (300 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

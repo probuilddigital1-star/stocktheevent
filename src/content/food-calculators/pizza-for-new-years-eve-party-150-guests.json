@@ -1,0 +1,212 @@
+{
+  "slug": "pizza-for-new-years-eve-party-150-guests",
+  "item": {
+    "id": "pizza",
+    "name": "Pizza",
+    "namePlural": "Pizzas",
+    "emoji": "🍕",
+    "unit": "pizzas",
+    "unitSingular": "pizza",
+    "servingsPerUnit": 8,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "pizzas",
+    "orderUnitSingular": "pizza",
+    "servingsPerOrderUnit": 8
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 150,
+    "label": "150 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 306,
+    "unitsNeeded": 44,
+    "unitsDisplay": "pizzas",
+    "perPersonServings": 2,
+    "buffer": 5,
+    "rawUnits": 38.3,
+    "totalGuests": 150,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Pizza for 150 Guests New Year's Eve Party? | 44 pizzas",
+    "description": "Need pizza for a 150-person new year's eve party? You'll need exactly 44 pizzas. Free calculator with pro tips for party planning.",
+    "h1": "How Much Pizza for a 150 Guests New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/pizza-for-new-years-eve-party-150-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "150 guests × 85% eating rate",
+      "result": "128 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "128 eaters × 3 pizzas per person",
+      "result": "384 base servings",
+      "explanation": "As a main dish, plan for 3 pizzas per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 0.8 (-20% for pizza)",
+      "result": "306 pizzas needed",
+      "explanation": "New Year's Eve Partys typically consume 20% less pizza than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to pizzas",
+      "formula": "306 pizzas ÷ 8 per pizza",
+      "result": "38.3 pizzas (raw)",
+      "explanation": "Each pizza provides 8 pizzas."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "38.3 × 1.15 = 44.0, rounded up",
+      "result": "44 pizzas",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Pizza",
+      "quantity": 44,
+      "unit": "pizzas",
+      "affiliateCategory": "pizza"
+    },
+    {
+      "name": "Paper plates",
+      "quantity": 225,
+      "unit": "plates",
+      "notes": "For slices and seconds"
+    },
+    {
+      "name": "Napkins",
+      "quantity": 450,
+      "unit": "napkins",
+      "notes": "Pizza is messy!"
+    },
+    {
+      "name": "Red pepper flakes",
+      "quantity": 2,
+      "unit": "shakers",
+      "notes": "Table condiment"
+    },
+    {
+      "name": "Parmesan cheese",
+      "quantity": 1,
+      "unit": "container",
+      "notes": "Grated for topping"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wings-for-new-years-eve-party-150-guests",
+      "title": "Wings for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-new-years-eve-party-150-guests",
+      "title": "Tacos for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-new-years-eve-party-150-guests",
+      "title": "Sliders for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-new-years-eve-party-150-guests",
+      "title": "Appetizers for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-new-years-eve-party-150-guests",
+      "title": "BBQ/Pulled Pork for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "pizza-for-new-years-eve-party-125-guests",
+      "title": "Pizza for New Year's Eve Party (125 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-new-years-eve-party-200-guests",
+      "title": "Pizza for New Year's Eve Party (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-wedding-150-guests",
+      "title": "Pizza for Wedding (150 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "pizza-for-graduation-party-150-guests",
+      "title": "Pizza for Graduation Party (150 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-new-years-eve-party-150-guests",
+      "title": "Champagne for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-150-guests",
+      "title": "Spirits for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-new-years-eve-party-150-guests",
+      "title": "Wine for New Year's Eve Party (150 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

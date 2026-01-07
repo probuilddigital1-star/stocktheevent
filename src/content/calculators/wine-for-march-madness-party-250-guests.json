@@ -1,0 +1,172 @@
+{
+  "slug": "wine-for-march-madness-party-250-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "march-madness",
+    "name": "March Madness Party",
+    "slug": "march-madness-party",
+    "description": "March Madness basketball viewing party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.35,
+      "champagne": 0.4,
+      "spirits": 0.85
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.25,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.2,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Tournament games can run 2+ hours each - plan for sustained snacking, not a single meal.",
+      "Bracket pools mean people arrive at different times - keep food stations refreshed.",
+      "Wings and pizza are the classic combo - plan for both.",
+      "Overtime games increase consumption by 25% - have backup food ready.",
+      "Multiple TV setups mean multiple food stations - don't make people miss the game."
+    ],
+    "foodBuyingGuide": "March Madness is similar to Super Bowl but spread over multiple games. Wings, pizza, and shareable appetizers are ideal. Plan 8-10 wings and 2-3 pizza slices per person per game session.",
+    "proTips": [
+      "Games run back-to-back during opening weekend - people may stay 6-8 hours.",
+      "Stock light beers for marathon watching sessions.",
+      "Multiple games mean multiple peaks - don't front-load everything.",
+      "Have non-alcoholic options for designated drivers and early bracket busts.",
+      "Weekend games have 30% higher consumption than weekday games."
+    ],
+    "buyingGuide": "March Madness parties are beer-heavy but lighter than Super Bowl (longer duration, people pace themselves). Stock 70% light beers. Have coolers at every TV location. Plan 4-5 beers per person for a 4-hour session."
+  },
+  "guestCount": {
+    "value": 250,
+    "label": "250 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 396,
+    "unitsNeeded": 92,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 1.6,
+    "buffer": 12,
+    "rawUnits": 79.2,
+    "actualDrinkers": 163
+  },
+  "meta": {
+    "title": "How Much Wine for 250 Guest March Madness Party? | 92 bottles",
+    "description": "Need wine for a 250-person march madness party? You'll need exactly 92 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 250 Guest March Madness Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-march-madness-party-250-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "250 guests × 65% drinking rate",
+      "result": "163 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "163 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "978 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "795 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply march madness party modifier",
+      "formula": "× 0.5 (-50% for wine)",
+      "result": "396 wine servings needed",
+      "explanation": "March Madness Partys typically consume 50% less wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "396 servings ÷ 5 servings per bottle",
+      "result": "79.2 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "79.2 × 1.15 = 91.1, rounded up",
+      "result": "92 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 92,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 326,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-march-madness-party-250-guests",
+      "title": "Beer for March Madness Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-march-madness-party-250-guests",
+      "title": "Champagne for March Madness Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-march-madness-party-250-guests",
+      "title": "Spirits for March Madness Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-march-madness-party-200-guests",
+      "title": "Wine for March Madness Party (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-march-madness-party-300-guests",
+      "title": "Wine for March Madness Party (300 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-250-guests",
+      "title": "Wine for Wedding (250 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-250-guests",
+      "title": "Wine for Graduation Party (250 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

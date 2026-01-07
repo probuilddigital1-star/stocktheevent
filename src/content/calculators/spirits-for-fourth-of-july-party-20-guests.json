@@ -1,0 +1,183 @@
+{
+  "slug": "spirits-for-fourth-of-july-party-20-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "fourth-of-july",
+    "name": "4th of July Party",
+    "slug": "fourth-of-july-party",
+    "description": "Independence Day celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.6,
+      "beer": 1.4,
+      "champagne": 0.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 1,
+      "tacos": 1,
+      "sliders": 1.3,
+      "appetizers": 1,
+      "bbq": 1.5
+    },
+    "foodTips": [
+      "Outdoor grilling is expected - plan for burgers, hot dogs, and BBQ.",
+      "Hot weather means lighter appetites - reduce food quantities by 10-15%.",
+      "Keep cold foods cold - refresh ice every 90 minutes in summer heat.",
+      "Fireworks timing matters - have lighter snacks for after dark.",
+      "Patriotic presentation adds to the fun - use themed plates and decorations."
+    ],
+    "foodBuyingGuide": "4th of July is about grilled meats and outdoor eating. Plan 1 burger/hot dog + 1 side per person, or 6oz pulled pork with buns. Keep everything fresh with plenty of ice. Watermelon and cold sides are essential in summer heat.",
+    "proTips": [
+      "Outdoor heat increases beer consumption by 25% - have more than you think.",
+      "Ice melts FAST in July - buy 5lbs per person and have backup bags.",
+      "Coolers in shade last 40% longer than those in sun.",
+      "Red, white, and blue cocktails are a fun addition to the bar.",
+      "People drink less after sunset when fireworks start - front-load your ice."
+    ],
+    "buyingGuide": "This is a daytime outdoor beer event. Stock heavily on light, refreshing beers and have plenty of ice. Mixed drinks with vodka and lemonade or margaritas are popular. Plan 5-6 drinks per person for a 5-hour party."
+  },
+  "guestCount": {
+    "value": 20,
+    "label": "20 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 90,
+    "unitsNeeded": 7,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.5,
+    "buffer": 1,
+    "rawUnits": 5.3,
+    "actualDrinkers": 16
+  },
+  "meta": {
+    "title": "How Much Spirits for 20 Guest 4th of July Party? | 7 bottles",
+    "description": "Need spirits for a 20-person 4th of july party? You'll need exactly 7 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 20 Guest 4th of July Party?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-fourth-of-july-party-20-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "20 guests × 80% drinking rate",
+      "result": "16 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "16 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "120 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "90 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply 4th of july party modifier",
+      "formula": "× 1 (0% for spirits)",
+      "result": "90 spirits servings needed",
+      "explanation": "4th of July Partys have standard spirits consumption."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "90 servings ÷ 17 servings per bottle",
+      "result": "5.3 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "5.3 × 1.15 = 6.1, rounded up",
+      "result": "7 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 7,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 30,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 32,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 32,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 12,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-fourth-of-july-party-20-guests",
+      "title": "Wine for 4th of July Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-fourth-of-july-party-20-guests",
+      "title": "Beer for 4th of July Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-fourth-of-july-party-20-guests",
+      "title": "Champagne for 4th of July Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-fourth-of-july-party-15-guests",
+      "title": "Spirits for 4th of July Party (15 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-fourth-of-july-party-25-guests",
+      "title": "Spirits for 4th of July Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-20-guests",
+      "title": "Spirits for Wedding (20 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-20-guests",
+      "title": "Spirits for Graduation Party (20 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

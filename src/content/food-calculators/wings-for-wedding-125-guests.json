@@ -1,0 +1,212 @@
+{
+  "slug": "wings-for-wedding-125-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "wedding",
+    "name": "Wedding",
+    "slug": "wedding",
+    "description": "Wedding reception celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.2,
+      "beer": 0.9,
+      "champagne": 1.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.6,
+      "tacos": 0.8,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.9
+    },
+    "foodTips": [
+      "Plan 6-8 appetizer pieces per guest for a 1-hour cocktail hour before dinner.",
+      "Sliders are a late-night hit after dancing starts - plan 2 per guest for after 10pm.",
+      "If serving tacos, offer 3 protein options minimum for dietary variety.",
+      "Food trucks are trendy - plan 20% extra as guests tend to go back for seconds.",
+      "Passed appetizers disappear 40% faster than stationed ones - plan accordingly."
+    ],
+    "foodBuyingGuide": "For wedding receptions, appetizers during cocktail hour are essential. Plan 6-8 pieces per guest for a 1-hour cocktail hour. If you're doing late-night snacks (pizza, sliders, tacos), plan for 70% of guests still present to eat again around 10-11pm.",
+    "proTips": [
+      "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
+      "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
+      "Pre-pour wine at dinner tables 5 minutes before guests sit to prevent service bottlenecks.",
+      "Order 10-15% extra and ask vendors about their return policy on unopened bottles.",
+      "If dancing goes past 10pm, reopen a simplified bar: beer, wine, and 2 signature drinks only."
+    ],
+    "buyingGuide": "For weddings, plan a 60/40 split between red and white wine for fall/winter, or flip it for spring/summer. Budget $12-18 per bottle for a crowd-pleasing selection - guests can't tell the difference between $15 and $40 wine at a party. Consider having champagne for toasts separate from your open bar calculation."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 638,
+    "unitsNeeded": 74,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 5.1,
+    "buffer": 10,
+    "rawUnits": 63.8,
+    "totalGuests": 125,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 125 Guests Wedding? | 74 lbs",
+    "description": "Need wings for a 125-person wedding? You'll need exactly 74 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 125 Guests Wedding?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-wedding-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "125 guests × 85% eating rate",
+      "result": "106 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "106 eaters × 10 pieces per person",
+      "result": "1060 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply wedding modifier",
+      "formula": "× 0.6 (-40% for wings)",
+      "result": "638 pieces needed",
+      "explanation": "Weddings typically consume 40% less wings than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "638 pieces ÷ 10 per lb",
+      "result": "63.8 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "63.8 × 1.15 = 73.4, rounded up",
+      "result": "74 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 74,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 25,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 32,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 250,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 8,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-wedding-125-guests",
+      "title": "Pizza for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-wedding-125-guests",
+      "title": "Tacos for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-wedding-125-guests",
+      "title": "Sliders for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-wedding-125-guests",
+      "title": "Appetizers for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-wedding-125-guests",
+      "title": "BBQ/Pulled Pork for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-wedding-100-guests",
+      "title": "Wings for Wedding (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-150-guests",
+      "title": "Wings for Wedding (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-graduation-party-125-guests",
+      "title": "Wings for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-corporate-event-125-guests",
+      "title": "Wings for Corporate Event (125 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-wedding-125-guests",
+      "title": "Champagne for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-wedding-125-guests",
+      "title": "Wine for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-125-guests",
+      "title": "Spirits for Wedding (125 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

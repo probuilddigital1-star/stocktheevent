@@ -23,6 +23,22 @@
       "champagne": 1,
       "spirits": 0.7
     },
+    "foodModifiers": {
+      "pizza": 0.6,
+      "wings": 0.5,
+      "tacos": 0.7,
+      "sliders": 0.9,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant finger foods that don't require utensils or create mess are ideal.",
+      "Vegetarian and dietary options are essential - plan 30% of your spread as veg-friendly.",
+      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Evening events consume 25% more food than lunch events.",
+      "Avoid foods that stain (red sauces, turmeric) - people are in work clothes."
+    ],
+    "foodBuyingGuide": "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
     "proTips": [
       "Most corporate guests self-limit to 2 drinks max - don't over-order.",
       "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
@@ -133,8 +149,8 @@
       "relationship": "same-event"
     },
     {
-      "slug": "champagne-for-corporate-event-20-guests",
-      "title": "Champagne for Corporate Event (20 guests)",
+      "slug": "champagne-for-corporate-event-15-guests",
+      "title": "Champagne for Corporate Event (15 guests)",
       "relationship": "adjacent-guests"
     },
     {

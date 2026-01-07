@@ -1,0 +1,206 @@
+{
+  "slug": "sliders-for-thanksgiving-300-guests",
+  "item": {
+    "id": "sliders",
+    "name": "Sliders",
+    "namePlural": "Sliders",
+    "emoji": "🍔",
+    "unit": "sliders",
+    "unitSingular": "slider",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "dozen",
+    "orderUnitSingular": "dozen",
+    "servingsPerOrderUnit": 12
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 360,
+    "unitsNeeded": 35,
+    "unitsDisplay": "dozen",
+    "perPersonServings": 1.2,
+    "buffer": 5,
+    "rawUnits": 30,
+    "totalGuests": 300,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Sliders for 300 Guests Thanksgiving? | 35 dozen",
+    "description": "Need sliders for a 300-person thanksgiving? You'll need exactly 35 dozen. Free calculator with pro tips for party planning.",
+    "h1": "How Much Sliders for a 300 Guests Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/food/sliders-for-thanksgiving-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "300 guests × 80% eating rate",
+      "result": "240 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "240 eaters × 3 sliders per person",
+      "result": "720 base servings",
+      "explanation": "As a main dish, plan for 3 sliders per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 0.5 (-50% for sliders)",
+      "result": "360 sliders needed",
+      "explanation": "Thanksgivings typically consume 50% less sliders than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to dozen",
+      "formula": "360 sliders ÷ 12 per dozen",
+      "result": "30 dozen (raw)",
+      "explanation": "Each dozen provides 12 sliders."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "30 × 1.15 = 34.5, rounded up",
+      "result": "35 dozen",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Sliders",
+      "quantity": 35,
+      "unit": "dozen",
+      "affiliateCategory": "sliders"
+    },
+    {
+      "name": "Slider buns",
+      "quantity": 35,
+      "unit": "buns",
+      "notes": "Match to patties"
+    },
+    {
+      "name": "Cheese slices",
+      "quantity": 35,
+      "unit": "slices",
+      "notes": "American or cheddar"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 30,
+      "unit": "jars",
+      "notes": "Sliced for burgers"
+    },
+    {
+      "name": "Ketchup/Mustard",
+      "quantity": 2,
+      "unit": "bottles"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-thanksgiving-300-guests",
+      "title": "Pizza for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-thanksgiving-300-guests",
+      "title": "Wings for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-thanksgiving-300-guests",
+      "title": "Tacos for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-300-guests",
+      "title": "Appetizers for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-300-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-thanksgiving-250-guests",
+      "title": "Sliders for Thanksgiving (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "sliders-for-wedding-300-guests",
+      "title": "Sliders for Wedding (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "sliders-for-graduation-party-300-guests",
+      "title": "Sliders for Graduation Party (300 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-thanksgiving-300-guests",
+      "title": "Wine for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-300-guests",
+      "title": "Champagne for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-300-guests",
+      "title": "Spirits for Thanksgiving (300 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

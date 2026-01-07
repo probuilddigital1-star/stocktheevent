@@ -1,0 +1,172 @@
+{
+  "slug": "beer-for-corporate-event-15-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "foodModifiers": {
+      "pizza": 0.6,
+      "wings": 0.5,
+      "tacos": 0.7,
+      "sliders": 0.9,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant finger foods that don't require utensils or create mess are ideal.",
+      "Vegetarian and dietary options are essential - plan 30% of your spread as veg-friendly.",
+      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Evening events consume 25% more food than lunch events.",
+      "Avoid foods that stain (red sauces, turmeric) - people are in work clothes."
+    ],
+    "foodBuyingGuide": "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 15,
+    "label": "15 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 41,
+    "unitsNeeded": 2,
+    "unitsDisplay": "cases",
+    "perPersonServings": 2.7,
+    "buffer": 0,
+    "rawUnits": 1.7,
+    "actualDrinkers": 12
+  },
+  "meta": {
+    "title": "How Much Beer for 15 Guest Corporate Event? | 2 cases",
+    "description": "Need beer for a 15-person corporate event? You'll need exactly 2 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 15 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-corporate-event-15-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "15 guests × 80% drinking rate",
+      "result": "12 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "12 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "54 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "48 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.85 (-15% for beer)",
+      "result": "41 beer servings needed",
+      "explanation": "Corporate Events typically consume 15% less beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "41 servings ÷ 24 servings per case",
+      "result": "1.7 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "1.7 × 1.15 = 2.0, rounded up",
+      "result": "2 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 2,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 24,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 1,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-corporate-event-15-guests",
+      "title": "Wine for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-15-guests",
+      "title": "Champagne for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-15-guests",
+      "title": "Spirits for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-10-guests",
+      "title": "Beer for Corporate Event (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-corporate-event-20-guests",
+      "title": "Beer for Corporate Event (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-15-guests",
+      "title": "Beer for Wedding (15 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-15-guests",
+      "title": "Beer for Graduation Party (15 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

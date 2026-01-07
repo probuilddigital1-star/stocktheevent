@@ -1,0 +1,210 @@
+{
+  "slug": "appetizers-for-thanksgiving-75-guests",
+  "item": {
+    "id": "appetizers",
+    "name": "Appetizers",
+    "namePlural": "Appetizers",
+    "emoji": "🍢",
+    "unit": "pieces",
+    "unitSingular": "piece",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 8,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "platters",
+    "orderUnitSingular": "platter",
+    "servingsPerOrderUnit": 30
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 648,
+    "unitsNeeded": 25,
+    "unitsDisplay": "platters",
+    "perPersonServings": 8.6,
+    "buffer": 3,
+    "rawUnits": 21.6,
+    "totalGuests": 75,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Appetizers for 75 Guests Thanksgiving? | 25 platters",
+    "description": "Need appetizers for a 75-person thanksgiving? You'll need exactly 25 platters. Free calculator with pro tips for party planning.",
+    "h1": "How Much Appetizers for a 75 Guests Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/food/appetizers-for-thanksgiving-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "75 guests × 90% eating rate",
+      "result": "68 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "68 eaters × 8 pieces per person",
+      "result": "544 base servings",
+      "explanation": "As a main dish, plan for 8 pieces per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 1.2 (+20% for appetizers)",
+      "result": "648 pieces needed",
+      "explanation": "Thanksgivings typically consume 20% more appetizers than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to platters",
+      "formula": "648 pieces ÷ 30 per platter",
+      "result": "21.6 platters (raw)",
+      "explanation": "Each platter provides 30 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "21.6 × 1.15 = 24.8, rounded up",
+      "result": "25 platters",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Appetizers",
+      "quantity": 25,
+      "unit": "platters",
+      "affiliateCategory": "appetizers"
+    },
+    {
+      "name": "Serving platters",
+      "quantity": 1,
+      "unit": "platters",
+      "notes": "For presentation"
+    },
+    {
+      "name": "Cocktail napkins",
+      "quantity": 300,
+      "unit": "napkins"
+    },
+    {
+      "name": "Toothpicks",
+      "quantity": 1,
+      "unit": "box",
+      "notes": "For skewered items"
+    },
+    {
+      "name": "Small plates",
+      "quantity": 113,
+      "unit": "plates"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-thanksgiving-75-guests",
+      "title": "Pizza for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-thanksgiving-75-guests",
+      "title": "Wings for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-thanksgiving-75-guests",
+      "title": "Tacos for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-thanksgiving-75-guests",
+      "title": "Sliders for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-75-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-50-guests",
+      "title": "Appetizers for Thanksgiving (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-100-guests",
+      "title": "Appetizers for Thanksgiving (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-wedding-75-guests",
+      "title": "Appetizers for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-75-guests",
+      "title": "Appetizers for Graduation Party (75 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-thanksgiving-75-guests",
+      "title": "Wine for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-75-guests",
+      "title": "Champagne for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-75-guests",
+      "title": "Spirits for Thanksgiving (75 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "slug": "wings-for-fourth-of-july-party-15-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "fourth-of-july",
+    "name": "4th of July Party",
+    "slug": "fourth-of-july-party",
+    "description": "Independence Day celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.6,
+      "beer": 1.4,
+      "champagne": 0.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 1,
+      "tacos": 1,
+      "sliders": 1.3,
+      "appetizers": 1,
+      "bbq": 1.5
+    },
+    "foodTips": [
+      "Outdoor grilling is expected - plan for burgers, hot dogs, and BBQ.",
+      "Hot weather means lighter appetites - reduce food quantities by 10-15%.",
+      "Keep cold foods cold - refresh ice every 90 minutes in summer heat.",
+      "Fireworks timing matters - have lighter snacks for after dark.",
+      "Patriotic presentation adds to the fun - use themed plates and decorations."
+    ],
+    "foodBuyingGuide": "4th of July is about grilled meats and outdoor eating. Plan 1 burger/hot dog + 1 side per person, or 6oz pulled pork with buns. Keep everything fresh with plenty of ice. Watermelon and cold sides are essential in summer heat.",
+    "proTips": [
+      "Outdoor heat increases beer consumption by 25% - have more than you think.",
+      "Ice melts FAST in July - buy 5lbs per person and have backup bags.",
+      "Coolers in shade last 40% longer than those in sun.",
+      "Red, white, and blue cocktails are a fun addition to the bar.",
+      "People drink less after sunset when fireworks start - front-load your ice."
+    ],
+    "buyingGuide": "This is a daytime outdoor beer event. Stock heavily on light, refreshing beers and have plenty of ice. Mixed drinks with vodka and lemonade or margaritas are popular. Plan 5-6 drinks per person for a 5-hour party."
+  },
+  "guestCount": {
+    "value": 15,
+    "label": "15 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 143,
+    "unitsNeeded": 17,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 9.5,
+    "buffer": 2,
+    "rawUnits": 14.3,
+    "totalGuests": 15,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 15 Guests 4th of July Party? | 17 lbs",
+    "description": "Need wings for a 15-person 4th of july party? You'll need exactly 17 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 15 Guests 4th of July Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-fourth-of-july-party-15-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "15 guests × 95% eating rate",
+      "result": "14 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "14 eaters × 10 pieces per person",
+      "result": "140 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply 4th of july party modifier",
+      "formula": "× 1 (0% for wings)",
+      "result": "143 pieces needed",
+      "explanation": "4th of July Partys have standard wings consumption."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "143 pieces ÷ 10 per lb",
+      "result": "14.3 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "14.3 × 1.15 = 16.4, rounded up",
+      "result": "17 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 17,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 6,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 4,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 30,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 2,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-fourth-of-july-party-15-guests",
+      "title": "Pizza for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-fourth-of-july-party-15-guests",
+      "title": "Tacos for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-fourth-of-july-party-15-guests",
+      "title": "Sliders for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-fourth-of-july-party-15-guests",
+      "title": "Appetizers for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-fourth-of-july-party-15-guests",
+      "title": "BBQ/Pulled Pork for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-fourth-of-july-party-10-guests",
+      "title": "Wings for 4th of July Party (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-fourth-of-july-party-20-guests",
+      "title": "Wings for 4th of July Party (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-15-guests",
+      "title": "Wings for Wedding (15 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-graduation-party-15-guests",
+      "title": "Wings for Graduation Party (15 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "beer-for-fourth-of-july-party-15-guests",
+      "title": "Beer for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-fourth-of-july-party-15-guests",
+      "title": "Spirits for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-fourth-of-july-party-15-guests",
+      "title": "Wine for 4th of July Party (15 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

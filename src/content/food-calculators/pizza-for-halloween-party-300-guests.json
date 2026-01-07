@@ -1,0 +1,207 @@
+{
+  "slug": "pizza-for-halloween-party-300-guests",
+  "item": {
+    "id": "pizza",
+    "name": "Pizza",
+    "namePlural": "Pizzas",
+    "emoji": "🍕",
+    "unit": "pizzas",
+    "unitSingular": "pizza",
+    "servingsPerUnit": 8,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "pizzas",
+    "orderUnitSingular": "pizza",
+    "servingsPerOrderUnit": 8
+  },
+  "event": {
+    "id": "halloween",
+    "name": "Halloween Party",
+    "slug": "halloween-party",
+    "description": "Halloween costume party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.9,
+      "beer": 1.1,
+      "champagne": 0.4,
+      "spirits": 1.3
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 0.9,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.7
+    },
+    "foodTips": [
+      "Themed food is expected - deviled eggs, 'finger' foods, spooky presentation.",
+      "Sweet treats matter - have Halloween candy and themed desserts.",
+      "Costumes make eating difficult - finger foods only, nothing messy.",
+      "Purple, orange, and black food coloring elevates everything.",
+      "Dry ice in punch bowls is dramatic but keep it away from kids."
+    ],
+    "foodBuyingGuide": "Halloween parties are all about presentation. Themed appetizers with spooky names, finger foods that won't mess up costumes, and plenty of candy. Budget for presentation supplies like themed plates and decorations.",
+    "proTips": [
+      "Specialty cocktails with spooky names are a must - batch them ahead.",
+      "Dark spirits (whiskey, dark rum) fit the theme better than clear spirits.",
+      "Punch bowls with dry ice create amazing effects.",
+      "People in elaborate costumes drink slower - they don't want to spill.",
+      "Adult-only parties consume 40% more than family Halloween events."
+    ],
+    "buyingGuide": "Halloween parties are cocktail-heavy. Plan for 2-3 specialty cocktails per person plus regular bar options. Red wine fits the theme well. Have themed cups and garnishes."
+  },
+  "guestCount": {
+    "value": 300,
+    "label": "300 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 864,
+    "unitsNeeded": 125,
+    "unitsDisplay": "pizzas",
+    "perPersonServings": 2.9,
+    "buffer": 17,
+    "rawUnits": 108,
+    "totalGuests": 300,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Pizza for 300 Guests Halloween Party? | 125 pizzas",
+    "description": "Need pizza for a 300-person halloween party? You'll need exactly 125 pizzas. Free calculator with pro tips for party planning.",
+    "h1": "How Much Pizza for a 300 Guests Halloween Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/pizza-for-halloween-party-300-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "300 guests × 80% eating rate",
+      "result": "240 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "240 eaters × 3 pizzas per person",
+      "result": "720 base servings",
+      "explanation": "As a main dish, plan for 3 pizzas per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply halloween party modifier",
+      "formula": "× 1.2 (+20% for pizza)",
+      "result": "864 pizzas needed",
+      "explanation": "Halloween Partys typically consume 20% more pizza than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to pizzas",
+      "formula": "864 pizzas ÷ 8 per pizza",
+      "result": "108 pizzas (raw)",
+      "explanation": "Each pizza provides 8 pizzas."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "108 × 1.15 = 124.2, rounded up",
+      "result": "125 pizzas",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Pizza",
+      "quantity": 125,
+      "unit": "pizzas",
+      "affiliateCategory": "pizza"
+    },
+    {
+      "name": "Paper plates",
+      "quantity": 450,
+      "unit": "plates",
+      "notes": "For slices and seconds"
+    },
+    {
+      "name": "Napkins",
+      "quantity": 900,
+      "unit": "napkins",
+      "notes": "Pizza is messy!"
+    },
+    {
+      "name": "Red pepper flakes",
+      "quantity": 2,
+      "unit": "shakers",
+      "notes": "Table condiment"
+    },
+    {
+      "name": "Parmesan cheese",
+      "quantity": 1,
+      "unit": "container",
+      "notes": "Grated for topping"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wings-for-halloween-party-300-guests",
+      "title": "Wings for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-halloween-party-300-guests",
+      "title": "Tacos for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-halloween-party-300-guests",
+      "title": "Sliders for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-halloween-party-300-guests",
+      "title": "Appetizers for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-halloween-party-300-guests",
+      "title": "BBQ/Pulled Pork for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "pizza-for-halloween-party-250-guests",
+      "title": "Pizza for Halloween Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-wedding-300-guests",
+      "title": "Pizza for Wedding (300 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "pizza-for-graduation-party-300-guests",
+      "title": "Pizza for Graduation Party (300 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "spirits-for-halloween-party-300-guests",
+      "title": "Spirits for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-halloween-party-300-guests",
+      "title": "Beer for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-halloween-party-300-guests",
+      "title": "Wine for Halloween Party (300 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

@@ -23,6 +23,22 @@
       "champagne": 1.4,
       "spirits": 1.15
     },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.8,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.5,
+      "bbq": 0.6
+    },
+    "foodTips": [
+      "Holiday appetizers should be elevated - cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected - have a dessert station with cookies and holiday candies.",
+      "Warm appetizers disappear 40% faster in winter - plan accordingly.",
+      "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
+      "If it's a potluck, assume 30% of guests will forget to bring something."
+    ],
+    "foodBuyingGuide": "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
     "proTips": [
       "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
       "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
@@ -138,8 +154,8 @@
       "relationship": "adjacent-guests"
     },
     {
-      "slug": "champagne-for-holiday-party-150-guests",
-      "title": "Champagne for Holiday Party (150 guests)",
+      "slug": "champagne-for-holiday-party-125-guests",
+      "title": "Champagne for Holiday Party (125 guests)",
       "relationship": "adjacent-guests"
     },
     {

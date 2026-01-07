@@ -23,6 +23,22 @@
       "champagne": 1.5,
       "spirits": 1
     },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.6,
+      "tacos": 0.8,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.9
+    },
+    "foodTips": [
+      "Plan 6-8 appetizer pieces per guest for a 1-hour cocktail hour before dinner.",
+      "Sliders are a late-night hit after dancing starts - plan 2 per guest for after 10pm.",
+      "If serving tacos, offer 3 protein options minimum for dietary variety.",
+      "Food trucks are trendy - plan 20% extra as guests tend to go back for seconds.",
+      "Passed appetizers disappear 40% faster than stationed ones - plan accordingly."
+    ],
+    "foodBuyingGuide": "For wedding receptions, appetizers during cocktail hour are essential. Plan 6-8 pieces per guest for a 1-hour cocktail hour. If you're doing late-night snacks (pizza, sliders, tacos), plan for 70% of guests still present to eat again around 10-11pm.",
     "proTips": [
       "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
       "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
@@ -138,8 +154,8 @@
       "relationship": "adjacent-guests"
     },
     {
-      "slug": "wine-for-wedding-150-guests",
-      "title": "Wine for Wedding (150 guests)",
+      "slug": "wine-for-wedding-125-guests",
+      "title": "Wine for Wedding (125 guests)",
       "relationship": "adjacent-guests"
     },
     {

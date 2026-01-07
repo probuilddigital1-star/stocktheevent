@@ -1,0 +1,212 @@
+{
+  "slug": "wings-for-holiday-party-20-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.8,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.5,
+      "bbq": 0.6
+    },
+    "foodTips": [
+      "Holiday appetizers should be elevated - cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected - have a dessert station with cookies and holiday candies.",
+      "Warm appetizers disappear 40% faster in winter - plan accordingly.",
+      "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
+      "If it's a potluck, assume 30% of guests will forget to bring something."
+    ],
+    "foodBuyingGuide": "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 20,
+    "label": "20 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 152,
+    "unitsNeeded": 18,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 7.6,
+    "buffer": 2,
+    "rawUnits": 15.2,
+    "totalGuests": 20,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 20 Guests Holiday Party? | 18 lbs",
+    "description": "Need wings for a 20-person holiday party? You'll need exactly 18 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 20 Guests Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-holiday-party-20-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "20 guests × 95% eating rate",
+      "result": "19 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "19 eaters × 10 pieces per person",
+      "result": "190 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply holiday party modifier",
+      "formula": "× 0.8 (-20% for wings)",
+      "result": "152 pieces needed",
+      "explanation": "Holiday Partys typically consume 20% less wings than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "152 pieces ÷ 10 per lb",
+      "result": "15.2 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "15.2 × 1.15 = 17.5, rounded up",
+      "result": "18 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 18,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 6,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 5,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 40,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 2,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-holiday-party-20-guests",
+      "title": "Pizza for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-holiday-party-20-guests",
+      "title": "Tacos for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-holiday-party-20-guests",
+      "title": "Sliders for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-holiday-party-20-guests",
+      "title": "Appetizers for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-holiday-party-20-guests",
+      "title": "BBQ/Pulled Pork for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-holiday-party-15-guests",
+      "title": "Wings for Holiday Party (15 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-holiday-party-25-guests",
+      "title": "Wings for Holiday Party (25 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-20-guests",
+      "title": "Wings for Wedding (20 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-graduation-party-20-guests",
+      "title": "Wings for Graduation Party (20 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-holiday-party-20-guests",
+      "title": "Champagne for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-holiday-party-20-guests",
+      "title": "Wine for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-20-guests",
+      "title": "Spirits for Holiday Party (20 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

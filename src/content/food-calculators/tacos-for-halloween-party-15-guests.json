@@ -1,0 +1,209 @@
+{
+  "slug": "tacos-for-halloween-party-15-guests",
+  "item": {
+    "id": "tacos",
+    "name": "Tacos",
+    "namePlural": "Tacos",
+    "emoji": "🌮",
+    "unit": "tacos",
+    "unitSingular": "taco",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "dozen",
+    "orderUnitSingular": "dozen",
+    "servingsPerOrderUnit": 12
+  },
+  "event": {
+    "id": "halloween",
+    "name": "Halloween Party",
+    "slug": "halloween-party",
+    "description": "Halloween costume party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.9,
+      "beer": 1.1,
+      "champagne": 0.4,
+      "spirits": 1.3
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 0.9,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.7
+    },
+    "foodTips": [
+      "Themed food is expected - deviled eggs, 'finger' foods, spooky presentation.",
+      "Sweet treats matter - have Halloween candy and themed desserts.",
+      "Costumes make eating difficult - finger foods only, nothing messy.",
+      "Purple, orange, and black food coloring elevates everything.",
+      "Dry ice in punch bowls is dramatic but keep it away from kids."
+    ],
+    "foodBuyingGuide": "Halloween parties are all about presentation. Themed appetizers with spooky names, finger foods that won't mess up costumes, and plenty of candy. Budget for presentation supplies like themed plates and decorations.",
+    "proTips": [
+      "Specialty cocktails with spooky names are a must - batch them ahead.",
+      "Dark spirits (whiskey, dark rum) fit the theme better than clear spirits.",
+      "Punch bowls with dry ice create amazing effects.",
+      "People in elaborate costumes drink slower - they don't want to spill.",
+      "Adult-only parties consume 40% more than family Halloween events."
+    ],
+    "buyingGuide": "Halloween parties are cocktail-heavy. Plan for 2-3 specialty cocktails per person plus regular bar options. Red wine fits the theme well. Have themed cups and garnishes."
+  },
+  "guestCount": {
+    "value": 15,
+    "label": "15 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 38,
+    "unitsNeeded": 4,
+    "unitsDisplay": "dozen",
+    "perPersonServings": 2.5,
+    "buffer": 0,
+    "rawUnits": 3.2,
+    "totalGuests": 15,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Tacos for 15 Guests Halloween Party? | 4 dozen",
+    "description": "Need tacos for a 15-person halloween party? You'll need exactly 4 dozen. Free calculator with pro tips for party planning.",
+    "h1": "How Much Tacos for a 15 Guests Halloween Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/tacos-for-halloween-party-15-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "15 guests × 95% eating rate",
+      "result": "14 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "14 eaters × 3 tacos per person",
+      "result": "42 base servings",
+      "explanation": "As a main dish, plan for 3 tacos per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply halloween party modifier",
+      "formula": "× 0.9 (-10% for tacos)",
+      "result": "38 tacos needed",
+      "explanation": "Halloween Partys typically consume 10% less tacos than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to dozen",
+      "formula": "38 tacos ÷ 12 per dozen",
+      "result": "3.2 dozen (raw)",
+      "explanation": "Each dozen provides 12 tacos."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "3.2 × 1.15 = 3.7, rounded up",
+      "result": "4 dozen",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Tacos",
+      "quantity": 4,
+      "unit": "dozen",
+      "affiliateCategory": "tacos"
+    },
+    {
+      "name": "Salsa",
+      "quantity": 2,
+      "unit": "jars",
+      "notes": "Mild and hot options"
+    },
+    {
+      "name": "Sour cream",
+      "quantity": 2,
+      "unit": "containers"
+    },
+    {
+      "name": "Lime wedges",
+      "quantity": 8,
+      "unit": "limes"
+    },
+    {
+      "name": "Cilantro",
+      "quantity": 1,
+      "unit": "bunches"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-halloween-party-15-guests",
+      "title": "Pizza for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-halloween-party-15-guests",
+      "title": "Wings for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-halloween-party-15-guests",
+      "title": "Sliders for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-halloween-party-15-guests",
+      "title": "Appetizers for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-halloween-party-15-guests",
+      "title": "BBQ/Pulled Pork for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-halloween-party-10-guests",
+      "title": "Tacos for Halloween Party (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "tacos-for-halloween-party-20-guests",
+      "title": "Tacos for Halloween Party (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "tacos-for-wedding-15-guests",
+      "title": "Tacos for Wedding (15 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "tacos-for-graduation-party-15-guests",
+      "title": "Tacos for Graduation Party (15 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "spirits-for-halloween-party-15-guests",
+      "title": "Spirits for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-halloween-party-15-guests",
+      "title": "Beer for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-halloween-party-15-guests",
+      "title": "Wine for Halloween Party (15 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

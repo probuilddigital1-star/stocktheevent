@@ -1,0 +1,172 @@
+{
+  "slug": "beer-for-march-madness-party-50-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "march-madness",
+    "name": "March Madness Party",
+    "slug": "march-madness-party",
+    "description": "March Madness basketball viewing party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.35,
+      "champagne": 0.4,
+      "spirits": 0.85
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.25,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.2,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Tournament games can run 2+ hours each - plan for sustained snacking, not a single meal.",
+      "Bracket pools mean people arrive at different times - keep food stations refreshed.",
+      "Wings and pizza are the classic combo - plan for both.",
+      "Overtime games increase consumption by 25% - have backup food ready.",
+      "Multiple TV setups mean multiple food stations - don't make people miss the game."
+    ],
+    "foodBuyingGuide": "March Madness is similar to Super Bowl but spread over multiple games. Wings, pizza, and shareable appetizers are ideal. Plan 8-10 wings and 2-3 pizza slices per person per game session.",
+    "proTips": [
+      "Games run back-to-back during opening weekend - people may stay 6-8 hours.",
+      "Stock light beers for marathon watching sessions.",
+      "Multiple games mean multiple peaks - don't front-load everything.",
+      "Have non-alcoholic options for designated drivers and early bracket busts.",
+      "Weekend games have 30% higher consumption than weekday games."
+    ],
+    "buyingGuide": "March Madness parties are beer-heavy but lighter than Super Bowl (longer duration, people pace themselves). Stock 70% light beers. Have coolers at every TV location. Plan 4-5 beers per person for a 4-hour session."
+  },
+  "guestCount": {
+    "value": 50,
+    "label": "50 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 247,
+    "unitsNeeded": 12,
+    "unitsDisplay": "cases",
+    "perPersonServings": 4.9,
+    "buffer": 1,
+    "rawUnits": 10.3,
+    "actualDrinkers": 38
+  },
+  "meta": {
+    "title": "How Much Beer for 50 Guest March Madness Party? | 12 cases",
+    "description": "Need beer for a 50-person march madness party? You'll need exactly 12 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 50 Guest March Madness Party?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-march-madness-party-50-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "50 guests × 75% drinking rate",
+      "result": "38 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "38 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "228 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "185 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply march madness party modifier",
+      "formula": "× 1.35 (+35% for beer)",
+      "result": "247 beer servings needed",
+      "explanation": "March Madness Partys typically consume 35% more beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "247 servings ÷ 24 servings per case",
+      "result": "10.3 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "10.3 × 1.15 = 11.8, rounded up",
+      "result": "12 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 12,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 144,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 6,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-march-madness-party-50-guests",
+      "title": "Wine for March Madness Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-march-madness-party-50-guests",
+      "title": "Champagne for March Madness Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-march-madness-party-50-guests",
+      "title": "Spirits for March Madness Party (50 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-march-madness-party-40-guests",
+      "title": "Beer for March Madness Party (40 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-march-madness-party-75-guests",
+      "title": "Beer for March Madness Party (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-50-guests",
+      "title": "Beer for Wedding (50 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-50-guests",
+      "title": "Beer for Graduation Party (50 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "slug": "wine-for-halloween-party-25-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "halloween",
+    "name": "Halloween Party",
+    "slug": "halloween-party",
+    "description": "Halloween costume party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.9,
+      "beer": 1.1,
+      "champagne": 0.4,
+      "spirits": 1.3
+    },
+    "foodModifiers": {
+      "pizza": 1.2,
+      "wings": 1,
+      "tacos": 0.9,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.7
+    },
+    "foodTips": [
+      "Themed food is expected - deviled eggs, 'finger' foods, spooky presentation.",
+      "Sweet treats matter - have Halloween candy and themed desserts.",
+      "Costumes make eating difficult - finger foods only, nothing messy.",
+      "Purple, orange, and black food coloring elevates everything.",
+      "Dry ice in punch bowls is dramatic but keep it away from kids."
+    ],
+    "foodBuyingGuide": "Halloween parties are all about presentation. Themed appetizers with spooky names, finger foods that won't mess up costumes, and plenty of candy. Budget for presentation supplies like themed plates and decorations.",
+    "proTips": [
+      "Specialty cocktails with spooky names are a must - batch them ahead.",
+      "Dark spirits (whiskey, dark rum) fit the theme better than clear spirits.",
+      "Punch bowls with dry ice create amazing effects.",
+      "People in elaborate costumes drink slower - they don't want to spill.",
+      "Adult-only parties consume 40% more than family Halloween events."
+    ],
+    "buyingGuide": "Halloween parties are cocktail-heavy. Plan for 2-3 specialty cocktails per person plus regular bar options. Red wine fits the theme well. Have themed cups and garnishes."
+  },
+  "guestCount": {
+    "value": 25,
+    "label": "25 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 88,
+    "unitsNeeded": 21,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 3.5,
+    "buffer": 3,
+    "rawUnits": 17.6,
+    "actualDrinkers": 20
+  },
+  "meta": {
+    "title": "How Much Wine for 25 Guest Halloween Party? | 21 bottles",
+    "description": "Need wine for a 25-person halloween party? You'll need exactly 21 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 25 Guest Halloween Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-halloween-party-25-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "25 guests × 80% drinking rate",
+      "result": "20 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "20 drinkers × 1.5 drinks/hour × 4 hours",
+      "result": "120 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 4-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.25)",
+      "result": "98 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply halloween party modifier",
+      "formula": "× 0.9 (-10% for wine)",
+      "result": "88 wine servings needed",
+      "explanation": "Halloween Partys typically consume 10% less wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "88 servings ÷ 5 servings per bottle",
+      "result": "17.6 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "17.6 × 1.15 = 20.2, rounded up",
+      "result": "21 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 21,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 40,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-halloween-party-25-guests",
+      "title": "Beer for Halloween Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-halloween-party-25-guests",
+      "title": "Champagne for Halloween Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-halloween-party-25-guests",
+      "title": "Spirits for Halloween Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-halloween-party-20-guests",
+      "title": "Wine for Halloween Party (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-halloween-party-30-guests",
+      "title": "Wine for Halloween Party (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-25-guests",
+      "title": "Wine for Wedding (25 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-25-guests",
+      "title": "Wine for Graduation Party (25 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -9,7 +9,18 @@ export interface Item {
   unitSingular: string;
   servingsPerUnit: number;
   category: 'beverage' | 'food';
-  subcategory?: 'alcohol' | 'non-alcohol' | 'appetizer' | 'main';
+  subcategory?: 'alcohol' | 'non-alcohol' | 'appetizer' | 'main' | 'side';
+}
+
+// Extended food item with additional properties for food calculations
+export interface FoodItem extends Item {
+  servingsPerPerson: number;      // How many servings per person (as main dish)
+  servingsPerPersonSide: number;  // How many servings per person (as side/appetizer)
+  unitsPerServing: number;        // How many pieces/oz per serving
+  unitType: 'count' | 'weight';   // Whether measured by count or weight
+  orderUnit: string;              // What you order (pizzas, lbs, dozen)
+  orderUnitSingular: string;      // Singular order unit
+  servingsPerOrderUnit: number;   // Servings per order unit
 }
 
 export interface EventType {
@@ -78,4 +89,59 @@ export interface CalculatorPage {
   mathExplanation: MathStep[];
   shoppingList: ShoppingItem[];
   relatedPages: RelatedPage[];
+}
+
+// =============================================================================
+// FOOD-SPECIFIC TYPES
+// =============================================================================
+
+export interface FoodCalculationResult {
+  totalServings: number;          // Total servings needed
+  unitsNeeded: number;            // Units to order (pizzas, lbs, dozens)
+  unitsDisplay: string;           // Display unit (plural/singular)
+  perPersonServings: number;      // Servings per person
+  buffer: number;                 // Buffer units added
+  rawUnits: number;               // Units before buffer
+  totalGuests: number;            // Total guests
+  isMainDish: boolean;            // Whether calculating as main or side
+}
+
+export interface FoodCalculatorPage {
+  slug: string;
+  item: FoodItem;
+  event: EventType;
+  guestCount: GuestCount;
+  calculation: FoodCalculationResult;
+  meta: PageMeta;
+  mathExplanation: MathStep[];
+  shoppingList: ShoppingItem[];
+  relatedPages: RelatedPage[];
+  relatedDrinks: RelatedPage[];   // Cross-links to drink calculators
+}
+
+// =============================================================================
+// SEASONAL LANDING PAGE TYPES
+// =============================================================================
+
+export interface AffiliateProduct {
+  name: string;
+  searchTerm: string;
+  emoji: string;
+}
+
+export interface SeasonalEvent {
+  slug: string;
+  title: string;
+  metaTitle: string;
+  metaDescription: string;
+  h1: string;
+  subhead: string;
+  eventType: string;              // Maps to event.id
+  featuredDrinks: string[];       // Item IDs
+  featuredFoods: string[];        // Food item IDs
+  emoji: string;
+  seasonalTips: string[];
+  affiliateProducts: AffiliateProduct[];
+  peakMonths: string[];
+  year: number;
 }

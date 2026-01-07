@@ -1,0 +1,183 @@
+{
+  "slug": "spirits-for-corporate-event-15-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "foodModifiers": {
+      "pizza": 0.6,
+      "wings": 0.5,
+      "tacos": 0.7,
+      "sliders": 0.9,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant finger foods that don't require utensils or create mess are ideal.",
+      "Vegetarian and dietary options are essential - plan 30% of your spread as veg-friendly.",
+      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Evening events consume 25% more food than lunch events.",
+      "Avoid foods that stain (red sauces, turmeric) - people are in work clothes."
+    ],
+    "foodBuyingGuide": "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 15,
+    "label": "15 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 33,
+    "unitsNeeded": 3,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 2.2,
+    "buffer": 1,
+    "rawUnits": 1.9,
+    "actualDrinkers": 12
+  },
+  "meta": {
+    "title": "How Much Spirits for 15 Guest Corporate Event? | 3 bottles",
+    "description": "Need spirits for a 15-person corporate event? You'll need exactly 3 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 15 Guest Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-corporate-event-15-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "15 guests × 80% drinking rate",
+      "result": "12 drinkers",
+      "explanation": "At small events, about 80% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "12 drinkers × 1.5 drinks/hour × 3 hours",
+      "result": "54 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 3-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 2.65)",
+      "result": "48 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.7 (-30% for spirits)",
+      "result": "33 spirits servings needed",
+      "explanation": "Corporate Events typically consume 30% less spirits than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "33 servings ÷ 17 servings per bottle",
+      "result": "1.9 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "1.9 × 1.15 = 2.2, rounded up",
+      "result": "3 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 3,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 11,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 24,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 24,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 5,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-corporate-event-15-guests",
+      "title": "Wine for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-15-guests",
+      "title": "Beer for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-15-guests",
+      "title": "Champagne for Corporate Event (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-corporate-event-10-guests",
+      "title": "Spirits for Corporate Event (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-corporate-event-20-guests",
+      "title": "Spirits for Corporate Event (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-15-guests",
+      "title": "Spirits for Wedding (15 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-15-guests",
+      "title": "Spirits for Graduation Party (15 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

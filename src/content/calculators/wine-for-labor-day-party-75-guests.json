@@ -1,0 +1,172 @@
+{
+  "slug": "wine-for-labor-day-party-75-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "labor-day",
+    "name": "Labor Day Party",
+    "slug": "labor-day-party",
+    "description": "Labor Day end of summer celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.7,
+      "beer": 1.3,
+      "champagne": 0.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 1,
+      "tacos": 1.1,
+      "sliders": 1.3,
+      "appetizers": 1,
+      "bbq": 1.4
+    },
+    "foodTips": [
+      "Last cookout of summer - make it count with premium BBQ.",
+      "Weather can be unpredictable - have an indoor backup plan for food.",
+      "Pool parties need poolside snacks that won't blow away.",
+      "Kids go back to school soon - family-friendly food is key.",
+      "Leftovers are expected - plan portions with next-day sandwiches in mind."
+    ],
+    "foodBuyingGuide": "Similar to 4th of July but slightly more relaxed. BBQ, grilled foods, and summer salads are perfect. This is often the last outdoor party of the year, so people tend to indulge a bit more.",
+    "proTips": [
+      "End of summer means people are ready to indulge one last time.",
+      "Weather can vary - have backup plans for rain.",
+      "Pool parties need drinks near the pool AND inside.",
+      "It's often slightly cooler than July - ice lasts longer.",
+      "Monday holiday means people may drink a bit more than usual."
+    ],
+    "buyingGuide": "Similar to 4th of July but slightly higher consumption as people celebrate the end of summer. Plan 5-6 drinks per person with heavy beer emphasis."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 221,
+    "unitsNeeded": 51,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 2.9,
+    "buffer": 6,
+    "rawUnits": 44.2,
+    "actualDrinkers": 56
+  },
+  "meta": {
+    "title": "How Much Wine for 75 Guest Labor Day Party? | 51 bottles",
+    "description": "Need wine for a 75-person labor day party? You'll need exactly 51 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 75 Guest Labor Day Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-labor-day-party-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "75 guests × 75% drinking rate",
+      "result": "56 drinkers",
+      "explanation": "At medium events, about 75% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "56 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "420 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "315 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply labor day party modifier",
+      "formula": "× 0.7 (-30% for wine)",
+      "result": "221 wine servings needed",
+      "explanation": "Labor Day Partys typically consume 30% less wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "221 servings ÷ 5 servings per bottle",
+      "result": "44.2 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "44.2 × 1.15 = 50.8, rounded up",
+      "result": "51 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 51,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 112,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-labor-day-party-75-guests",
+      "title": "Beer for Labor Day Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-labor-day-party-75-guests",
+      "title": "Champagne for Labor Day Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-labor-day-party-75-guests",
+      "title": "Spirits for Labor Day Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-labor-day-party-50-guests",
+      "title": "Wine for Labor Day Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-labor-day-party-100-guests",
+      "title": "Wine for Labor Day Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-75-guests",
+      "title": "Wine for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-75-guests",
+      "title": "Wine for Graduation Party (75 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

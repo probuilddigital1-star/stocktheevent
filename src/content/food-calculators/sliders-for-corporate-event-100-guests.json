@@ -1,0 +1,211 @@
+{
+  "slug": "sliders-for-corporate-event-100-guests",
+  "item": {
+    "id": "sliders",
+    "name": "Sliders",
+    "namePlural": "Sliders",
+    "emoji": "🍔",
+    "unit": "sliders",
+    "unitSingular": "slider",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "dozen",
+    "orderUnitSingular": "dozen",
+    "servingsPerOrderUnit": 12
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "foodModifiers": {
+      "pizza": 0.6,
+      "wings": 0.5,
+      "tacos": 0.7,
+      "sliders": 0.9,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant finger foods that don't require utensils or create mess are ideal.",
+      "Vegetarian and dietary options are essential - plan 30% of your spread as veg-friendly.",
+      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Evening events consume 25% more food than lunch events.",
+      "Avoid foods that stain (red sauces, turmeric) - people are in work clothes."
+    ],
+    "foodBuyingGuide": "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 100,
+    "label": "100 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 230,
+    "unitsNeeded": 23,
+    "unitsDisplay": "dozen",
+    "perPersonServings": 2.3,
+    "buffer": 3,
+    "rawUnits": 19.2,
+    "totalGuests": 100,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Sliders for 100 Guests Corporate Event? | 23 dozen",
+    "description": "Need sliders for a 100-person corporate event? You'll need exactly 23 dozen. Free calculator with pro tips for party planning.",
+    "h1": "How Much Sliders for a 100 Guests Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/food/sliders-for-corporate-event-100-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "100 guests × 85% eating rate",
+      "result": "85 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "85 eaters × 3 sliders per person",
+      "result": "255 base servings",
+      "explanation": "As a main dish, plan for 3 sliders per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.9 (-10% for sliders)",
+      "result": "230 sliders needed",
+      "explanation": "Corporate Events typically consume 10% less sliders than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to dozen",
+      "formula": "230 sliders ÷ 12 per dozen",
+      "result": "19.2 dozen (raw)",
+      "explanation": "Each dozen provides 12 sliders."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "19.2 × 1.15 = 22.1, rounded up",
+      "result": "23 dozen",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Sliders",
+      "quantity": 23,
+      "unit": "dozen",
+      "affiliateCategory": "sliders"
+    },
+    {
+      "name": "Slider buns",
+      "quantity": 23,
+      "unit": "buns",
+      "notes": "Match to patties"
+    },
+    {
+      "name": "Cheese slices",
+      "quantity": 23,
+      "unit": "slices",
+      "notes": "American or cheddar"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 10,
+      "unit": "jars",
+      "notes": "Sliced for burgers"
+    },
+    {
+      "name": "Ketchup/Mustard",
+      "quantity": 2,
+      "unit": "bottles"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-corporate-event-100-guests",
+      "title": "Pizza for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-corporate-event-100-guests",
+      "title": "Wings for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-corporate-event-100-guests",
+      "title": "Tacos for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-corporate-event-100-guests",
+      "title": "Appetizers for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-corporate-event-100-guests",
+      "title": "BBQ/Pulled Pork for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-corporate-event-75-guests",
+      "title": "Sliders for Corporate Event (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "sliders-for-corporate-event-125-guests",
+      "title": "Sliders for Corporate Event (125 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "sliders-for-wedding-100-guests",
+      "title": "Sliders for Wedding (100 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "sliders-for-graduation-party-100-guests",
+      "title": "Sliders for Graduation Party (100 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-corporate-event-100-guests",
+      "title": "Wine for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-100-guests",
+      "title": "Champagne for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-100-guests",
+      "title": "Beer for Corporate Event (100 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "slug": "wine-for-super-bowl-party-125-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "super-bowl",
+    "name": "Super Bowl Party",
+    "slug": "super-bowl-party",
+    "description": "Super Bowl viewing party",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.4,
+      "champagne": 0.4,
+      "spirits": 0.8
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.3,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.3,
+      "bbq": 1.1
+    },
+    "foodTips": [
+      "40% of all food is consumed during the first quarter - front-load your spread.",
+      "Wings are the #1 Super Bowl food - err on the side of too many.",
+      "Set up a separate kids station if families are coming - they eat differently.",
+      "Prep dips in slow cookers - they stay warm and free up oven space.",
+      "Use halftime to refresh ALL food stations - you have exactly 25 minutes."
+    ],
+    "foodBuyingGuide": "Super Bowl is the biggest food day of the year after Thanksgiving. Plan 10-12 wings per person, 3 slices of pizza, and plenty of chips and dip. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
+    "proTips": [
+      "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
+      "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
+      "Use halftime to restock ALL coolers - you have exactly 25 minutes.",
+      "Heavy food like wings and nachos reduces alcohol consumption by 15%.",
+      "Light beers disappear fastest - they're easier to drink during a 4-hour game."
+    ],
+    "buyingGuide": "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 246,
+    "unitsNeeded": 57,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 2,
+    "buffer": 7,
+    "rawUnits": 49.2,
+    "actualDrinkers": 88
+  },
+  "meta": {
+    "title": "How Much Wine for 125 Guest Super Bowl Party? | 57 bottles",
+    "description": "Need wine for a 125-person super bowl party? You'll need exactly 57 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 125 Guest Super Bowl Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-super-bowl-party-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "125 guests × 70% drinking rate",
+      "result": "88 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "88 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "660 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "495 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply super bowl party modifier",
+      "formula": "× 0.5 (-50% for wine)",
+      "result": "246 wine servings needed",
+      "explanation": "Super Bowl Partys typically consume 50% less wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "246 servings ÷ 5 servings per bottle",
+      "result": "49.2 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "49.2 × 1.15 = 56.6, rounded up",
+      "result": "57 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 57,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 176,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-super-bowl-party-125-guests",
+      "title": "Beer for Super Bowl Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-super-bowl-party-125-guests",
+      "title": "Champagne for Super Bowl Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-super-bowl-party-125-guests",
+      "title": "Spirits for Super Bowl Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-super-bowl-party-100-guests",
+      "title": "Wine for Super Bowl Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-super-bowl-party-150-guests",
+      "title": "Wine for Super Bowl Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-125-guests",
+      "title": "Wine for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-125-guests",
+      "title": "Wine for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

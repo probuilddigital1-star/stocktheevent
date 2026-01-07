@@ -1,0 +1,212 @@
+{
+  "slug": "pizza-for-corporate-event-125-guests",
+  "item": {
+    "id": "pizza",
+    "name": "Pizza",
+    "namePlural": "Pizzas",
+    "emoji": "🍕",
+    "unit": "pizzas",
+    "unitSingular": "pizza",
+    "servingsPerUnit": 8,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "pizzas",
+    "orderUnitSingular": "pizza",
+    "servingsPerOrderUnit": 8
+  },
+  "event": {
+    "id": "corporate",
+    "name": "Corporate Event",
+    "slug": "corporate-event",
+    "description": "Professional corporate gathering",
+    "defaultDuration": 3,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.85,
+      "champagne": 1,
+      "spirits": 0.7
+    },
+    "foodModifiers": {
+      "pizza": 0.6,
+      "wings": 0.5,
+      "tacos": 0.7,
+      "sliders": 0.9,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant finger foods that don't require utensils or create mess are ideal.",
+      "Vegetarian and dietary options are essential - plan 30% of your spread as veg-friendly.",
+      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Evening events consume 25% more food than lunch events.",
+      "Avoid foods that stain (red sauces, turmeric) - people are in work clothes."
+    ],
+    "foodBuyingGuide": "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
+    "proTips": [
+      "Most corporate guests self-limit to 2 drinks max - don't over-order.",
+      "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
+      "40% of corporate guests leave within 90 minutes - peak consumption is minutes 15-60.",
+      "Weekday events consume 35% less than Friday events.",
+      "Always have premium non-alcoholic options prominently displayed."
+    ],
+    "buyingGuide": "Focus on quality over quantity for corporate events. Stock premium wines and craft options rather than bulk quantities. Have elegant non-alcoholic options visible - many professionals choose not to drink at work functions. A sophisticated sparkling water with citrus is always appreciated."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 191,
+    "unitsNeeded": 28,
+    "unitsDisplay": "pizzas",
+    "perPersonServings": 1.5,
+    "buffer": 4,
+    "rawUnits": 23.9,
+    "totalGuests": 125,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Pizza for 125 Guests Corporate Event? | 28 pizzas",
+    "description": "Need pizza for a 125-person corporate event? You'll need exactly 28 pizzas. Free calculator with pro tips for party planning.",
+    "h1": "How Much Pizza for a 125 Guests Corporate Event?",
+    "canonicalUrl": "https://stocktheevent.com/food/pizza-for-corporate-event-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "125 guests × 85% eating rate",
+      "result": "106 eaters",
+      "explanation": "At large events, about 85% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "106 eaters × 3 pizzas per person",
+      "result": "318 base servings",
+      "explanation": "As a main dish, plan for 3 pizzas per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply corporate event modifier",
+      "formula": "× 0.6 (-40% for pizza)",
+      "result": "191 pizzas needed",
+      "explanation": "Corporate Events typically consume 40% less pizza than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to pizzas",
+      "formula": "191 pizzas ÷ 8 per pizza",
+      "result": "23.9 pizzas (raw)",
+      "explanation": "Each pizza provides 8 pizzas."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "23.9 × 1.15 = 27.5, rounded up",
+      "result": "28 pizzas",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Pizza",
+      "quantity": 28,
+      "unit": "pizzas",
+      "affiliateCategory": "pizza"
+    },
+    {
+      "name": "Paper plates",
+      "quantity": 188,
+      "unit": "plates",
+      "notes": "For slices and seconds"
+    },
+    {
+      "name": "Napkins",
+      "quantity": 375,
+      "unit": "napkins",
+      "notes": "Pizza is messy!"
+    },
+    {
+      "name": "Red pepper flakes",
+      "quantity": 2,
+      "unit": "shakers",
+      "notes": "Table condiment"
+    },
+    {
+      "name": "Parmesan cheese",
+      "quantity": 1,
+      "unit": "container",
+      "notes": "Grated for topping"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wings-for-corporate-event-125-guests",
+      "title": "Wings for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-corporate-event-125-guests",
+      "title": "Tacos for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-corporate-event-125-guests",
+      "title": "Sliders for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-corporate-event-125-guests",
+      "title": "Appetizers for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-corporate-event-125-guests",
+      "title": "BBQ/Pulled Pork for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "pizza-for-corporate-event-100-guests",
+      "title": "Pizza for Corporate Event (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-corporate-event-150-guests",
+      "title": "Pizza for Corporate Event (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-wedding-125-guests",
+      "title": "Pizza for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "pizza-for-graduation-party-125-guests",
+      "title": "Pizza for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-corporate-event-125-guests",
+      "title": "Wine for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-corporate-event-125-guests",
+      "title": "Champagne for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-corporate-event-125-guests",
+      "title": "Beer for Corporate Event (125 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

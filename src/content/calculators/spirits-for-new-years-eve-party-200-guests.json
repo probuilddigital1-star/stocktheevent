@@ -1,0 +1,183 @@
+{
+  "slug": "spirits-for-new-years-eve-party-200-guests",
+  "item": {
+    "id": "spirits",
+    "name": "Spirits",
+    "namePlural": "Spirits",
+    "emoji": "🥃",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 17,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 200,
+    "label": "200 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 878,
+    "unitsNeeded": 60,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.4,
+    "buffer": 8,
+    "rawUnits": 51.6,
+    "actualDrinkers": 130
+  },
+  "meta": {
+    "title": "How Much Spirits for 200 Guest New Year's Eve Party? | 60 bottles",
+    "description": "Need spirits for a 200-person new year's eve party? You'll need exactly 60 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Spirits for a 200 Guest New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/spirits-for-new-years-eve-party-200-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "200 guests × 65% drinking rate",
+      "result": "130 drinkers",
+      "explanation": "At xlarge events, about 65% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "130 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "975 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "731 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 1.2 (+20% for spirits)",
+      "result": "878 spirits servings needed",
+      "explanation": "New Year's Eve Partys typically consume 20% more spirits than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "878 servings ÷ 17 servings per bottle",
+      "result": "51.6 bottles (raw)",
+      "explanation": "Each bottle of spirits provides 17 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "51.6 × 1.15 = 59.3, rounded up",
+      "result": "60 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Spirits",
+      "quantity": 60,
+      "unit": "bottles",
+      "affiliateCategory": "spirits"
+    },
+    {
+      "name": "Mixers (soda, tonic, juice)",
+      "quantity": 293,
+      "unit": "liters",
+      "notes": "Variety is key"
+    },
+    {
+      "name": "Ice",
+      "quantity": 260,
+      "unit": "lbs",
+      "notes": "~2 lbs per person"
+    },
+    {
+      "name": "Cocktail glasses",
+      "quantity": 260,
+      "unit": "glasses",
+      "notes": "2 per drinker"
+    },
+    {
+      "name": "Garnishes (limes, lemons)",
+      "quantity": 110,
+      "unit": "pieces"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-new-years-eve-party-200-guests",
+      "title": "Wine for New Year's Eve Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-new-years-eve-party-200-guests",
+      "title": "Beer for New Year's Eve Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-new-years-eve-party-200-guests",
+      "title": "Champagne for New Year's Eve Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-150-guests",
+      "title": "Spirits for New Year's Eve Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-250-guests",
+      "title": "Spirits for New Year's Eve Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "spirits-for-wedding-200-guests",
+      "title": "Spirits for Wedding (200 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "spirits-for-graduation-party-200-guests",
+      "title": "Spirits for Graduation Party (200 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

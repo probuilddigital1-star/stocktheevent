@@ -1,0 +1,211 @@
+{
+  "slug": "bbq-for-thanksgiving-15-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "thanksgiving",
+    "name": "Thanksgiving",
+    "slug": "thanksgiving",
+    "description": "Thanksgiving dinner celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.3,
+      "beer": 0.8,
+      "champagne": 0.9,
+      "spirits": 0.9
+    },
+    "foodModifiers": {
+      "pizza": 0.3,
+      "wings": 0.4,
+      "tacos": 0.3,
+      "sliders": 0.5,
+      "appetizers": 1.2,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Turkey is 1-1.5 lbs per person (includes bone weight).",
+      "Appetizers before dinner should be light - 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Dessert is non-negotiable - 1 pie per 6-8 guests.",
+      "Leftovers are part of Thanksgiving - plan for turkey sandwiches."
+    ],
+    "foodBuyingGuide": "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    "proTips": [
+      "Wine consumption peaks during dinner - have bottles ready at the table.",
+      "Pre-dinner cocktails should be light so people can enjoy the meal.",
+      "After-dinner drinks (port, brandy) are a nice touch.",
+      "Football watching = beer in the afternoon before dinner.",
+      "Designated drivers are essential - plan non-alcoholic options."
+    ],
+    "buyingGuide": "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy."
+  },
+  "guestCount": {
+    "value": 15,
+    "label": "15 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 7,
+    "unitsNeeded": 3,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.5,
+    "buffer": 0,
+    "rawUnits": 2.3,
+    "totalGuests": 15,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 15 Guests Thanksgiving? | 3 lbs",
+    "description": "Need bbq/pulled pork for a 15-person thanksgiving? You'll need exactly 3 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 15 Guests Thanksgiving?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-thanksgiving-15-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "15 guests × 95% eating rate",
+      "result": "14 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "14 eaters × 1 pieces per person",
+      "result": "14 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply thanksgiving modifier",
+      "formula": "× 0.5 (-50% for bbq/pulled pork)",
+      "result": "7 pieces needed",
+      "explanation": "Thanksgivings typically consume 50% less bbq/pulled pork than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "7 pieces ÷ 3 per lb",
+      "result": "2.3 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "2.3 × 1.15 = 2.6, rounded up",
+      "result": "3 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 3,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 9,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 1,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 4,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 1,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-thanksgiving-15-guests",
+      "title": "Pizza for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-thanksgiving-15-guests",
+      "title": "Wings for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-thanksgiving-15-guests",
+      "title": "Tacos for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-thanksgiving-15-guests",
+      "title": "Sliders for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-thanksgiving-15-guests",
+      "title": "Appetizers for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-10-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (10 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-thanksgiving-20-guests",
+      "title": "BBQ/Pulled Pork for Thanksgiving (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-15-guests",
+      "title": "BBQ/Pulled Pork for Wedding (15 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-graduation-party-15-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (15 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "wine-for-thanksgiving-15-guests",
+      "title": "Wine for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-thanksgiving-15-guests",
+      "title": "Champagne for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-thanksgiving-15-guests",
+      "title": "Spirits for Thanksgiving (15 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

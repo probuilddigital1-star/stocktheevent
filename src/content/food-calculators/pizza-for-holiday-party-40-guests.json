@@ -1,0 +1,212 @@
+{
+  "slug": "pizza-for-holiday-party-40-guests",
+  "item": {
+    "id": "pizza",
+    "name": "Pizza",
+    "namePlural": "Pizzas",
+    "emoji": "🍕",
+    "unit": "pizzas",
+    "unitSingular": "pizza",
+    "servingsPerUnit": 8,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "pizzas",
+    "orderUnitSingular": "pizza",
+    "servingsPerOrderUnit": 8
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.8,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.5,
+      "bbq": 0.6
+    },
+    "foodTips": [
+      "Holiday appetizers should be elevated - cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected - have a dessert station with cookies and holiday candies.",
+      "Warm appetizers disappear 40% faster in winter - plan accordingly.",
+      "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
+      "If it's a potluck, assume 30% of guests will forget to bring something."
+    ],
+    "foodBuyingGuide": "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 40,
+    "label": "40 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 76,
+    "unitsNeeded": 11,
+    "unitsDisplay": "pizzas",
+    "perPersonServings": 1.9,
+    "buffer": 1,
+    "rawUnits": 9.5,
+    "totalGuests": 40,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Pizza for 40 Guests Holiday Party? | 11 pizzas",
+    "description": "Need pizza for a 40-person holiday party? You'll need exactly 11 pizzas. Free calculator with pro tips for party planning.",
+    "h1": "How Much Pizza for a 40 Guests Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/pizza-for-holiday-party-40-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "40 guests × 90% eating rate",
+      "result": "36 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "36 eaters × 3 pizzas per person",
+      "result": "108 base servings",
+      "explanation": "As a main dish, plan for 3 pizzas per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply holiday party modifier",
+      "formula": "× 0.7 (-30% for pizza)",
+      "result": "76 pizzas needed",
+      "explanation": "Holiday Partys typically consume 30% less pizza than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to pizzas",
+      "formula": "76 pizzas ÷ 8 per pizza",
+      "result": "9.5 pizzas (raw)",
+      "explanation": "Each pizza provides 8 pizzas."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "9.5 × 1.15 = 10.9, rounded up",
+      "result": "11 pizzas",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Pizza",
+      "quantity": 11,
+      "unit": "pizzas",
+      "affiliateCategory": "pizza"
+    },
+    {
+      "name": "Paper plates",
+      "quantity": 60,
+      "unit": "plates",
+      "notes": "For slices and seconds"
+    },
+    {
+      "name": "Napkins",
+      "quantity": 120,
+      "unit": "napkins",
+      "notes": "Pizza is messy!"
+    },
+    {
+      "name": "Red pepper flakes",
+      "quantity": 2,
+      "unit": "shakers",
+      "notes": "Table condiment"
+    },
+    {
+      "name": "Parmesan cheese",
+      "quantity": 1,
+      "unit": "container",
+      "notes": "Grated for topping"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wings-for-holiday-party-40-guests",
+      "title": "Wings for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-holiday-party-40-guests",
+      "title": "Tacos for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-holiday-party-40-guests",
+      "title": "Sliders for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-holiday-party-40-guests",
+      "title": "Appetizers for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-holiday-party-40-guests",
+      "title": "BBQ/Pulled Pork for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "pizza-for-holiday-party-30-guests",
+      "title": "Pizza for Holiday Party (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-holiday-party-50-guests",
+      "title": "Pizza for Holiday Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "pizza-for-wedding-40-guests",
+      "title": "Pizza for Wedding (40 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "pizza-for-graduation-party-40-guests",
+      "title": "Pizza for Graduation Party (40 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-holiday-party-40-guests",
+      "title": "Champagne for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-holiday-party-40-guests",
+      "title": "Wine for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-40-guests",
+      "title": "Spirits for Holiday Party (40 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "slug": "wings-for-new-years-eve-party-250-guests",
+  "item": {
+    "id": "wings",
+    "name": "Wings",
+    "namePlural": "Wings",
+    "emoji": "🍗",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 10,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 10,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 10
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 250,
+    "label": "250 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 1400,
+    "unitsNeeded": 161,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 5.6,
+    "buffer": 21,
+    "rawUnits": 140,
+    "totalGuests": 250,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Wings for 250 Guests New Year's Eve Party? | 161 lbs",
+    "description": "Need wings for a 250-person new year's eve party? You'll need exactly 161 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much Wings for a 250 Guests New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/wings-for-new-years-eve-party-250-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "250 guests × 80% eating rate",
+      "result": "200 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "200 eaters × 10 pieces per person",
+      "result": "2000 base servings",
+      "explanation": "As a main dish, plan for 10 pieces per person (~1.0 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 0.7 (-30% for wings)",
+      "result": "1400 pieces needed",
+      "explanation": "New Year's Eve Partys typically consume 30% less wings than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "1400 pieces ÷ 10 per lb",
+      "result": "140 lbs (raw)",
+      "explanation": "Each lb provides 10 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "140 × 1.15 = 161.0, rounded up",
+      "result": "161 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wings",
+      "quantity": 161,
+      "unit": "lbs",
+      "affiliateCategory": "wings"
+    },
+    {
+      "name": "Ranch/Blue cheese dressing",
+      "quantity": 54,
+      "unit": "bottles",
+      "notes": "Essential for wings"
+    },
+    {
+      "name": "Celery sticks",
+      "quantity": 63,
+      "unit": "bunches",
+      "notes": "Classic pairing"
+    },
+    {
+      "name": "Wet wipes",
+      "quantity": 500,
+      "unit": "wipes",
+      "notes": "Wing fingers!"
+    },
+    {
+      "name": "Warming trays",
+      "quantity": 17,
+      "unit": "trays",
+      "notes": "Keep wings hot"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-new-years-eve-party-250-guests",
+      "title": "Pizza for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-new-years-eve-party-250-guests",
+      "title": "Tacos for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-new-years-eve-party-250-guests",
+      "title": "Sliders for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-new-years-eve-party-250-guests",
+      "title": "Appetizers for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-new-years-eve-party-250-guests",
+      "title": "BBQ/Pulled Pork for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-new-years-eve-party-200-guests",
+      "title": "Wings for New Year's Eve Party (200 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-new-years-eve-party-300-guests",
+      "title": "Wings for New Year's Eve Party (300 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wings-for-wedding-250-guests",
+      "title": "Wings for Wedding (250 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wings-for-graduation-party-250-guests",
+      "title": "Wings for Graduation Party (250 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-new-years-eve-party-250-guests",
+      "title": "Champagne for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-250-guests",
+      "title": "Spirits for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-new-years-eve-party-250-guests",
+      "title": "Wine for New Year's Eve Party (250 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

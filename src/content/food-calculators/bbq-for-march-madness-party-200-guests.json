@@ -1,0 +1,211 @@
+{
+  "slug": "bbq-for-march-madness-party-200-guests",
+  "item": {
+    "id": "bbq",
+    "name": "BBQ/Pulled Pork",
+    "namePlural": "BBQ/Pulled Pork",
+    "emoji": "🍖",
+    "unit": "lbs",
+    "unitSingular": "lb",
+    "servingsPerUnit": 3,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 1,
+    "servingsPerPersonSide": 0.5,
+    "unitsPerServing": 6,
+    "unitType": "weight",
+    "orderUnit": "lbs",
+    "orderUnitSingular": "lb",
+    "servingsPerOrderUnit": 3
+  },
+  "event": {
+    "id": "march-madness",
+    "name": "March Madness Party",
+    "slug": "march-madness-party",
+    "description": "March Madness basketball viewing party",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.35,
+      "champagne": 0.4,
+      "spirits": 0.85
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.25,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.2,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Tournament games can run 2+ hours each - plan for sustained snacking, not a single meal.",
+      "Bracket pools mean people arrive at different times - keep food stations refreshed.",
+      "Wings and pizza are the classic combo - plan for both.",
+      "Overtime games increase consumption by 25% - have backup food ready.",
+      "Multiple TV setups mean multiple food stations - don't make people miss the game."
+    ],
+    "foodBuyingGuide": "March Madness is similar to Super Bowl but spread over multiple games. Wings, pizza, and shareable appetizers are ideal. Plan 8-10 wings and 2-3 pizza slices per person per game session.",
+    "proTips": [
+      "Games run back-to-back during opening weekend - people may stay 6-8 hours.",
+      "Stock light beers for marathon watching sessions.",
+      "Multiple games mean multiple peaks - don't front-load everything.",
+      "Have non-alcoholic options for designated drivers and early bracket busts.",
+      "Weekend games have 30% higher consumption than weekday games."
+    ],
+    "buyingGuide": "March Madness parties are beer-heavy but lighter than Super Bowl (longer duration, people pace themselves). Stock 70% light beers. Have coolers at every TV location. Plan 4-5 beers per person for a 4-hour session."
+  },
+  "guestCount": {
+    "value": 200,
+    "label": "200 guests",
+    "tier": "xlarge"
+  },
+  "calculation": {
+    "totalServings": 160,
+    "unitsNeeded": 62,
+    "unitsDisplay": "lbs",
+    "perPersonServings": 0.8,
+    "buffer": 8,
+    "rawUnits": 53.3,
+    "totalGuests": 200,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much BBQ/Pulled Pork for 200 Guests March Madness Party? | 62 lbs",
+    "description": "Need bbq/pulled pork for a 200-person march madness party? You'll need exactly 62 lbs. Free calculator with pro tips for party planning.",
+    "h1": "How Much BBQ/Pulled Pork for a 200 Guests March Madness Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/bbq-for-march-madness-party-200-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "200 guests × 80% eating rate",
+      "result": "160 eaters",
+      "explanation": "At xlarge events, about 80% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "160 eaters × 1 pieces per person",
+      "result": "160 base servings",
+      "explanation": "As a main dish, plan for 1 pieces per person (~0.3 lb)."
+    },
+    {
+      "step": 3,
+      "label": "Apply march madness party modifier",
+      "formula": "× 1 (0% for bbq/pulled pork)",
+      "result": "160 pieces needed",
+      "explanation": "March Madness Partys have standard bbq/pulled pork consumption."
+    },
+    {
+      "step": 4,
+      "label": "Convert to lbs",
+      "formula": "160 pieces ÷ 3 per lb",
+      "result": "53.3 lbs (raw)",
+      "explanation": "Each lb provides 3 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "53.3 × 1.15 = 61.3, rounded up",
+      "result": "62 lbs",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "BBQ/Pulled Pork",
+      "quantity": 62,
+      "unit": "lbs",
+      "affiliateCategory": "bbq"
+    },
+    {
+      "name": "Hamburger buns",
+      "quantity": 186,
+      "unit": "buns",
+      "notes": "For pulled pork sandwiches"
+    },
+    {
+      "name": "BBQ sauce",
+      "quantity": 21,
+      "unit": "bottles",
+      "notes": "Extra for dipping"
+    },
+    {
+      "name": "Coleslaw",
+      "quantity": 50,
+      "unit": "lbs",
+      "notes": "Classic BBQ side"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 14,
+      "unit": "jars"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-march-madness-party-200-guests",
+      "title": "Pizza for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-march-madness-party-200-guests",
+      "title": "Wings for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-march-madness-party-200-guests",
+      "title": "Tacos for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-march-madness-party-200-guests",
+      "title": "Sliders for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-march-madness-party-200-guests",
+      "title": "Appetizers for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-march-madness-party-150-guests",
+      "title": "BBQ/Pulled Pork for March Madness Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-march-madness-party-250-guests",
+      "title": "BBQ/Pulled Pork for March Madness Party (250 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "bbq-for-wedding-200-guests",
+      "title": "BBQ/Pulled Pork for Wedding (200 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "bbq-for-graduation-party-200-guests",
+      "title": "BBQ/Pulled Pork for Graduation Party (200 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "beer-for-march-madness-party-200-guests",
+      "title": "Beer for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-march-madness-party-200-guests",
+      "title": "Spirits for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-march-madness-party-200-guests",
+      "title": "Wine for March Madness Party (200 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

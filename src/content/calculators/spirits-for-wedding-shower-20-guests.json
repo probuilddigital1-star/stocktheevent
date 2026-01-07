@@ -23,6 +23,22 @@
       "champagne": 1.8,
       "spirits": 0.5
     },
+    "foodModifiers": {
+      "pizza": 0.4,
+      "wings": 0.3,
+      "tacos": 0.5,
+      "sliders": 0.8,
+      "appetizers": 1.4,
+      "bbq": 0.3
+    },
+    "foodTips": [
+      "Elegant, bite-sized foods are the gold standard - tea sandwiches, fruit skewers, mini quiches.",
+      "Sweet treats are essential - petit fours, macarons, and a beautiful cake or cupcakes.",
+      "Plan 5-7 savory pieces and 2-3 sweet pieces per guest for a 2-3 hour event.",
+      "Presentation matters more than quantity - use tiered trays and beautiful serving pieces.",
+      "Dietary accommodations are essential - have vegetarian and gluten-free clearly labeled."
+    ],
+    "foodBuyingGuide": "Bridal showers call for elegant finger foods. Think tea sandwiches, fresh fruit displays, cheese boards, and beautiful desserts. Plan $12-20 per person for a nice spread. Avoid anything messy or requiring utensils.",
     "proTips": [
       "Mimosa bars are the gold standard. Stock 1 bottle of sparkling per 3 guests, plus orange juice and peach nectar for variety.",
       "Skip heavy reds. Go 70% white/rosé (Pinot Grigio, Sauvignon Blanc) and 30% light red (Pinot Noir).",
@@ -144,8 +160,8 @@
       "relationship": "same-event"
     },
     {
-      "slug": "spirits-for-wedding-shower-10-guests",
-      "title": "Spirits for Wedding Shower (10 guests)",
+      "slug": "spirits-for-wedding-shower-15-guests",
+      "title": "Spirits for Wedding Shower (15 guests)",
       "relationship": "adjacent-guests"
     },
     {

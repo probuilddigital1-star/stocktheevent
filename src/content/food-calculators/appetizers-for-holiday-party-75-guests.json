@@ -1,0 +1,210 @@
+{
+  "slug": "appetizers-for-holiday-party-75-guests",
+  "item": {
+    "id": "appetizers",
+    "name": "Appetizers",
+    "namePlural": "Appetizers",
+    "emoji": "🍢",
+    "unit": "pieces",
+    "unitSingular": "piece",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 8,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "platters",
+    "orderUnitSingular": "platter",
+    "servingsPerOrderUnit": 30
+  },
+  "event": {
+    "id": "holiday-party",
+    "name": "Holiday Party",
+    "slug": "holiday-party",
+    "description": "Holiday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1.25,
+      "beer": 0.9,
+      "champagne": 1.4,
+      "spirits": 1.15
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.8,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.5,
+      "bbq": 0.6
+    },
+    "foodTips": [
+      "Holiday appetizers should be elevated - cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected - have a dessert station with cookies and holiday candies.",
+      "Warm appetizers disappear 40% faster in winter - plan accordingly.",
+      "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
+      "If it's a potluck, assume 30% of guests will forget to bring something."
+    ],
+    "foodBuyingGuide": "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
+    "proTips": [
+      "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
+      "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
+      "70% of champagne at NYE is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
+      "People drink 20% more at company holiday parties than other corporate events."
+    ],
+    "buyingGuide": "Holiday parties call for festive options. Stock extra red wine and have ingredients for 1-2 seasonal cocktails (mulled wine, spiked cider, or classic eggnog). For NYE specifically, double your champagne order and have everything chilled by 11pm."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 810,
+    "unitsNeeded": 32,
+    "unitsDisplay": "platters",
+    "perPersonServings": 10.8,
+    "buffer": 5,
+    "rawUnits": 27,
+    "totalGuests": 75,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Appetizers for 75 Guests Holiday Party? | 32 platters",
+    "description": "Need appetizers for a 75-person holiday party? You'll need exactly 32 platters. Free calculator with pro tips for party planning.",
+    "h1": "How Much Appetizers for a 75 Guests Holiday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/appetizers-for-holiday-party-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "75 guests × 90% eating rate",
+      "result": "68 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "68 eaters × 8 pieces per person",
+      "result": "544 base servings",
+      "explanation": "As a main dish, plan for 8 pieces per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply holiday party modifier",
+      "formula": "× 1.5 (+50% for appetizers)",
+      "result": "810 pieces needed",
+      "explanation": "Holiday Partys typically consume 50% more appetizers than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to platters",
+      "formula": "810 pieces ÷ 30 per platter",
+      "result": "27 platters (raw)",
+      "explanation": "Each platter provides 30 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "27 × 1.15 = 31.0, rounded up",
+      "result": "32 platters",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Appetizers",
+      "quantity": 32,
+      "unit": "platters",
+      "affiliateCategory": "appetizers"
+    },
+    {
+      "name": "Serving platters",
+      "quantity": 2,
+      "unit": "platters",
+      "notes": "For presentation"
+    },
+    {
+      "name": "Cocktail napkins",
+      "quantity": 300,
+      "unit": "napkins"
+    },
+    {
+      "name": "Toothpicks",
+      "quantity": 1,
+      "unit": "box",
+      "notes": "For skewered items"
+    },
+    {
+      "name": "Small plates",
+      "quantity": 113,
+      "unit": "plates"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-holiday-party-75-guests",
+      "title": "Pizza for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-holiday-party-75-guests",
+      "title": "Wings for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-holiday-party-75-guests",
+      "title": "Tacos for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-holiday-party-75-guests",
+      "title": "Sliders for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-holiday-party-75-guests",
+      "title": "BBQ/Pulled Pork for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-holiday-party-50-guests",
+      "title": "Appetizers for Holiday Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-holiday-party-100-guests",
+      "title": "Appetizers for Holiday Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-wedding-75-guests",
+      "title": "Appetizers for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-75-guests",
+      "title": "Appetizers for Graduation Party (75 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-holiday-party-75-guests",
+      "title": "Champagne for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-holiday-party-75-guests",
+      "title": "Wine for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-holiday-party-75-guests",
+      "title": "Spirits for Holiday Party (75 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

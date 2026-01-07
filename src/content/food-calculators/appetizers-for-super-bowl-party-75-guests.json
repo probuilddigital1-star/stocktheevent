@@ -1,0 +1,210 @@
+{
+  "slug": "appetizers-for-super-bowl-party-75-guests",
+  "item": {
+    "id": "appetizers",
+    "name": "Appetizers",
+    "namePlural": "Appetizers",
+    "emoji": "🍢",
+    "unit": "pieces",
+    "unitSingular": "piece",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "appetizer",
+    "servingsPerPerson": 8,
+    "servingsPerPersonSide": 6,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "platters",
+    "orderUnitSingular": "platter",
+    "servingsPerOrderUnit": 30
+  },
+  "event": {
+    "id": "super-bowl",
+    "name": "Super Bowl Party",
+    "slug": "super-bowl-party",
+    "description": "Super Bowl viewing party",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 0.5,
+      "beer": 1.4,
+      "champagne": 0.4,
+      "spirits": 0.8
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.3,
+      "tacos": 1,
+      "sliders": 1.2,
+      "appetizers": 1.3,
+      "bbq": 1.1
+    },
+    "foodTips": [
+      "40% of all food is consumed during the first quarter - front-load your spread.",
+      "Wings are the #1 Super Bowl food - err on the side of too many.",
+      "Set up a separate kids station if families are coming - they eat differently.",
+      "Prep dips in slow cookers - they stay warm and free up oven space.",
+      "Use halftime to refresh ALL food stations - you have exactly 25 minutes."
+    ],
+    "foodBuyingGuide": "Super Bowl is the biggest food day of the year after Thanksgiving. Plan 10-12 wings per person, 3 slices of pizza, and plenty of chips and dip. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
+    "proTips": [
+      "Stock beer by the quarter: Q1 (30%), Q2 (25%), Q3 (20%), Q4 (25%) of total consumption.",
+      "ALWAYS have 15% extra beer cold and ready - overtime games increase consumption by 50%.",
+      "Use halftime to restock ALL coolers - you have exactly 25 minutes.",
+      "Heavy food like wings and nachos reduces alcohol consumption by 15%.",
+      "Light beers disappear fastest - they're easier to drink during a 4-hour game."
+    ],
+    "buyingGuide": "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party."
+  },
+  "guestCount": {
+    "value": 75,
+    "label": "75 guests",
+    "tier": "medium"
+  },
+  "calculation": {
+    "totalServings": 702,
+    "unitsNeeded": 27,
+    "unitsDisplay": "platters",
+    "perPersonServings": 9.4,
+    "buffer": 3,
+    "rawUnits": 23.4,
+    "totalGuests": 75,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Appetizers for 75 Guests Super Bowl Party? | 27 platters",
+    "description": "Need appetizers for a 75-person super bowl party? You'll need exactly 27 platters. Free calculator with pro tips for party planning.",
+    "h1": "How Much Appetizers for a 75 Guests Super Bowl Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/appetizers-for-super-bowl-party-75-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "75 guests × 90% eating rate",
+      "result": "68 eaters",
+      "explanation": "At medium events, about 90% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "68 eaters × 8 pieces per person",
+      "result": "544 base servings",
+      "explanation": "As a main dish, plan for 8 pieces per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply super bowl party modifier",
+      "formula": "× 1.3 (+30% for appetizers)",
+      "result": "702 pieces needed",
+      "explanation": "Super Bowl Partys typically consume 30% more appetizers than average."
+    },
+    {
+      "step": 4,
+      "label": "Convert to platters",
+      "formula": "702 pieces ÷ 30 per platter",
+      "result": "23.4 platters (raw)",
+      "explanation": "Each platter provides 30 pieces."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "23.4 × 1.15 = 26.9, rounded up",
+      "result": "27 platters",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Appetizers",
+      "quantity": 27,
+      "unit": "platters",
+      "affiliateCategory": "appetizers"
+    },
+    {
+      "name": "Serving platters",
+      "quantity": 1,
+      "unit": "platters",
+      "notes": "For presentation"
+    },
+    {
+      "name": "Cocktail napkins",
+      "quantity": 300,
+      "unit": "napkins"
+    },
+    {
+      "name": "Toothpicks",
+      "quantity": 1,
+      "unit": "box",
+      "notes": "For skewered items"
+    },
+    {
+      "name": "Small plates",
+      "quantity": 113,
+      "unit": "plates"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-super-bowl-party-75-guests",
+      "title": "Pizza for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-super-bowl-party-75-guests",
+      "title": "Wings for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-super-bowl-party-75-guests",
+      "title": "Tacos for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-super-bowl-party-75-guests",
+      "title": "Sliders for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-super-bowl-party-75-guests",
+      "title": "BBQ/Pulled Pork for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-super-bowl-party-50-guests",
+      "title": "Appetizers for Super Bowl Party (50 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-super-bowl-party-100-guests",
+      "title": "Appetizers for Super Bowl Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "appetizers-for-wedding-75-guests",
+      "title": "Appetizers for Wedding (75 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "appetizers-for-graduation-party-75-guests",
+      "title": "Appetizers for Graduation Party (75 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "beer-for-super-bowl-party-75-guests",
+      "title": "Beer for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-super-bowl-party-75-guests",
+      "title": "Spirits for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-super-bowl-party-75-guests",
+      "title": "Wine for Super Bowl Party (75 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}

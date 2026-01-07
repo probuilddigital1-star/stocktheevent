@@ -1,0 +1,172 @@
+{
+  "slug": "wine-for-new-years-eve-party-100-guests",
+  "item": {
+    "id": "wine",
+    "name": "Wine",
+    "namePlural": "Wine",
+    "emoji": "🍷",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 5,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 100,
+    "label": "100 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 433,
+    "unitsNeeded": 100,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 4.3,
+    "buffer": 13,
+    "rawUnits": 86.6,
+    "actualDrinkers": 70
+  },
+  "meta": {
+    "title": "How Much Wine for 100 Guest New Year's Eve Party? | 100 bottles",
+    "description": "Need wine for a 100-person new year's eve party? You'll need exactly 100 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Wine for a 100 Guest New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/wine-for-new-years-eve-party-100-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "100 guests × 70% drinking rate",
+      "result": "70 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "70 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "525 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "394 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 1.1 (+10% for wine)",
+      "result": "433 wine servings needed",
+      "explanation": "New Year's Eve Partys typically consume 10% more wine than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "433 servings ÷ 5 servings per bottle",
+      "result": "86.6 bottles (raw)",
+      "explanation": "Each bottle of wine provides 5 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "86.6 × 1.15 = 99.6, rounded up",
+      "result": "100 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Wine",
+      "quantity": 100,
+      "unit": "bottles",
+      "affiliateCategory": "wine"
+    },
+    {
+      "name": "Wine opener/corkscrew",
+      "quantity": 2,
+      "unit": "pieces",
+      "notes": "Have a backup!"
+    },
+    {
+      "name": "Wine glasses (or plastic)",
+      "quantity": 140,
+      "unit": "glasses",
+      "notes": "2 per drinker for variety"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "beer-for-new-years-eve-party-100-guests",
+      "title": "Beer for New Year's Eve Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-new-years-eve-party-100-guests",
+      "title": "Champagne for New Year's Eve Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-100-guests",
+      "title": "Spirits for New Year's Eve Party (100 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wine-for-new-years-eve-party-75-guests",
+      "title": "Wine for New Year's Eve Party (75 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-new-years-eve-party-125-guests",
+      "title": "Wine for New Year's Eve Party (125 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "wine-for-wedding-100-guests",
+      "title": "Wine for Wedding (100 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "wine-for-graduation-party-100-guests",
+      "title": "Wine for Graduation Party (100 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

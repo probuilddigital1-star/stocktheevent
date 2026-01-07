@@ -1,0 +1,172 @@
+{
+  "slug": "beer-for-new-years-eve-party-125-guests",
+  "item": {
+    "id": "beer",
+    "name": "Beer",
+    "namePlural": "Beer",
+    "emoji": "🍺",
+    "unit": "cases",
+    "unitSingular": "case",
+    "servingsPerUnit": 24,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "new-years-eve",
+    "name": "New Year's Eve Party",
+    "slug": "new-years-eve-party",
+    "description": "New Year's Eve celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.1,
+      "beer": 0.8,
+      "champagne": 2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 0.8,
+      "wings": 0.7,
+      "tacos": 0.7,
+      "sliders": 1,
+      "appetizers": 1.4,
+      "bbq": 0.5
+    },
+    "foodTips": [
+      "Elegant appetizers are expected - this is a dressy event.",
+      "Late-night food is essential - sliders or pizza around 12:30am.",
+      "Heavy apps early, lighter as midnight approaches.",
+      "Sweet treats for after midnight - champagne and dessert pair perfectly.",
+      "Breakfast items for really late parties - mini quiches, bacon strips."
+    ],
+    "foodBuyingGuide": "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    "proTips": [
+      "70% of champagne is consumed between 11:30pm and 12:15am - time your chilling.",
+      "Have champagne COLD and ready to pour at 11:55pm.",
+      "People pace themselves until 10pm then drinking accelerates.",
+      "Late-night parties need designated drivers or Uber - plan ahead.",
+      "Noisemakers and party favors should be near the champagne station."
+    ],
+    "buyingGuide": "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 394,
+    "unitsNeeded": 19,
+    "unitsDisplay": "cases",
+    "perPersonServings": 3.2,
+    "buffer": 2,
+    "rawUnits": 16.4,
+    "actualDrinkers": 88
+  },
+  "meta": {
+    "title": "How Much Beer for 125 Guest New Year's Eve Party? | 19 cases",
+    "description": "Need beer for a 125-person new year's eve party? You'll need exactly 19 cases. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Beer for a 125 Guest New Year's Eve Party?",
+    "canonicalUrl": "https://stocktheevent.com/beer-for-new-years-eve-party-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "125 guests × 70% drinking rate",
+      "result": "88 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "88 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "660 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "495 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply new year's eve party modifier",
+      "formula": "× 0.8 (-20% for beer)",
+      "result": "394 beer servings needed",
+      "explanation": "New Year's Eve Partys typically consume 20% less beer than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to cases",
+      "formula": "394 servings ÷ 24 servings per case",
+      "result": "16.4 cases (raw)",
+      "explanation": "Each case of beer provides 24 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "16.4 × 1.15 = 18.9, rounded up",
+      "result": "19 cases",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Beer",
+      "quantity": 19,
+      "unit": "cases",
+      "affiliateCategory": "beer"
+    },
+    {
+      "name": "Ice",
+      "quantity": 228,
+      "unit": "lbs",
+      "notes": "Keep those beers cold!"
+    },
+    {
+      "name": "Coolers",
+      "quantity": 10,
+      "unit": "coolers",
+      "notes": "2 cases per cooler"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-new-years-eve-party-125-guests",
+      "title": "Wine for New Year's Eve Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-new-years-eve-party-125-guests",
+      "title": "Champagne for New Year's Eve Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-new-years-eve-party-125-guests",
+      "title": "Spirits for New Year's Eve Party (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-new-years-eve-party-100-guests",
+      "title": "Beer for New Year's Eve Party (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-new-years-eve-party-150-guests",
+      "title": "Beer for New Year's Eve Party (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "beer-for-wedding-125-guests",
+      "title": "Beer for Wedding (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "beer-for-graduation-party-125-guests",
+      "title": "Beer for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "slug": "champagne-for-wedding-125-guests",
+  "item": {
+    "id": "champagne",
+    "name": "Champagne",
+    "namePlural": "Champagne",
+    "emoji": "🥂",
+    "unit": "bottles",
+    "unitSingular": "bottle",
+    "servingsPerUnit": 6,
+    "category": "beverage",
+    "subcategory": "alcohol"
+  },
+  "event": {
+    "id": "wedding",
+    "name": "Wedding",
+    "slug": "wedding",
+    "description": "Wedding reception celebration",
+    "defaultDuration": 5,
+    "modifiers": {
+      "wine": 1.2,
+      "beer": 0.9,
+      "champagne": 1.5,
+      "spirits": 1
+    },
+    "foodModifiers": {
+      "pizza": 0.7,
+      "wings": 0.6,
+      "tacos": 0.8,
+      "sliders": 1,
+      "appetizers": 1.3,
+      "bbq": 0.9
+    },
+    "foodTips": [
+      "Plan 6-8 appetizer pieces per guest for a 1-hour cocktail hour before dinner.",
+      "Sliders are a late-night hit after dancing starts - plan 2 per guest for after 10pm.",
+      "If serving tacos, offer 3 protein options minimum for dietary variety.",
+      "Food trucks are trendy - plan 20% extra as guests tend to go back for seconds.",
+      "Passed appetizers disappear 40% faster than stationed ones - plan accordingly."
+    ],
+    "foodBuyingGuide": "For wedding receptions, appetizers during cocktail hour are essential. Plan 6-8 pieces per guest for a 1-hour cocktail hour. If you're doing late-night snacks (pizza, sliders, tacos), plan for 70% of guests still present to eat again around 10-11pm.",
+    "proTips": [
+      "40% of all alcohol is consumed during cocktail hour - front-load your bar staff and ice.",
+      "Offer 1-2 signature cocktails instead of a full bar to cut spirit costs by 40% and speed up service.",
+      "Pre-pour wine at dinner tables 5 minutes before guests sit to prevent service bottlenecks.",
+      "Order 10-15% extra and ask vendors about their return policy on unopened bottles.",
+      "If dancing goes past 10pm, reopen a simplified bar: beer, wine, and 2 signature drinks only."
+    ],
+    "buyingGuide": "For weddings, plan a 60/40 split between red and white wine for fall/winter, or flip it for spring/summer. Budget $12-18 per bottle for a crowd-pleasing selection - guests can't tell the difference between $15 and $40 wine at a party. Consider having champagne for toasts separate from your open bar calculation."
+  },
+  "guestCount": {
+    "value": 125,
+    "label": "125 guests",
+    "tier": "large"
+  },
+  "calculation": {
+    "totalServings": 738,
+    "unitsNeeded": 142,
+    "unitsDisplay": "bottles",
+    "perPersonServings": 5.9,
+    "buffer": 19,
+    "rawUnits": 123,
+    "actualDrinkers": 88
+  },
+  "meta": {
+    "title": "How Much Champagne for 125 Guest Wedding? | 142 bottles",
+    "description": "Need champagne for a 125-person wedding? You'll need exactly 142 bottles. Free calculator with pro tips from experienced bartenders.",
+    "h1": "How Much Champagne for a 125 Guest Wedding?",
+    "canonicalUrl": "https://stocktheevent.com/champagne-for-wedding-125-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual drinkers",
+      "formula": "125 guests × 70% drinking rate",
+      "result": "88 drinkers",
+      "explanation": "At large events, about 70% of guests typically drink alcohol."
+    },
+    {
+      "step": 2,
+      "label": "Calculate base consumption",
+      "formula": "88 drinkers × 1.5 drinks/hour × 5 hours",
+      "result": "660 base drinks",
+      "explanation": "Industry standard is 1.5 drinks per person per hour for a 5-hour event."
+    },
+    {
+      "step": 3,
+      "label": "Apply consumption decay",
+      "formula": "Adjusted for drinking slowdown over time (decay factor: 3.75)",
+      "result": "495 adjusted drinks",
+      "explanation": "People drink faster in the first hour and slow down as the event progresses."
+    },
+    {
+      "step": 4,
+      "label": "Apply wedding modifier",
+      "formula": "× 1.5 (+50% for champagne)",
+      "result": "738 champagne servings needed",
+      "explanation": "Weddings typically consume 50% more champagne than average."
+    },
+    {
+      "step": 5,
+      "label": "Convert to bottles",
+      "formula": "738 servings ÷ 6 servings per bottle",
+      "result": "123 bottles (raw)",
+      "explanation": "Each bottle of champagne provides 6 servings."
+    },
+    {
+      "step": 6,
+      "label": "Add 15% buffer & round up",
+      "formula": "123 × 1.15 = 141.4, rounded up",
+      "result": "142 bottles",
+      "explanation": "Always round up and add a buffer. Running out is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Champagne",
+      "quantity": 142,
+      "unit": "bottles",
+      "affiliateCategory": "champagne"
+    },
+    {
+      "name": "Champagne flutes",
+      "quantity": 132,
+      "unit": "glasses",
+      "notes": "1.5 per drinker"
+    },
+    {
+      "name": "Ice buckets",
+      "quantity": 36,
+      "unit": "buckets",
+      "notes": "Keep bottles chilled"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "wine-for-wedding-125-guests",
+      "title": "Wine for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-wedding-125-guests",
+      "title": "Beer for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-wedding-125-guests",
+      "title": "Spirits for Wedding (125 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "champagne-for-wedding-100-guests",
+      "title": "Champagne for Wedding (100 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-wedding-150-guests",
+      "title": "Champagne for Wedding (150 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "champagne-for-graduation-party-125-guests",
+      "title": "Champagne for Graduation Party (125 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "champagne-for-corporate-event-125-guests",
+      "title": "Champagne for Corporate Event (125 guests)",
+      "relationship": "same-item"
+    }
+  ]
+}

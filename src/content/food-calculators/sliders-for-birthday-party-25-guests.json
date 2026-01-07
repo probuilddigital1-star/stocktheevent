@@ -1,0 +1,211 @@
+{
+  "slug": "sliders-for-birthday-party-25-guests",
+  "item": {
+    "id": "sliders",
+    "name": "Sliders",
+    "namePlural": "Sliders",
+    "emoji": "🍔",
+    "unit": "sliders",
+    "unitSingular": "slider",
+    "servingsPerUnit": 1,
+    "category": "food",
+    "subcategory": "main",
+    "servingsPerPerson": 3,
+    "servingsPerPersonSide": 2,
+    "unitsPerServing": 1,
+    "unitType": "count",
+    "orderUnit": "dozen",
+    "orderUnitSingular": "dozen",
+    "servingsPerOrderUnit": 12
+  },
+  "event": {
+    "id": "birthday",
+    "name": "Birthday Party",
+    "slug": "birthday-party",
+    "description": "Birthday celebration",
+    "defaultDuration": 4,
+    "modifiers": {
+      "wine": 1,
+      "beer": 1.1,
+      "champagne": 1.2,
+      "spirits": 1.2
+    },
+    "foodModifiers": {
+      "pizza": 1.3,
+      "wings": 1.1,
+      "tacos": 1,
+      "sliders": 1,
+      "appetizers": 0.9,
+      "bbq": 1
+    },
+    "foodTips": [
+      "Cake reduces other food consumption by 20% - factor this into your planning.",
+      "Kids' birthday parties need 30% less food per person - shorter attention spans.",
+      "Adult milestone birthdays (30, 40, 50) eat more - people linger longer.",
+      "Late-night birthdays need late-night food - pizza arrives around 10pm.",
+      "Set up food before activities and cake - people graze while waiting."
+    ],
+    "foodBuyingGuide": "Birthday party food depends heavily on the age group. Kids' parties: pizza and simple finger foods. Young adult birthdays: pizza, wings, and shareable platters. 40+ birthdays: more sophisticated appetizers and seated options.",
+    "proTips": [
+      "Milestone birthdays (21st, 30th, 40th, 50th) consume 25% more than regular birthdays.",
+      "Birthday parties have 3x more shots than any other event type - stock shooters.",
+      "Consumption drops 60% during cake and presents - factor in 30-45 min of low drinking.",
+      "Know your crowd's age - 21-30 year olds drink 30% more beer, 50+ drink 35% more wine.",
+      "Consider a signature 'birthday cocktail' to make the guest of honor feel special."
+    ],
+    "buyingGuide": "Birthday parties vary wildly by age group. For 21-35, stock up on beer and mixers for cocktails. For 40+, increase your wine selection. Always have extra for milestone birthdays - people celebrate harder at 30, 40, and 50."
+  },
+  "guestCount": {
+    "value": 25,
+    "label": "25 guests",
+    "tier": "small"
+  },
+  "calculation": {
+    "totalServings": 71,
+    "unitsNeeded": 7,
+    "unitsDisplay": "dozen",
+    "perPersonServings": 2.8,
+    "buffer": 1,
+    "rawUnits": 5.9,
+    "totalGuests": 25,
+    "isMainDish": true
+  },
+  "meta": {
+    "title": "How Much Sliders for 25 Guests Birthday Party? | 7 dozen",
+    "description": "Need sliders for a 25-person birthday party? You'll need exactly 7 dozen. Free calculator with pro tips for party planning.",
+    "h1": "How Much Sliders for a 25 Guests Birthday Party?",
+    "canonicalUrl": "https://stocktheevent.com/food/sliders-for-birthday-party-25-guests"
+  },
+  "mathExplanation": [
+    {
+      "step": 1,
+      "label": "Estimate actual eaters",
+      "formula": "25 guests × 95% eating rate",
+      "result": "24 eaters",
+      "explanation": "At small events, about 95% of guests will eat full servings."
+    },
+    {
+      "step": 2,
+      "label": "Calculate servings (as main dish)",
+      "formula": "24 eaters × 3 sliders per person",
+      "result": "72 base servings",
+      "explanation": "As a main dish, plan for 3 sliders per person."
+    },
+    {
+      "step": 3,
+      "label": "Apply birthday party modifier",
+      "formula": "× 1 (0% for sliders)",
+      "result": "71 sliders needed",
+      "explanation": "Birthday Partys have standard sliders consumption."
+    },
+    {
+      "step": 4,
+      "label": "Convert to dozen",
+      "formula": "71 sliders ÷ 12 per dozen",
+      "result": "5.9 dozen (raw)",
+      "explanation": "Each dozen provides 12 sliders."
+    },
+    {
+      "step": 5,
+      "label": "Add 15% buffer & round up",
+      "formula": "5.9 × 1.15 = 6.8, rounded up",
+      "result": "7 dozen",
+      "explanation": "Always round up and add a buffer. Running out of food is worse than having leftovers!"
+    }
+  ],
+  "shoppingList": [
+    {
+      "name": "Sliders",
+      "quantity": 7,
+      "unit": "dozen",
+      "affiliateCategory": "sliders"
+    },
+    {
+      "name": "Slider buns",
+      "quantity": 7,
+      "unit": "buns",
+      "notes": "Match to patties"
+    },
+    {
+      "name": "Cheese slices",
+      "quantity": 7,
+      "unit": "slices",
+      "notes": "American or cheddar"
+    },
+    {
+      "name": "Pickles",
+      "quantity": 3,
+      "unit": "jars",
+      "notes": "Sliced for burgers"
+    },
+    {
+      "name": "Ketchup/Mustard",
+      "quantity": 2,
+      "unit": "bottles"
+    }
+  ],
+  "relatedPages": [
+    {
+      "slug": "pizza-for-birthday-party-25-guests",
+      "title": "Pizza for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "wings-for-birthday-party-25-guests",
+      "title": "Wings for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "tacos-for-birthday-party-25-guests",
+      "title": "Tacos for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "appetizers-for-birthday-party-25-guests",
+      "title": "Appetizers for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "bbq-for-birthday-party-25-guests",
+      "title": "BBQ/Pulled Pork for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "sliders-for-birthday-party-20-guests",
+      "title": "Sliders for Birthday Party (20 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "sliders-for-birthday-party-30-guests",
+      "title": "Sliders for Birthday Party (30 guests)",
+      "relationship": "adjacent-guests"
+    },
+    {
+      "slug": "sliders-for-wedding-25-guests",
+      "title": "Sliders for Wedding (25 guests)",
+      "relationship": "same-item"
+    },
+    {
+      "slug": "sliders-for-graduation-party-25-guests",
+      "title": "Sliders for Graduation Party (25 guests)",
+      "relationship": "same-item"
+    }
+  ],
+  "relatedDrinks": [
+    {
+      "slug": "champagne-for-birthday-party-25-guests",
+      "title": "Champagne for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "spirits-for-birthday-party-25-guests",
+      "title": "Spirits for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    },
+    {
+      "slug": "beer-for-birthday-party-25-guests",
+      "title": "Beer for Birthday Party (25 guests)",
+      "relationship": "same-event"
+    }
+  ]
+}
