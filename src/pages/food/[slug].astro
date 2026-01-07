@@ -1,0 +1,531 @@
+---
+import * as fs from 'fs';
+import * as path from 'path';
+import { glob } from 'astro/loaders';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { affiliateLinks, getAffiliateLink } from '../../lib/affiliates';
+import { seasonalEvents } from '../../data/seasonalEvents';
+import type { FoodCalculatorPage } from '../../lib/types';
+
+export async function getStaticPaths() {
+  // Read all food calculator JSON files directly
+  const foodDir = path.join(process.cwd(), 'src/content/food-calculators');
+
+  // Check if directory exists
+  if (!fs.existsSync(foodDir)) {
+    return [];
+  }
+
+  const files = fs.readdirSync(foodDir).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+
+  return files.map((file) => {
+    const dataPath = path.join(foodDir, file);
+    const pageData: FoodCalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+    const slug = file.replace('.json', '');
+
+    return {
+      params: { slug },
+      props: { page: pageData },
+    };
+  });
+}
+
+interface Props {
+  page: FoodCalculatorPage;
+}
+
+const { page } = Astro.props;
+
+// Find matching seasonal event for party planner link
+const matchingPartyPage = seasonalEvents.find(se => se.eventType === page.event.id);
+
+// Get the event food tips if available
+const eventFoodTips = (page.event as any).foodTips || [];
+const eventFoodBuyingGuide = (page.event as any).foodBuyingGuide || '';
+
+// Breadcrumbs for structured data
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Food Calculators', url: '/food/pizza-for-birthday-party-50-guests' },
+  { name: page.item.name, url: `/food/${page.item.id}-for-birthday-party-50-guests` },
+  { name: `${page.guestCount.value} Guests`, url: page.meta.canonicalUrl }
+];
+
+// HowTo Schema - optimized for AIO
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": `Calculate ${page.item.name} for ${page.guestCount.value} Guests`,
+  "description": page.meta.description,
+  "step": page.mathExplanation.map((step, i) => ({
+    "@type": "HowToStep",
+    "position": i + 1,
+    "name": step.label,
+    "text": `${step.formula} = ${step.result}. ${step.explanation}`,
+  })),
+  "totalTime": "PT30S",
+  "tool": [{ "@type": "HowToTool", "name": "StockTheEvent Food Calculator" }],
+  "supply": [{ "@type": "HowToSupply", "name": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}` }]
+};
+
+// Expanded FAQ Schema - 6 questions for better AIO coverage
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `How much ${page.item.name.toLowerCase()} do I need for ${page.guestCount.value} guests?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This provides ${page.calculation.totalServings} total servings with a 15% buffer.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How much ${page.item.name.toLowerCase()} per person for a ${page.event.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Plan for ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This assumes ${page.item.name.toLowerCase()} is your main food; reduce by 30-40% if serving multiple dishes.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How many servings in ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} provides ${page.calculation.totalServings} total servings, enough for ${page.guestCount.value} guests with a 15% buffer to ensure you don't run out.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Is ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} enough for ${page.guestCount.value} people?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Yes, ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}) so you won't run short.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Should I order more ${page.item.name.toLowerCase()} than calculated?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer. However, if your guests are big eaters or ${page.item.name.toLowerCase()} is the only food, consider adding 10-20% more. It's always better to have leftovers!`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `What if I'm serving ${page.item.name.toLowerCase()} with other foods?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `If serving ${page.item.name.toLowerCase()} as part of a buffet spread with other options, reduce this amount by 30-40%. Instead of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}, you'd need approximately ${Math.ceil(page.calculation.unitsNeeded * 0.65)} ${page.calculation.unitsDisplay}.`
+      }
+    }
+  ]
+};
+
+// ItemList Schema for shopping list
+const shoppingListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `Shopping List: ${page.item.name} for ${page.guestCount.value} Guest ${page.event.name}`,
+  "numberOfItems": page.shoppingList.length,
+  "itemListElement": page.shoppingList.map((item, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": `${item.quantity} ${item.unit} ${item.name}`,
+    "description": item.notes || undefined
+  }))
+};
+---
+
+<BaseLayout
+  title={page.meta.title}
+  description={page.meta.description}
+  canonicalUrl={page.meta.canonicalUrl}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- JSON-LD Schema -->
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
+  </Fragment>
+
+  <!-- Hero Section with Main Answer -->
+  <section class="py-12 md:py-16 bg-gradient-to-b from-orange-50 via-amber-50/30 to-white">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 text-sm text-slate-500 text-center">
+        <a href="/" class="hover:text-orange-600 transition-colors">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/calculators" class="hover:text-orange-600 transition-colors">Calculators</a>
+        <span class="mx-2">/</span>
+        <span class="text-slate-700">{page.item.name}</span>
+      </nav>
+
+      <!-- Hero -->
+      <div class="text-center mb-8">
+        <div class="text-6xl mb-4">{page.item.emoji}</div>
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+          {page.meta.h1}
+        </h1>
+        <p class="text-xl text-slate-600">
+          {page.event.name} • {page.guestCount.value} guests
+        </p>
+      </div>
+
+      <!-- Main Answer Card -->
+      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
+        <div class="bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 p-8 text-white text-center">
+          <div class="text-sm uppercase tracking-wide opacity-90 mb-2">Your Total</div>
+          <div class="text-6xl md:text-7xl font-black mb-2">{page.calculation.unitsNeeded}</div>
+          <div class="text-2xl font-semibold opacity-95">{page.calculation.unitsDisplay}</div>
+          <div class="text-sm opacity-80 mt-2">of {page.item.name.toLowerCase()}</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 bg-gradient-to-b from-slate-50 to-white">
+          <div class="p-5 text-center border-r border-slate-100">
+            <div class="text-3xl font-bold text-slate-900">{page.calculation.totalServings}</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">total servings</div>
+          </div>
+          <div class="p-5 text-center border-r border-slate-100">
+            <div class="text-3xl font-bold text-slate-900">{page.calculation.perPersonServings}</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">per person</div>
+          </div>
+          <div class="p-5 text-center">
+            <div class="text-3xl font-bold text-slate-900">15%</div>
+            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">buffer</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main dish assumption note -->
+      <div class="bg-blue-50 rounded-xl p-4 border border-blue-200 text-center">
+        <p class="text-sm text-blue-800">
+          <span class="font-medium">Note:</span> This assumes {page.item.name.toLowerCase()} is your main food.
+          {matchingPartyPage ? (
+            <>
+              Planning a buffet spread?
+              <a href={`/party/${matchingPartyPage.slug}`} class="font-semibold text-blue-600 hover:text-blue-800 underline ml-1">
+                See our {page.event.name.replace(' Party', '')} Party Planner
+              </a>
+              for balanced quantities.
+            </>
+          ) : (
+            <>
+              If serving multiple foods, reduce this amount by 30-40%.
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Food Switcher -->
+  <section class="bg-white border-b border-slate-200 sticky top-16 z-40">
+    <div class="max-w-4xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-center gap-2 flex-wrap">
+        <span class="text-sm text-slate-500 mr-2">Switch food:</span>
+        {['pizza', 'wings', 'tacos', 'sliders', 'appetizers', 'bbq'].map((foodId) => {
+          const isActive = foodId === page.item.id;
+          const foodEmojis = {
+            pizza: '🍕',
+            wings: '🍗',
+            tacos: '🌮',
+            sliders: '🍔',
+            appetizers: '🍢',
+            bbq: '🍖',
+          };
+          const foodNames = {
+            pizza: 'Pizza',
+            wings: 'Wings',
+            tacos: 'Tacos',
+            sliders: 'Sliders',
+            appetizers: 'Apps',
+            bbq: 'BBQ',
+          };
+          return (
+            <a
+              href={`/food/${foodId}-for-${page.event.slug}-${page.guestCount.value}-guests`}
+              class={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                isActive
+                  ? 'bg-orange-500 text-white'
+                  : 'bg-slate-100 text-slate-600 hover:bg-orange-100 hover:text-orange-700'
+              }`}
+            >
+              {foodEmojis[foodId]} {foodNames[foodId]}
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Math Breakdown -->
+  <section class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+        <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">📐</span>
+        Why This Amount Works
+      </h2>
+
+      <div class="space-y-4">
+        {page.mathExplanation.map((step) => (
+          <div class="bg-slate-50 rounded-xl p-5 border border-slate-100">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+                {step.step}
+              </div>
+              <div class="flex-1">
+                <div class="font-semibold text-slate-900 mb-1">{step.label}</div>
+                <code class="block bg-white px-3 py-2 rounded-lg text-sm text-orange-700 font-mono mb-2 border border-slate-200">
+                  {step.formula}
+                </code>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-600 text-sm">{step.explanation}</span>
+                  <span class="font-bold text-orange-600 whitespace-nowrap ml-4">{step.result}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-6 bg-green-50 rounded-xl p-4 border border-green-200">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">✓</span>
+          <div>
+            <div class="font-semibold text-green-900">Caterer-Tested Formula</div>
+            <div class="text-sm text-green-700">Our calculations are based on real event data from professional caterers and party planners.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Reference Table (for featured snippets) -->
+  <section class="py-10 bg-slate-50">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📊</span>
+        Quick Reference: {page.item.name} by Guest Count
+      </h2>
+      <div class="overflow-x-auto bg-white rounded-xl shadow-sm">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100">
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Guests</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">{page.item.name} Needed</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Total Servings</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[25, 50, 75, 100, 150, 200].map((guests) => {
+              const ratio = guests / page.guestCount.value;
+              const units = Math.ceil(page.calculation.unitsNeeded * ratio);
+              const servings = Math.round(page.calculation.totalServings * ratio);
+              const isCurrentRow = guests === page.guestCount.value;
+              return (
+                <tr class={isCurrentRow ? 'bg-orange-50 font-semibold' : 'hover:bg-slate-50'}>
+                  <td class="px-4 py-3 border-b border-slate-100">
+                    {guests} guests {isCurrentRow && <span class="text-orange-600 text-xs ml-1">(you)</span>}
+                  </td>
+                  <td class="px-4 py-3 border-b border-slate-100">
+                    <a href={`/food/${page.item.id}-for-${page.event.slug}-${guests}-guests`}
+                       class={`${isCurrentRow ? 'text-orange-700' : 'text-orange-600 hover:underline'}`}>
+                      {units} {units === 1 ? page.item.orderUnitSingular : page.item.orderUnit}
+                    </a>
+                  </td>
+                  <td class="px-4 py-3 border-b border-slate-100">{servings} servings</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">
+        * All calculations include a 15% buffer. Amounts for {page.event.name.toLowerCase()} as main dish.
+      </p>
+    </div>
+  </section>
+
+  <!-- Shopping List -->
+  <section class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+        <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">🛒</span>
+        Your Complete Shopping List
+      </h2>
+
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="divide-y divide-slate-100">
+          {page.shoppingList.map((item, index) => {
+            const affiliateLink = getAffiliateLink(item.name);
+            return (
+              <div class={`flex items-center justify-between p-4 ${index === 0 ? 'bg-orange-50' : ''}`}>
+                <div class="flex items-center gap-3">
+                  {index === 0 && <span class="text-2xl">{page.item.emoji}</span>}
+                  <div>
+                    <span class={`font-medium ${index === 0 ? 'text-orange-900' : 'text-slate-900'}`}>
+                      {item.name}
+                    </span>
+                    {item.notes && (
+                      <span class="text-sm text-slate-500 ml-2">— {item.notes}</span>
+                    )}
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class={`font-bold ${index === 0 ? 'text-orange-600' : 'text-slate-700'}`}>
+                    {item.quantity} {item.unit}
+                  </span>
+                  {affiliateLink && (
+                    <a
+                      href={affiliateLink}
+                      target="_blank"
+                      rel="noopener sponsored"
+                      class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full hover:bg-amber-200 transition-colors"
+                    >
+                      Buy →
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-500 text-center mt-4">
+        As an Amazon Associate, we earn from qualifying purchases.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pro Tips -->
+  {eventFoodTips.length > 0 && (
+    <section class="py-12 bg-white">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">💡</span>
+          Pro Tips for {page.event.name} Food
+        </h2>
+
+        <div class="bg-amber-50 rounded-2xl p-6 border border-amber-200">
+          <ul class="space-y-4">
+            {eventFoodTips.slice(0, 5).map((tip: string) => (
+              <li class="flex items-start gap-3">
+                <span class="text-amber-500 mt-1">✓</span>
+                <span class="text-amber-900">{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {eventFoodBuyingGuide && (
+          <div class="mt-6 bg-slate-50 rounded-2xl p-6 border border-slate-200">
+            <h3 class="font-semibold text-slate-900 mb-2">Buying Guide</h3>
+            <p class="text-slate-700">{eventFoodBuyingGuide}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- Complete Your Bar (Cross-link to drinks) -->
+  {page.relatedDrinks && page.relatedDrinks.length > 0 && (
+    <section class="py-12 bg-slate-50">
+      <div class="max-w-3xl mx-auto px-4">
+        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <span class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">🍺</span>
+          Complete Your Bar
+        </h2>
+        <p class="text-slate-600 mb-4">Don't forget the drinks! See our drink calculators for this event:</p>
+
+        <div class="grid md:grid-cols-3 gap-3">
+          {page.relatedDrinks.map((drink) => {
+            const drinkEmojis = {
+              wine: '🍷',
+              beer: '🍺',
+              champagne: '🥂',
+              spirits: '🥃',
+            };
+            const drinkId = drink.slug.split('-')[0];
+            return (
+              <a
+                href={`/${drink.slug}`}
+                class="flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 transition-all group"
+              >
+                <span class="text-3xl">{drinkEmojis[drinkId] || '🍹'}</span>
+                <div class="flex-1">
+                  <div class="font-medium text-slate-900 group-hover:text-emerald-700">{drink.title.split(' for ')[0]}</div>
+                  <div class="text-sm text-slate-500">Calculate now →</div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Email Capture -->
+  <div class="max-w-3xl mx-auto px-4 py-12">
+    <EmailCapture
+      eventType={page.event.id}
+      eventName={page.event.name}
+      guestCount={page.guestCount.value}
+      placement="inline"
+    />
+  </div>
+
+  <!-- Related Food Calculators -->
+  <section class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-xl font-bold text-slate-900 mb-6">
+        More {page.item.name} Calculators
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        {page.relatedPages.slice(0, 4).map((related) => (
+          <a
+            href={`/food/${related.slug}`}
+            class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200 hover:border-orange-400 hover:bg-orange-50 transition-all group"
+          >
+            <span class="text-2xl">{page.item.emoji}</span>
+            <div class="flex-1">
+              <div class="font-medium text-slate-900 group-hover:text-orange-700 text-sm">{related.title}</div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <div class="text-6xl mb-6">🎉</div>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+        Planning a different event?
+      </h2>
+      <p class="text-orange-100 mb-8 text-lg max-w-xl mx-auto">
+        Use our free calculators for any combination of food, drinks, events, and guest counts.
+      </p>
+      <a
+        href="/calculators"
+        class="inline-block bg-white text-orange-600 px-8 py-4 rounded-xl font-bold hover:bg-orange-50 hover:scale-105 transition-all shadow-xl"
+      >
+        Browse All Calculators
+      </a>
+    </div>
+  </section>
+</BaseLayout>

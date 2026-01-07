@@ -12,17 +12,23 @@ import RelatedPages from '../components/RelatedPages.astro';
 import type { CalculatorPage } from '../lib/types';
 
 export async function getStaticPaths() {
-  // Read the index file
-  const indexPath = path.join(process.cwd(), 'src/content/calculators/_index.json');
-  const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
+  // Read all calculator JSON files directly
+  const calcDir = path.join(process.cwd(), 'src/content/calculators');
 
-  // Generate paths from each entry
-  return indexData.map((entry: { slug: string }) => {
-    const dataPath = path.join(process.cwd(), `src/content/calculators/${entry.slug}.json`);
+  // Check if directory exists
+  if (!fs.existsSync(calcDir)) {
+    return [];
+  }
+
+  const files = fs.readdirSync(calcDir).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+
+  return files.map((file) => {
+    const dataPath = path.join(calcDir, file);
     const pageData: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+    const slug = file.replace('.json', '');
 
     return {
-      params: { slug: entry.slug },
+      params: { slug },
       props: { page: pageData },
     };
   });
@@ -34,37 +40,42 @@ interface Props {
 
 const { page } = Astro.props;
 
-// Generate JSON-LD schema
+// Breadcrumbs for structured data
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Calculators', url: '/calculators' },
+  { name: page.item.name, url: `/calculators?item=${page.item.id}` },
+  { name: `${page.guestCount.value} Guests`, url: page.meta.canonicalUrl }
+];
+
+// HowTo Schema - optimized for AIO
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": page.meta.h1,
+  "name": `Calculate ${page.item.name} for ${page.guestCount.value} Guests`,
   "description": page.meta.description,
   "step": page.mathExplanation.map((step, i) => ({
     "@type": "HowToStep",
     "position": i + 1,
     "name": step.label,
-    "text": step.explanation,
+    "text": `${step.formula} = ${step.result}. ${step.explanation}`,
   })),
-  "totalTime": "PT1M",
-  "tool": [
-    {
-      "@type": "HowToTool",
-      "name": "Drink Calculator"
-    }
-  ],
+  "totalTime": "PT30S",
+  "tool": [{ "@type": "HowToTool", "name": "StockTheEvent Calculator" }],
+  "supply": [{ "@type": "HowToSupply", "name": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}` }]
 };
 
+// Expanded FAQ Schema - 6 questions for better AIO coverage
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
     {
       "@type": "Question",
-      "name": page.meta.h1,
+      "name": `How much ${page.item.name.toLowerCase()} do I need for ${page.guestCount.value} guests?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for a ${page.guestCount.value}-guest ${page.event.name.toLowerCase()}. This accounts for ${page.calculation.totalServings} total servings with a 15% buffer.`
+        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This provides ${page.calculation.totalServings} total servings with a 15% buffer to ensure you don't run out.`
       }
     },
     {
@@ -72,10 +83,56 @@ const faqSchema = {
       "name": `How much ${page.item.name.toLowerCase()} per person for a ${page.event.name.toLowerCase()}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `Plan for about ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This factors in that not everyone drinks and consumption slows as the event progresses.`
+        "text": `Plan for ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This accounts for the fact that not everyone drinks alcohol and consumption naturally slows as the event progresses.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How many servings are in a ${page.item.unitSingular} of ${page.item.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `One ${page.item.unitSingular} of ${page.item.name.toLowerCase()} contains ${page.item.servingsPerUnit} servings. For ${page.guestCount.value} guests, you'll need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} to provide ${page.calculation.totalServings} total servings.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `What percentage of guests will drink ${page.item.name.toLowerCase()} at a ${page.event.name.toLowerCase()}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `At a ${page.event.name.toLowerCase()} with ${page.guestCount.value} guests, approximately ${page.calculation.actualDrinkers} guests (${Math.round(page.calculation.actualDrinkers / page.guestCount.value * 100)}%) will actively drink. Our formula accounts for this when calculating the ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} you need.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `Should I buy extra ${page.item.name.toLowerCase()} as a buffer?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `Yes! Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}). This ensures you won't run out even if some guests drink more than average. It's always better to have leftovers than to run short.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How long will ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} last for ${page.guestCount.value} guests?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} will last approximately ${page.event.defaultDuration} hours for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This calculation factors in the natural slowdown of consumption as the event progresses.`
       }
     }
   ]
+};
+
+// ItemList Schema for shopping list
+const shoppingListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `Shopping List: ${page.item.name} for ${page.guestCount.value} Guest ${page.event.name}`,
+  "numberOfItems": page.shoppingList.length,
+  "itemListElement": page.shoppingList.map((item, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": `${item.quantity} ${item.unit} ${item.name}`,
+    "description": item.notes || undefined
+  }))
 };
 ---
 
@@ -83,11 +140,13 @@ const faqSchema = {
   title={page.meta.title}
   description={page.meta.description}
   canonicalUrl={page.meta.canonicalUrl}
+  breadcrumbs={breadcrumbs}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
   </Fragment>
 
   <!-- Bar Setup Context Banner (shown when coming from bar-setup page) -->
@@ -129,6 +188,52 @@ const faqSchema = {
 
   <!-- Math Breakdown -->
   <MathBreakdown steps={page.mathExplanation} />
+
+  <!-- Quick Reference Table (for featured snippets) -->
+  <section class="py-10 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📊</span>
+        Quick Reference: {page.item.name} by Guest Count
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-slate-100">
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Guests</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">{page.item.name} Needed</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Total Servings</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[25, 50, 75, 100, 150, 200].map((guests) => {
+              const ratio = guests / page.guestCount.value;
+              const units = Math.ceil(page.calculation.unitsNeeded * ratio);
+              const servings = Math.round(page.calculation.totalServings * ratio);
+              const isCurrentRow = guests === page.guestCount.value;
+              return (
+                <tr class={isCurrentRow ? 'bg-emerald-50 font-semibold' : 'hover:bg-slate-50'}>
+                  <td class="px-4 py-3 border-b border-slate-100">
+                    {guests} guests {isCurrentRow && <span class="text-emerald-600 text-xs ml-1">(you)</span>}
+                  </td>
+                  <td class="px-4 py-3 border-b border-slate-100">
+                    <a href={`/${page.item.id}-for-${page.event.slug}-${guests}-guests`}
+                       class={`${isCurrentRow ? 'text-emerald-700' : 'text-emerald-600 hover:underline'}`}>
+                      {units} {units === 1 ? page.item.unitSingular : page.item.unit}
+                    </a>
+                  </td>
+                  <td class="px-4 py-3 border-b border-slate-100">{servings} servings</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">
+        * All calculations include a 15% buffer. Amounts for {page.event.name.toLowerCase()}.
+      </p>
+    </div>
+  </section>
 
   <!-- Shopping List -->
   <ShoppingList items={page.shoppingList} mainItem={page.item} />

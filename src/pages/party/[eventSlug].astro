@@ -1,0 +1,405 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EmailCapture from '../../components/EmailCapture.astro';
+import { seasonalEvents } from '../../data/seasonalEvents';
+import { events } from '../../data/events';
+import { items as drinkItems } from '../../data/items';
+import { foodItems } from '../../data/foodItems';
+
+const AMAZON_TAG = 'probuild20-20';
+
+export function getStaticPaths() {
+  return seasonalEvents.map((event) => ({
+    params: { eventSlug: event.slug },
+    props: { seasonalEvent: event },
+  }));
+}
+
+interface Props {
+  seasonalEvent: typeof seasonalEvents[0];
+}
+
+const { seasonalEvent } = Astro.props;
+
+// Get the base event data
+const baseEvent = events.find(e => e.id === seasonalEvent.eventType);
+
+// Default guest count for initial calculations
+const defaultGuestCount = 50;
+const guestCountOptions = [25, 50, 75, 100, 150, 200];
+
+// Get featured items data
+const featuredDrinkItems = seasonalEvent.featuredDrinks
+  .map(id => drinkItems.find(d => d.id === id))
+  .filter(Boolean);
+
+const featuredFoodItems = seasonalEvent.featuredFoods
+  .map(id => foodItems.find(f => f.id === id))
+  .filter(Boolean);
+
+// Calculate example quantities for the default guest count (simplified)
+// Uses servingsPerPersonSide since party pages show multiple foods together
+function getExampleQuantity(itemId: string, type: 'drink' | 'food'): number {
+  if (type === 'drink') {
+    const item = drinkItems.find(d => d.id === itemId);
+    if (!item || !baseEvent) return 0;
+    const modifier = baseEvent.modifiers[itemId] || 1.0;
+    const baseServings = defaultGuestCount * 0.75 * 1.5 * 3.75 * modifier;
+    return Math.ceil((baseServings / item.servingsPerUnit) * 1.15);
+  } else {
+    const item = foodItems.find(f => f.id === itemId);
+    if (!item || !baseEvent) return 0;
+    const modifier = (baseEvent as any).foodModifiers?.[itemId] || 1.0;
+    // Use servingsPerPersonSide since this is a spread with multiple foods
+    const baseServings = defaultGuestCount * 0.9 * item.servingsPerPersonSide * modifier;
+    return Math.ceil((baseServings / item.servingsPerOrderUnit) * 1.15);
+  }
+}
+
+// Generate FAQ schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `How much food do I need for a ${defaultGuestCount} person ${baseEvent?.name || 'party'}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `For a ${defaultGuestCount}-person ${baseEvent?.name?.toLowerCase() || 'party'}, plan for ${featuredFoodItems.map(f => f ? `${getExampleQuantity(f.id, 'food')} ${f.orderUnit} of ${f.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `How much beer and drinks for a ${baseEvent?.name || 'party'}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `For a ${defaultGuestCount}-person ${baseEvent?.name?.toLowerCase() || 'party'}, plan for ${featuredDrinkItems.map(d => d ? `${getExampleQuantity(d.id, 'drink')} ${d.unit} of ${d.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
+      }
+    },
+    {
+      "@type": "Question",
+      "name": `What food is best for a ${baseEvent?.name || 'party'}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": `The most popular foods for a ${baseEvent?.name?.toLowerCase() || 'party'} are ${featuredFoodItems.map(f => f?.name.toLowerCase()).filter(Boolean).join(', ')}. These are crowd favorites that are easy to serve and enjoy.`
+      }
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={seasonalEvent.metaTitle}
+  description={seasonalEvent.metaDescription}
+  canonicalUrl={`https://stocktheevent.com/party/${seasonalEvent.slug}`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- Hero Section -->
+  <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white relative overflow-hidden">
+    <div class="absolute top-10 right-10 text-9xl opacity-10">{seasonalEvent.emoji}</div>
+    <div class="absolute bottom-10 left-10 text-9xl opacity-10">{seasonalEvent.emoji}</div>
+
+    <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+      <div class="text-7xl mb-6">{seasonalEvent.emoji}</div>
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
+        {seasonalEvent.h1}
+      </h1>
+      <p class="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto mb-8">
+        {seasonalEvent.subhead}
+      </p>
+
+      <!-- Quick Guest Count Selector -->
+      <div class="inline-flex items-center gap-2 bg-white rounded-full shadow-lg p-2 border border-slate-200">
+        <span class="text-slate-600 font-medium px-3">Guests:</span>
+        {guestCountOptions.map((count) => (
+          <a
+            href={`#results`}
+            data-guest-count={count}
+            class={`guest-btn px-4 py-2 rounded-full font-bold transition-all ${
+              count === defaultGuestCount
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
+                : 'text-slate-600 hover:bg-slate-100'
+            }`}
+          >
+            {count}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Answers Section -->
+  <section id="results" class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
+        For <span id="selected-guests" class="text-orange-600">{defaultGuestCount}</span> Guests, You Need:
+      </h2>
+
+      <!-- Food Cards -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2">
+          <span class="text-2xl">🍽️</span> Food
+        </h3>
+        <p class="text-sm text-slate-500 mb-4">Amounts calculated for a buffet spread with multiple options</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {featuredFoodItems.map((food) => food && (
+            <a
+              href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+              class="food-card bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
+              data-food-id={food.id}
+            >
+              <div class="text-4xl mb-3">{food.emoji}</div>
+              <div class="food-quantity text-4xl font-black mb-1" data-base-per-person={food.servingsPerPersonSide} data-servings-per-unit={food.servingsPerOrderUnit} data-modifier={(baseEvent as any).foodModifiers?.[food.id] || 1.0}>
+                {getExampleQuantity(food.id, 'food')}
+              </div>
+              <div class="text-sm opacity-90">{food.orderUnit}</div>
+              <div class="font-semibold mt-2">{food.name}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Drink Cards -->
+      <div>
+        <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+          <span class="text-2xl">🍺</span> Drinks
+        </h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {featuredDrinkItems.map((drink) => drink && (
+            <a
+              href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+              class="drink-card bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
+              data-drink-id={drink.id}
+            >
+              <div class="text-4xl mb-3">{drink.emoji}</div>
+              <div class="drink-quantity text-4xl font-black mb-1" data-servings-per-unit={drink.servingsPerUnit} data-modifier={baseEvent?.modifiers[drink.id] || 1.0}>
+                {getExampleQuantity(drink.id, 'drink')}
+              </div>
+              <div class="text-sm opacity-90">{drink.unit}</div>
+              <div class="font-semibold mt-2">{drink.name}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <p class="text-center text-sm text-slate-500 mt-6">
+        Click any card for detailed breakdown and shopping list
+      </p>
+    </div>
+  </section>
+
+  <!-- All Calculators Grid -->
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
+        Complete {baseEvent?.name || 'Party'} Calculators
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Food Calculators -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <span class="text-2xl">🍽️</span> Food Calculators
+          </h3>
+          <div class="space-y-2">
+            {foodItems.map((food) => (
+              <a
+                href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                class="flex items-center justify-between p-3 rounded-lg hover:bg-orange-50 transition-colors group"
+              >
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{food.emoji}</span>
+                  <span class="font-medium text-slate-900 group-hover:text-orange-700">{food.name}</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- Drink Calculators -->
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <span class="text-2xl">🍺</span> Drink Calculators
+          </h3>
+          <div class="space-y-2">
+            {drinkItems.map((drink) => (
+              <a
+                href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                class="flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors group"
+              >
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{drink.emoji}</span>
+                  <span class="font-medium text-slate-900 group-hover:text-emerald-700">{drink.name}</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Essentials (Affiliate Section) -->
+  <section class="py-12 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-2 text-center">
+        {baseEvent?.name || 'Party'} Essentials
+      </h2>
+      <p class="text-slate-600 text-center mb-8">Everything you need to host an amazing event</p>
+
+      <div class="grid md:grid-cols-4 gap-4">
+        {seasonalEvent.affiliateProducts.map((product) => (
+          <a
+            href={`https://www.amazon.com/s?k=${product.searchTerm}&tag=${AMAZON_TAG}`}
+            target="_blank"
+            rel="noopener sponsored"
+            class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl hover:bg-amber-50 hover:border-amber-300 border-2 border-transparent transition-all group"
+          >
+            <span class="text-4xl mb-3">{product.emoji}</span>
+            <span class="font-semibold text-slate-900 group-hover:text-amber-700 text-center">{product.name}</span>
+            <span class="text-xs text-slate-500 mt-1">Shop on Amazon →</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="text-xs text-slate-500 text-center mt-6">
+        As an Amazon Associate, we earn from qualifying purchases.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pro Tips Section -->
+  <section class="py-12 bg-gradient-to-br from-amber-50 to-orange-50">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
+        Pro Tips for Your {baseEvent?.name || 'Party'}
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        {seasonalEvent.seasonalTips.map((tip, index) => (
+          <div class="bg-white rounded-xl p-4 shadow-sm border border-amber-100 flex items-start gap-3">
+            <div class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0">
+              {index + 1}
+            </div>
+            <p class="text-slate-700">{tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Email Capture -->
+  <section class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <EmailCapture
+        eventType={seasonalEvent.eventType}
+        eventName={baseEvent?.name || 'Party'}
+        placement="inline"
+      />
+    </div>
+  </section>
+
+  <!-- Other Seasonal Events -->
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="font-display text-2xl font-bold text-slate-900 mb-8 text-center">
+        Planning a Different Event?
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        {seasonalEvents
+          .filter(e => e.slug !== seasonalEvent.slug)
+          .slice(0, 6)
+          .map((event) => (
+            <a
+              href={`/party/${event.slug}`}
+              class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
+            >
+              <span class="text-4xl">{event.emoji}</span>
+              <div>
+                <div class="font-semibold text-slate-900 group-hover:text-amber-700">{event.title.replace(' Calculator 2026', '')}</div>
+                <div class="text-sm text-slate-500">View calculator →</div>
+              </div>
+            </a>
+          ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <div class="text-6xl mb-6">{seasonalEvent.emoji}</div>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+        Ready to Plan Your {baseEvent?.name || 'Party'}?
+      </h2>
+      <p class="text-amber-100 mb-8 text-lg max-w-xl mx-auto">
+        Use our free calculators to get exact quantities for your event.
+      </p>
+      <a
+        href="/"
+        class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
+      >
+        Try Interactive Calculator
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ defaultGuestCount, baseEventSlug: baseEvent?.slug || 'party' }}>
+  // Guest count selector functionality
+  document.querySelectorAll('.guest-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const count = parseInt(btn.dataset.guestCount);
+
+      // Update UI
+      document.querySelectorAll('.guest-btn').forEach(b => {
+        b.classList.remove('bg-gradient-to-r', 'from-amber-500', 'to-orange-500', 'text-white');
+        b.classList.add('text-slate-600', 'hover:bg-slate-100');
+      });
+      btn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+      btn.classList.add('bg-gradient-to-r', 'from-amber-500', 'to-orange-500', 'text-white');
+
+      // Update display
+      document.getElementById('selected-guests').textContent = count.toString();
+
+      // Update links and quantities with modifiers
+      document.querySelectorAll('.food-card').forEach(card => {
+        const foodId = card.dataset.foodId;
+        const qtyEl = card.querySelector('.food-quantity');
+        if (!qtyEl) return;
+        const basePerPerson = parseFloat(qtyEl.dataset.basePerPerson || '3');
+        const servingsPerUnit = parseFloat(qtyEl.dataset.servingsPerUnit || '8');
+        const modifier = parseFloat(qtyEl.dataset.modifier || '1.0');
+        const quantity = Math.ceil((count * 0.9 * basePerPerson * modifier / servingsPerUnit) * 1.15);
+        qtyEl.textContent = quantity.toString();
+        card.href = `/food/${foodId}-for-${baseEventSlug}-${count}-guests`;
+      });
+
+      document.querySelectorAll('.drink-card').forEach(card => {
+        const drinkId = card.dataset.drinkId;
+        const qtyEl = card.querySelector('.drink-quantity');
+        if (!qtyEl) return;
+        const servingsPerUnit = parseFloat(qtyEl.dataset.servingsPerUnit || '24');
+        const modifier = parseFloat(qtyEl.dataset.modifier || '1.0');
+        const quantity = Math.ceil((count * 0.75 * 1.5 * 3.75 * modifier / servingsPerUnit) * 1.15);
+        qtyEl.textContent = quantity.toString();
+        card.href = `/${drinkId}-for-${baseEventSlug}-${count}-guests`;
+      });
+    });
+  });
+</script>

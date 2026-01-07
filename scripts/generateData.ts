@@ -354,18 +354,7 @@ function writeDataFiles(pages: CalculatorPage[]): void {
     fs.writeFileSync(filePath, JSON.stringify(page, null, 2));
   }
 
-  // Write index file with all slugs for getStaticPaths
-  const indexPath = path.join(outputDir, '_index.json');
-  const index = pages.map(p => ({
-    slug: p.slug,
-    item: p.item.id,
-    event: p.event.id,
-    guests: p.guestCount.value,
-  }));
-  fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
-
   console.log(`Generated ${pages.length} calculator pages`);
-  console.log(`Index file: ${indexPath}`);
 }
 
 // Run generation

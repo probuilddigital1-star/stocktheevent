@@ -1,15 +1,64 @@
 ---
 import '../styles/global.css';
 
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
 interface Props {
   title: string;
   description: string;
   canonicalUrl?: string;
   ogImage?: string;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description, canonicalUrl, ogImage = '/og-default.png' } = Astro.props;
+const { title, description, canonicalUrl, ogImage = '/og-default.png', breadcrumbs } = Astro.props;
 const siteUrl = 'https://stocktheevent.com';
+
+// Organization Schema (sitewide)
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "StockTheEvent",
+  "url": siteUrl,
+  "logo": `${siteUrl}/logo.png`,
+  "description": "Free food and drink calculators for party planning. Caterer-tested formulas for weddings, birthdays, Super Bowl parties, and more.",
+  "foundingDate": "2024",
+  "sameAs": [],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "url": `${siteUrl}/about`
+  }
+};
+
+// WebSite Schema (for sitelinks search box)
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "StockTheEvent",
+  "url": siteUrl,
+  "description": "Free party food and drink calculators",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${siteUrl}/calculators?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// BreadcrumbList Schema (if breadcrumbs provided)
+const breadcrumbSchema = breadcrumbs ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`
+  }))
+} : null;
 ---
 
 <!DOCTYPE html>
@@ -47,6 +96,11 @@ const siteUrl = 'https://stocktheevent.com';
 
     <!-- Slot for page-specific head content (schema, etc) -->
     <slot name="head" />
+
+    <!-- Sitewide Schema.org structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
     <!-- Header -->
@@ -58,7 +112,9 @@ const siteUrl = 'https://stocktheevent.com';
         </a>
         <!-- Desktop Nav -->
         <div class="hidden sm:flex items-center gap-8 text-sm font-medium">
-          <a href="/calculators" class="text-slate-600 hover:text-emerald-600 transition-colors">All Calculators</a>
+          <a href="/calculators" class="text-slate-600 hover:text-emerald-600 transition-colors">Drinks</a>
+          <a href="/food/pizza-for-birthday-party-50-guests" class="text-slate-600 hover:text-emerald-600 transition-colors">Food</a>
+          <a href="/party/super-bowl-party-calculator" class="text-slate-600 hover:text-emerald-600 transition-colors">Seasonal</a>
           <a href="/about" class="text-slate-600 hover:text-emerald-600 transition-colors">About</a>
           <a href="/" class="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg hover:shadow-lg hover:scale-105 transition-all">
             Try Calculator
@@ -77,7 +133,9 @@ const siteUrl = 'https://stocktheevent.com';
       <!-- Mobile Menu -->
       <div id="mobile-menu" class="hidden sm:hidden bg-white border-t border-slate-100 px-4 py-4">
         <div class="flex flex-col gap-4 text-base font-medium">
-          <a href="/calculators" class="text-slate-600 hover:text-emerald-600 transition-colors py-2">All Calculators</a>
+          <a href="/calculators" class="text-slate-600 hover:text-emerald-600 transition-colors py-2">Drink Calculators</a>
+          <a href="/food/pizza-for-birthday-party-50-guests" class="text-slate-600 hover:text-emerald-600 transition-colors py-2">Food Calculators</a>
+          <a href="/party/super-bowl-party-calculator" class="text-slate-600 hover:text-emerald-600 transition-colors py-2">Seasonal Parties</a>
           <a href="/about" class="text-slate-600 hover:text-emerald-600 transition-colors py-2">About</a>
           <a href="/" class="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-3 rounded-lg text-center font-semibold">
             Try Calculator
@@ -115,55 +173,55 @@ const siteUrl = 'https://stocktheevent.com';
               <span class="font-display">StockTheEvent</span>
             </div>
             <p class="text-sm leading-relaxed mb-6">
-              Drink calculators backed by bartender-tested formulas.
+              Food & drink calculators backed by caterer-tested formulas.
               Never run out (or over-buy) for your event again.
             </p>
             <div class="flex items-center gap-2 text-sm">
               <span class="inline-block w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-              <span class="text-emerald-400">336 calculators ready</span>
+              <span class="text-emerald-400">2,000+ calculators ready</span>
             </div>
           </div>
 
-          <!-- Quick Links -->
+          <!-- Seasonal Parties -->
           <div>
             <h4 class="text-white font-semibold mb-5 flex items-center gap-2">
               <span class="w-8 h-px bg-gradient-to-r from-amber-500 to-orange-500"></span>
-              Popular Events
+              Seasonal Parties
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/wine-for-wedding-100-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span class="text-amber-500">></span> Wedding Calculator
+              <li><a href="/party/super-bowl-party-calculator" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🏈</span> Super Bowl Party
               </a></li>
-              <li><a href="/beer-for-super-bowl-party-50-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span class="text-amber-500">></span> Super Bowl Calculator
+              <li><a href="/party/graduation-party-calculator" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🎓</span> Graduation Party
               </a></li>
-              <li><a href="/champagne-for-holiday-party-75-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span class="text-amber-500">></span> Holiday Party Calculator
+              <li><a href="/party/fourth-of-july-party-calculator" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🎆</span> 4th of July Party
               </a></li>
-              <li><a href="/spirits-for-birthday-party-30-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span class="text-amber-500">></span> Birthday Calculator
+              <li><a href="/party/christmas-party-calculator" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🎄</span> Christmas Party
               </a></li>
             </ul>
           </div>
 
-          <!-- Resources -->
+          <!-- Food & Drinks -->
           <div>
             <h4 class="text-white font-semibold mb-5 flex items-center gap-2">
               <span class="w-8 h-px bg-gradient-to-r from-amber-500 to-orange-500"></span>
-              By Drink Type
+              Food & Drinks
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/calculators?item=wine" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span>🍷</span> Wine Calculators
+              <li><a href="/food/wings-for-super-bowl-party-50-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🍗</span> Wings Calculator
+              </a></li>
+              <li><a href="/food/pizza-for-birthday-party-50-guests" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🍕</span> Pizza Calculator
               </a></li>
               <li><a href="/calculators?item=beer" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
                 <span>🍺</span> Beer Calculators
               </a></li>
-              <li><a href="/calculators?item=champagne" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span>🥂</span> Champagne Calculators
-              </a></li>
-              <li><a href="/calculators?item=spirits" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
-                <span>🥃</span> Spirits Calculators
+              <li><a href="/calculators?item=wine" class="hover:text-emerald-400 transition-colors flex items-center gap-2">
+                <span>🍷</span> Wine Calculators
               </a></li>
             </ul>
           </div>
