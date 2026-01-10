@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://stocktheevent.com',
+  site: 'https://www.stocktheevent.com',
   vite: {
     plugins: [tailwindcss()]
   },
