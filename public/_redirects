@@ -1,2 +1,5 @@
 # Redirect pages.dev to custom domain
 https://stocktheevent.pages.dev/* https://www.stocktheevent.com/:splat 301
+
+# Redirect apex to www
+https://stocktheevent.com/* https://www.stocktheevent.com/:splat 301
