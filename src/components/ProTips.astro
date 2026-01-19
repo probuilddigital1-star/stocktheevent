@@ -7,42 +7,77 @@ interface Props {
 
 const { event } = Astro.props;
 
-const tipIcons = ['💡', '⏰', '🎯', '🧊', '✨'];
+// Tip categories for editorial styling
+const tipCategories = ['ATMOSPHERE', 'PREPARATION', 'TIMING', 'SERVICE', 'PRESENTATION'];
+
+// Alternating border colors (wine and primary)
+const borderColors = ['var(--wine)', 'var(--primary)', 'var(--wine)', 'var(--primary)', 'var(--wine)'];
 ---
 
-<section class="py-16 bg-gradient-to-b from-slate-50 to-white">
+<section class="py-16">
   <div class="max-w-3xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-        Pro Tips for Your {event.name}
+    <!-- Section Header -->
+    <div class="mb-10">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)]">
+        The Host's Secret
       </h2>
-      <p class="text-slate-500">
-        Insider advice from experienced bartenders
+      <p class="text-[var(--primary-dark)] text-sm font-bold uppercase tracking-widest mt-2">
+        Editorial Curation
       </p>
     </div>
 
-    <div class="space-y-4">
+    <!-- Pro Tips Cards -->
+    <div class="space-y-6">
       {event.proTips.map((tip, index) => (
-        <div class="flex gap-4 p-5 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all group">
-          <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-            <span class="text-2xl">
-              {tipIcons[index % tipIcons.length]}
-            </span>
+        <div
+          class="bg-white rounded-xl shadow-md p-8 relative overflow-hidden"
+          style={`border-left: 4px solid ${borderColors[index % borderColors.length]}`}
+        >
+          <!-- Large decorative quote mark -->
+          <span
+            class="font-display text-[5rem] leading-none absolute -top-2 left-4 select-none"
+            style={`color: ${borderColors[index % borderColors.length]}20`}
+            aria-hidden="true"
+          >
+            "
+          </span>
+
+          <!-- Category label -->
+          <span
+            class="text-xs font-bold uppercase tracking-widest mb-4 block"
+            style={`color: ${borderColors[index % borderColors.length]}`}
+          >
+            {tipCategories[index % tipCategories.length]}
+          </span>
+
+          <!-- Quote text -->
+          <p class="font-display text-xl text-[var(--chocolate)] leading-relaxed relative z-10">
+            "{tip}"
+          </p>
+
+          <!-- Attribution line -->
+          <div class="flex items-center gap-3 mt-6 text-[var(--chocolate-40)]">
+            <span class="w-8 h-px bg-[var(--primary)]"></span>
+            <span class="text-sm font-medium uppercase tracking-wide">Pro Tip #{index + 1}</span>
           </div>
-          <p class="text-slate-700 leading-relaxed pt-2 flex-1">{tip}</p>
         </div>
       ))}
     </div>
 
-    <!-- Buying Guide -->
-    <div class="mt-10 p-8 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 rounded-2xl border border-amber-200 shadow-lg relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-24 h-24 bg-orange-200/30 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-      <div class="relative z-10">
-        <h3 class="font-display font-bold text-xl text-slate-900 mb-4 flex items-center gap-3">
-          <span class="text-3xl">🛒</span>
-          Buying Guide
-        </h3>
-        <p class="text-slate-700 leading-relaxed">{event.buyingGuide}</p>
+    <!-- Buying Guide - Premium Card -->
+    <div class="mt-12 paper-texture rounded-2xl border border-[var(--primary-30)] shadow-lg overflow-hidden">
+      <div class="m-3 border-2 border-[var(--primary-10)] rounded-xl p-8">
+        <div class="flex items-start gap-4">
+          <span class="text-4xl">🛒</span>
+          <div>
+            <h3 class="font-display font-bold text-xl text-[var(--chocolate)] mb-3">
+              Buying Guide
+            </h3>
+            <p class="text-[var(--chocolate-light)] leading-relaxed">
+              {event.buyingGuide}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

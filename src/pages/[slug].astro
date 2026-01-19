@@ -284,15 +284,96 @@ const shoppingListSchema = {
   </section>
 </BaseLayout>
 
-<script define:vars={{ eventSlug: page.event.slug, guestCount: page.guestCount.value }}>
-  // Check if user came from bar-setup page
+<script define:vars={{
+  eventSlug: page.event.slug,
+  guestCount: page.guestCount.value,
+  itemData: { servingsPerUnit: page.item.servingsPerUnit, unit: page.item.unit, unitSingular: page.item.unitSingular, name: page.item.name },
+  eventModifier: page.event.modifiers[page.item.id] || 1.0,
+  eventDuration: page.event.defaultDuration
+}}>
+  // Calculation constants
+  const BASE_DRINKS_PER_HOUR = 1.5;
+  const BUFFER_PERCENTAGE = 0.15;
+  const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
+  const DRINKING_PERCENTAGE = { small: 0.80, medium: 0.75, large: 0.70, xlarge: 0.65 };
+
+  function getTier(guests) {
+    if (guests <= 30) return 'small';
+    if (guests <= 75) return 'medium';
+    if (guests <= 150) return 'large';
+    return 'xlarge';
+  }
+
+  function calculateConsumption(durationHours) {
+    let total = 0;
+    for (let hour = 0; hour < durationHours; hour++) {
+      const decayIndex = Math.min(hour, HOURLY_DECAY.length - 1);
+      total += HOURLY_DECAY[decayIndex];
+    }
+    return total;
+  }
+
+  function recalculate(guests, duration) {
+    const tier = getTier(guests);
+    const drinkingPct = DRINKING_PERCENTAGE[tier];
+    const actualDrinkers = guests * drinkingPct;
+    const consumptionMult = calculateConsumption(duration);
+    const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * eventModifier);
+    const rawUnits = totalServings / itemData.servingsPerUnit;
+    const unitsNeeded = Math.ceil(rawUnits * (1 + BUFFER_PERCENTAGE));
+    const perPerson = Math.round((totalServings / guests) * 10) / 10;
+    const buffer = Math.ceil(rawUnits * BUFFER_PERCENTAGE);
+    return { unitsNeeded, totalServings, perPerson, buffer };
+  }
+
+  // Check URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const fromBar = urlParams.get('fromBar');
   const units = urlParams.get('units');
   const servings = urlParams.get('servings');
+  const customGuests = urlParams.get('guests');
+  const customDuration = urlParams.get('duration');
 
+  // If custom guest count provided, recalculate and update display
+  if (customGuests && parseInt(customGuests) !== guestCount) {
+    const newGuests = parseInt(customGuests);
+    const duration = customDuration ? parseInt(customDuration) : eventDuration;
+    const calc = recalculate(newGuests, duration);
+
+    // Update the main answer number
+    const answerNumber = document.querySelector('.answer-number');
+    if (answerNumber) answerNumber.textContent = calc.unitsNeeded;
+
+    // Update unit label
+    const unitLabel = document.querySelector('.font-display.text-xl, .font-display.text-2xl');
+    if (unitLabel) {
+      const unitText = calc.unitsNeeded === 1 ? itemData.unitSingular : itemData.unit;
+      unitLabel.textContent = `${unitText} of ${itemData.name.toLowerCase()}`;
+    }
+
+    // Update stats cards
+    const statsCards = document.querySelectorAll('.glass-card .font-mono-luxe');
+    if (statsCards.length >= 3) {
+      statsCards[0].textContent = calc.totalServings;
+      statsCards[1].textContent = calc.perPerson;
+      statsCards[2].textContent = '+' + calc.buffer;
+    }
+
+    // Update the "For X-guest" text
+    const guestCountDisplay = document.getElementById('guest-count-display');
+    if (guestCountDisplay) {
+      guestCountDisplay.textContent = newGuests.toString();
+    }
+
+    // Update H1 if it contains guest count
+    const h1 = document.querySelector('h1');
+    if (h1 && h1.textContent.includes(guestCount)) {
+      h1.textContent = h1.textContent.replace(guestCount, newGuests);
+    }
+  }
+
+  // Bar context banner handling
   if (fromBar === '1' && units && servings) {
-    // Show the bar context banner
     const banner = document.getElementById('bar-context-banner');
     const barUnits = document.getElementById('bar-units');
     const barServings = document.getElementById('bar-servings');
@@ -302,8 +383,8 @@ const shoppingListSchema = {
     if (barUnits) barUnits.textContent = units;
     if (barServings) barServings.textContent = servings;
     if (backLink) {
-      // Build the back link to bar-setup
-      backLink.href = `/bar-setup/${eventSlug}-${guestCount}-guests`;
+      const guests = customGuests || guestCount;
+      backLink.href = `/bar-setup/${eventSlug}-${guests}-guests`;
     }
   }
 </script>

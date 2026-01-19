@@ -14,95 +14,183 @@ const mainItemEntry = shoppingItems[0];
 const accessories = shoppingItems.slice(1);
 ---
 
-<section class="py-16 bg-white">
+<section class="py-16">
   <div class="max-w-3xl mx-auto px-4">
-    <div class="text-center mb-10">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-3">
-        Your Shopping List
-      </h2>
-      <p class="text-slate-500">
-        Everything you need, plus essentials you might forget
-      </p>
-    </div>
+    <!-- Paper Texture Card -->
+    <div class="paper-texture rounded-2xl border border-[var(--primary-30)] shadow-lg overflow-hidden">
+      <!-- Inner decorative border -->
+      <div class="m-3 border-2 border-[var(--primary-10)] rounded-xl p-6 md:p-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+          <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] golden-underline-center">
+            The Essentials
+          </h2>
+        </div>
 
-    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
-      <!-- Main Item -->
-      <div class="p-8 bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 border-b border-amber-100 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-orange-200/20 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div class="flex items-center justify-between relative z-10">
-          <div class="flex items-center gap-5">
-            <span class="text-6xl drop-shadow-sm">{mainItem.emoji}</span>
-            <div>
-              <div class="font-bold text-xl text-slate-900">{mainItemEntry.name}</div>
-              <div class="text-sm text-amber-700 font-medium">The main event</div>
+        <!-- Shopping Items List -->
+        <div class="space-y-0">
+          <!-- Main Item -->
+          <div class="shopping-item flex items-center gap-4 py-4 border-b border-[var(--primary-10)] group">
+            <button
+              class="checkbox-golden flex-shrink-0"
+              data-checked="false"
+              aria-label="Toggle item"
+            >
+              <svg class="checkmark w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="flex-1 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">{mainItem.emoji}</span>
+                <span class="font-medium text-[var(--chocolate)] text-lg group-hover:text-[var(--primary-dark)] transition-colors">
+                  {mainItemEntry.quantity} {mainItemEntry.unit} {mainItemEntry.name}
+                </span>
+              </div>
+              {(() => {
+                const affiliateUrl = getAffiliateLink(mainItemEntry.name);
+                return affiliateUrl ? (
+                  <a
+                    href={affiliateUrl}
+                    target="_blank"
+                    rel="noopener sponsored"
+                    class="text-xs bg-[var(--primary-20)] hover:bg-[var(--primary-30)] text-[var(--primary-dark)] px-3 py-1 rounded-lg transition-colors font-medium"
+                  >
+                    Buy
+                  </a>
+                ) : null;
+              })()}
             </div>
           </div>
-          <div class="text-right">
-            <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">{mainItemEntry.quantity}</div>
-            <div class="text-sm text-slate-500 font-medium">{mainItemEntry.unit}</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Accessories -->
-      {accessories.length > 0 && (
-        <div class="p-6">
-          <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span class="w-6 h-px bg-slate-200"></span>
-            Don't forget these
-            <span class="flex-1 h-px bg-slate-200"></span>
-          </h3>
-          <ul class="divide-y divide-slate-100">
-            {accessories.map((item) => {
-              const affiliateUrl = getAffiliateLink(item.name);
-              return (
-                <li class="py-4 flex items-center justify-between hover:bg-slate-50 -mx-3 px-3 rounded-lg transition-colors">
-                  <div class="flex items-center gap-3">
-                    <div class="w-2.5 h-2.5 bg-gradient-to-br from-amber-400 to-orange-400 rounded-full shadow-sm"></div>
-                    <span class="text-slate-700 font-medium">{item.name}</span>
+          <!-- Accessories -->
+          {accessories.map((item, index) => {
+            const affiliateUrl = getAffiliateLink(item.name);
+            return (
+              <div class="shopping-item flex items-center gap-4 py-4 border-b border-[var(--primary-10)] last:border-b-0 group">
+                <button
+                  class="checkbox-golden flex-shrink-0"
+                  data-checked="false"
+                  aria-label="Toggle item"
+                >
+                  <svg class="checkmark w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="flex-1 flex items-center justify-between">
+                  <span class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)] transition-colors">
+                    {item.quantity} {item.unit} {item.name}
                     {item.notes && (
-                      <span class="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">({item.notes})</span>
+                      <span class="text-sm text-[var(--chocolate-40)] ml-2">({item.notes})</span>
                     )}
-                  </div>
-                  <div class="flex items-center gap-3">
-                    <div class="text-slate-900 font-bold">
-                      {item.quantity} <span class="text-slate-400 font-normal">{item.unit}</span>
-                    </div>
-                    {affiliateUrl && (
-                      <a
-                        href={affiliateUrl}
-                        target="_blank"
-                        rel="noopener sponsored"
-                        class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-700 px-2 py-1 rounded-lg transition-colors font-medium"
-                      >
-                        Buy
-                      </a>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                  </span>
+                  {affiliateUrl && (
+                    <a
+                      href={affiliateUrl}
+                      target="_blank"
+                      rel="noopener sponsored"
+                      class="text-xs bg-[var(--primary-20)] hover:bg-[var(--primary-30)] text-[var(--primary-dark)] px-3 py-1 rounded-lg transition-colors font-medium"
+                    >
+                      Buy
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      )}
 
-      <!-- Print/Copy Button -->
-      <div class="p-5 bg-gradient-to-b from-slate-50 to-slate-100 border-t border-slate-200">
-        <button
-          id="copy-list"
-          class="w-full py-3 px-4 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 hover:scale-[1.02] transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-          Copy Shopping List
-        </button>
+        <!-- Action Buttons -->
+        <div class="flex gap-3 mt-8">
+          <button
+            id="copy-list"
+            class="flex-1 py-4 px-6 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-lg">content_copy</span>
+            Copy List
+          </button>
+          <button
+            id="email-list-btn"
+            class="flex-1 py-4 px-6 bg-[var(--forest)] hover:bg-[var(--forest-dark)] text-white rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-lg">mail</span>
+            Email List
+          </button>
+        </div>
+
+        <!-- Email Form (hidden by default) -->
+        <div id="email-form-container" class="hidden mt-6 p-4 bg-[var(--cream-100)] rounded-xl border border-[var(--primary-20)]">
+          <p class="text-sm text-[var(--chocolate)] mb-3 text-center">We'll send your complete list plus pro tips</p>
+          <form id="email-list-form" class="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              class="flex-1 px-4 py-3 rounded-xl border border-[var(--primary-30)] focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-20)] outline-none bg-white"
+            />
+            <button
+              type="submit"
+              class="bg-[var(--forest)] hover:bg-[var(--forest-dark)] text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+            >
+              Send
+            </button>
+          </form>
+          <p id="email-message" class="text-sm mt-3 text-center hidden"></p>
+          <p class="text-xs text-[var(--chocolate-40)] mt-3 text-center">No spam, unsubscribe anytime</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<style>
+  .checkbox-golden {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-40);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .checkbox-golden[data-checked="true"] {
+    background: var(--primary-10);
+    border-color: var(--primary);
+  }
+
+  .checkbox-golden .checkmark {
+    color: var(--primary);
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.2s ease;
+  }
+
+  .checkbox-golden[data-checked="true"] .checkmark {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .shopping-item:has(.checkbox-golden[data-checked="true"]) span.font-medium {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+</style>
+
 <script define:vars={{ shoppingItems }}>
+  // Checkbox toggle functionality
+  document.querySelectorAll('.checkbox-golden').forEach(checkbox => {
+    checkbox.addEventListener('click', () => {
+      const isChecked = checkbox.dataset.checked === 'true';
+      checkbox.dataset.checked = isChecked ? 'false' : 'true';
+    });
+  });
+
+  // Copy list functionality
   document.getElementById('copy-list')?.addEventListener('click', () => {
     const text = shoppingItems
       .map(item => `${item.quantity} ${item.unit} - ${item.name}${item.notes ? ` (${item.notes})` : ''}`)
@@ -111,10 +199,58 @@ const accessories = shoppingItems.slice(1);
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copy-list');
       if (btn) {
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Copied!';
-        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check</span> Copied!';
+        setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
       }
     });
+  });
+
+  // Email list toggle
+  document.getElementById('email-list-btn')?.addEventListener('click', () => {
+    const container = document.getElementById('email-form-container');
+    container?.classList.toggle('hidden');
+  });
+
+  // Email form submission
+  const emailForm = document.getElementById('email-list-form');
+  emailForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = emailForm.querySelector('input[name="email"]');
+    const email = emailInput ? emailInput.value : '';
+    const message = document.getElementById('email-message');
+
+    const payload = {
+      email: email,
+      shoppingList: shoppingItems,
+      pageUrl: window.location.href,
+      timestamp: new Date().toISOString(),
+      source: 'shopping-list'
+    };
+
+    try {
+      const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        if (message) {
+          message.textContent = 'Check your inbox!';
+          message.className = 'text-sm mt-3 text-center text-[var(--forest)]';
+          message.classList.remove('hidden');
+        }
+        emailForm.reset();
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (err) {
+      if (message) {
+        message.textContent = 'Something went wrong. Try again?';
+        message.className = 'text-sm mt-3 text-center text-[var(--wine)]';
+        message.classList.remove('hidden');
+      }
+    }
   });
 </script>

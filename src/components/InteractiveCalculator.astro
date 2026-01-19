@@ -26,79 +26,141 @@ const guestCountsData = guestCounts.map(g => ({
   label: g.label,
   tier: g.tier,
 }));
+
+// Drink category images (placeholder paths - can be replaced with actual images)
+const drinkImages = {
+  wine: '/images/wine-glass.jpg',
+  beer: '/images/beer-glass.jpg',
+  spirits: '/images/spirits-bottles.jpg',
+  champagne: '/images/champagne-glass.jpg',
+};
+
+// Material icons for drinks
+const drinkIcons = {
+  wine: 'wine_bar',
+  beer: 'sports_bar',
+  spirits: 'liquor',
+  champagne: 'local_bar',
+};
 ---
 
-<section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
+<section class="py-12 md:py-20">
   <div class="max-w-5xl mx-auto px-4">
-    <!-- Header with display font -->
-    <div class="text-center mb-12">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 leading-tight">
+    <!-- Header -->
+    <div class="text-center mb-10 animate-fade-in-up">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--chocolate)] mb-4 leading-tight">
         Plan the Perfect Party
       </h1>
-      <p class="text-xl text-slate-600 max-w-2xl mx-auto">
-        Calculate exactly what you need with our <span class="text-amber-600 font-semibold">bartender-tested formulas</span>
+      <p class="text-lg text-[var(--chocolate-light)] max-w-2xl mx-auto">
+        Calculate exactly what you need with our <span class="text-[var(--primary-dark)] font-semibold">bartender-tested formulas</span>
       </p>
-      <p class="text-sm text-slate-500 mt-2">336 drink + event + guest combinations available</p>
+      <p class="text-sm text-[var(--chocolate-40)] mt-2">336 drink + event + guest combinations available</p>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-8 items-start">
       <!-- Input Panel -->
-      <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-8 animate-fade-in-up">
+      <div class="glass-card p-6 md:p-8 animate-fade-in-up">
         <div class="space-y-8">
-          <!-- Drink Type - Multi-select -->
+          <!-- Drink Type - Glass Cards Grid -->
           <div>
-            <label class="block text-sm font-bold text-slate-800 mb-2 uppercase tracking-wide">
+            <label class="block text-sm font-bold text-[var(--chocolate)] mb-2 uppercase tracking-wider">
               What are you serving?
             </label>
-            <p class="text-sm text-slate-500 mb-4">Select all that apply</p>
-            <div class="grid grid-cols-2 gap-3" id="item-selector">
+            <p class="text-sm text-[var(--chocolate-40)] mb-4">Select the categories for your event</p>
+            <div class="grid grid-cols-2 gap-4" id="item-selector">
               {items.map((item, idx) => (
                 <button
                   type="button"
                   data-item={item.id}
                   class:list={[
-                    'item-btn group flex items-center gap-3 p-4 rounded-2xl border-2 transition-all text-left hover:scale-105 hover:shadow-lg relative',
+                    'drink-card group relative aspect-square rounded-2xl overflow-hidden transition-all duration-300',
                     idx === 0
-                      ? 'border-amber-500 bg-gradient-to-br from-amber-50 to-orange-50 shadow-md selected'
-                      : 'border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
+                      ? 'glass-card-selected'
+                      : 'glass-card hover:border-[var(--primary-40)]'
                   ]}
                 >
-                  <span class="text-4xl group-hover:scale-110 transition-transform">{item.emoji}</span>
-                  <span class="font-semibold text-slate-900">{item.name}</span>
-                  <!-- Checkmark badge -->
+                  <!-- Background gradient (simulating image) -->
+                  <div class="absolute inset-0 bg-gradient-to-br from-[var(--champagne-100)] to-[var(--cream-200)] opacity-60 group-hover:opacity-80 transition-opacity"></div>
+
+                  <!-- Material Icon -->
                   <span class:list={[
-                    'checkmark absolute top-2 right-2 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white transition-all',
-                    idx === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
-                  ]}>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
+                    'material-symbols-outlined absolute top-3 left-3 text-xl transition-colors',
+                    idx === 0 ? 'text-[var(--primary)]' : 'text-[var(--chocolate-40)] group-hover:text-[var(--primary)]'
+                  ]} style="font-variation-settings: 'FILL' 0;">
+                    {drinkIcons[item.id as keyof typeof drinkIcons]}
                   </span>
+
+                  <!-- Content -->
+                  <div class="absolute inset-0 flex flex-col items-center justify-center p-4">
+                    <span class="text-5xl mb-2 group-hover:scale-110 transition-transform drop-shadow-md">{item.emoji}</span>
+                    <span class="font-semibold text-[var(--chocolate)] text-lg">{item.name}</span>
+                  </div>
+
+                  <!-- Selection indicator -->
+                  <div class:list={[
+                    'selection-dot absolute top-3 right-3 w-3 h-3 rounded-full transition-all',
+                    idx === 0 ? 'bg-[var(--primary)] scale-100' : 'bg-transparent scale-0'
+                  ]}></div>
                 </button>
               ))}
             </div>
-            <div id="selection-count" class="text-center mt-3 text-sm text-amber-600 font-medium">
+            <div id="selection-count" class="text-center mt-4 text-sm text-[var(--primary-dark)] font-medium">
               1 drink selected
             </div>
           </div>
 
           <!-- Event Type -->
           <div>
-            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
+            <label class="block text-sm font-bold text-[var(--chocolate)] mb-4 uppercase tracking-wider">
               What's the occasion?
             </label>
-            <select id="event-select" class="w-full p-4 border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-lg bg-white hover:border-slate-300 transition-colors cursor-pointer">
+            <select id="event-select" class="w-full p-4 border-2 border-[var(--primary-30)] rounded-2xl bg-white/80 backdrop-blur-sm focus:ring-2 focus:ring-[var(--primary)] focus:border-[var(--primary)] text-lg text-[var(--chocolate)] hover:border-[var(--primary-40)] transition-colors cursor-pointer font-medium">
               {events.map(event => (
                 <option value={event.id}>{event.name}</option>
               ))}
             </select>
           </div>
 
-          <!-- Duration Slider (NEW!) -->
+          <!-- Guest Count Slider -->
           <div>
-            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
-              How long is your event?
-            </label>
+            <div class="flex justify-between items-baseline mb-4">
+              <label class="text-sm font-bold text-[var(--chocolate)] uppercase tracking-wider">
+                Number of Guests
+              </label>
+              <span id="guest-display" class="font-mono-luxe text-3xl font-bold text-[var(--chocolate)]">100</span>
+            </div>
+            <div class="relative">
+              <input
+                type="range"
+                id="guest-slider"
+                min="0"
+                max="100"
+                value="33.33"
+                step="0.1"
+                class="w-full h-2 rounded-full appearance-none cursor-pointer slider-golden"
+                style="background: linear-gradient(to right, var(--primary) 0%, var(--primary) 33.33%, var(--chocolate-10) 33.33%, var(--chocolate-10) 100%);"
+              />
+            </div>
+            <!-- Labels evenly spaced with flexbox - piecewise scale aligns thumb with labels -->
+            <div class="flex justify-between mt-2 text-xs text-[var(--chocolate-40)] font-medium">
+              <span>10</span>
+              <span>100</span>
+              <span>200</span>
+              <span>300</span>
+            </div>
+          </div>
+
+          <!-- Duration Slider -->
+          <div class="border-t border-[var(--primary-10)] pt-8">
+            <div class="flex justify-between items-baseline mb-4">
+              <label class="text-sm font-bold text-[var(--chocolate)] uppercase tracking-wider">
+                Event Duration
+              </label>
+              <div class="flex items-baseline gap-1">
+                <span id="duration-display" class="font-mono-luxe text-3xl font-bold text-[var(--chocolate)]">5</span>
+                <span class="text-sm text-[var(--chocolate-40)] font-medium uppercase">hrs</span>
+              </div>
+            </div>
             <div class="relative">
               <input
                 type="range"
@@ -106,189 +168,136 @@ const guestCountsData = guestCounts.map(g => ({
                 min="1"
                 max="6"
                 value="5"
-                class="w-full h-3 bg-gradient-to-r from-slate-200 via-slate-200 to-slate-200 rounded-full appearance-none cursor-pointer slider-thumb"
+                class="w-full h-2 rounded-full appearance-none cursor-pointer slider-golden"
+                style="background: linear-gradient(to right, var(--primary) 0%, var(--primary) 80%, var(--chocolate-10) 80%, var(--chocolate-10) 100%);"
               />
-              <div class="flex justify-between mt-3 text-xs text-slate-400 font-medium">
-                <span>1hr</span>
-                <span>2hr</span>
-                <span>3hr</span>
-                <span>4hr</span>
-                <span>5hr</span>
-                <span>6hr+</span>
-              </div>
             </div>
-            <div class="text-center mt-4">
-              <span id="duration-display" class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">5</span>
-              <span class="text-slate-500 ml-1 text-lg">hours</span>
+            <div class="flex justify-between mt-2 text-xs text-[var(--chocolate-40)] font-medium">
+              <span>1hr</span>
+              <span>2hr</span>
+              <span>3hr</span>
+              <span>4hr</span>
+              <span>5hr</span>
+              <span>6hr+</span>
             </div>
-            <p id="duration-hint" class="text-center text-sm text-slate-500 mt-2">
+            <p id="duration-hint" class="text-center text-sm text-[var(--chocolate-40)] mt-3">
               Recommended for weddings
             </p>
-          </div>
-
-          <!-- Guest Count -->
-          <div>
-            <label class="block text-sm font-bold text-slate-800 mb-4 uppercase tracking-wide">
-              How many guests?
-            </label>
-            <div class="relative">
-              <input
-                type="range"
-                id="guest-slider"
-                min="0"
-                max="11"
-                value="7"
-                class="w-full h-3 bg-gradient-to-r from-slate-200 via-slate-200 to-slate-200 rounded-full appearance-none cursor-pointer slider-thumb"
-              />
-              <div class="relative mt-3 text-xs text-slate-400 font-medium h-4">
-                <!-- Labels positioned to match actual slider thumb positions -->
-                <!-- Thumb is 32px, so center travels from 16px to calc(100% - 16px) -->
-                <!-- Formula: left = 16px + (index/11) * (100% - 32px) -->
-                <span class="absolute" style="left: 16px; transform: translateX(-50%);">10</span>
-                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.4545); transform: translateX(-50%);">50</span>
-                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.6364); transform: translateX(-50%);">100</span>
-                <span class="absolute" style="left: calc(16px + (100% - 32px) * 0.8182); transform: translateX(-50%);">200</span>
-                <span class="absolute" style="left: calc(100% - 16px); transform: translateX(-50%);">300</span>
-              </div>
-            </div>
-            <div class="text-center mt-6 bg-slate-50 rounded-2xl py-4">
-              <span id="guest-display" class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600">100</span>
-              <span class="text-slate-500 ml-2 text-lg">guests</span>
-            </div>
           </div>
         </div>
       </div>
 
-      <!-- Results Panel - Adaptive -->
-      <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-fade-in-up animate-delay-100">
-        <!-- Single Drink Result (default) -->
-        <div id="single-result" class="result-panel">
-          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-10 text-center text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-            <div id="result-emoji" class="text-8xl mb-4 drop-shadow-lg transition-transform">🍷</div>
-            <div class="text-7xl md:text-8xl font-black mb-2 drop-shadow-sm" id="result-units">24</div>
-            <div class="text-xl opacity-95 font-medium" id="result-unit-label">bottles of wine</div>
-            <div class="mt-4 text-amber-100 text-sm">
-              for your event • 15% buffer included
+      <!-- Results Panel -->
+      <div class="animate-fade-in-up animate-delay-100">
+        <!-- Result Card with Sunset Gradient -->
+        <div class="sunset-gradient rounded-3xl overflow-hidden flourish-corners">
+          <!-- Single Drink Result (default) -->
+          <div id="single-result" class="result-panel p-8 md:p-10 text-center text-white">
+            <p class="text-sm uppercase tracking-widest opacity-80 mb-6">You will need approx.</p>
+            <div id="result-emoji" class="text-7xl mb-4 drop-shadow-lg transition-transform">🍷</div>
+            <div class="flex items-baseline justify-center gap-2 mb-2">
+              <span id="result-units" class="font-mono-luxe text-7xl md:text-8xl font-bold text-glow">24</span>
+            </div>
+            <div id="result-unit-label" class="font-display text-2xl italic opacity-95">Bottles</div>
+            <div class="flex items-center justify-center gap-2 mt-4 text-sm opacity-80">
+              <span class="material-symbols-outlined text-base">info</span>
+              <span id="result-mix-label">Calculated for wine</span>
             </div>
           </div>
-        </div>
 
-        <!-- Multi-Drink Result (2-3 drinks) -->
-        <div id="multi-result" class="result-panel hidden">
-          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-6 text-center text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-            <div class="text-lg font-semibold mb-4 opacity-90">Your Bar Setup</div>
+          <!-- Multi-Drink Result (2-3 drinks) -->
+          <div id="multi-result" class="result-panel hidden p-6 text-center text-white">
+            <p class="text-sm uppercase tracking-widest opacity-80 mb-4">Your Bar Setup</p>
             <div id="multi-drink-grid" class="grid gap-3">
               <!-- Dynamically populated -->
             </div>
-            <div class="mt-4 text-amber-100 text-sm">
-              15% buffer included on each
+            <div class="flex items-center justify-center gap-2 mt-4 text-sm opacity-80">
+              <span class="material-symbols-outlined text-base">info</span>
+              <span>15% buffer included on each</span>
             </div>
           </div>
-        </div>
 
-        <!-- Full Bar Result (4 drinks) -->
-        <div id="fullbar-result" class="result-panel hidden">
-          <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-6 text-center text-white relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <!-- Full Bar Result (4 drinks) -->
+          <div id="fullbar-result" class="result-panel hidden p-6 text-center text-white">
             <div class="text-4xl mb-2">🎉</div>
-            <div class="text-xl font-semibold mb-1">Your Complete Bar</div>
-            <div class="text-5xl font-black" id="total-items">106</div>
-            <div class="text-amber-100 text-sm mb-4">total items</div>
+            <p class="text-lg font-semibold mb-1">Your Complete Bar</p>
+            <div id="total-items" class="font-mono-luxe text-5xl font-bold text-glow">106</div>
+            <p class="text-sm opacity-80 mb-4">total items</p>
             <div id="fullbar-grid" class="grid grid-cols-2 gap-2">
               <!-- Dynamically populated -->
             </div>
           </div>
         </div>
 
-        <!-- Stats - Shared -->
-        <div class="grid grid-cols-3 bg-gradient-to-b from-slate-50 to-white">
-          <div class="p-5 text-center border-r border-slate-100">
-            <div class="text-3xl font-bold text-slate-900" id="result-servings">120</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">servings</div>
+        <!-- Stats Row -->
+        <div class="grid grid-cols-3 gap-3 mt-4">
+          <div class="glass-card p-4 text-center">
+            <div id="result-servings" class="font-mono-luxe text-2xl font-bold text-[var(--chocolate)]">120</div>
+            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">servings</div>
           </div>
-          <div class="p-5 text-center border-r border-slate-100">
-            <div class="text-3xl font-bold text-slate-900" id="result-per-person">1.2</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">per person</div>
+          <div class="glass-card p-4 text-center">
+            <div id="result-per-person" class="font-mono-luxe text-2xl font-bold text-[var(--chocolate)]">1.2</div>
+            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">per person</div>
           </div>
-          <div class="p-5 text-center">
-            <div class="text-3xl font-bold text-slate-900" id="result-duration">5</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">hours</div>
+          <div class="glass-card p-4 text-center">
+            <div id="result-duration" class="font-mono-luxe text-2xl font-bold text-[var(--chocolate)]">5</div>
+            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">hours</div>
           </div>
         </div>
 
-        <!-- CTA -->
-        <div class="p-6 bg-white">
-          <a
-            href="#"
-            id="detail-link"
-            class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white text-center py-4 rounded-2xl font-bold transition-all hover:scale-105 hover:shadow-xl shadow-lg shadow-emerald-200"
-          >
-            <span id="cta-text">Get Full Breakdown & Shopping List →</span>
-          </a>
-          <p class="text-center text-sm text-slate-500 mt-4">
-            Pro tips • Step-by-step math • Copy-ready shopping list
-          </p>
-        </div>
+        <!-- CTA Button -->
+        <a
+          href="#"
+          id="detail-link"
+          class="block w-full forest-gradient text-white text-center py-4 rounded-2xl font-bold text-lg mt-4 hover:scale-[1.02] active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
+        >
+          <span id="cta-text">Get Full Breakdown</span>
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <p class="text-center text-sm text-[var(--chocolate-40)] mt-3">
+          Pro tips • Step-by-step math • Copy-ready shopping list
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  .slider-thumb::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 3px solid white;
-  }
-  .slider-thumb::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
-  }
-  .slider-thumb::-moz-range-thumb {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
-    cursor: pointer;
-    border: 3px solid white;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-  }
-  .slider-thumb::-moz-range-thumb:hover {
-    transform: scale(1.15);
+  /* Drink card specific styles */
+  .drink-card.glass-card-selected .selection-dot {
+    background: var(--primary);
+    transform: scale(1);
   }
 
-  /* Animation for results */
-  @keyframes resultPop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1); }
-  }
-  .result-animate {
-    animation: resultPop 0.3s ease-out;
+  .drink-card:not(.glass-card-selected) .selection-dot {
+    background: transparent;
+    transform: scale(0);
   }
 
   /* Multi-drink card style */
-  .drink-card {
+  .drink-card-item {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 12px;
     padding: 12px;
     backdrop-filter: blur(4px);
   }
+
   .drink-card-sm {
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
     padding: 8px 12px;
     backdrop-filter: blur(4px);
+  }
+
+  /* Result animation */
+  @keyframes resultPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+
+  .result-animate {
+    animation: resultPop 0.3s ease-out;
   }
 </style>
 
@@ -304,43 +313,93 @@ const guestCountsData = guestCounts.map(g => ({
     xlarge: 0.65,
   };
 
-  // Event-specific drink splits (bartender-approved, totals > 1.0 to account for variety/switching)
-  // Keys must match event.id values from events.ts
+  // Event-specific drink splits
   const EVENT_SPLITS = {
-    wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },        // 1.20 total
-    'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },   // 1.15 total
-    corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },      // 1.15 total
-    birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },       // 1.15 total
-    'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },// 1.15 total
-    graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },     // 1.15 total
-    'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },// 1.18 total
+    wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },
+    'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },
+    corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },
+    birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },
+    'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },
+    graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },
+    'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },
   };
 
-  // Variety factor scales with number of drink types (bartender recommendation)
-  // More variety = need more of each to ensure you don't run out
   const VARIETY_FACTORS = {
-    1: 1.00,  // Single drink - no variety factor
-    2: 1.25,  // 2 drink types
-    3: 1.40,  // 3 drink types
-    4: 1.60,  // Full bar - need significant variety buffer
+    1: 1.00,
+    2: 1.25,
+    3: 1.40,
+    4: 1.60,
   };
 
-  // Minimum units per category for full bar (ensures viable stock of each type)
   const MINIMUM_UNITS = {
-    wine: 6,      // At least 6 bottles (30 drinks)
-    beer: 2,      // At least 2 cases (48 drinks)
-    champagne: 4, // At least 4 bottles (24 drinks)
-    spirits: 8,   // At least 8 bottles for variety (vodka, rum, whiskey, gin, tequila)
+    wine: 6,
+    beer: 2,
+    champagne: 4,
+    spirits: 8,
   };
+
+  // Calculate tier based on guest count
+  function getTierFromGuestCount(guests) {
+    if (guests <= 30) return 'small';
+    if (guests <= 75) return 'medium';
+    if (guests <= 150) return 'large';
+    return 'xlarge';
+  }
+
+  // Piecewise linear conversion: slider position (0-100) to guest count (10-300)
+  // Labels at 0%=10, 33.33%=100, 66.66%=200, 100%=300
+  function sliderToGuests(sliderValue) {
+    if (sliderValue <= 33.33) {
+      // 0-33.33% maps to 10-100 guests
+      return Math.round(10 + (sliderValue / 33.33) * 90);
+    } else if (sliderValue <= 66.66) {
+      // 33.33-66.66% maps to 100-200 guests
+      return Math.round(100 + ((sliderValue - 33.33) / 33.33) * 100);
+    } else {
+      // 66.66-100% maps to 200-300 guests
+      return Math.round(200 + ((sliderValue - 66.66) / 33.34) * 100);
+    }
+  }
+
+  // Piecewise linear conversion: guest count (10-300) to slider position (0-100)
+  function guestsToSlider(guests) {
+    if (guests <= 100) {
+      // 10-100 guests maps to 0-33.33%
+      return ((guests - 10) / 90) * 33.33;
+    } else if (guests <= 200) {
+      // 100-200 guests maps to 33.33-66.66%
+      return 33.33 + ((guests - 100) / 100) * 33.33;
+    } else {
+      // 200-300 guests maps to 66.66-100%
+      return 66.66 + ((guests - 200) / 100) * 33.34;
+    }
+  }
+
+  // Valid guest counts that have pre-generated pages
+  const VALID_PAGE_GUESTS = [10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 200, 250, 300];
+
+  // Find nearest valid guest count for URL path
+  function getNearestValidGuests(guests) {
+    let closest = VALID_PAGE_GUESTS[0];
+    let minDiff = Math.abs(guests - closest);
+    for (const valid of VALID_PAGE_GUESTS) {
+      const diff = Math.abs(guests - valid);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closest = valid;
+      }
+    }
+    return closest;
+  }
 
   // State
-  let selectedItems = [itemsData[0]]; // Start with wine selected
+  let selectedItems = [itemsData[0]];
   let selectedEvent = eventsData[0];
-  let selectedGuestCount = guestCountsData[7]; // 100 guests default
+  let selectedGuestCount = { value: 100, tier: 'large' }; // 100 guests default
   let selectedDuration = eventsData[0].defaultDuration;
 
   // DOM elements
-  const itemBtns = document.querySelectorAll('.item-btn');
+  const drinkCards = document.querySelectorAll('.drink-card');
   const eventSelect = document.getElementById('event-select');
   const guestSlider = document.getElementById('guest-slider');
   const durationSlider = document.getElementById('duration-slider');
@@ -358,6 +417,7 @@ const guestCountsData = guestCounts.map(g => ({
   const resultEmoji = document.getElementById('result-emoji');
   const resultUnits = document.getElementById('result-units');
   const resultUnitLabel = document.getElementById('result-unit-label');
+  const resultMixLabel = document.getElementById('result-mix-label');
 
   // Multi result elements
   const multiDrinkGrid = document.getElementById('multi-drink-grid');
@@ -372,6 +432,11 @@ const guestCountsData = guestCounts.map(g => ({
   const resultDuration = document.getElementById('result-duration');
   const detailLink = document.getElementById('detail-link');
   const ctaText = document.getElementById('cta-text');
+
+  // Update slider fill
+  function updateSliderFill(slider, percentage) {
+    slider.style.background = `linear-gradient(to right, var(--primary) 0%, var(--primary) ${percentage}%, var(--chocolate-10) ${percentage}%, var(--chocolate-10) 100%)`;
+  }
 
   // Calculate consumption multiplier with decay
   function calculateConsumptionMultiplier(durationHours) {
@@ -394,7 +459,7 @@ const guestCountsData = guestCounts.map(g => ({
     return { totalServings, unitsNeeded };
   }
 
-  // Main calculation - handles single and multi-drink
+  // Main calculation
   function calculate() {
     const guests = selectedGuestCount.value;
     const tier = selectedGuestCount.tier;
@@ -405,7 +470,6 @@ const guestCountsData = guestCounts.map(g => ({
     const isMulti = drinkCount > 1;
     const varietyFactor = VARIETY_FACTORS[drinkCount] || 1.0;
 
-    // Calculate total split for selected drinks (to normalize)
     const totalSplit = selectedItems.reduce((sum, item) => sum + (splits[item.id] || 0.25), 0);
 
     let grandTotalServings = 0;
@@ -420,12 +484,10 @@ const guestCountsData = guestCounts.map(g => ({
       let servings = singleCalc.totalServings;
 
       if (isMulti) {
-        // Apply normalized split and scaled variety factor
         const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
         unitsNeeded = Math.ceil(singleCalc.unitsNeeded * normalizedSplit * varietyFactor);
         servings = Math.round(singleCalc.totalServings * normalizedSplit * varietyFactor);
 
-        // Apply minimum units for full bar (4 drinks) to ensure viable stock
         if (drinkCount === 4) {
           const minUnits = MINIMUM_UNITS[item.id] || 4;
           unitsNeeded = Math.max(unitsNeeded, minUnits);
@@ -457,9 +519,7 @@ const guestCountsData = guestCounts.map(g => ({
     multiResult.classList.add('hidden');
     fullbarResult.classList.add('hidden');
 
-    // Show appropriate panel based on selection count
     if (count === 1) {
-      // Single drink - hero display
       singleResult.classList.remove('hidden');
       const result = calc.results[0];
 
@@ -470,37 +530,36 @@ const guestCountsData = guestCounts.map(g => ({
       resultUnits.textContent = result.unitsNeeded;
       resultUnits.classList.add('result-animate');
       setTimeout(() => { resultUnits.classList.remove('result-animate'); }, 300);
-      resultUnitLabel.textContent = `${result.unitsNeeded === 1 ? result.item.unitSingular : result.item.unit} of ${result.item.name.toLowerCase()}`;
+      resultUnitLabel.textContent = result.unitsNeeded === 1 ? result.item.unitSingular : result.item.unit;
+      resultMixLabel.textContent = `Calculated for ${result.item.name.toLowerCase()}`;
 
-      // Update link and CTA (include duration for consistency)
-      const slug = `${result.item.id}-for-${selectedEvent.slug}-${selectedGuestCount.value}-guests`;
-      detailLink.href = `/${slug}?duration=${selectedDuration}`;
-      ctaText.textContent = 'Get Full Breakdown & Shopping List →';
+      const pageGuests = getNearestValidGuests(selectedGuestCount.value);
+      const slug = `${result.item.id}-for-${selectedEvent.slug}-${pageGuests}-guests`;
+      detailLink.href = `/${slug}?guests=${selectedGuestCount.value}&duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Full Breakdown';
 
     } else if (count <= 3) {
-      // 2-3 drinks - stacked cards
       multiResult.classList.remove('hidden');
 
       multiDrinkGrid.innerHTML = calc.results.map(r => `
-        <div class="drink-card flex items-center justify-between">
+        <div class="drink-card-item flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="text-3xl">${r.item.emoji}</span>
             <span class="font-medium">${r.item.name}</span>
           </div>
           <div class="text-right">
-            <div class="text-2xl font-bold">${r.unitsNeeded}</div>
+            <div class="font-mono-luxe text-2xl font-bold">${r.unitsNeeded}</div>
             <div class="text-xs opacity-80">${r.item.unit}</div>
           </div>
         </div>
       `).join('');
 
-      // Link to multi-drink bar-setup page
       const drinks = selectedItems.map(i => i.id).join(',');
-      detailLink.href = `/bar-setup/${selectedEvent.slug}-${selectedGuestCount.value}-guests?drinks=${drinks}&duration=${selectedDuration}`;
-      ctaText.textContent = 'Get Your Bar Breakdown →';
+      const pageGuests = getNearestValidGuests(selectedGuestCount.value);
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuests}-guests?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Your Bar Breakdown';
 
     } else {
-      // 4 drinks - full bar grid
       fullbarResult.classList.remove('hidden');
 
       totalItems.textContent = calc.grandTotalUnits;
@@ -511,14 +570,14 @@ const guestCountsData = guestCounts.map(g => ({
             <span class="text-xl">${r.item.emoji}</span>
             <span class="text-sm font-medium">${r.item.name}</span>
           </div>
-          <div class="font-bold">${r.unitsNeeded}</div>
+          <div class="font-mono-luxe font-bold">${r.unitsNeeded}</div>
         </div>
       `).join('');
 
-      // Link to multi-drink bar-setup page (full bar)
       const drinks = selectedItems.map(i => i.id).join(',');
-      detailLink.href = `/bar-setup/${selectedEvent.slug}-${selectedGuestCount.value}-guests?drinks=${drinks}&duration=${selectedDuration}`;
-      ctaText.textContent = 'Get Your Complete Bar Guide →';
+      const pageGuestsFull = getNearestValidGuests(selectedGuestCount.value);
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuestsFull}-guests?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
+      ctaText.textContent = 'Get Your Complete Bar Guide';
     }
 
     // Update shared stats
@@ -532,14 +591,16 @@ const guestCountsData = guestCounts.map(g => ({
     const count = selectedItems.length;
     if (count === 1) {
       selectionCount.textContent = '1 drink selected';
+      selectionCount.classList.remove('text-[var(--forest)]');
+      selectionCount.classList.add('text-[var(--primary-dark)]');
     } else if (count === 4) {
       selectionCount.textContent = 'Full bar selected!';
-      selectionCount.classList.add('text-emerald-600');
-      selectionCount.classList.remove('text-amber-600');
+      selectionCount.classList.add('text-[var(--forest)]');
+      selectionCount.classList.remove('text-[var(--primary-dark)]');
     } else {
       selectionCount.textContent = `${count} drinks selected`;
-      selectionCount.classList.remove('text-emerald-600');
-      selectionCount.classList.add('text-amber-600');
+      selectionCount.classList.remove('text-[var(--forest)]');
+      selectionCount.classList.add('text-[var(--primary-dark)]');
     }
   }
 
@@ -557,50 +618,59 @@ const guestCountsData = guestCounts.map(g => ({
     }
   }
 
-  // Toggle button selected state
-  function updateButtonStates() {
-    itemBtns.forEach(btn => {
-      const itemId = btn.dataset.item;
+  // Update button states
+  function updateCardStates() {
+    drinkCards.forEach(card => {
+      const itemId = card.dataset.item;
       const isSelected = selectedItems.some(i => i.id === itemId);
-      const checkmark = btn.querySelector('.checkmark');
+      const selectionDot = card.querySelector('.selection-dot');
+      const icon = card.querySelector('.material-symbols-outlined');
 
       if (isSelected) {
-        btn.classList.remove('border-slate-200');
-        btn.classList.add('border-amber-500', 'bg-gradient-to-br', 'from-amber-50', 'to-orange-50', 'shadow-md', 'selected');
-        checkmark.classList.remove('opacity-0', 'scale-0');
-        checkmark.classList.add('opacity-100', 'scale-100');
+        card.classList.remove('glass-card');
+        card.classList.add('glass-card-selected');
+        if (selectionDot) {
+          selectionDot.style.background = 'var(--primary)';
+          selectionDot.style.transform = 'scale(1)';
+        }
+        if (icon) {
+          icon.classList.remove('text-[var(--chocolate-40)]');
+          icon.classList.add('text-[var(--primary)]');
+        }
       } else {
-        btn.classList.add('border-slate-200');
-        btn.classList.remove('border-amber-500', 'bg-gradient-to-br', 'from-amber-50', 'to-orange-50', 'shadow-md', 'selected');
-        checkmark.classList.add('opacity-0', 'scale-0');
-        checkmark.classList.remove('opacity-100', 'scale-100');
+        card.classList.add('glass-card');
+        card.classList.remove('glass-card-selected');
+        if (selectionDot) {
+          selectionDot.style.background = 'transparent';
+          selectionDot.style.transform = 'scale(0)';
+        }
+        if (icon) {
+          icon.classList.add('text-[var(--chocolate-40)]');
+          icon.classList.remove('text-[var(--primary)]');
+        }
       }
     });
   }
 
-  // Event listeners - Multi-select drink buttons
-  itemBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const itemId = btn.dataset.item;
+  // Event listeners - Drink cards
+  drinkCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const itemId = card.dataset.item;
       const item = itemsData.find(i => i.id === itemId);
       const isCurrentlySelected = selectedItems.some(i => i.id === itemId);
 
       if (isCurrentlySelected) {
-        // Don't allow deselecting if it's the only one
         if (selectedItems.length === 1) {
-          // Shake animation to indicate can't deselect
-          btn.classList.add('animate-shake');
-          setTimeout(() => btn.classList.remove('animate-shake'), 300);
+          card.classList.add('animate-shake');
+          setTimeout(() => card.classList.remove('animate-shake'), 300);
           return;
         }
-        // Remove from selection
         selectedItems = selectedItems.filter(i => i.id !== itemId);
       } else {
-        // Add to selection
         selectedItems.push(item);
       }
 
-      updateButtonStates();
+      updateCardStates();
       updateSelectionCount();
       updateResults();
     });
@@ -608,10 +678,10 @@ const guestCountsData = guestCounts.map(g => ({
 
   eventSelect.addEventListener('change', (e) => {
     selectedEvent = eventsData.find(ev => ev.id === e.target.value);
-    // Update duration to event default
     selectedDuration = selectedEvent.defaultDuration;
     durationSlider.value = selectedDuration;
     durationDisplay.textContent = selectedDuration;
+    updateSliderFill(durationSlider, ((selectedDuration - 1) / 5) * 100);
     updateDurationHint();
     updateResults();
   });
@@ -619,28 +689,23 @@ const guestCountsData = guestCounts.map(g => ({
   durationSlider.addEventListener('input', (e) => {
     selectedDuration = parseInt(e.target.value);
     durationDisplay.textContent = selectedDuration;
+    updateSliderFill(durationSlider, ((selectedDuration - 1) / 5) * 100);
     updateDurationHint();
     updateResults();
   });
 
   guestSlider.addEventListener('input', (e) => {
-    selectedGuestCount = guestCountsData[parseInt(e.target.value)];
-    guestDisplay.textContent = selectedGuestCount.value;
+    const sliderValue = parseFloat(e.target.value);
+    const guestValue = sliderToGuests(sliderValue);
+    selectedGuestCount = { value: guestValue, tier: getTierFromGuestCount(guestValue) };
+    guestDisplay.textContent = guestValue;
+    updateSliderFill(guestSlider, sliderValue); // Slider value IS the percentage now
     updateResults();
   });
 
-  // Initial calculation
+  // Initial setup - 100 guests = 33.33%
+  updateSliderFill(guestSlider, 33.33);
+  updateSliderFill(durationSlider, ((5 - 1) / 5) * 100);
   updateDurationHint();
   updateResults();
 </script>
-
-<style>
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-  }
-  .animate-shake {
-    animation: shake 0.3s ease-in-out;
-  }
-</style>

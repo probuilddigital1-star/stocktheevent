@@ -23,14 +23,14 @@ function isInvalidNumber(value: string): boolean {
 // Helper to select drinks by clicking on drink buttons
 async function selectDrinks(page: Page, drinkIds: string[]) {
   // First, get all currently selected drinks
-  const buttons = page.locator('.item-btn');
+  const buttons = page.locator('.drink-card');
   const count = await buttons.count();
 
   // Click to deselect all except the ones we want
   for (let i = 0; i < count; i++) {
     const btn = buttons.nth(i);
     const itemId = await btn.getAttribute('data-item');
-    const isSelected = await btn.evaluate(el => el.classList.contains('selected'));
+    const isSelected = await btn.evaluate(el => el.classList.contains('glass-card-selected'));
     const shouldBeSelected = drinkIds.includes(itemId || '');
 
     if (isSelected !== shouldBeSelected) {
@@ -75,11 +75,11 @@ async function checkForNaN(page: Page): Promise<{ hasNaN: boolean; locations: st
   }
 
   // Check all drink cards in multi-drink grid
-  const multiDrinkCards = page.locator('#multi-drink-grid .drink-card');
+  const multiDrinkCards = page.locator('#multi-drink-grid .drink-card-item');
   const multiCount = await multiDrinkCards.count();
   for (let i = 0; i < multiCount; i++) {
     const card = multiDrinkCards.nth(i);
-    const units = await card.locator('.text-2xl.font-bold').textContent();
+    const units = await card.locator('.font-mono-luxe.text-2xl.font-bold').textContent();
     if (units && isInvalidNumber(units)) {
       locations.push(`multi-drink-card[${i}] units: "${units}"`);
     }
@@ -90,7 +90,7 @@ async function checkForNaN(page: Page): Promise<{ hasNaN: boolean; locations: st
   const fullbarCount = await fullbarCards.count();
   for (let i = 0; i < fullbarCount; i++) {
     const card = fullbarCards.nth(i);
-    const units = await card.locator('.font-bold').textContent();
+    const units = await card.locator('.font-mono-luxe.font-bold').textContent();
     if (units && isInvalidNumber(units)) {
       locations.push(`fullbar-card[${i}] units: "${units}"`);
     }
@@ -196,8 +196,8 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
     const initial = await page.locator('#result-units').textContent();
     const initialNum = parseInt(initial || '0');
 
-    // Change guest slider to maximum (300 guests)
-    await page.locator('#guest-slider').fill('11');
+    // Change guest slider to maximum (300 guests) - now percentage-based (100% = 300 guests)
+    await page.locator('#guest-slider').fill('100');
     await page.waitForTimeout(200);
 
     // Get new value
@@ -317,7 +317,7 @@ test.describe('Edge Cases', () => {
     // Select all drinks
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
 
-    // Set to minimum guests
+    // Set to minimum guests - now percentage-based (0% = 10 guests)
     await page.locator('#guest-slider').fill('0');
     await page.waitForTimeout(200);
 
@@ -336,8 +336,8 @@ test.describe('Edge Cases', () => {
     // Select all drinks
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
 
-    // Set to maximum guests
-    await page.locator('#guest-slider').fill('11');
+    // Set to maximum guests - now percentage-based (100% = 300 guests)
+    await page.locator('#guest-slider').fill('100');
     await page.waitForTimeout(200);
 
     // Check all events
@@ -346,5 +346,89 @@ test.describe('Edge Cases', () => {
       const { hasNaN, locations } = await checkForNaN(page);
       expect(hasNaN, `NaN at max guests for ${event.name}: ${locations.join(', ')}`).toBe(false);
     }
+  });
+});
+
+test.describe('Slider Sync Tests', () => {
+  // Slider is now percentage-based (0-100) with piecewise linear scale
+  // Labels at 0%=10, 33.33%=100, 66.66%=200, 100%=300
+
+  // Helper to set slider value via JavaScript (Playwright fill() doesn't work well with range inputs)
+  async function setSliderValue(page: any, value: number) {
+    await page.evaluate((val: number) => {
+      const slider = document.getElementById('guest-slider') as HTMLInputElement;
+      slider.value = String(val);
+      slider.dispatchEvent(new Event('input', { bubbles: true }));
+    }, value);
+    await page.waitForTimeout(100);
+  }
+
+  test('Guest slider default value should display 100', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // Check initial display value (33.33% = 100 guests)
+    const displayValue = await page.locator('#guest-display').textContent();
+    expect(displayValue).toBe('100');
+  });
+
+  test('Guest slider labels align with slider positions', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // Test the 4 labeled positions: 10, 100, 200, 300
+    const labelPositions = [
+      { sliderValue: 0, expectedGuests: '10' },
+      { sliderValue: 33.33, expectedGuests: '100' },
+      { sliderValue: 66.66, expectedGuests: '200' },
+      { sliderValue: 100, expectedGuests: '300' },
+    ];
+
+    for (const { sliderValue, expectedGuests } of labelPositions) {
+      await setSliderValue(page, sliderValue);
+      const displayValue = await page.locator('#guest-display').textContent();
+      expect(displayValue).toBe(expectedGuests);
+    }
+  });
+
+  test('Guest slider interpolates between labels correctly', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // Test interpolation at midpoints between labels
+    const interpolationTests = [
+      { sliderValue: 16.67, expectedGuests: 55 },   // Midpoint 10-100
+      { sliderValue: 50, expectedGuests: 150 },      // Midpoint 100-200
+      { sliderValue: 83.33, expectedGuests: 250 },   // Midpoint 200-300
+    ];
+
+    for (const { sliderValue, expectedGuests } of interpolationTests) {
+      await setSliderValue(page, sliderValue);
+      const displayValue = await page.locator('#guest-display').textContent();
+      const displayNum = parseInt(displayValue || '0');
+      // Allow +/- 2 for rounding differences
+      expect(displayNum).toBeGreaterThanOrEqual(expectedGuests - 2);
+      expect(displayNum).toBeLessThanOrEqual(expectedGuests + 2);
+    }
+  });
+
+  test('Guest slider fill gradient updates correctly', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+
+    // Move slider to min (0% = 10 guests)
+    await setSliderValue(page, 0);
+    let displayValue = await page.locator('#guest-display').textContent();
+    expect(displayValue).toBe('10');
+
+    // Move slider to mid (50% = 150 guests)
+    await setSliderValue(page, 50);
+    displayValue = await page.locator('#guest-display').textContent();
+    expect(displayValue).toBe('150');
+
+    // Move slider to max (100% = 300 guests)
+    await setSliderValue(page, 100);
+    displayValue = await page.locator('#guest-display').textContent();
+    expect(displayValue).toBe('300');
   });
 });
