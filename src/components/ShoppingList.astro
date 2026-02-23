@@ -34,7 +34,9 @@ const accessories = shoppingItems.slice(1);
             <button
               class="checkbox-golden flex-shrink-0"
               data-checked="false"
-              aria-label="Toggle item"
+              role="checkbox"
+              aria-checked="false"
+              aria-label={`Mark ${mainItemEntry.name} as purchased`}
             >
               <svg class="checkmark w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                 <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -71,7 +73,9 @@ const accessories = shoppingItems.slice(1);
                 <button
                   class="checkbox-golden flex-shrink-0"
                   data-checked="false"
-                  aria-label="Toggle item"
+                  role="checkbox"
+                  aria-checked="false"
+                  aria-label={`Mark ${item.name} as purchased`}
                 >
                   <svg class="checkmark w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                     <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -100,15 +104,27 @@ const accessories = shoppingItems.slice(1);
           })}
         </div>
 
-        <!-- Action Buttons -->
-        <div class="flex gap-3 mt-8">
+        <div class="flex gap-3 mt-6 justify-center">
           <button
-            id="copy-list"
-            class="flex-1 py-4 px-6 bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2"
+            id="copy-list-btn"
+            type="button"
+            class="flex items-center gap-2 px-4 py-2 bg-[var(--primary-10)] text-[var(--chocolate)] rounded-lg hover:bg-[var(--primary-20)] font-medium text-sm"
           >
-            <span class="material-symbols-outlined text-lg">content_copy</span>
+            <span class="material-symbols-outlined text-base">content_copy</span>
             Copy List
           </button>
+          <button
+            id="print-list-btn"
+            type="button"
+            class="flex items-center gap-2 px-4 py-2 bg-[var(--primary-10)] text-[var(--chocolate)] rounded-lg hover:bg-[var(--primary-20)] font-medium text-sm"
+          >
+            <span class="material-symbols-outlined text-base">print</span>
+            Print
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 mt-8">
           <button
             id="email-list-btn"
             class="flex-1 py-4 px-6 bg-[var(--forest)] hover:bg-[var(--forest-dark)] text-white rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2"
@@ -186,24 +202,38 @@ const accessories = shoppingItems.slice(1);
   document.querySelectorAll('.checkbox-golden').forEach(checkbox => {
     checkbox.addEventListener('click', () => {
       const isChecked = checkbox.dataset.checked === 'true';
-      checkbox.dataset.checked = isChecked ? 'false' : 'true';
+      const newState = !isChecked;
+      checkbox.dataset.checked = String(newState);
+      checkbox.setAttribute('aria-checked', String(newState));
     });
   });
 
-  // Copy list functionality
-  document.getElementById('copy-list')?.addEventListener('click', () => {
-    const text = shoppingItems
-      .map(item => `${item.quantity} ${item.unit} - ${item.name}${item.notes ? ` (${item.notes})` : ''}`)
-      .join('\n');
+  // Copy list button - builds text from DOM
+  document.getElementById('copy-list-btn')?.addEventListener('click', () => {
+    const items = document.querySelectorAll('.shopping-item');
+    const lines = ['Shopping List - StockTheEvent'];
+    items.forEach(item => {
+      const textEl = item.querySelector('span.font-medium');
+      if (textEl) {
+        const text = textEl.textContent?.trim().replace(/\s+/g, ' ') || '';
+        lines.push(`- ${text}`);
+      }
+    });
+    lines.push('', 'stocktheevent.com');
 
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.getElementById('copy-list');
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      const btn = document.getElementById('copy-list-btn');
       if (btn) {
         const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check</span> Copied!';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base">check</span> Copied!';
         setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
       }
     });
+  });
+
+  // Print button
+  document.getElementById('print-list-btn')?.addEventListener('click', () => {
+    window.print();
   });
 
   // Email list toggle

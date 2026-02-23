@@ -1,3 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="28">🍾</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .glass { fill: #f5d76e; }
+      .sparkle { fill: #f5d76e; }
+      .spark-line { stroke: #f5d76e; }
+    }
+  </style>
+  <defs>
+    <!-- Left glass template (champagne flute) -->
+    <path id="flute" d="M-3 2 L3 2 L2 13 Q0 16 0 16 L0 27 L-3.5 29 L3.5 29 L0 27 L0 16 Q0 16 -2 13 Z"/>
+  </defs>
+  <!-- Left glass, tilted right ~10deg -->
+  <g class="glass" fill="#dfb22a">
+    <use href="#flute" transform="translate(13,3) rotate(-8, 0, 15)"/>
+  </g>
+  <!-- Right glass, tilted left ~10deg -->
+  <g class="glass" fill="#dfb22a">
+    <use href="#flute" transform="translate(23,3) rotate(8, 0, 15)"/>
+  </g>
+  <!-- Sparkle at clink point -->
+  <circle class="sparkle" fill="#dfb22a" cx="18" cy="7" r="1.5"/>
+  <g class="spark-line" stroke="#dfb22a" stroke-width="1.5" stroke-linecap="round">
+    <line x1="18" y1="2" x2="18" y2="4.5"/>
+    <line x1="14.5" y1="4" x2="16" y2="6"/>
+    <line x1="21.5" y1="4" x2="20" y2="6"/>
+  </g>
 </svg>

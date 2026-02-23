@@ -77,23 +77,23 @@ const description = isItem
   <section class="py-12 md:py-16 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
     <div class="max-w-5xl mx-auto px-4">
       <!-- Breadcrumb -->
-      <nav class="mb-6 text-sm text-slate-500 text-center">
-        <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
+      <nav class="mb-6 text-sm text-[var(--chocolate-40)] text-center">
+        <a href="/" class="hover:text-[var(--forest)] transition-colors">Home</a>
         <span class="mx-2">/</span>
-        <a href="/calculators" class="hover:text-emerald-600 transition-colors">Calculators</a>
+        <a href="/calculators" class="hover:text-[var(--forest)] transition-colors">Calculators</a>
         <span class="mx-2">/</span>
-        <span class="text-slate-700">{isItem ? data.name : data.name}</span>
+        <span class="text-[var(--chocolate-light)]">{isItem ? data.name : data.name}</span>
       </nav>
 
       <div class="text-center">
         <div class="text-7xl mb-6">{emoji}</div>
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--chocolate)] mb-4">
           {title}
         </h1>
-        <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+        <p class="text-xl text-[var(--chocolate-light)] max-w-2xl mx-auto">
           {description}
         </p>
-        <p class="text-amber-600 font-semibold mt-4">
+        <p class="text-[var(--forest)] font-semibold mt-4">
           {filteredCalculators.length} calculators available
         </p>
       </div>
@@ -102,21 +102,21 @@ const description = isItem
 
   <!-- Pro Tip (for events) or Serving Info (for items) -->
   {isItem ? (
-    <section class="py-8 bg-white border-b border-slate-100">
+    <section class="py-8 bg-white border-b border-[var(--primary-10)]">
       <div class="max-w-3xl mx-auto px-4 text-center">
         <div class="inline-flex items-center gap-3 bg-amber-50 px-6 py-3 rounded-full">
           <span class="text-2xl">{data.emoji}</span>
-          <span class="text-slate-700">
+          <span class="text-[var(--chocolate-light)]">
             <strong>{data.servingsPerUnit} servings</strong> per {data.unitSingular}
           </span>
         </div>
       </div>
     </section>
   ) : (
-    <section class="py-8 bg-white border-b border-slate-100">
+    <section class="py-8 bg-white border-b border-[var(--primary-10)]">
       <div class="max-w-3xl mx-auto px-4 text-center">
-        <div class="bg-emerald-50 px-6 py-4 rounded-2xl">
-          <p class="text-emerald-800">
+        <div class="bg-[var(--forest-light)]/10 px-6 py-4 rounded-2xl">
+          <p class="text-[var(--forest)]">
             <span class="font-semibold">Pro tip:</span> {data.proTips[0]}
           </p>
         </div>
@@ -134,20 +134,20 @@ const description = isItem
           return (
             <a
               href={`/${calc.slug}`}
-              class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-300 hover:scale-[1.02] transition-all group"
+              class="bg-white p-5 rounded-2xl border border-[var(--primary-10)] shadow-sm hover:shadow-lg hover:border-emerald-300 hover:scale-[1.02] transition-all group"
             >
               <div class="flex items-center gap-4">
                 <span class="text-4xl group-hover:scale-110 transition-transform">{item?.emoji}</span>
                 <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-slate-900 group-hover:text-emerald-600 truncate">
+                  <div class="font-semibold text-[var(--chocolate)] group-hover:text-emerald-600 truncate">
                     {isItem ? event?.name : item?.name}
                   </div>
-                  <div class="text-sm text-slate-500">
-                    <span class="font-medium text-slate-700">{calc.guests}</span> guests
+                  <div class="text-sm text-[var(--chocolate-40)]">
+                    <span class="font-medium text-[var(--chocolate-light)]">{calc.guests}</span> guests
                   </div>
                 </div>
-                <div class="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--chocolate-40)] group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
@@ -160,7 +160,7 @@ const description = isItem
   </section>
 
   <!-- CTA Section -->
-  <section class="py-16 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
+  <section class="py-16 forest-gradient relative overflow-hidden">
     <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
     <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
 
@@ -174,7 +174,7 @@ const description = isItem
       <div class="flex flex-wrap justify-center gap-4">
         <a
           href="/"
-          class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
+          class="inline-block bg-white text-[var(--forest)] px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
         >
           Interactive Calculator
         </a>

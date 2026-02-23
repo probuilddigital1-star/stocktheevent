@@ -6,207 +6,91 @@ import { affiliateLinks } from '../lib/affiliates';
 ---
 
 <BaseLayout
-  title="StockTheEvent - Drink Calculator for Parties & Events"
-  description="Calculate exactly how much wine, beer, champagne, and spirits you need for your event. Bartender-tested formulas for weddings, parties, corporate events, and more."
+  title="Party Food & Drink Calculator — StockTheEvent"
+  description="Calculate exactly how much food and drinks you need for your event. Bartender-tested formulas for weddings, birthdays, Super Bowl parties, and more. Wine, beer, pizza, wings & more."
 >
   <!-- Interactive Calculator Hero -->
   <InteractiveCalculator />
 
-  <!-- Email Capture - Primary Conversion Point -->
-  <section class="py-12 bg-gradient-to-b from-slate-50 to-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <EmailCapture eventType="homepage" placement="inline" />
-    </div>
-  </section>
-
-  <!-- Cross-promotion: FreezerBatchCocktails -->
-  <section class="py-10 bg-white border-y border-slate-100">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-      <p class="text-3xl mb-2">🍸</p>
-      <h2 class="font-display text-xl font-bold text-slate-800 mb-2">
-        Be the Host, Not the Bartender
-      </h2>
-      <p class="text-slate-600 mb-4">
-        Dinner party for 8? Batch your Negronis and Manhattans ahead of time. Perfectly chilled, zero effort.
-      </p>
-      <a
-        href="https://freezerbatchcocktails.com"
-        target="_blank"
-        rel="noopener"
-        class="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all"
-      >
-        Explore Freezer Batching →
-      </a>
-    </div>
-  </section>
-
-  <!-- Pro Tip: Stock Your Bar (Affiliate Links) -->
-  <section class="py-12 bg-slate-50">
-    <div class="max-w-4xl mx-auto px-4">
-      <div class="text-center mb-8">
-        <h2 class="font-display text-2xl font-bold text-slate-900 mb-2">
-          Pro Tip: Stock Your Bar
-        </h2>
-        <p class="text-slate-600 text-sm">
-          Essential supplies every host needs
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-3">
-        <!-- Party Cups -->
-        <a
-          href={affiliateLinks['party-cups']}
-          target="_blank"
-          rel="noopener sponsored"
-          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
-        >
-          <span class="text-3xl">🥤</span>
-          <div class="flex-1">
-            <div class="font-medium text-slate-900 group-hover:text-amber-700">Party Cups</div>
-            <div class="text-sm text-slate-500">For beer, cocktails & more</div>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-
-        <!-- Wine Glasses -->
-        <a
-          href={affiliateLinks['wine-glasses']}
-          target="_blank"
-          rel="noopener sponsored"
-          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
-        >
-          <span class="text-3xl">🍷</span>
-          <div class="flex-1">
-            <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Glasses</div>
-            <div class="text-sm text-slate-500">Elegant party stemware</div>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-
-        <!-- Ice Bucket -->
-        <a
-          href={affiliateLinks['ice-bucket']}
-          target="_blank"
-          rel="noopener sponsored"
-          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
-        >
-          <span class="text-3xl">🪣</span>
-          <div class="flex-1">
-            <div class="font-medium text-slate-900 group-hover:text-amber-700">Ice Bucket</div>
-            <div class="text-sm text-slate-500">Keep bottles chilled</div>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-
-        <!-- Corkscrew -->
-        <a
-          href={affiliateLinks['corkscrew']}
-          target="_blank"
-          rel="noopener sponsored"
-          class="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group"
-        >
-          <span class="text-3xl">🔧</span>
-          <div class="flex-1">
-            <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Opener</div>
-            <div class="text-sm text-slate-500">Every bar needs one</div>
-          </div>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-          </svg>
-        </a>
-      </div>
-
-      <p class="text-xs text-slate-500 text-center mt-6">
-        As an Amazon Associate, we earn from qualifying purchases at no extra cost to you.
-      </p>
-    </div>
-  </section>
-
-  <!-- How It Works -->
+  <!-- Why Trust Our Calculator (moved up for credibility-first) -->
   <section class="py-16 bg-white">
     <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">
+      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-12 text-center">
         Why Trust Our Calculator?
       </h2>
       <div class="grid md:grid-cols-3 gap-8">
         <div class="text-center">
-          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">🎯</span>
           </div>
           <h3 class="font-bold text-lg mb-2">Industry Standards</h3>
-          <p class="text-slate-600 text-sm">Based on the 1.5 drinks per hour rule used by professional bartenders worldwide.</p>
+          <p class="text-[var(--chocolate-light)] text-sm">Based on the 1.5 drinks per hour rule used by professional bartenders worldwide.</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">📉</span>
           </div>
-          <h3 class="font-bold text-lg mb-2">Consumption Decay</h3>
-          <p class="text-slate-600 text-sm">We factor in that people drink less as events progress - so you don't over-buy.</p>
+          <h3 class="font-bold text-lg mb-2">Smart Scaling</h3>
+          <p class="text-[var(--chocolate-light)] text-sm">We factor in that people drink less as events progress - so you don't over-buy.</p>
         </div>
         <div class="text-center">
-          <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">🎊</span>
           </div>
           <h3 class="font-bold text-lg mb-2">Event-Specific</h3>
-          <p class="text-slate-600 text-sm">Weddings drink more wine, Super Bowl parties need more beer. We adjust for each event.</p>
+          <p class="text-[var(--chocolate-light)] text-sm">Weddings drink more wine, game day parties need more beer. We adjust for each event.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Popular Calculators -->
-  <section class="py-16 bg-slate-50">
+  <section class="py-16 bg-[var(--champagne-100)]">
     <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-slate-900 mb-8 text-center">
+      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-8 text-center">
         Popular Calculators
       </h2>
       <div class="grid md:grid-cols-2 gap-4">
-        <a href="/wine-for-wedding-100-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+        <a href="/wine-for-wedding-100-guests" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
             <span class="text-3xl">🍷</span>
             <div>
-              <div class="font-bold text-slate-900 group-hover:text-amber-600">Wine for 100 Guest Wedding</div>
-              <div class="text-sm text-slate-500">Most popular calculator</div>
+              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine for 100 Guest Wedding</div>
+              <div class="text-sm text-[var(--chocolate-40)]">Most popular calculator</div>
             </div>
           </div>
         </a>
-        <a href="/beer-for-super-bowl-party-50-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+        <a href="/party/march-madness-party-calculator" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
-            <span class="text-3xl">🍺</span>
+            <span class="text-3xl">🏀</span>
             <div>
-              <div class="font-bold text-slate-900 group-hover:text-amber-600">Beer for 50 Guest Super Bowl</div>
-              <div class="text-sm text-slate-500">Game day essential</div>
+              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">March Madness Party Calculator</div>
+              <div class="text-sm text-[var(--chocolate-40)]">Bracket party planning</div>
             </div>
           </div>
         </a>
-        <a href="/champagne-for-holiday-party-75-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+        <a href="/champagne-for-holiday-party-75-guests" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
             <span class="text-3xl">🥂</span>
             <div>
-              <div class="font-bold text-slate-900 group-hover:text-amber-600">Champagne for 75 Guest Holiday Party</div>
-              <div class="text-sm text-slate-500">Celebrate in style</div>
+              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Champagne for 75 Guest Holiday Party</div>
+              <div class="text-sm text-[var(--chocolate-40)]">Celebrate in style</div>
             </div>
           </div>
         </a>
-        <a href="/spirits-for-birthday-party-30-guests" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-md transition-all group">
+        <a href="/spirits-for-birthday-party-30-guests" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
             <span class="text-3xl">🥃</span>
             <div>
-              <div class="font-bold text-slate-900 group-hover:text-amber-600">Spirits for 30 Guest Birthday</div>
-              <div class="text-sm text-slate-500">Party planning made easy</div>
+              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Spirits for 30 Guest Birthday</div>
+              <div class="text-sm text-[var(--chocolate-40)]">Party planning made easy</div>
             </div>
           </div>
         </a>
       </div>
       <div class="text-center mt-8">
-        <a href="/calculators" class="text-amber-600 hover:text-amber-700 font-medium hover:underline">
-          View all 336 calculators →
+        <a href="/calculators" class="text-[var(--primary-dark)] hover:text-[var(--primary)] font-medium hover:underline">
+          View all 1,820+ calculators →
         </a>
       </div>
     </div>
@@ -215,26 +99,103 @@ import { affiliateLinks } from '../lib/affiliates';
   <!-- Trust Signals -->
   <section class="py-16 bg-white">
     <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold text-slate-900 mb-4">
+      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-4">
         Trusted by Event Planners
       </h2>
-      <p class="text-slate-600 mb-8">
+      <p class="text-[var(--chocolate-light)] mb-8">
         Our formulas are based on industry standards and refined by bartenders with decades of experience.
       </p>
-      <div class="flex justify-center gap-8 text-slate-400">
+      <div class="flex justify-center gap-8 text-[var(--chocolate-40)]">
         <div class="text-center">
-          <div class="text-4xl font-bold text-amber-500">30+</div>
+          <div class="text-4xl font-bold text-[var(--primary)]">30+</div>
           <div class="text-sm">Years Experience</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl font-bold text-amber-500">336</div>
+          <div class="text-4xl font-bold text-[var(--primary)]">1,820+</div>
           <div class="text-sm">Calculators</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl font-bold text-amber-500">15%</div>
+          <div class="text-4xl font-bold text-[var(--primary)]">15%</div>
           <div class="text-sm">Safety Buffer</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Email Capture -->
+  <section class="py-12 bg-gradient-to-b from-[var(--champagne-100)] to-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <EmailCapture eventType="homepage" placement="inline" />
+    </div>
+  </section>
+
+  <!-- Pro Tip: Stock Your Bar (Affiliate Links) -->
+  <section class="py-12 bg-[var(--champagne-100)]">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-8">
+        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-2">
+          Pro Tip: Stock Your Bar
+        </h2>
+        <p class="text-[var(--chocolate-light)] text-sm">
+          Essential supplies every host needs
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <a href={affiliateLinks['party-cups']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
+          <span class="text-3xl">🥤</span>
+          <div class="flex-1">
+            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Party Cups</div>
+            <div class="text-sm text-[var(--chocolate-40)]">For beer, cocktails & more</div>
+          </div>
+        </a>
+        <a href={affiliateLinks['wine-glasses']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
+          <span class="text-3xl">🍷</span>
+          <div class="flex-1">
+            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Glasses</div>
+            <div class="text-sm text-[var(--chocolate-40)]">Elegant party stemware</div>
+          </div>
+        </a>
+        <a href={affiliateLinks['ice-bucket']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
+          <span class="text-3xl">🪣</span>
+          <div class="flex-1">
+            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Ice Bucket</div>
+            <div class="text-sm text-[var(--chocolate-40)]">Keep bottles chilled</div>
+          </div>
+        </a>
+        <a href={affiliateLinks['corkscrew']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
+          <span class="text-3xl">🔧</span>
+          <div class="flex-1">
+            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Opener</div>
+            <div class="text-sm text-[var(--chocolate-40)]">Every bar needs one</div>
+          </div>
+        </a>
+      </div>
+
+      <p class="text-xs text-[var(--chocolate-40)] text-center mt-6">
+        As an Amazon Associate, we earn from qualifying purchases at no extra cost to you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Cross-promotion: FreezerBatchCocktails -->
+  <section class="py-10 bg-white border-y border-[var(--primary-10)]">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+      <p class="text-3xl mb-2">🍸</p>
+      <h2 class="font-display text-xl font-bold text-[var(--chocolate)] mb-2">
+        Be the Host, Not the Bartender
+      </h2>
+      <p class="text-[var(--chocolate-light)] mb-4">
+        Dinner party for 8? Batch your Negronis and Manhattans ahead of time. Perfectly chilled, zero effort.
+      </p>
+      <a
+        href="https://freezerbatchcocktails.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block sunset-gradient text-white px-6 py-2 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all"
+      >
+        Explore Freezer Batching →
+      </a>
     </div>
   </section>
 </BaseLayout>

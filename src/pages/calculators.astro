@@ -15,36 +15,45 @@ const eventEmojis: Record<string, string> = {
 };
 
 // Calculate counts
-const drinksPerEvent = items.length * 12; // 4 drinks × 12 guest counts = 48
-const eventsPerDrink = events.length * 12; // 7 events × 12 guest counts = 84
+const guestCounts = 14;
+const drinksPerEvent = items.length * guestCounts;
+const eventsPerDrink = events.length * guestCounts;
+const totalCalculators = items.length * events.length * guestCounts;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Drink Calculators', url: '/calculators' },
+];
 ---
 
 <BaseLayout
   title="Drink Calculators | StockTheEvent"
-  description="Drink calculators for any event. Calculate exactly how much wine, beer, champagne, or spirits you need for weddings, parties, and more."
+  description={`${totalCalculators} drink calculators for any event. Calculate exactly how much wine, beer, champagne, or spirits you need for weddings, parties, and more.`}
+  canonicalUrl="https://www.stocktheevent.com/calculators"
+  breadcrumbs={breadcrumbs}
 >
   <!-- Hero Section -->
   <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 animate-fade-in-up">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--chocolate)] mb-6 animate-fade-in-up">
         Drink Calculators
       </h1>
-      <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up">
-        <span class="font-semibold text-amber-600">336 calculators</span> to help you stock the perfect bar for any event
+      <p class="text-xl text-[var(--chocolate-light)] mb-8 max-w-2xl mx-auto animate-fade-in-up">
+        <span class="font-semibold text-[var(--primary-dark)]">{totalCalculators} calculators</span> to help you stock the perfect bar for any event
       </p>
 
       <!-- CTA to Homepage Calculator -->
-      <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-10 max-w-xl mx-auto animate-fade-in-up animate-delay-100">
+      <div class="glass-card rounded-3xl shadow-xl p-8 md:p-10 max-w-xl mx-auto animate-fade-in-up animate-delay-100">
         <div class="text-6xl mb-4">🍾</div>
-        <h2 class="font-display text-2xl font-bold text-slate-900 mb-3">
+        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-3">
           Need a Quick Calculation?
         </h2>
-        <p class="text-slate-600 mb-6">
+        <p class="text-[var(--chocolate-light)] mb-6">
           Use our interactive calculator for instant results
         </p>
         <a
           href="/"
-          class="inline-block bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all"
+          class="inline-block sunset-gradient text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all"
         >
           Try the Calculator
         </a>
@@ -56,37 +65,37 @@ const eventsPerDrink = events.length * 12; // 7 events × 12 guest counts = 84
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-4">
       <div class="text-center mb-10">
-        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
           Browse by Event
         </h2>
-        <p class="text-slate-500">Find calculators for your specific occasion</p>
+        <p class="text-[var(--chocolate-40)]">Find calculators for your specific occasion</p>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {events.map((event) => (
           <a
             href={`/calculators/${event.id}`}
-            class="group bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-300 hover:scale-[1.02] transition-all"
+            class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-4">
               <div class="text-5xl group-hover:scale-110 transition-transform">
                 {eventEmojis[event.id] || '🎉'}
               </div>
               <div class="flex-1">
-                <div class="font-semibold text-lg text-slate-900 group-hover:text-emerald-600">
+                <div class="font-semibold text-lg text-[var(--chocolate)] group-hover:text-[var(--forest)]">
                   {event.name}
                 </div>
-                <div class="text-sm text-slate-500">
+                <div class="text-sm text-[var(--chocolate-40)]">
                   {drinksPerEvent} calculators
                 </div>
               </div>
-              <div class="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div class="w-10 h-10 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-emerald-50 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--chocolate-40)] group-hover:text-[var(--forest)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
             </div>
-            <p class="mt-4 text-sm text-slate-500 line-clamp-2">
+            <p class="mt-4 text-sm text-[var(--chocolate-40)] line-clamp-2">
               {event.proTips[0]}
             </p>
           </a>
@@ -96,38 +105,38 @@ const eventsPerDrink = events.length * 12; // 7 events × 12 guest counts = 84
   </section>
 
   <!-- Browse by Drink -->
-  <section class="py-16 bg-gradient-to-b from-slate-50 to-white">
+  <section class="py-16 bg-gradient-to-b from-[var(--champagne-100)] to-white">
     <div class="max-w-5xl mx-auto px-4">
       <div class="text-center mb-10">
-        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
           Browse by Drink Type
         </h2>
-        <p class="text-slate-500">Calculate quantities for your beverage of choice</p>
+        <p class="text-[var(--chocolate-40)]">Calculate quantities for your beverage of choice</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-5">
         {items.map((item) => (
           <a
             href={`/calculators/${item.id}`}
-            class="group bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-amber-300 hover:scale-[1.02] transition-all"
+            class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-5">
               <div class="text-7xl group-hover:scale-110 transition-transform">
                 {item.emoji}
               </div>
               <div class="flex-1">
-                <div class="font-semibold text-xl text-slate-900 group-hover:text-amber-600">
+                <div class="font-semibold text-xl text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">
                   {item.name} Calculators
                 </div>
-                <div class="text-slate-500 mt-1">
+                <div class="text-[var(--chocolate-40)] mt-1">
                   {eventsPerDrink} calculators across all events
                 </div>
-                <div class="text-sm text-slate-400 mt-2">
+                <div class="text-sm text-[var(--chocolate-40)] mt-2">
                   {item.servingsPerUnit} servings per {item.unitSingular}
                 </div>
               </div>
-              <div class="w-12 h-12 bg-amber-50 rounded-full flex items-center justify-center group-hover:bg-amber-100 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div class="w-12 h-12 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-[var(--primary-10)] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--primary)] group-hover:text-[var(--primary-dark)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
@@ -139,7 +148,7 @@ const eventsPerDrink = events.length * 12; // 7 events × 12 guest counts = 84
   </section>
 
   <!-- Bottom CTA -->
-  <section class="py-16 bg-gradient-to-br from-emerald-600 to-emerald-700 relative overflow-hidden">
+  <section class="py-16 forest-gradient relative overflow-hidden">
     <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
     <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
 

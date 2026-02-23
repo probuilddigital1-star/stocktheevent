@@ -144,20 +144,23 @@ const shoppingListSchema = {
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
+    {page.guestCount.value <= 15 && (
+      <meta name="robots" content="noindex, follow" />
+    )}
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
   </Fragment>
 
   <!-- Bar Setup Context Banner (shown when coming from bar-setup page) -->
-  <div id="bar-context-banner" class="hidden bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-4">
+  <div id="bar-context-banner" class="hidden forest-gradient text-white py-4">
     <div class="max-w-4xl mx-auto px-4">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <span class="text-3xl">{page.item.emoji}</span>
           <div>
             <div class="font-semibold">As part of your bar setup:</div>
-            <div class="text-emerald-100">
+            <div class="text-white/80">
               You need <span id="bar-units" class="font-bold text-white">--</span> {page.item.unit}
               (<span id="bar-servings" class="font-medium">--</span> servings)
             </div>

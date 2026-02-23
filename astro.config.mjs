@@ -11,5 +11,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [sitemap()]
+  integrations: [sitemap({
+    filter: (page) =>
+      !page.includes('/privacy') &&
+      !page.includes('/terms') &&
+      !page.includes('/unsubscribe') &&
+      !page.includes('/404')
+  })]
 });

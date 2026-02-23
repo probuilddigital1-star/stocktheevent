@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { foodItems } from '../../data/foodItems';
+import { events } from '../../data/events';
+
+// Food emoji mapping (keys match foodItem.id)
+const foodEmojis: Record<string, string> = {
+  pizza: '🍕',
+  wings: '🍗',
+  tacos: '🌮',
+  sliders: '🍔',
+  appetizers: '🍢',
+  bbq: '🍖',
+};
+
+// Event emoji mapping (keys match event.id)
+const eventEmojis: Record<string, string> = {
+  wedding: '💒',
+  graduation: '🎓',
+  corporate: '💼',
+  birthday: '🎂',
+  'super-bowl': '🏈',
+  'holiday-party': '🎄',
+  'wedding-shower': '💐',
+  'march-madness': '🏀',
+  'fourth-of-july': '🇺🇸',
+  'labor-day': '☀️',
+  halloween: '🎃',
+  thanksgiving: '🦃',
+  'new-years-eve': '🎆',
+};
+
+// Calculate counts dynamically
+const guestCounts = 14;
+const totalCalculators = foodItems.length * events.length * guestCounts;
+const calculatorsPerFoodType = events.length * guestCounts;
+const calculatorsPerEvent = foodItems.length * guestCounts;
+
+const canonicalUrl = 'https://www.stocktheevent.com/food';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Food Calculators', url: '/food' },
+];
+---
+
+<BaseLayout
+  title="Food Calculators | StockTheEvent"
+  description={`${totalCalculators} free food calculators for any event. Calculate exactly how much pizza, wings, tacos, sliders, appetizers, or BBQ you need for weddings, parties, and more.`}
+  canonicalUrl={canonicalUrl}
+  breadcrumbs={breadcrumbs}
+>
+  <!-- Hero Section -->
+  <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--chocolate)] mb-6 animate-fade-in-up">
+        Food Calculators
+      </h1>
+      <p class="text-xl text-[var(--chocolate-light)] mb-8 max-w-2xl mx-auto animate-fade-in-up">
+        <span class="font-semibold text-[var(--primary-dark)]">{totalCalculators} calculators</span> to help you plan the perfect menu for any event
+      </p>
+
+      <!-- CTA to Homepage Calculator -->
+      <div class="glass-card rounded-3xl shadow-xl p-8 md:p-10 max-w-xl mx-auto animate-fade-in-up animate-delay-100">
+        <div class="text-6xl mb-4">🍽️</div>
+        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-3">
+          Need a Quick Calculation?
+        </h2>
+        <p class="text-[var(--chocolate-light)] mb-6">
+          Use our interactive calculator for instant results
+        </p>
+        <a
+          href="/"
+          class="inline-block sunset-gradient text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all"
+        >
+          Try the Calculator
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Food Type -->
+  <section class="py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
+          Browse by Food Type
+        </h2>
+        <p class="text-[var(--chocolate-40)]">Calculate quantities for your food of choice</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        {foodItems.map((food) => (
+          <a
+            href={`/food/${food.id}-for-birthday-party-50-guests`}
+            class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
+          >
+            <div class="flex items-center gap-5">
+              <div class="text-7xl group-hover:scale-110 transition-transform">
+                {foodEmojis[food.id] || food.emoji}
+              </div>
+              <div class="flex-1">
+                <div class="font-semibold text-xl text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">
+                  {food.name} Calculators
+                </div>
+                <div class="text-[var(--chocolate-40)] mt-1">
+                  {calculatorsPerFoodType} calculators across all events
+                </div>
+                <div class="text-sm text-[var(--chocolate-40)] mt-2">
+                  {food.servingsPerUnit} servings per {food.unitSingular}
+                </div>
+              </div>
+              <div class="w-12 h-12 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-amber-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--primary)] group-hover:text-[var(--primary-dark)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Event -->
+  <section class="py-16 bg-gradient-to-b from-[var(--champagne-100)] to-white">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
+          Browse by Event
+        </h2>
+        <p class="text-[var(--chocolate-40)]">Find food calculators for your specific occasion</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {events.map((event) => (
+          <a
+            href={`/food/pizza-for-${event.slug}-50-guests`}
+            class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
+          >
+            <div class="flex items-center gap-4">
+              <div class="text-5xl group-hover:scale-110 transition-transform">
+                {eventEmojis[event.id] || '🎉'}
+              </div>
+              <div class="flex-1">
+                <div class="font-semibold text-lg text-[var(--chocolate)] group-hover:text-[var(--forest)]">
+                  {event.name}
+                </div>
+                <div class="text-sm text-[var(--chocolate-40)]">
+                  {calculatorsPerEvent} calculators
+                </div>
+              </div>
+              <div class="w-10 h-10 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--chocolate-40)] group-hover:text-[var(--forest)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+            <p class="mt-4 text-sm text-[var(--chocolate-40)] line-clamp-2">
+              {event.foodTips[0]}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="py-16 forest-gradient relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <h2 class="font-display text-3xl font-bold text-white mb-4">
+        Not sure where to start?
+      </h2>
+      <p class="text-emerald-100 mb-8 text-lg">
+        Our interactive calculator lets you pick any food, event, and guest count
+      </p>
+      <a
+        href="/"
+        class="inline-block bg-white text-emerald-700 px-8 py-4 rounded-xl font-bold hover:bg-emerald-50 hover:scale-105 transition-all shadow-xl"
+      >
+        Use the Interactive Calculator
+      </a>
+    </div>
+  </section>
+</BaseLayout>

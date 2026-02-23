@@ -20,12 +20,12 @@ const {
 const shoppingListJson = JSON.stringify(shoppingList);
 ---
 
-<div class="email-capture bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6 my-8">
+<div class="email-capture bg-[var(--champagne-100)] border border-[var(--primary-20)] rounded-2xl p-6 my-8">
   <div class="text-center">
-    <h3 class="font-display text-xl font-bold text-emerald-900 mb-2">
+    <h3 class="font-display text-xl font-bold text-[var(--chocolate)] mb-2">
       {shoppingList.length > 0 ? 'Email Your Shopping List' : 'Get Party Planning Tips'}
     </h3>
-    <p class="text-emerald-700 text-sm mb-4">
+    <p class="text-[var(--chocolate-light)] text-sm mb-4">
       {shoppingList.length > 0
         ? "We'll send your complete list plus pro tips for a stress-free event"
         : "Get expert tips and never run out at your next event"}
@@ -36,7 +36,7 @@ const shoppingListJson = JSON.stringify(shoppingList);
         name="email"
         placeholder="you@example.com"
         required
-        class="flex-1 px-4 py-3 rounded-xl border border-emerald-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none"
+        class="flex-1 px-4 py-3 rounded-xl border border-[var(--primary-30)] focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-20)] outline-none"
       />
       <input type="hidden" name="eventType" value={eventType} />
       <input type="hidden" name="eventName" value={eventName} />
@@ -46,13 +46,13 @@ const shoppingListJson = JSON.stringify(shoppingList);
       <input type="hidden" name="pageUrl" id="page-url" value="" />
       <button
         type="submit"
-        class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+        class="forest-gradient text-white px-6 py-3 rounded-xl font-semibold transition-colors"
       >
         {shoppingList.length > 0 ? 'Send My List' : 'Get Tips'}
       </button>
     </form>
     <p id="form-message" class="text-sm mt-3 hidden"></p>
-    <p class="text-xs text-emerald-600 mt-3">No spam, unsubscribe anytime</p>
+    <p class="text-xs text-[var(--chocolate-40)] mt-3">No spam, unsubscribe anytime</p>
   </div>
 </div>
 
@@ -68,7 +68,16 @@ const shoppingListJson = JSON.stringify(shoppingList);
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    message?.classList.add('hidden');
     const formData = new FormData(form as HTMLFormElement);
+    const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalBtnText = submitBtn?.textContent ?? '';
+
+    // Set loading state
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
 
     // Build the payload
     const payload: Record<string, unknown> = {
@@ -101,7 +110,7 @@ const shoppingListJson = JSON.stringify(shoppingList);
       if (response.ok) {
         if (message) {
           message.textContent = 'Check your inbox!';
-          message.className = 'text-sm mt-3 text-emerald-600';
+          message.className = 'text-sm mt-3 text-[var(--forest)]';
         }
         (form as HTMLFormElement).reset();
       } else {
@@ -111,6 +120,11 @@ const shoppingListJson = JSON.stringify(shoppingList);
       if (message) {
         message.textContent = 'Something went wrong. Try again?';
         message.className = 'text-sm mt-3 text-red-600';
+      }
+      // Re-enable button on error so user can retry
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalBtnText;
       }
     }
     message?.classList.remove('hidden');

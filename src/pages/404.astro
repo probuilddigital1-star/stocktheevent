@@ -18,10 +18,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <!-- Emoji and Message -->
       <div class="mb-8">
         <span class="text-6xl mb-4 block">🍾</span>
-        <h1 class="text-3xl md:text-4xl font-display font-bold text-slate-900 mb-4">
+        <h1 class="text-3xl md:text-4xl font-display font-bold text-[var(--chocolate)] mb-4">
           This Party Ended Early
         </h1>
-        <p class="text-lg text-slate-600 max-w-md mx-auto">
+        <p class="text-lg text-[var(--chocolate-light)] max-w-md mx-auto">
           Looks like this page doesn't exist. Maybe it ran out of drinks?
           Let's get you back to the main event.
         </p>
@@ -37,54 +37,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
         <a
           href="/calculators"
-          class="bg-white text-slate-700 px-8 py-4 rounded-xl font-semibold border border-slate-200 hover:border-emerald-500 hover:text-emerald-600 transition-all"
+          class="bg-white text-[var(--chocolate)] px-8 py-4 rounded-xl font-semibold border border-[var(--primary-20)] hover:border-[var(--forest)] hover:text-[var(--forest)] transition-all"
         >
           Browse All Calculators
         </a>
       </div>
 
       <!-- Popular Suggestions -->
-      <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
-        <h2 class="text-lg font-semibold text-slate-900 mb-6">Popular Calculators</h2>
+      <div class="bg-white rounded-2xl p-8 shadow-sm border border-[var(--primary-10)]">
+        <h2 class="text-lg font-semibold text-[var(--chocolate)] mb-6">Popular Calculators</h2>
         <div class="grid sm:grid-cols-2 gap-4 text-left">
           <a
             href="/wine-for-wedding-100-guests"
-            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
           >
             <span class="text-2xl">🍷</span>
             <div>
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine for Wedding</div>
-              <div class="text-sm text-slate-500">100 guests</div>
+              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Wine for Wedding</div>
+              <div class="text-sm text-[var(--chocolate-40)]">100 guests</div>
             </div>
           </a>
           <a
-            href="/beer-for-super-bowl-party-50-guests"
-            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+            href="/party/march-madness-party-calculator"
+            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
           >
-            <span class="text-2xl">🍺</span>
+            <span class="text-2xl">🏀</span>
             <div>
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Beer for Super Bowl</div>
-              <div class="text-sm text-slate-500">50 guests</div>
+              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">March Madness Party</div>
+              <div class="text-sm text-[var(--chocolate-40)]">Bracket party calculator</div>
             </div>
           </a>
           <a
             href="/champagne-for-holiday-party-75-guests"
-            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
           >
             <span class="text-2xl">🥂</span>
             <div>
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Champagne for Holiday</div>
-              <div class="text-sm text-slate-500">75 guests</div>
+              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Champagne for Holiday</div>
+              <div class="text-sm text-[var(--chocolate-40)]">75 guests</div>
             </div>
           </a>
           <a
             href="/spirits-for-birthday-party-30-guests"
-            class="flex items-center gap-3 p-4 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
+            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
           >
             <span class="text-2xl">🥃</span>
             <div>
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Spirits for Birthday</div>
-              <div class="text-sm text-slate-500">30 guests</div>
+              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Spirits for Birthday</div>
+              <div class="text-sm text-[var(--chocolate-40)]">30 guests</div>
             </div>
           </a>
         </div>

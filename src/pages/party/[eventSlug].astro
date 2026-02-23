@@ -92,7 +92,7 @@ const faqSchema = {
 <BaseLayout
   title={seasonalEvent.metaTitle}
   description={seasonalEvent.metaDescription}
-  canonicalUrl={`https://stocktheevent.com/party/${seasonalEvent.slug}`}
+  canonicalUrl={`https://www.stocktheevent.com/party/${seasonalEvent.slug}`}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -116,8 +116,8 @@ const faqSchema = {
       <div class="inline-flex items-center gap-2 bg-white rounded-full shadow-lg p-2 border border-slate-200">
         <span class="text-slate-600 font-medium px-3">Guests:</span>
         {guestCountOptions.map((count) => (
-          <a
-            href={`#results`}
+          <button
+            type="button"
             data-guest-count={count}
             class={`guest-btn px-4 py-2 rounded-full font-bold transition-all ${
               count === defaultGuestCount
@@ -126,7 +126,7 @@ const faqSchema = {
             }`}
           >
             {count}
-          </a>
+          </button>
         ))}
       </div>
     </div>
@@ -149,7 +149,7 @@ const faqSchema = {
           {featuredFoodItems.map((food) => food && (
             <a
               href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
-              class="food-card bg-gradient-to-br from-orange-500 to-amber-500 rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
+              class="food-card sunset-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-food-id={food.id}
             >
               <div class="text-4xl mb-3">{food.emoji}</div>
@@ -172,7 +172,7 @@ const faqSchema = {
           {featuredDrinkItems.map((drink) => drink && (
             <a
               href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
-              class="drink-card bg-gradient-to-br from-emerald-600 to-teal-600 rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
+              class="drink-card forest-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-drink-id={drink.id}
             >
               <div class="text-4xl mb-3">{drink.emoji}</div>
@@ -209,7 +209,8 @@ const faqSchema = {
             {foodItems.map((food) => (
               <a
                 href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
-                class="flex items-center justify-between p-3 rounded-lg hover:bg-orange-50 transition-colors group"
+                class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-orange-50 transition-colors group"
+                data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
               >
                 <div class="flex items-center gap-3">
                   <span class="text-2xl">{food.emoji}</span>
@@ -232,7 +233,8 @@ const faqSchema = {
             {drinkItems.map((drink) => (
               <a
                 href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
-                class="flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors group"
+                class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors group"
+                data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
               >
                 <div class="flex items-center gap-3">
                   <span class="text-2xl">{drink.emoji}</span>
@@ -362,8 +364,7 @@ const faqSchema = {
 <script define:vars={{ defaultGuestCount, baseEventSlug: baseEvent?.slug || 'party' }}>
   // Guest count selector functionality
   document.querySelectorAll('.guest-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
+    btn.addEventListener('click', () => {
       const count = parseInt(btn.dataset.guestCount);
 
       // Update UI
@@ -399,6 +400,14 @@ const faqSchema = {
         const quantity = Math.ceil((count * 0.75 * 1.5 * 3.75 * modifier / servingsPerUnit) * 1.15);
         qtyEl.textContent = quantity.toString();
         card.href = `/${drinkId}-for-${baseEventSlug}-${count}-guests`;
+      });
+
+      // Update the Complete Calculators grid links
+      document.querySelectorAll('.complete-calc-link').forEach(link => {
+        const baseHref = link.dataset.baseHref;
+        if (baseHref) {
+          link.href = baseHref.replace(`-${defaultGuestCount}-guests`, `-${count}-guests`);
+        }
       });
     });
   });

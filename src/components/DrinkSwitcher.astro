@@ -10,9 +10,9 @@ interface Props {
 const { currentItemId, eventSlug, guestCount } = Astro.props;
 ---
 
-<section class="bg-white border-b border-slate-200">
+<section class="bg-white border-b border-[var(--primary-10)]">
   <div class="max-w-4xl mx-auto px-4 py-6">
-    <p class="text-sm text-slate-500 text-center mb-4 font-medium">
+    <p class="text-sm text-[var(--chocolate-40)] text-center mb-4 font-medium">
       Calculate a different drink for this event
     </p>
     <div class="flex flex-wrap justify-center gap-3">
@@ -26,8 +26,8 @@ const { currentItemId, eventSlug, guestCount } = Astro.props;
             class:list={[
               'group flex items-center gap-3 px-5 py-3 rounded-xl font-medium transition-all duration-200',
               isActive
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg scale-105'
-                : 'bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 hover:scale-105 hover:shadow-md'
+                ? 'sunset-gradient text-white shadow-lg scale-105'
+                : 'bg-[var(--primary-10)] text-[var(--chocolate)] hover:bg-[var(--primary-10)] hover:text-[var(--primary-dark)] hover:scale-105 hover:shadow-md'
             ]}
           >
             <span class="text-2xl">{item.emoji}</span>
