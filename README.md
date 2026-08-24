@@ -1,43 +1,93 @@
-# Astro Starter Kit: Minimal
+# StockTheEvent
 
-```sh
-npm create astro@latest -- --template minimal
+Party quantity calculators. Given an event type, an item (beer, wine,
+pizza, ice, and so on), and a guest count, the site tells you how much to
+buy. Live at https://www.stocktheevent.com/.
+
+See `CLAUDE.md` for the rules every change in this repo must follow, and for
+the target design token system.
+
+## Structure
+
+```
+scripts/
+  generateData.ts       drink calculator page data
+  generateFoodData.ts   food calculator page data
+  checkSite.ts           inspects a built dist/ and reports rule compliance
+src/
+  components/           shared UI, including Icon.astro for all icons
+  content/               Astro content collections
+  data/                  static data: items, events, guest counts, food items
+  layouts/
+    BaseLayout.astro     head, canonical URL, header, footer for every page
+  lib/                   shared types and helpers
+  pages/                 route templates, most driven by [slug] style params
+  styles/                global CSS
+public/
+  fonts/                 self-hosted font files (see CLAUDE.md font rule)
+  _redirects             Cloudflare Pages redirect rules
+tests/                   Playwright specs
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Generators
 
-## 🚀 Project Structure
+`scripts/generateData.ts` and `scripts/generateFoodData.ts` read the static
+data in `src/data/` and produce the page data consumed by the route
+templates. Run them with:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+npm run generate
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`npm run build` calls this automatically before the Astro build, so you
+rarely need to run it by hand except when iterating on a generator.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Build
 
-Any static assets, like images, can be placed in the `public/` directory.
+```
+npm install
+npm run build
+```
 
-## 🧞 Commands
+Output goes to `dist/`. This is a static build; there is no server runtime.
 
-All commands are run from the root of the project, from a terminal:
+## Tests
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```
+npm test
+```
 
-## 👀 Want to learn more?
+Runs the Playwright suite in `tests/` against a local dev server. Use
+`npm run test:ui` for the interactive runner.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Checks
+
+```
+npm run build
+npm run check
+```
+
+`scripts/checkSite.ts` inspects the built `dist/` directory and prints a
+PASS/FAIL table covering canonical URL format, trailing slashes on internal
+links, sitemap consistency, one `<h1>` per page, absence of Google Fonts
+references, absence of emoji, and self-hosted font weight. Only checks
+listed in the file's `CHECKS_ENFORCED` array fail the build; the rest are
+reported for visibility while the underlying issues get fixed.
+
+## Deploy
+
+The site deploys to Cloudflare Pages. Cloudflare builds from this repo with
+`npm run build` and serves `dist/`. Two files in `public/` configure Pages
+behavior directly, since anything in `public/` is copied to the root of
+`dist/`:
+
+- `_redirects` — apex-to-www and pages.dev-to-custom-domain redirects.
+- `_headers` — not yet present. Add it here if the site needs custom response
+  headers (caching, security headers, and so on).
+
+## Environment variables
+
+None yet. This section is a placeholder to extend as the site starts using
+any (API keys, feature flags, and so on). Document each one here as it is
+added, including whether it is required at build time or only in Cloudflare
+Pages' runtime environment.

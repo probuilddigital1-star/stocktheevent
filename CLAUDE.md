@@ -1,0 +1,64 @@
+# CLAUDE.md
+
+Guidance for Claude Code sessions working in this repository.
+
+## What this site is
+
+StockTheEvent is a party quantity calculator site: how much beer, wine, pizza,
+or ice does a given event and guest count need. About 2,000 pages are
+generated from two data-driven scripts, `scripts/generateData.ts` (drink
+calculators) and `scripts/generateFoodData.ts` (food calculators). The site
+is an Astro 5 static build, deployed to Cloudflare Pages at
+https://www.stocktheevent.com/.
+
+## Commands
+
+- `npm run generate` — run the data generators and write page data before a build.
+- `npm run build` — generate data, then produce the static site in `dist/`.
+- `npm test` — run the Playwright test suite.
+- `npm run check` — once `scripts/checkSite.ts` exists, inspect a built `dist/`
+  and print a PASS/FAIL table for the site-wide rules below. Run it after
+  `npm run build`.
+
+## Rules every change must follow
+
+- Every internal link ends with a trailing slash.
+- Canonical URLs are derived in `BaseLayout` from `Astro.site`. Never store a
+  canonical URL in page data.
+- Indexability (index vs. noindex) comes from `src/data/indexing.ts` once that
+  file exists. Do not scatter noindex logic across templates.
+- No emoji anywhere, in templates or in data copy.
+- No CSS gradients, `backdrop-filter`, `box-shadow`, `border-radius`, or
+  transform-on-hover effects.
+- Icons are rendered only through `src/components/Icon.astro`. No inline SVG
+  or icon fonts elsewhere.
+- At most two font families, self-hosted from `public/fonts`. Never load fonts
+  from Google Fonts or any other runtime font host.
+- Numbers use tabular figures.
+- Copy is plain American English. No em dashes.
+- Every generated page has exactly one `<h1>`.
+- New content sections belong in shared components, never copy-pasted into
+  individual page templates.
+
+## Design tokens (Bar book)
+
+This is the target design system. It is not yet applied across the site; a
+later prompt wires it in. When you touch styling, move toward these tokens
+rather than introducing new ones.
+
+| Token | Value |
+|---|---|
+| `--paper` | `#F5F6F3` |
+| `--paper-2` | `#ECEEE9` |
+| `--ink` | `#1B1F1D` |
+| `--ink-2` | `#4B524E` |
+| `--rule` | `#C7CDC8` |
+| `--accent` | `#1F4D3A` |
+| `--accent-soft` | `#E3EBE6` |
+
+Display face: Libre Caslon Text. Text face: Archivo. Both self-hosted from
+`public/fonts`, per the font rule above.
+
+## See also
+
+`README.md` for project structure, generators, and deploy details.
