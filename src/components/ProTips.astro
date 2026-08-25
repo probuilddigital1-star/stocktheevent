@@ -1,55 +1,52 @@
 ---
-import type { EventType } from '../lib/types';
+/**
+ * ProTips.astro - the site's own planning notes as plain ruled rows, with
+ * the buying guide as a closing paragraph. These are not quotations and
+ * carry no attribution styling.
+ */
+import PageSection from './PageSection.astro';
 
 interface Props {
-  event: EventType;
+  title: string;
+  tips: string[];
+  guide?: string;
 }
 
-const { event } = Astro.props;
-
-// Alternating border colors (wine and primary)
-const borderColors = ['var(--wine)', 'var(--primary)', 'var(--wine)', 'var(--primary)', 'var(--wine)'];
+const { title, tips, guide } = Astro.props;
 ---
 
-<section class="py-16">
-  <div class="max-w-3xl mx-auto px-4">
-    <!-- Section Header -->
-    <div class="mb-10">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)]">
-        Planning notes for a {event.lowerName}
-      </h2>
-    </div>
+<PageSection label="Planning notes" title={title}>
+  <ul class="tips-list">
+    {tips.map((tip) => (
+      <li class="tips-row">{tip}</li>
+    ))}
+  </ul>
+  {guide && <p class="tips-guide">{guide}</p>}
+</PageSection>
 
-    <!--
-      These are the site's own planning notes, not quotations. The pull-quote
-      styling, the quotation marks and the attribution rule were removed because
-      they implied a human source that does not exist.
-    -->
-    <ul class="space-y-4">
-      {event.proTips.map((tip, index) => (
-        <li
-          class="bg-white p-6"
-          style={`border-left: 4px solid ${borderColors[index % borderColors.length]}`}
-        >
-          <p class="text-[var(--chocolate)] leading-relaxed">{tip}</p>
-        </li>
-      ))}
-    </ul>
+<style>
+  .tips-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
 
-    <!-- Buying Guide - Premium Card -->
-    <div class="mt-12 paper-texture rounded-2xl border border-[var(--primary-30)] shadow-lg overflow-hidden">
-      <div class="m-3 border-2 border-[var(--primary-10)] rounded-xl p-8">
-        <div class="flex items-start gap-4">
-          <div>
-            <h3 class="font-display font-bold text-xl text-[var(--chocolate)] mb-3">
-              Buying Guide
-            </h3>
-            <p class="text-[var(--chocolate-light)] leading-relaxed">
-              {event.buyingGuide}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  .tips-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.55;
+  }
+
+  .tips-row:first-child {
+    padding-top: 0;
+  }
+
+  .tips-guide {
+    margin: 16px 0 0;
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+</style>

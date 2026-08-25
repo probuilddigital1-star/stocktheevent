@@ -1,0 +1,78 @@
+---
+/**
+ * HowWeGotThere.astro - the math ledger: one row per step of the model,
+ * label on the left, the formula in --ink-2, the result right-aligned,
+ * and the final row set off under an --ink rule.
+ *
+ * Rows carry data-math-step and cell classes so the page script can
+ * rewrite them when the Adjust steppers change guests or hours.
+ */
+import PageSection from './PageSection.astro';
+import type { MathStep } from '../lib/types';
+
+interface Props {
+  title: string;
+  note?: string;
+  steps: MathStep[];
+}
+
+const { title, note, steps } = Astro.props;
+---
+
+<PageSection label="How we got there" title={title} note={note} ruleTone="ink">
+  <div class="table-scroll">
+    <table class="math-ledger">
+      <tbody>
+        {steps.map((step, i) => (
+          <tr class={`math-step${i === steps.length - 1 ? ' math-total' : ''}`} data-math-step={step.step}>
+            <td class="math-label">{step.label}</td>
+            <td class="num math-formula">{step.formula}</td>
+            <td class="num math-result">{step.result}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <slot />
+</PageSection>
+
+<style>
+  .math-ledger {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .math-ledger td {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .math-label {
+    width: 34%;
+    padding-right: 16px;
+  }
+
+  .math-formula {
+    color: var(--ink-2);
+    padding-right: 16px;
+  }
+
+  .math-result {
+    text-align: right;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .math-total td {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .math-total .math-label {
+    font-weight: 500;
+  }
+
+  .math-total .math-result {
+    font-size: 20px;
+  }
+</style>

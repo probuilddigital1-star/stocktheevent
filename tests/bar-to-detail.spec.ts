@@ -15,71 +15,78 @@ test.describe('Bar Setup to Detail Page Flow', () => {
 
     // Verify the detail link shows the same units
     const linkUnitsText = await wineDetailLink.locator('.detail-units').textContent();
-    expect(linkUnitsText).toContain(wineUnits);
-
-    // Get the href and verify it contains the correct query params
-    const href = await wineDetailLink.getAttribute('href');
-    expect(href).toContain('fromBar=1');
-    expect(href).toContain(`units=${wineUnits}`);
+    expect(linkUnitsText).toContain(wineUnits ?? '');
   });
 
-  test('Detail page shows bar context banner when coming from bar-setup', async ({ page }) => {
-    // Go directly to a detail page with bar context params
-    await page.goto('/wine-for-graduation-party-100-guests/?fromBar=1&units=15&servings=75');
+  test('Drink page headline matches the bar-setup card', async ({ page }) => {
+    // The bar-setup card and the drink page's own headline both show the
+    // drink's share of a full bar, so they must agree.
+    await page.goto('/bar-setup/graduation-party-100-guests/');
     await page.waitForLoadState('networkidle');
 
-    // Verify the bar context banner is visible
-    const banner = page.locator('#bar-context-banner');
-    await expect(banner).toBeVisible();
+    const wineCard = page.locator('.drink-card[data-drink-id="wine"]');
+    const barUnits = (await wineCard.locator('.drink-units').textContent())?.trim();
 
-    // Verify the banner shows the correct values
-    const barUnits = await page.locator('#bar-units').textContent();
-    expect(barUnits).toBe('15');
-
-    const barServings = await page.locator('#bar-servings').textContent();
-    expect(barServings).toBe('75');
-
-    // Verify the back link is correct
-    const backLink = page.locator('#back-to-bar');
-    const href = await backLink.getAttribute('href');
-    expect(href).toContain('/bar-setup/graduation-party-100-guests');
-  });
-
-  test('Detail page hides bar context banner when accessed directly', async ({ page }) => {
-    // Go directly to a detail page without bar context params
     await page.goto('/wine-for-graduation-party-100-guests/');
     await page.waitForLoadState('networkidle');
 
-    // Verify the bar context banner is hidden
-    const banner = page.locator('#bar-context-banner');
-    await expect(banner).toHaveClass(/hidden/);
+    const headline = (await page.locator('.answer-number').first().textContent())?.trim();
+    expect(headline).toBe(barUnits);
   });
 
-  test('Full flow: Bar-setup -> Detail page -> Back to bar-setup', async ({ page }) => {
-    // Start at bar-setup page
+  test('Full flow: bar-setup card to matching drink page', async ({ page }) => {
     await page.goto('/bar-setup/wedding-100-guests/?drinks=wine,beer,champagne,spirits');
     await page.waitForLoadState('networkidle');
 
-    // Get wine values
     const wineCard = page.locator('.drink-card[data-drink-id="wine"]');
-    const originalWineUnits = await wineCard.locator('.drink-units').textContent();
+    const originalWineUnits = (await wineCard.locator('.drink-units').textContent())?.trim();
 
     // Click on wine detail link
     await page.locator('.detail-link[data-drink-id="wine"]').click();
     await page.waitForLoadState('networkidle');
 
-    // Verify we're on the detail page
+    // Verify we're on the detail page and the headline agrees
     expect(page.url()).toContain('wine-for-wedding');
+    const headline = (await page.locator('.answer-number').first().textContent())?.trim();
+    expect(headline).toBe(originalWineUnits);
+  });
 
-    // Verify the bar context banner shows correct units
-    const barUnits = await page.locator('#bar-units').textContent();
-    expect(barUnits).toBe(originalWineUnits);
-
-    // Click back to bar-setup
-    await page.locator('#back-to-bar').click();
+  test('Adjust steppers recalculate the drink page live', async ({ page }) => {
+    await page.goto('/wine-for-wedding-100-guests/');
     await page.waitForLoadState('networkidle');
 
-    // Verify we're back on bar-setup
-    expect(page.url()).toContain('/bar-setup/wedding-100-guests');
+    const before = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
+
+    await page.fill('#adjust-guests', '200');
+    await page.dispatchEvent('#adjust-guests', 'change');
+    await page.waitForTimeout(100);
+
+    const after = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
+    expect(after).toBeGreaterThan(before);
+
+    // URL mirrors the adjusted state; the H1 follows the guest count
+    expect(page.url()).toContain('guests=200');
+    await expect(page.locator('main h1').first()).toContainText('200');
+  });
+
+  test('URL parameters restore an adjusted state on load', async ({ page }) => {
+    await page.goto('/wine-for-wedding-100-guests/');
+    await page.waitForLoadState('networkidle');
+    const base = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
+
+    await page.goto('/wine-for-wedding-100-guests/?guests=200');
+    await page.waitForLoadState('networkidle');
+    const adjusted = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
+
+    expect(adjusted).toBeGreaterThan(base);
+    await expect(page.locator('#adjust-guests')).toHaveValue('200');
   });
 });

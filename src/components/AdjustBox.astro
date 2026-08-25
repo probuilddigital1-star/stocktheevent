@@ -1,0 +1,166 @@
+---
+/**
+ * AdjustBox.astro - the bordered box beside the answer: guest and hour
+ * steppers that recalculate the page live, the other items for this event
+ * as bordered links, and the primary button to the bar-setup page.
+ *
+ * The steppers only render markup; each page's script wires the behavior.
+ */
+import Icon from './Icon.astro';
+
+interface OtherLink {
+  href: string;
+  label: string;
+  icon: string;
+}
+
+interface Props {
+  guests: number;
+  /** Omit hours (pass null) on food pages, where run time does not change the math. */
+  hours: number | null;
+  othersLabel: string;
+  others: OtherLink[];
+  primaryHref: string;
+  primaryLabel: string;
+}
+
+const { guests, hours, othersLabel, others, primaryHref, primaryLabel } = Astro.props;
+---
+
+<div class="adjust-box">
+  <div class="adjust-head">
+    <span class="label adjust-title">Adjust</span>
+    <span class="label">Updates the page and the list</span>
+  </div>
+
+  <div class="adjust-steppers">
+    <div class="adjust-field">
+      <label class="label" for="adjust-guests">Guests</label>
+      <div class="stepper" id="adjust-guests-stepper">
+        <button type="button" data-step="down" aria-label="Fewer guests">
+          <Icon name="minus" size={18} />
+        </button>
+        <input
+          type="number"
+          id="adjust-guests"
+          value={guests}
+          min="10"
+          max="300"
+          inputmode="numeric"
+          aria-valuetext={`${guests} guests`}
+        />
+        <button type="button" data-step="up" aria-label="More guests">
+          <Icon name="plus" size={18} />
+        </button>
+      </div>
+    </div>
+    {hours !== null && (
+      <div class="adjust-field">
+        <label class="label" for="adjust-hours">Hours</label>
+        <div class="stepper" id="adjust-hours-stepper">
+          <button type="button" data-step="down" aria-label="Fewer hours">
+            <Icon name="minus" size={18} />
+          </button>
+          <input
+            type="number"
+            id="adjust-hours"
+            value={hours}
+            min="1"
+            max="6"
+            inputmode="numeric"
+            aria-valuetext={`${hours} hours`}
+          />
+          <button type="button" data-step="up" aria-label="More hours">
+            <Icon name="plus" size={18} />
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+
+  <div class="adjust-links">
+    <span class="label">{othersLabel}</span>
+    <div class="adjust-link-grid">
+      {others.map((other) => (
+        <a href={other.href} class="adjust-link">
+          <Icon name={other.icon} size={20} />
+          <span>{other.label}</span>
+        </a>
+      ))}
+    </div>
+    <a href={primaryHref} class="btn-primary adjust-cta">
+      <span>{primaryLabel}</span>
+      <Icon name="arrow" size={20} />
+    </a>
+  </div>
+</div>
+
+<style>
+  .adjust-box {
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .adjust-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .adjust-title {
+    color: var(--ink);
+  }
+
+  .adjust-steppers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 22px 24px;
+  }
+
+  .adjust-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .adjust-links {
+    padding: 0 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .adjust-link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 10px;
+  }
+
+  .adjust-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 15px;
+    min-height: 44px;
+  }
+
+  .adjust-link:hover {
+    border-color: var(--ink);
+    text-decoration: none;
+    background: var(--accent-soft);
+  }
+
+  .adjust-cta {
+    margin-top: 6px;
+    width: 100%;
+  }
+</style>

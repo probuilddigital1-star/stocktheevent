@@ -1,0 +1,110 @@
+---
+/**
+ * QuickReference.astro - the by-guest-count table on calculator pages.
+ * Values come from each sibling page's own generated data, so a row shows
+ * exactly what the page it links to shows. The current page's row is
+ * filled with --accent-soft; the page script moves the highlight when the
+ * Adjust steppers change the guest count.
+ */
+import PageSection from './PageSection.astro';
+
+export interface QuickReferenceRow {
+  guests: number;
+  /** Link target for the row; null on the current row. */
+  href: string | null;
+  /** One value per column, aligned with `columns`. */
+  values: string[];
+  isCurrent: boolean;
+}
+
+interface Props {
+  title: string;
+  /** Column headers after the leading Guests column. */
+  columns: string[];
+  rows: QuickReferenceRow[];
+  footnote?: string;
+}
+
+const { title, columns, rows, footnote } = Astro.props;
+---
+
+<PageSection label="Quick reference" title={title}>
+  <div class="table-scroll">
+    <table class="ledger qr-table" id="quick-reference">
+      <thead>
+        <tr>
+          <th>Guests</th>
+          {columns.map((col) => (
+            <th class="qr-num-col">{col}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr class={row.isCurrent ? 'qr-current' : ''} data-guests={row.guests}>
+            <td class="qr-guests">
+              {row.href
+                ? <a href={row.href} class="qr-guest-link">{row.guests} guests</a>
+                : <span class="qr-guest-link">{row.guests} guests</span>}
+              {row.isCurrent && <span class="label qr-this-page">this page</span>}
+            </td>
+            {row.values.map((value, i) => (
+              <td class={`num qr-value${i === 0 ? ' qr-primary' : ''}`}>{value}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {footnote && <p class="qr-footnote">{footnote}</p>}
+</PageSection>
+
+<style>
+  .qr-num-col {
+    text-align: right;
+  }
+
+  .qr-value {
+    text-align: right;
+    color: var(--ink-2);
+  }
+
+  .qr-primary {
+    color: var(--ink);
+  }
+
+  .qr-guest-link {
+    color: var(--ink);
+  }
+
+  .qr-current {
+    background: var(--accent-soft);
+  }
+
+  .qr-current td:first-child {
+    padding-left: 10px;
+  }
+
+  .qr-current td:last-child {
+    padding-right: 10px;
+  }
+
+  .qr-current .qr-guest-link {
+    font-weight: 600;
+  }
+
+  .qr-current .qr-primary {
+    font-weight: 600;
+  }
+
+  .qr-this-page {
+    margin-left: 8px;
+    color: var(--accent);
+  }
+
+  .qr-footnote {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+</style>

@@ -1,0 +1,223 @@
+---
+/**
+ * AnswerHeader.astro - the top of every calculator page: breadcrumb, H1,
+ * the answer row (big number, unit line, context line), and the ruled line
+ * carrying the only-drink figure and, on champagne pages, the toast figure.
+ *
+ * The right column takes whatever is passed in the "aside" slot, normally
+ * the AdjustBox.
+ */
+
+export interface Crumb {
+  label: string;
+  href: string | null;
+}
+
+interface Props {
+  crumbs: Crumb[];
+  h1: string;
+  /** The big number. */
+  units: number;
+  /** The line under it in the display face, e.g. "bottles of wine". */
+  unitLine: string;
+  /** The 16px context line, e.g. "as part of a full bar, 5 hours · ...". */
+  contextLine: string;
+  onlyDrink?: {
+    lead: string;
+    figure: string;
+    perGuest: string;
+  };
+  toast?: {
+    figure: string;
+    note: string;
+  };
+}
+
+const { crumbs, h1, units, unitLine, contextLine, onlyDrink, toast } = Astro.props;
+---
+
+<section class="container answer-header">
+  <div class="answer-grid">
+    <div class="answer-main">
+      <nav class="answer-crumbs" aria-label="Breadcrumb">
+        {crumbs.map((crumb, i) => (
+          <>
+            {i > 0 && <span aria-hidden="true">/</span>}
+            {crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span>{crumb.label}</span>}
+          </>
+        ))}
+      </nav>
+
+      <h1 class="answer-h1">{h1}</h1>
+
+      <div class="answer-row">
+        <span class="num answer-number">{units}</span>
+        <div class="answer-unit-block">
+          <span class="font-display answer-unit">{unitLine}</span>
+          <span class="answer-context">{contextLine}</span>
+        </div>
+      </div>
+
+      {(onlyDrink || toast) && (
+        <div class="answer-secondary">
+          {onlyDrink && (
+            <p class="answer-only-drink">
+              <span class="label only-drink-lead">{onlyDrink.lead}</span>
+              <span class="num only-drink-figure">{onlyDrink.figure}</span>
+              <span class="only-drink-per-guest">{onlyDrink.perGuest}</span>
+            </p>
+          )}
+          {toast && (
+            <p class="answer-toast">
+              <span class="label only-drink-lead">For a toast only</span>
+              <span class="num only-drink-figure toast-figure">{toast.figure}</span>
+              <span class="only-drink-per-guest">{toast.note}</span>
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+
+    <div class="answer-aside">
+      <slot name="aside" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .answer-header {
+    padding-top: 40px;
+    padding-bottom: 56px;
+  }
+
+  .answer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .answer-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .answer-main {
+      grid-column: span 7;
+    }
+
+    .answer-aside {
+      grid-column: span 5;
+    }
+  }
+
+  .answer-main {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .answer-crumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .answer-crumbs a,
+  .answer-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .answer-h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.06;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 900px) {
+    .answer-h1 {
+      font-size: 56px;
+    }
+  }
+
+  .answer-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding-top: 8px;
+  }
+
+  .answer-number {
+    font-size: 104px;
+    line-height: 0.9;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-stretch: 105%;
+    color: var(--ink);
+  }
+
+  @media (min-width: 900px) {
+    .answer-number {
+      font-size: 148px;
+      }
+  }
+
+  .answer-unit-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 10px;
+    min-width: 0;
+  }
+
+  .answer-unit {
+    font-size: 24px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  @media (min-width: 900px) {
+    .answer-unit {
+      font-size: 34px;
+    }
+  }
+
+  .answer-context {
+    font-size: 16px;
+    color: var(--ink-2);
+  }
+
+  .answer-secondary {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .answer-only-drink,
+  .answer-toast {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 16px;
+  }
+
+  .only-drink-lead {
+    color: var(--ink);
+  }
+
+  .only-drink-figure {
+    font-weight: 600;
+  }
+
+  .only-drink-per-guest {
+    color: var(--ink-2);
+  }
+</style>

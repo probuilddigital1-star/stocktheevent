@@ -43,8 +43,8 @@ test.describe('Calculation Accuracy', () => {
     await expect(secondary).toBeVisible();
     await expect(secondary).toContainText('If beer is the only alcohol you serve');
 
-    const secondaryText = await secondary.textContent();
-    const onlyDrink = parseInt(secondaryText?.replace(/[^\d]/g, '') || '0');
+    const figureText = await secondary.locator('.only-drink-figure').textContent();
+    const onlyDrink = parseInt(figureText?.replace(/[^\d]/g, '') || '0');
     expect(onlyDrink).toBeGreaterThan(number);
   });
 
@@ -92,21 +92,20 @@ test.describe('Calculation Accuracy', () => {
   test('Math breakdown shows all steps', async ({ page }) => {
     await page.goto('/food/pizza-for-wedding-100-guests/');
 
-    // Should show calculation steps
-    const mathSection = page.locator('text=Why This Amount Works');
-    await expect(mathSection).toBeVisible();
+    // Should show the math ledger section
+    const mathSection = page.locator('text=How we got there');
+    await expect(mathSection.first()).toBeVisible();
 
-    // Step badges carry a math-step class in both the shared MathBreakdown
-    // component and the food page's inline breakdown.
+    // Ledger rows carry a math-step class on both drink and food pages.
     const steps = page.locator('.math-step');
     expect(await steps.count()).toBeGreaterThanOrEqual(2);
   });
 
-  test('Per person servings displayed correctly', async ({ page }) => {
+  test('Per guest servings displayed correctly', async ({ page }) => {
     await page.goto('/food/tacos-for-birthday-party-50-guests/');
 
-    // Check per person stat exists
-    const perPerson = page.locator('text=/per person/i');
-    await expect(perPerson.first()).toBeVisible();
+    // The context line under the answer carries the per-guest figure
+    const perGuest = page.locator('text=/per guest/i');
+    await expect(perGuest.first()).toBeVisible();
   });
 });

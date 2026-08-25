@@ -1,16 +1,23 @@
 ---
 import * as fs from 'fs';
 import * as path from 'path';
-import { glob } from 'astro/loaders';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Icon from '../../components/Icon.astro';
-import EmailCapture from '../../components/EmailCapture.astro';
+import AnswerHeader from '../../components/AnswerHeader.astro';
+import AdjustBox from '../../components/AdjustBox.astro';
+import HowWeGotThere from '../../components/HowWeGotThere.astro';
+import QuickReference from '../../components/QuickReference.astro';
+import type { QuickReferenceRow } from '../../components/QuickReference.astro';
+import ShoppingChecklist from '../../components/ShoppingChecklist.astro';
+import ProTips from '../../components/ProTips.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import type { FaqItem } from '../../components/FaqSection.astro';
-import { affiliateLinks, getAffiliateLink } from '../../lib/affiliates';
-import { seasonalEvents } from '../../data/seasonalEvents';
+import RelatedPages from '../../components/RelatedPages.astro';
+import Icon from '../../components/Icon.astro';
+import { foodItems } from '../../data/foodItems';
+import { items as drinkItems } from '../../data/items';
 import type { FoodCalculatorPage } from '../../lib/types';
 import { isIndexable } from '../../data/indexing';
+import { BUFFER_PERCENTAGE, EATING_PERCENTAGE } from '../../data/model';
 
 const QUICK_REFERENCE_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];
 const FOOD_CALCULATORS_DIR = path.join(process.cwd(), 'src/content/food-calculators');
@@ -55,36 +62,85 @@ interface Props {
 
 const { page } = Astro.props;
 
+const food = page.item.name.toLowerCase();
+const eventName = page.event.lowerName;
+const calc = page.calculation;
+
+const contextLine = `as the main dish · ${calc.totalServings} servings · about ${calc.perPersonServings} per guest`;
+const unitLine = `${calc.unitsDisplay} of ${food}`;
+
+// The shared-table figure: what this dish needs when it is one of several on
+// the table, from the same model the generator uses for side servings.
+const foodModifier = (page.event as any).foodModifiers?.[page.item.id] ?? 1.0;
+const eatingPct = EATING_PERCENTAGE[page.guestCount.tier];
+const sideServings = Math.round(page.guestCount.value * eatingPct * page.item.servingsPerPersonSide * foodModifier);
+const sideUnits = Math.ceil((sideServings / page.item.servingsPerOrderUnit) * (1 + BUFFER_PERCENTAGE));
+const sideDisplay = sideUnits === 1 ? page.item.orderUnitSingular : page.item.orderUnit;
+
 // Quick-reference rows read each sibling page's own generated numbers rather
 // than scaling this page's numbers by a guest ratio: the eating rate varies by
 // guest tier, so a scaled row can disagree with the page it links to. A guest
 // count with no generated page is skipped rather than estimated.
-const quickReferenceRows = QUICK_REFERENCE_GUEST_COUNTS
+const quickReferenceRows: QuickReferenceRow[] = QUICK_REFERENCE_GUEST_COUNTS
   .map((guests) => {
     const sibling = readSiblingFoodPage(page.item.id, page.event.slug, guests);
     if (!sibling) return null;
+    const isCurrent = guests === page.guestCount.value;
     return {
       guests,
-      calculation: sibling.calculation,
-      isCurrentRow: guests === page.guestCount.value,
+      href: isCurrent ? null : `/food/${page.item.id}-for-${page.event.slug}-${guests}-guests/`,
+      values: [
+        `${sibling.calculation.unitsNeeded} ${sibling.calculation.unitsDisplay}`,
+        `${sibling.calculation.totalServings}`,
+      ],
+      isCurrent,
     };
   })
-  .filter((row): row is NonNullable<typeof row> => row !== null);
+  .filter((row): row is QuickReferenceRow => row !== null);
 
-// Find matching seasonal event for party planner link
-const matchingPartyPage = seasonalEvents.find(se => se.eventType === page.event.id);
+// The other foods at this event, for the Adjust box.
+const otherFoods = foodItems
+  .filter((item) => item.id !== page.item.id)
+  .map((item) => ({
+    href: `/food/${item.id}-for-${page.event.slug}-${page.guestCount.value}-guests/`,
+    label: item.name,
+    icon: item.icon,
+  }));
+
+const barSetupHref = `/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`;
+
+// How each shopping row's quantity derives from the calculation, matched to
+// scripts/generateFoodData.ts, so the client script can update quantities live.
+const SHOPPING_ROW_CALCS: Record<string, string[]> = {
+  pizza: ['main', 'guests*1.5', 'guests*3', 'static', 'static'],
+  wings: ['main', 'units/3', 'guests/4', 'guests*2', 'units/10'],
+  tacos: ['main', 'guests/8', 'guests/10', 'guests/2', 'guests/15'],
+  sliders: ['main', 'units*1', 'units*1', 'guests/10', 'static'],
+  appetizers: ['main', 'units/30', 'guests*4', 'static', 'guests*1.5'],
+  bbq: ['main', 'units*3', 'units/3', 'guests/4', 'guests/15'],
+};
+const rowCalcs = SHOPPING_ROW_CALCS[page.item.id] ?? [];
 
 // Get the event food tips if available
 const eventFoodTips = (page.event as any).foodTips || [];
 const eventFoodBuyingGuide = (page.event as any).foodBuyingGuide || '';
 
+// Related drink links for this event, with the drink icons.
+const DRINK_ICONS: Record<string, string> = { wine: 'wine', beer: 'beer', champagne: 'flute', spirits: 'spirit' };
+
 // Breadcrumbs for structured data
-// Item 3 points at /food/ until per-food-type hub pages exist.
+// Item 3 points at the per-food hub.
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Food Calculators', url: '/food/' },
   { name: page.item.name, url: `/food/${page.item.id}/` },
   { name: `${page.guestCount.value} Guests`, url: `/food/${page.slug}/` }
+];
+
+const crumbs = [
+  { label: 'Food', href: '/food/' },
+  { label: page.item.name, href: `/food/${page.item.id}/` },
+  { label: page.event.name, href: `/calculators/${page.event.id}/` },
 ];
 
 // HowTo Schema - optimized for AIO
@@ -101,38 +157,35 @@ const howToSchema = {
   })),
   "totalTime": "PT30S",
   "tool": [{ "@type": "HowToTool", "name": "StockTheEvent Food Calculator" }],
-  "supply": [{ "@type": "HowToSupply", "name": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}` }]
+  "supply": [{ "@type": "HowToSupply", "name": `${calc.unitsNeeded} ${calc.unitsDisplay} of ${food}` }]
 };
 
 // FAQ built once, then fed to both the visible section and the JSON-LD so the
 // two cannot drift apart.
-const food = page.item.name.toLowerCase();
-const eventName = page.event.lowerName;
-
 const faqItems: FaqItem[] = [
   {
     question: `How much ${food} do I need for ${page.guestCount.value} guests?`,
-    answer: `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} for ${page.guestCount.value} guests at a ${eventName}. This provides ${page.calculation.totalServings} total servings with a 15% buffer.`,
+    answer: `You need ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} for ${page.guestCount.value} guests at a ${eventName}. This provides ${calc.totalServings} total servings with a 15% buffer.`,
   },
   {
     question: `How much ${food} per person for a ${eventName}?`,
-    answer: `Plan for ${page.calculation.perPersonServings} servings of ${food} per person at a ${eventName}. This assumes ${food} is your main food; reduce by 30-40% if serving multiple dishes.`,
+    answer: `Plan for ${calc.perPersonServings} servings of ${food} per person at a ${eventName}. This assumes ${food} is your main food; reduce by 30-40% if serving multiple dishes.`,
   },
   {
-    question: `How many servings in ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food}?`,
-    answer: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} provides ${page.calculation.totalServings} total servings, enough for ${page.guestCount.value} guests with a 15% buffer to ensure you don't run out.`,
+    question: `How many servings in ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food}?`,
+    answer: `${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} provides ${calc.totalServings} total servings, enough for ${page.guestCount.value} guests with a 15% buffer to ensure you don't run out.`,
   },
   {
-    question: `Is ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} enough for ${page.guestCount.value} people?`,
-    answer: `Yes, ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${eventName}. This includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}) so you won't run short.`,
+    question: `Is ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} enough for ${page.guestCount.value} people?`,
+    answer: `Yes, ${calc.unitsNeeded} ${calc.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${eventName}. This includes a 15% buffer (${calc.buffer} extra ${calc.unitsDisplay}) so you won't run short.`,
   },
   {
     question: `Should I order more ${food} than calculated?`,
-    answer: `Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer. However, if your guests are big eaters or ${food} is the only food, consider adding 10-20% more. It's always better to have leftovers!`,
+    answer: `Our calculation of ${calc.unitsNeeded} ${calc.unitsDisplay} already includes a 15% buffer. However, if your guests are big eaters or ${food} is the only food, consider adding 10-20% more. It's always better to have leftovers!`,
   },
   {
     question: `What if I'm serving ${food} with other foods?`,
-    answer: `If serving ${food} as part of a buffet spread with other options, reduce this amount by 30-40%. Instead of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}, you'd need approximately ${Math.ceil(page.calculation.unitsNeeded * 0.65)} ${page.calculation.unitsDisplay}.`,
+    answer: `If serving ${food} as part of a buffet spread with other options, reduce this amount by 30-40%. Instead of ${calc.unitsNeeded} ${calc.unitsDisplay}, you'd need approximately ${Math.ceil(calc.unitsNeeded * 0.65)} ${calc.unitsDisplay}.`,
   },
 ];
 
@@ -168,7 +221,7 @@ const shoppingListSchema = {
   title={page.meta.title}
   description={page.meta.description}
   breadcrumbs={breadcrumbs}
-  calculatorHref={`/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`}
+  calculatorHref={barSetupHref}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
@@ -180,362 +233,363 @@ const shoppingListSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
   </Fragment>
 
-  <!-- Hero Section with Main Answer -->
-  <section class="py-12 md:py-16 bg-gradient-to-b from-[var(--champagne-100)] via-amber-50/30 to-white">
-    <div class="max-w-4xl mx-auto px-4">
-      <!-- Breadcrumb -->
-      <nav class="mb-6 text-sm text-[var(--chocolate-40)] text-center">
-        <a href="/" class="hover:text-orange-600 transition-colors">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/calculators/" class="hover:text-orange-600 transition-colors">Calculators</a>
-        <span class="mx-2">/</span>
-        <span class="text-[var(--chocolate-light)]">{page.item.name}</span>
-      </nav>
+  <AnswerHeader
+    crumbs={crumbs}
+    h1={page.meta.h1}
+    units={calc.unitsNeeded}
+    unitLine={unitLine}
+    contextLine={contextLine}
+    onlyDrink={{
+      lead: `If ${food} shares the table with other dishes`,
+      figure: `${sideUnits} ${sideDisplay}`,
+      perGuest: `(${page.item.servingsPerPersonSide} per guest instead of ${page.item.servingsPerPerson})`,
+    }}
+  >
+    <AdjustBox
+      slot="aside"
+      guests={page.guestCount.value}
+      hours={null}
+      othersLabel={`Also at this ${eventName}`}
+      others={otherFoods}
+      primaryHref={barSetupHref}
+      primaryLabel={`Plan the whole bar for this ${eventName}`}
+    />
+  </AnswerHeader>
 
-      <!-- Hero -->
-      <div class="text-center mb-8">
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--chocolate)] mb-4">
-          {page.meta.h1}
-        </h1>
-        <p class="text-xl text-[var(--chocolate-light)]">
-          {page.event.name} • {page.guestCount.value} guests
-        </p>
-      </div>
+  <HowWeGotThere
+    title={`${['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'][page.mathExplanation.length] ?? page.mathExplanation.length} lines of arithmetic`}
+    note="Change any assumption you disagree with; the answer follows."
+    steps={page.mathExplanation}
+  >
+    <p class="method-line num">
+      Every constant behind this figure is published, including the eating rate
+      by guest count and the 15 percent buffer;
+      <a href="/methodology/">read the methodology</a>.
+    </p>
+  </HowWeGotThere>
 
-      <!-- Main Answer Card -->
-      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
-        <div class="bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 p-8 text-white text-center">
-          <div class="text-sm uppercase tracking-wide opacity-90 mb-2">Your Total</div>
-          <div class="answer-number text-6xl md:text-7xl font-black mb-2 tabular-nums">{page.calculation.unitsNeeded}</div>
-          <div class="text-2xl font-semibold opacity-95">{page.calculation.unitsDisplay}</div>
-          <div class="text-sm opacity-80 mt-2">of {page.item.name.toLowerCase()}</div>
-        </div>
+  <QuickReference
+    title={`${page.item.name} for a ${eventName}, by guest count`}
+    columns={[page.item.name, 'Servings']}
+    rows={quickReferenceRows}
+    footnote={`Figures assume ${food} is the main dish; serving several dishes together lowers each one.`}
+  />
 
-        <!-- Stats -->
-        <div class="grid grid-cols-3 bg-gradient-to-b from-[var(--champagne-100)] to-white">
-          <div class="p-5 text-center border-r border-[var(--primary-10)]">
-            <div class="text-3xl font-bold text-[var(--chocolate)]">{page.calculation.totalServings}</div>
-            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">total servings</div>
-          </div>
-          <div class="p-5 text-center border-r border-[var(--primary-10)]">
-            <div class="text-3xl font-bold text-[var(--chocolate)]">{page.calculation.perPersonServings}</div>
-            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">per person</div>
-          </div>
-          <div class="p-5 text-center">
-            <div class="text-3xl font-bold text-[var(--chocolate)]">15%</div>
-            <div class="text-xs text-[var(--chocolate-40)] font-medium uppercase tracking-wide mt-1">buffer</div>
-          </div>
-        </div>
-      </div>
+  <ShoppingChecklist
+    items={page.shoppingList}
+    rowCalcs={rowCalcs}
+    buyLabel={`${calc.unitsNeeded} ${calc.unitsDisplay}`}
+  />
 
-      <!-- Main dish assumption note -->
-      <div class="bg-[var(--champagne-100)] rounded-xl p-4 border border-[var(--primary-30)] text-center">
-        <p class="text-sm text-[var(--chocolate)]">
-          <span class="font-medium">Note:</span> This assumes {page.item.name.toLowerCase()} is your main food.
-          {matchingPartyPage ? (
-            <>
-              Planning a buffet spread?
-              <a href={`/party/${matchingPartyPage.slug}/`} class="font-semibold text-[var(--chocolate-40)] hover:text-[var(--chocolate)] underline ml-1">
-                See our {page.event.name.replace(' Party', '')} Party Planner
-              </a>
-              for balanced quantities.
-            </>
-          ) : (
-            <>
-              If serving multiple foods, reduce this amount by 30-40%.
-            </>
-          )}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Food Switcher -->
-  <section class="bg-white border-b border-slate-200 sticky top-16 z-40">
-    <div class="max-w-4xl mx-auto px-4 py-3">
-      <div class="flex items-center justify-center gap-2 flex-wrap">
-        <span class="text-sm text-slate-500 mr-2">Switch food:</span>
-        {['pizza', 'wings', 'tacos', 'sliders', 'appetizers', 'bbq'].map((foodId) => {
-          const isActive = foodId === page.item.id;
-          const foodNames = {
-            pizza: 'Pizza',
-            wings: 'Wings',
-            tacos: 'Tacos',
-            sliders: 'Sliders',
-            appetizers: 'Apps',
-            bbq: 'BBQ',
-          };
-          return (
-            <a
-              href={`/food/${foodId}-for-${page.event.slug}-${page.guestCount.value}-guests/`}
-              class={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
-                isActive
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-orange-100 hover:text-orange-700'
-              }`}
-            >
-              <Icon name={foodId} size={16} class="inline-block align-middle" /> {foodNames[foodId]}
-            </a>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  <!-- Math Breakdown -->
-  <section class="py-12 bg-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-6 flex items-center gap-3">
-        Why This Amount Works
-      </h2>
-
-      <div class="space-y-4">
-        {page.mathExplanation.map((step) => (
-          <div class="bg-gradient-to-br from-[var(--champagne-100)] to-white rounded-2xl p-6 border border-[var(--primary-10)]">
-            <div class="flex items-start gap-4">
-              <div class="math-step w-8 h-8 sunset-gradient text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 tabular-nums">
-                {step.step}
-              </div>
-              <div class="flex-1">
-                <div class="font-semibold text-[var(--chocolate)] mb-1">{step.label}</div>
-                <code class="block bg-white px-3 py-2 rounded-lg text-sm text-[var(--primary-dark)] font-mono mb-2 border border-[var(--primary-20)]">
-                  {step.formula}
-                </code>
-                <div class="flex items-center justify-between">
-                  <span class="text-[var(--chocolate-light)] text-sm">{step.explanation}</span>
-                  <span class="font-bold text-orange-600 whitespace-nowrap ml-4">{step.result}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-6 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl p-4 border border-emerald-200">
-        <div class="flex items-center gap-3">
-          <div>
-            <div class="font-semibold text-emerald-800">Where this number comes from</div>
-            <div class="text-sm text-emerald-700">Every constant behind this figure is published, including the eating rate by guest count and the 15 percent buffer. <a href="/methodology/" class="underline">Read the methodology</a>.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Quick Reference Table (for featured snippets) -->
-  <section class="py-10 bg-slate-50">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-        Quick Reference: {page.item.name} by Guest Count
-      </h2>
-      <div class="overflow-x-auto bg-white rounded-xl shadow-sm">
-        <table class="w-full text-sm border-collapse">
-          <thead>
-            <tr class="bg-slate-100">
-              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Guests</th>
-              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">{page.item.name} Needed</th>
-              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Total Servings</th>
-            </tr>
-          </thead>
-          <tbody>
-            {quickReferenceRows.map((row) => (
-              <tr class={row.isCurrentRow ? 'bg-orange-50 font-semibold' : 'hover:bg-slate-50'}>
-                <td class="px-4 py-3 border-b border-slate-100">
-                  {row.guests} guests {row.isCurrentRow && <span class="text-orange-600 text-xs ml-1">(you)</span>}
-                </td>
-                <td class="px-4 py-3 border-b border-slate-100">
-                  <a href={`/food/${page.item.id}-for-${page.event.slug}-${row.guests}-guests/`}
-                     class={`${row.isCurrentRow ? 'text-orange-700' : 'text-orange-600 hover:underline'}`}>
-                    {row.calculation.unitsNeeded} {row.calculation.unitsDisplay}
-                  </a>
-                </td>
-                <td class="px-4 py-3 border-b border-slate-100">{row.calculation.totalServings} servings</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p class="text-xs text-slate-500 mt-3">
-        * All calculations include a 15% buffer. Amounts for {page.event.lowerName} as main dish.
-      </p>
-    </div>
-  </section>
-
-  <!-- Shopping List -->
-  <section class="py-12 bg-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-        Your Complete Shopping List
-      </h2>
-
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div class="divide-y divide-slate-100">
-          {page.shoppingList.map((item, index) => {
-            const affiliateLink = getAffiliateLink(item.name);
-            return (
-              <div class={`flex items-center justify-between p-4 ${index === 0 ? 'bg-orange-50' : ''}`}>
-                <div class="flex items-center gap-3">
-                  {index === 0 && <Icon name={page.item.icon} size={22} />}
-                  <div>
-                    <span class={`font-medium ${index === 0 ? 'text-orange-900' : 'text-slate-900'}`}>
-                      {item.name}
-                    </span>
-                    {item.notes && (
-                      <span class="text-sm text-slate-500 ml-2">({item.notes})</span>
-                    )}
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <span class={`font-bold ${index === 0 ? 'text-orange-600' : 'text-slate-700'}`}>
-                    {item.quantity} {item.unit}
-                  </span>
-                  {affiliateLink && (
-                    <a
-                      href={affiliateLink}
-                      target="_blank"
-                      rel="noopener sponsored"
-                      class="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full hover:bg-amber-200 transition-colors"
-                    >
-                      Buy →
-                    </a>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <p class="text-xs text-slate-500 text-center mt-4">
-        As an Amazon Associate, we earn from qualifying purchases.
-      </p>
-    </div>
-  </section>
-
-  <!-- Pro Tips -->
   {eventFoodTips.length > 0 && (
-    <section class="py-12 bg-white">
-      <div class="max-w-3xl mx-auto px-4">
-        <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-            Pro Tips for {page.event.name} Food
-        </h2>
-
-        <div class="bg-amber-50 rounded-2xl p-6 border border-amber-200">
-          <ul class="space-y-4">
-            {eventFoodTips.slice(0, 5).map((tip: string) => (
-              <li class="flex items-start gap-3">
-                <span class="text-amber-900">{tip}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {eventFoodBuyingGuide && (
-          <div class="mt-6 bg-slate-50 rounded-2xl p-6 border border-slate-200">
-            <h3 class="font-semibold text-slate-900 mb-2">Buying Guide</h3>
-            <p class="text-slate-700">{eventFoodBuyingGuide}</p>
-          </div>
-        )}
-      </div>
-    </section>
+    <ProTips
+      title={`Food at a ${eventName}`}
+      tips={eventFoodTips.slice(0, 5)}
+      guide={eventFoodBuyingGuide}
+    />
   )}
 
-  <!-- Complete Your Bar (Cross-link to drinks) -->
-  {page.relatedDrinks && page.relatedDrinks.length > 0 && (
-    <section class="py-12 bg-slate-50">
-      <div class="max-w-3xl mx-auto px-4">
-        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-6 flex items-center gap-3">
-            Complete Your Bar
-        </h2>
-        <p class="text-[var(--chocolate-light)] mb-4">Don't forget the drinks! See our drink calculators for this event:</p>
-
-        <div class="grid md:grid-cols-3 gap-3">
-          {page.relatedDrinks.map((drink) => {
-            const drinkIcons = {
-              wine: 'wine',
-              beer: 'beer',
-              champagne: 'flute',
-              spirits: 'spirit',
-            };
-            const drinkId = drink.slug.split('-')[0];
-            return (
-              <a
-                href={`/${drink.slug}/`}
-                class="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--primary-10)] hover:border-[var(--forest-light)] hover:bg-emerald-50 transition-all group"
-              >
-                <Icon name={drinkIcons[drinkId] || 'glass'} size={24} />
-                <div class="flex-1">
-                  <div class="font-medium text-[var(--chocolate)] group-hover:text-emerald-700">{drink.title.split(' for ')[0]}</div>
-                  <div class="text-sm text-[var(--chocolate-40)]">Calculate now →</div>
-                </div>
-              </a>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  )}
-
-  <!-- FAQ (same questions as the JSON-LD above) -->
   <FaqSection
-    heading={`Questions about ${page.item.name.toLowerCase()} for a ${page.event.lowerName}`}
+    heading={`${page.item.name} at a ${eventName}`}
     items={faqItems}
   />
 
-  <!-- Email Capture -->
-  <div class="max-w-3xl mx-auto px-4 py-12">
-    <EmailCapture
-      eventType={page.event.id}
-      eventName={page.event.name}
-      guestCount={page.guestCount.value}
-      placement="inline"
-    />
-  </div>
-
-  <!-- Related Food Calculators -->
-  <section class="py-12 bg-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-display text-xl font-bold text-[var(--chocolate)] mb-6">
-        More {page.item.name} Calculators
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-3">
-        {page.relatedPages.slice(0, 4).map((related) => (
-          <a
-            href={`/food/${related.slug}/`}
-            class="flex items-center gap-3 p-4 bg-[var(--champagne-100)] rounded-xl border border-[var(--primary-10)] hover:border-[var(--primary)] hover:bg-[var(--primary-10)] transition-all group"
-          >
-            <Icon name={page.item.icon} size={22} />
-            <div class="flex-1">
-              <div class="font-medium text-[var(--chocolate)] group-hover:text-orange-700 text-sm">{related.title}</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--chocolate-40)] group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        ))}
+  {page.relatedDrinks && page.relatedDrinks.length > 0 && (
+    <section class="container drink-links-section">
+      <div class="rule"></div>
+      <div class="section-grid drink-links-grid">
+        <div class="section-head">
+          <span class="label drink-links-label">The bar</span>
+          <h2 class="drink-links-title">Drinks for this {eventName}</h2>
+        </div>
+        <div class="section-body drink-links-list">
+          {page.relatedDrinks.map((drink) => {
+            const drinkId = drink.slug.split('-')[0];
+            return (
+              <a href={`/${drink.slug}/`} class="drink-link">
+                <Icon name={DRINK_ICONS[drinkId] || 'glass'} size={20} />
+                <span>{drink.title}</span>
+              </a>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- CTA Section -->
-  <section class="py-20 bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
-
-    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-        Planning a different event?
-      </h2>
-      <p class="text-orange-100 mb-8 text-lg max-w-xl mx-auto">
-        Use our free calculators for any combination of food, drinks, events, and guest counts.
-      </p>
-      <a
-        href="/calculators/"
-        class="inline-block bg-white text-orange-600 px-8 py-4 rounded-xl font-bold hover:bg-orange-50 hover:scale-105 transition-all shadow-xl"
-      >
-        Browse All Calculators
-      </a>
-    </div>
-  </section>
+  <RelatedPages
+    pages={page.relatedPages}
+    currentEvent={page.event.name}
+    currentItem={page.item.name}
+    basePath="/food/"
+  />
 </BaseLayout>
+
+<style>
+  .method-line {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+
+  .drink-links-section {
+    padding-bottom: 56px;
+  }
+
+  .drink-links-grid {
+    padding-top: 32px;
+  }
+
+  .drink-links-label {
+    color: var(--accent);
+  }
+
+  .drink-links-title {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.15;
+  }
+
+  @media (min-width: 900px) {
+    .drink-links-title {
+      font-size: 32px;
+    }
+  }
+
+  .drink-links-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    align-content: start;
+  }
+
+  @media (min-width: 700px) {
+    .drink-links-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .drink-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 15px;
+    min-height: 44px;
+  }
+
+  .drink-link:hover {
+    border-color: var(--ink);
+    background: var(--accent-soft);
+    text-decoration: none;
+  }
+</style>
+
+<script define:vars={{
+  guestCount: page.guestCount.value,
+  itemData: {
+    id: page.item.id,
+    name: page.item.name,
+    servingsPerPerson: page.item.servingsPerPerson,
+    servingsPerPersonSide: page.item.servingsPerPersonSide,
+    servingsPerOrderUnit: page.item.servingsPerOrderUnit,
+    orderUnit: page.item.orderUnit,
+    orderUnitSingular: page.item.orderUnitSingular,
+    unitType: page.item.unitType,
+    unit: page.item.unit,
+  },
+  foodModifier,
+  BUFFER_PERCENTAGE,
+  EATING_PERCENTAGE
+}}>
+  // Mirrors scripts/generateFoodData.ts. The guest stepper rewrites the
+  // answer, the math ledger, the quick-reference highlight and the shopping
+  // list, and mirrors the state into the URL with replaceState. Run time does
+  // not change food quantities, so there is no hour stepper here.
+
+  const foodName = itemData.name.toLowerCase();
+  const unitWord = itemData.unitType === 'weight' ? 'pieces' : itemData.unit;
+
+  function getTier(guests) {
+    if (guests <= 30) return 'small';
+    if (guests <= 75) return 'medium';
+    if (guests <= 150) return 'large';
+    return 'xlarge';
+  }
+
+  function recalculate(guests) {
+    const tier = getTier(guests);
+    const eatingPct = EATING_PERCENTAGE[tier];
+    const eaters = Math.round(guests * eatingPct);
+
+    const totalServings = Math.round(guests * eatingPct * itemData.servingsPerPerson * foodModifier);
+    const rawExact = totalServings / itemData.servingsPerOrderUnit;
+    const unitsNeeded = Math.ceil(rawExact * (1 + BUFFER_PERCENTAGE));
+    const rawUnits = Math.round(rawExact * 10) / 10;
+
+    const sideServings = Math.round(guests * eatingPct * itemData.servingsPerPersonSide * foodModifier);
+    const sideUnits = Math.ceil((sideServings / itemData.servingsPerOrderUnit) * (1 + BUFFER_PERCENTAGE));
+
+    return {
+      tier, eatingPct, eaters, totalServings, rawUnits, unitsNeeded, sideUnits,
+      perPerson: Math.round((totalServings / guests) * 10) / 10,
+    };
+  }
+
+  function unitsDisplay(units) {
+    return units === 1 ? itemData.orderUnitSingular : itemData.orderUnit;
+  }
+
+  // A null formula leaves the build-time formula in place.
+  function setMathStep(step, formula, result) {
+    const row = document.querySelector(`[data-math-step="${step}"]`);
+    if (!row) return;
+    const formulaEl = row.querySelector('.math-formula');
+    const resultEl = row.querySelector('.math-result');
+    if (formulaEl && formula !== null) formulaEl.textContent = formula;
+    if (resultEl) resultEl.textContent = result;
+  }
+
+  function updateMathLedger(calc, guests) {
+    const pctLabel = Math.round(calc.eatingPct * 100);
+    setMathStep(1, `${guests} guests × ${pctLabel}% eating rate`, `${calc.eaters} eaters`);
+    setMathStep(2,
+      `${calc.eaters} eaters × ${itemData.servingsPerPerson} ${unitWord} per person`,
+      `${Math.round(calc.eaters * itemData.servingsPerPerson)} base servings`);
+    setMathStep(3, null, `${calc.totalServings} ${unitWord} needed`);
+    setMathStep(4,
+      `${calc.totalServings} ${unitWord} ÷ ${itemData.servingsPerOrderUnit} per ${itemData.orderUnitSingular}`,
+      `${calc.rawUnits} ${itemData.orderUnit} (raw)`);
+    setMathStep(5,
+      `${calc.rawUnits} × 1.15 = ${(calc.rawUnits * 1.15).toFixed(1)}, rounded up`,
+      `${calc.unitsNeeded} ${unitsDisplay(calc.unitsNeeded)}`);
+  }
+
+  function updateQuickReference(guests) {
+    const rows = document.querySelectorAll('#quick-reference tbody tr[data-guests]');
+    if (!rows.length) return;
+    let nearest = null;
+    let minDiff = Infinity;
+    rows.forEach(row => {
+      const value = parseInt(row.getAttribute('data-guests') || '0', 10);
+      const diff = Math.abs(value - guests);
+      if (diff < minDiff) {
+        minDiff = diff;
+        nearest = row;
+      }
+    });
+    rows.forEach(row => row.classList.toggle('qr-current', row === nearest));
+  }
+
+  function updateShoppingList(calc, guests) {
+    document.querySelectorAll('#shopping-list .shop-row').forEach(row => {
+      const q = row.getAttribute('data-q');
+      const qtyEl = row.querySelector('.shop-qty');
+      if (!q || q === 'static' || !qtyEl) return;
+      if (q === 'main') {
+        qtyEl.textContent = `${calc.unitsNeeded} ${unitsDisplay(calc.unitsNeeded)}`;
+        return;
+      }
+      const match = q.match(/^(guests|units|servings)([*/])([\d.]+)$/);
+      if (!match) return;
+      const base = match[1] === 'guests' ? guests
+        : match[1] === 'units' ? calc.unitsNeeded
+        : calc.totalServings;
+      const factor = parseFloat(match[3]);
+      const value = Math.ceil(match[2] === '*' ? base * factor : base / factor);
+      const unitText = row.getAttribute('data-unit') || '';
+      qtyEl.textContent = `${value} ${unitText}`;
+    });
+
+    const buyLabel = document.getElementById('where-to-buy-label');
+    if (buyLabel) buyLabel.textContent = `Where to buy ${calc.unitsNeeded} ${unitsDisplay(calc.unitsNeeded)}`;
+  }
+
+  let currentGuests = guestCount;
+  let displayedGuests = guestCount;
+
+  function applyState(guests, updateUrl) {
+    currentGuests = guests;
+    const calc = recalculate(guests);
+
+    const answerNumber = document.querySelector('.answer-number');
+    if (answerNumber) answerNumber.textContent = calc.unitsNeeded;
+    const answerUnit = document.querySelector('.answer-unit');
+    if (answerUnit) answerUnit.textContent = `${unitsDisplay(calc.unitsNeeded)} of ${foodName}`;
+    const answerContext = document.querySelector('.answer-context');
+    if (answerContext) {
+      answerContext.textContent = `as the main dish · ${calc.totalServings} servings · about ${calc.perPerson} per guest`;
+    }
+
+    const sideFigure = document.querySelector('.answer-only-drink .only-drink-figure');
+    if (sideFigure) sideFigure.textContent = `${calc.sideUnits} ${calc.sideUnits === 1 ? itemData.orderUnitSingular : itemData.orderUnit}`;
+
+    const h1 = document.querySelector('h1');
+    if (h1 && h1.textContent.includes(String(displayedGuests))) {
+      h1.textContent = h1.textContent.replace(String(displayedGuests), String(guests));
+    }
+    displayedGuests = guests;
+
+    updateMathLedger(calc, guests);
+    updateQuickReference(guests);
+    updateShoppingList(calc, guests);
+
+    if (updateUrl) {
+      const params = new URLSearchParams(window.location.search);
+      if (guests !== guestCount) params.set('guests', String(guests));
+      else params.delete('guests');
+      const query = params.toString();
+      history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+    }
+  }
+
+  const guestInput = document.getElementById('adjust-guests');
+  const guestStepper = document.getElementById('adjust-guests-stepper');
+  const GUEST_STEPS = [10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 200, 250, 300];
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function nearestStepIndex(guests) {
+    let best = 0;
+    let minDiff = Infinity;
+    GUEST_STEPS.forEach((value, i) => {
+      const diff = Math.abs(value - guests);
+      if (diff < minDiff) {
+        minDiff = diff;
+        best = i;
+      }
+    });
+    return best;
+  }
+
+  function setGuests(value, updateUrl = true) {
+    const guests = clamp(Math.round(value) || 10, 10, 300);
+    if (guestInput) {
+      guestInput.value = guests;
+      guestInput.setAttribute('aria-valuetext', `${guests} guests`);
+    }
+    applyState(guests, updateUrl);
+  }
+
+  guestStepper?.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-step]');
+    if (!btn) return;
+    const direction = btn.dataset.step === 'up' ? 1 : -1;
+    const idx = nearestStepIndex(currentGuests);
+    setGuests(GUEST_STEPS[clamp(idx + direction, 0, GUEST_STEPS.length - 1)]);
+  });
+
+  guestInput?.addEventListener('change', () => setGuests(parseInt(guestInput.value, 10)));
+
+  // Apply URL parameters on load
+  const urlParams = new URLSearchParams(window.location.search);
+  const customGuests = parseInt(urlParams.get('guests') || '', 10);
+  if (!Number.isNaN(customGuests) && customGuests !== guestCount) {
+    setGuests(customGuests, false);
+  }
+</script>

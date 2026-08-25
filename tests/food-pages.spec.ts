@@ -7,17 +7,19 @@ test.describe('Food Calculator Pages', () => {
     // Check page loads
     await expect(page).toHaveTitle(/Wings.*Super Bowl/i);
 
-    // Check main answer is displayed (main content area)
-    await expect(page.locator('main .text-6xl, main .text-7xl').first()).toBeVisible();
+    // Check main answer is displayed
+    await expect(page.locator('.answer-number').first()).toBeVisible();
 
-    // Check food switcher exists
-    await expect(page.locator('text=Switch food')).toBeVisible();
+    // The Adjust box links to the other foods at this event
+    await expect(
+      page.locator('a[href="/food/pizza-for-super-bowl-party-50-guests/"]').first(),
+    ).toBeVisible();
 
-    // Check math breakdown section
-    await expect(page.locator('text=Why This Amount Works')).toBeVisible();
+    // Check math ledger section
+    await expect(page.locator('text=How we got there').first()).toBeVisible();
 
     // Check shopping list exists
-    await expect(page.locator('text=Shopping List')).toBeVisible();
+    await expect(page.locator('text=Shopping list').first()).toBeVisible();
   });
 
   test('Pizza page has correct structure', async ({ page }) => {
@@ -37,24 +39,18 @@ test.describe('Food Calculator Pages', () => {
     await expect(jsonLd.first()).toBeAttached();
   });
 
-  test('Food switcher links work', async ({ page }) => {
+  test('Other-food links work', async ({ page }) => {
     await page.goto('/food/pizza-for-wedding-100-guests/');
 
-    // Click on wings switcher
-    const wingsLink = page.locator('a:has-text("Wings")').first();
+    const wingsLink = page.locator('a[href="/food/wings-for-wedding-100-guests/"]').first();
     await expect(wingsLink).toBeVisible();
-
-    // Verify link href is correct format
-    const href = await wingsLink.getAttribute('href');
-    expect(href).toMatch(/\/food\/wings-for-wedding-100-guests/);
   });
 
   test('Cross-links to drink calculators exist', async ({ page }) => {
     await page.goto('/food/tacos-for-graduation-party-50-guests/');
 
-    // Check for drink calculator links
-    const drinkSection = page.locator('text=Drink Calculators');
-    // May or may not exist depending on relatedDrinks data
+    const drinkLinks = page.locator('a[href*="-for-graduation-party-50-guests/"]:not([href*="/food/"])');
+    expect(await drinkLinks.count()).toBeGreaterThan(0);
   });
 
   test('All food types have pages', async ({ page }) => {
@@ -66,16 +62,24 @@ test.describe('Food Calculator Pages', () => {
     }
   });
 
-  test('Affiliate links have correct attributes', async ({ page }) => {
-    await page.goto('/food/wings-for-super-bowl-party-50-guests/');
+  test('Guest stepper recalculates the answer live', async ({ page }) => {
+    await page.goto('/food/pizza-for-wedding-100-guests/');
+    await page.waitForLoadState('networkidle');
 
-    // Check Amazon links have sponsored rel
-    const amazonLinks = page.locator('a[href*="amazon.com"]');
-    const count = await amazonLinks.count();
+    const before = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
 
-    for (let i = 0; i < Math.min(count, 5); i++) {
-      const rel = await amazonLinks.nth(i).getAttribute('rel');
-      expect(rel).toMatch(/sponsored|noopener/);
-    }
+    await page.fill('#adjust-guests', '200');
+    await page.dispatchEvent('#adjust-guests', 'change');
+    await page.waitForTimeout(100);
+
+    const after = parseInt(
+      (await page.locator('.answer-number').first().textContent()) || '0',
+    );
+    expect(after).toBeGreaterThan(before);
+
+    // The URL mirrors the adjusted state
+    expect(page.url()).toContain('guests=200');
   });
 });

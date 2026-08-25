@@ -1,0 +1,272 @@
+---
+/**
+ * ShoppingChecklist.astro - the shopping list section: a checklist with
+ * square boxes and tabular quantities, Copy / Print / Email as secondary
+ * buttons, and a bordered "Where to buy" box that renders a plain
+ * "Find it locally" line until the retailer catalog exists.
+ *
+ * Each row carries data-q describing how its quantity derives from the
+ * calculation ("main", "static", or "<base><op><factor>"), so the page
+ * script can update quantities when the Adjust steppers change.
+ */
+import PageSection from './PageSection.astro';
+import Icon from './Icon.astro';
+import type { ShoppingItem } from '../lib/types';
+
+interface Props {
+  items: ShoppingItem[];
+  /** One data-q value per row, aligned with items. */
+  rowCalcs: string[];
+  /** e.g. "41 bottles" for the Where to buy heading. */
+  buyLabel: string;
+}
+
+const { items: shoppingItems, rowCalcs, buyLabel } = Astro.props;
+---
+
+<PageSection label="Shopping list" title="What to put in the cart">
+  <div class="shop-grid">
+    <div class="shop-list" id="shopping-list">
+      {shoppingItems.map((item, i) => (
+        <div class="check-row shop-row" data-q={rowCalcs[i] ?? 'static'} data-unit={item.unit}>
+          <button
+            type="button"
+            class="check-box"
+            aria-checked="false"
+            role="checkbox"
+            aria-label={`Mark ${item.name} as purchased`}
+          >
+            <Icon name="check" size={16} />
+          </button>
+          <span class="num shop-qty">{item.quantity} {item.unit}</span>
+          <span class="check-label shop-name">
+            {item.name}{item.notes ? `, ${item.notes.replace(/[.!]$/, '').toLowerCase()}` : ''}
+          </span>
+        </div>
+      ))}
+      <div class="shop-actions">
+        <button type="button" id="copy-list-btn" class="btn-secondary shop-btn">
+          <Icon name="copy" size={18} /> Copy
+        </button>
+        <button type="button" id="print-list-btn" class="btn-secondary shop-btn">
+          <Icon name="print" size={18} /> Print
+        </button>
+        <button type="button" id="email-list-btn" class="btn-secondary shop-btn">
+          <Icon name="mail" size={18} /> Email
+        </button>
+      </div>
+      <div id="email-form-container" class="email-capture shop-email hidden">
+        <p class="shop-email-note">We will send the list to your inbox.</p>
+        <form id="email-list-form" class="shop-email-form">
+          <label class="label" for="shop-email-input">Email address</label>
+          <div class="shop-email-row">
+            <input
+              type="email"
+              id="shop-email-input"
+              name="email"
+              placeholder="you@example.com"
+              required
+              class="field"
+            />
+            <button type="submit" class="btn-primary">Send</button>
+          </div>
+        </form>
+        <p id="email-message" class="shop-email-note hidden"></p>
+        <p class="shop-email-fine">No spam, unsubscribe anytime.</p>
+      </div>
+    </div>
+
+    <div class="buy-box">
+      <span class="label buy-title" id="where-to-buy-label">Where to buy {buyLabel}</span>
+      <p class="buy-line">Find it locally.</p>
+    </div>
+  </div>
+</PageSection>
+
+<style>
+  .shop-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .shop-grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+  }
+
+  .shop-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .shop-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .shop-row:first-child {
+    border-top: 1px solid var(--ink);
+  }
+
+  .shop-row:last-of-type {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .shop-qty {
+    font-weight: 600;
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .shop-actions {
+    display: flex;
+    gap: 10px;
+    padding-top: 16px;
+  }
+
+  .shop-btn {
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .shop-email {
+    margin-top: 16px;
+    border: 1px solid var(--rule);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* The scoped selector outweighs the utility class, so restate it. */
+  .shop-email.hidden {
+    display: none;
+  }
+
+  .shop-email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shop-email-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .shop-email-note {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .shop-email-fine {
+    margin: 0;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+
+  .buy-box {
+    border: 1px solid var(--ink);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .buy-title {
+    color: var(--ink);
+  }
+
+  .buy-line {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+</style>
+
+<script define:vars={{ shoppingItems }}>
+  // Checkbox toggle
+  document.querySelectorAll('#shopping-list .check-box').forEach(checkbox => {
+    checkbox.addEventListener('click', () => {
+      const next = checkbox.getAttribute('aria-checked') !== 'true';
+      checkbox.setAttribute('aria-checked', String(next));
+    });
+  });
+
+  // Copy builds text from the DOM so it always matches what is on screen,
+  // including live-recalculated quantities.
+  document.getElementById('copy-list-btn')?.addEventListener('click', () => {
+    const lines = ['Shopping list - StockTheEvent'];
+    document.querySelectorAll('#shopping-list .shop-row').forEach(row => {
+      const qty = row.querySelector('.shop-qty')?.textContent?.trim() ?? '';
+      const name = row.querySelector('.shop-name')?.textContent?.trim() ?? '';
+      lines.push(`- ${qty} ${name}`);
+    });
+    lines.push('', 'stocktheevent.com');
+
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      const btn = document.getElementById('copy-list-btn');
+      if (btn) {
+        const original = btn.innerHTML;
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.innerHTML = original; }, 2000);
+      }
+    });
+  });
+
+  document.getElementById('print-list-btn')?.addEventListener('click', () => {
+    window.print();
+  });
+
+  document.getElementById('email-list-btn')?.addEventListener('click', () => {
+    document.getElementById('email-form-container')?.classList.toggle('hidden');
+  });
+
+  const emailForm = document.getElementById('email-list-form');
+  emailForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const emailInput = emailForm.querySelector('input[name="email"]');
+    const email = emailInput ? emailInput.value : '';
+    const message = document.getElementById('email-message');
+
+    const payload = {
+      email,
+      shoppingList: shoppingItems,
+      pageUrl: window.location.href,
+      timestamp: new Date().toISOString(),
+      source: 'shopping-list',
+    };
+
+    try {
+      const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        if (message) {
+          message.textContent = 'Check your inbox!';
+          message.classList.remove('hidden');
+        }
+        emailForm.reset();
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (err) {
+      if (message) {
+        message.textContent = 'Something went wrong. Try again?';
+        message.classList.remove('hidden');
+      }
+    }
+  });
+</script>

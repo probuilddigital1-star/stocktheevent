@@ -1,0 +1,76 @@
+---
+/**
+ * PageSection.astro - the ruled 4+8 section every content block sits in.
+ *
+ * A 1px rule, then a 12-column grid: label, display-face heading and an
+ * optional note in the left 4 columns, content in the right 8. Stacks on
+ * mobile. Sections are separated by these rules, never by background bands.
+ */
+
+interface Props {
+  label: string;
+  title: string;
+  note?: string;
+  /** 'soft' (default) draws the rule in --rule; 'ink' draws it in --ink. */
+  ruleTone?: 'soft' | 'ink';
+  id?: string;
+}
+
+const { label, title, note, ruleTone = 'soft', id } = Astro.props;
+---
+
+<section class="container page-section" id={id}>
+  <div class={ruleTone === 'ink' ? 'rule-ink' : 'rule'}></div>
+  <div class="section-grid page-section-grid">
+    <div class="section-head">
+      <span class="label section-label">{label}</span>
+      <h2 class="section-title">{title}</h2>
+      {note && <p class="section-note">{note}</p>}
+      <slot name="head" />
+    </div>
+    <div class="section-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-section {
+    padding-bottom: 56px;
+  }
+
+  .page-section-grid {
+    padding-top: 32px;
+  }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .section-label {
+    color: var(--accent);
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.15;
+  }
+
+  @media (min-width: 900px) {
+    .section-title {
+      font-size: 32px;
+    }
+  }
+
+  .section-note {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 30ch;
+  }
+</style>
