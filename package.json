@@ -12,7 +12,7 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "check": "tsx scripts/checkSite.ts",
-    "deploy": "npm run build && npm run check && npx wrangler pages deploy dist --project-name stocktheevent --branch main",
+    "deploy": "npm run build && npm run check && tsx scripts/ops/deploy.ts",
     "verify:live": "tsx scripts/ops/verifyLive.ts"
   },
   "dependencies": {

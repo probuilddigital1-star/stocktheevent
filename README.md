@@ -97,10 +97,17 @@ Deploy from the command line:
 npm run deploy
 ```
 
-This builds, runs `npm run check`, and pushes `dist/` to Cloudflare Pages
-with `wrangler pages deploy` (requires `CLOUDFLARE_API_TOKEN` in the
-environment; `wrangler` is invoked with `npx` and does not need to be
-installed separately). Then confirm the live site actually reflects the
+This builds, runs `npm run check`, and pushes `dist/` to Cloudflare Pages via
+`scripts/ops/deploy.ts`, which runs `wrangler pages deploy` (`wrangler` is
+invoked with `npx` and does not need to be installed separately). Deploys
+authenticate with the `wrangler login` session on this machine, not
+`CLOUDFLARE_API_TOKEN`: that variable is set in the environment for the
+zone-scoped ops scripts below and must stay zone-scoped, so
+`scripts/ops/deploy.ts` deliberately hides it (and `CLOUDFLARE_ACCOUNT_ID`)
+from the wrangler child process, since wrangler prefers an API token over a stored
+login session when one is present, and this ops token was never meant to
+carry Pages/account permissions. If wrangler reports it isn't logged in, run
+`npx wrangler login` once. Then confirm the live site actually reflects the
 deploy:
 
 ```
