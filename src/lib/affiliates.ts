@@ -1,176 +1,169 @@
+import { retailers, retailerUrl } from './retailers';
+
 const AMAZON_TAG = 'probuild20-20';
 
-export const affiliateLinks: Record<string, string> = {
-  // =============================================================================
-  // DRINK ACCESSORIES
-  // =============================================================================
-  'corkscrew': `https://www.amazon.com/s?k=wine+corkscrew&tag=${AMAZON_TAG}`,
-  'wine-glasses': `https://www.amazon.com/s?k=wine+glasses+party&tag=${AMAZON_TAG}`,
-  'beer-glasses': `https://www.amazon.com/s?k=beer+glasses+pint&tag=${AMAZON_TAG}`,
-  'champagne-flutes': `https://www.amazon.com/s?k=champagne+flutes&tag=${AMAZON_TAG}`,
-  'shot-glasses': `https://www.amazon.com/s?k=shot+glasses+party&tag=${AMAZON_TAG}`,
-  'ice-bucket': `https://www.amazon.com/s?k=ice+bucket+party&tag=${AMAZON_TAG}`,
-  'cooler': `https://www.amazon.com/s?k=beverage+cooler+party&tag=${AMAZON_TAG}`,
-  'bottle-opener': `https://www.amazon.com/s?k=bottle+opener&tag=${AMAZON_TAG}`,
-  'cocktail-shaker': `https://www.amazon.com/s?k=cocktail+shaker+set&tag=${AMAZON_TAG}`,
-  'party-cups': `https://www.amazon.com/s?k=party+cups+plastic&tag=${AMAZON_TAG}`,
-  'napkins': `https://www.amazon.com/s?k=cocktail+napkins&tag=${AMAZON_TAG}`,
-  'bar-tools': `https://www.amazon.com/s?k=bartender+kit&tag=${AMAZON_TAG}`,
+export interface AffiliateProduct {
+  name: string;
+  /** Amazon ASIN. "ASIN_TODO" is a placeholder; see the comment on each entry
+   * for the product it should become, and the link falls back to a search
+   * URL until a real ASIN replaces it. */
+  asin: string;
+  /** One line explaining why this belongs on the list. Rendered in --ink-2. */
+  why: string;
+  /** Units per pack, when the product is commonly sold in packs. */
+  packSize?: number;
+  packUnit?: string;
+  category: 'drink' | 'food';
+  /** Amazon search terms used while asin is still a placeholder. */
+  searchQuery: string;
+}
 
-  // =============================================================================
-  // FOOD ACCESSORIES - COOKING & PREP
-  // =============================================================================
-  'air-fryer': `https://www.amazon.com/s?k=air+fryer+chicken+wings&tag=${AMAZON_TAG}`,
-  'slow-cooker': `https://www.amazon.com/s?k=slow+cooker+party+dip&tag=${AMAZON_TAG}`,
-  'warming-tray': `https://www.amazon.com/s?k=warming+tray+party&tag=${AMAZON_TAG}`,
-  'chafing-dish': `https://www.amazon.com/s?k=chafing+dish+catering&tag=${AMAZON_TAG}`,
-  'pizza-oven': `https://www.amazon.com/s?k=pizza+oven+outdoor&tag=${AMAZON_TAG}`,
-  'smoker': `https://www.amazon.com/s?k=smoker+grill+bbq&tag=${AMAZON_TAG}`,
-  'instant-pot': `https://www.amazon.com/s?k=instant+pot&tag=${AMAZON_TAG}`,
+export const affiliateCatalog: Record<string, AffiliateProduct> = {
+  // Drink accessories
+  corkscrew: {
+    name: 'Wine Opener',
+    asin: 'ASIN_TODO', // double-hinged waiter's corkscrew, 2-pack
+    why: 'A backup means one stuck cork does not stall the bar.',
+    category: 'drink',
+    searchQuery: 'wine corkscrew',
+  },
+  'wine-glasses': {
+    name: 'Wine Glasses, Plastic',
+    asin: 'ASIN_TODO', // 72-pack 12 oz clear plastic wine glasses
+    why: 'Two per drinker covers a refill without a trip to the sink.',
+    packSize: 72,
+    packUnit: 'glasses',
+    category: 'drink',
+    searchQuery: 'wine glasses party',
+  },
+  'champagne-flutes': {
+    name: 'Champagne Flutes, Plastic',
+    asin: 'ASIN_TODO', // 24-pack 4 oz plastic champagne flutes
+    why: 'One per guest for the toast, no washing up after.',
+    packSize: 24,
+    packUnit: 'flutes',
+    category: 'drink',
+    searchQuery: 'champagne flutes plastic',
+  },
+  'cocktail-glasses': {
+    name: 'Cocktail Glasses, Plastic',
+    asin: 'ASIN_TODO', // 24-pack 9 oz plastic cocktail glasses
+    why: 'Two per drinker keeps a fresh glass in hand between rounds.',
+    packSize: 24,
+    packUnit: 'glasses',
+    category: 'drink',
+    searchQuery: 'plastic cocktail glasses party',
+  },
+  'ice-bucket': {
+    name: 'Ice Bucket',
+    asin: 'ASIN_TODO', // double-wall insulated ice bucket with tongs
+    why: 'Keeps a bottle at the ready without a trip back to the cooler.',
+    category: 'drink',
+    searchQuery: 'ice bucket party',
+  },
+  cooler: {
+    name: 'Rolling Beverage Cooler',
+    asin: 'ASIN_TODO', // 75-quart wheeled cooler
+    why: 'Wheels it where the crowd is instead of the crowd finding it.',
+    category: 'drink',
+    searchQuery: 'beverage cooler party',
+  },
+  'cocktail-shaker': {
+    name: 'Cocktail Shaker Set',
+    asin: 'ASIN_TODO', // cocktail shaker set with jigger and strainer
+    why: 'Everything needed to mix drinks to order, not just pour them.',
+    category: 'drink',
+    searchQuery: 'cocktail shaker set',
+  },
+  'party-cups': {
+    name: 'Party Cups',
+    asin: 'ASIN_TODO', // 100-pack 16 oz plastic party cups
+    why: 'The default cup for beer, soda, and everything in between.',
+    packSize: 100,
+    packUnit: 'cups',
+    category: 'drink',
+    searchQuery: 'party cups plastic',
+  },
+  'bar-tools': {
+    name: 'Bartender Kit',
+    asin: 'ASIN_TODO', // bartender kit with stand, jigger, muddler, strainer
+    why: 'Jigger, muddler, and strainer in one set covers most cocktails.',
+    category: 'drink',
+    searchQuery: 'bartender kit',
+  },
 
-  // =============================================================================
-  // FOOD ACCESSORIES - SERVING
-  // =============================================================================
-  'serving-platters': `https://www.amazon.com/s?k=serving+platters+party&tag=${AMAZON_TAG}`,
-  'paper-plates': `https://www.amazon.com/s?k=paper+plates+heavy+duty&tag=${AMAZON_TAG}`,
-  'disposable-utensils': `https://www.amazon.com/s?k=disposable+utensils+party&tag=${AMAZON_TAG}`,
-  'food-trays': `https://www.amazon.com/s?k=food+trays+catering&tag=${AMAZON_TAG}`,
-  'beverage-dispenser': `https://www.amazon.com/s?k=beverage+dispenser+party&tag=${AMAZON_TAG}`,
-  'taco-holder': `https://www.amazon.com/s?k=taco+holder+stand&tag=${AMAZON_TAG}`,
-  'pizza-cutter': `https://www.amazon.com/s?k=pizza+cutter&tag=${AMAZON_TAG}`,
-
-  // =============================================================================
-  // THEMED PARTY SUPPLIES
-  // =============================================================================
-  'football-party-supplies': `https://www.amazon.com/s?k=football+party+supplies&tag=${AMAZON_TAG}`,
-  'super-bowl-decorations': `https://www.amazon.com/s?k=super+bowl+decorations&tag=${AMAZON_TAG}`,
-  'team-plates': `https://www.amazon.com/s?k=football+party+plates&tag=${AMAZON_TAG}`,
-  'basketball-party': `https://www.amazon.com/s?k=basketball+party+supplies&tag=${AMAZON_TAG}`,
-  'graduation-party': `https://www.amazon.com/s?k=graduation+party+supplies&tag=${AMAZON_TAG}`,
-  'july-4th-party': `https://www.amazon.com/s?k=4th+of+july+party+supplies&tag=${AMAZON_TAG}`,
-  'halloween-party': `https://www.amazon.com/s?k=halloween+party+supplies&tag=${AMAZON_TAG}`,
-  'christmas-party': `https://www.amazon.com/s?k=christmas+party+supplies&tag=${AMAZON_TAG}`,
-  'nye-party': `https://www.amazon.com/s?k=new+years+eve+party+supplies&tag=${AMAZON_TAG}`,
-
-  // =============================================================================
-  // BBQ & OUTDOOR
-  // =============================================================================
-  'grill': `https://www.amazon.com/s?k=portable+grill+party&tag=${AMAZON_TAG}`,
-  'grill-tools': `https://www.amazon.com/s?k=bbq+grill+tools+set&tag=${AMAZON_TAG}`,
-  'meat-thermometer': `https://www.amazon.com/s?k=meat+thermometer+instant+read&tag=${AMAZON_TAG}`,
-  'bbq-sauce': `https://www.amazon.com/s?k=bbq+sauce+variety+pack&tag=${AMAZON_TAG}`,
-  'picnic-table': `https://www.amazon.com/s?k=picnic+table+folding&tag=${AMAZON_TAG}`,
-  'outdoor-cooler': `https://www.amazon.com/s?k=large+cooler+wheels+party&tag=${AMAZON_TAG}`,
+  // Food accessories
+  napkins: {
+    name: 'Cocktail Napkins',
+    asin: 'ASIN_TODO', // 200-pack cocktail napkins
+    why: 'Cheap, and the first thing a bar runs out of.',
+    packSize: 200,
+    packUnit: 'napkins',
+    category: 'food',
+    searchQuery: 'cocktail napkins',
+  },
+  'paper-plates': {
+    name: 'Paper Plates',
+    asin: 'ASIN_TODO', // 100-pack heavy duty paper plates
+    why: 'Sturdy enough for a full plate, gone at the end of the night.',
+    packSize: 100,
+    packUnit: 'plates',
+    category: 'food',
+    searchQuery: 'paper plates heavy duty',
+  },
+  'serving-platters': {
+    name: 'Serving Platters',
+    asin: 'ASIN_TODO', // set of 4 disposable serving platters
+    why: 'Keeps the spread looking intentional instead of straight from the box.',
+    category: 'food',
+    searchQuery: 'serving platters party',
+  },
+  'warming-tray': {
+    name: 'Warming Tray',
+    asin: 'ASIN_TODO', // electric buffet warming tray
+    why: 'Keeps the last batch as hot as the first.',
+    category: 'food',
+    searchQuery: 'warming tray party',
+  },
 };
 
-export function getAffiliateLink(itemName: string): string | null {
-  const normalized = itemName.toLowerCase();
+function toAmazonSearchUrl(query: string): string {
+  return `https://www.amazon.com/s?k=${query.split(' ').join('+')}&tag=${AMAZON_TAG}`;
+}
 
-  // =============================================================================
-  // DRINK ACCESSORIES
-  // =============================================================================
-  if (normalized.includes('corkscrew') || (normalized.includes('wine') && normalized.includes('opener'))) {
-    return affiliateLinks['corkscrew'];
+/** Builds the buy link for a catalog key: a real product page once it has an
+ * ASIN, a search fallback while it is still "ASIN_TODO". */
+export function urlFor(key: string): string {
+  const product = affiliateCatalog[key];
+  if (!product) return '#';
+  if (product.asin && product.asin !== 'ASIN_TODO') {
+    return `https://www.amazon.com/dp/${product.asin}?tag=${AMAZON_TAG}`;
   }
-  if (normalized.includes('wine') && normalized.includes('glass')) {
-    return affiliateLinks['wine-glasses'];
-  }
-  if (normalized.includes('beer') && (normalized.includes('glass') || normalized.includes('mug'))) {
-    return affiliateLinks['beer-glasses'];
-  }
-  if (normalized.includes('champagne') && normalized.includes('flute')) {
-    return affiliateLinks['champagne-flutes'];
-  }
-  if (normalized.includes('shot')) {
-    return affiliateLinks['shot-glasses'];
-  }
-  if (normalized.includes('ice') && normalized.includes('bucket')) {
-    return affiliateLinks['ice-bucket'];
-  }
-  if (normalized.includes('cooler')) {
-    return affiliateLinks['cooler'];
-  }
-  if (normalized.includes('shaker') || (normalized.includes('cocktail') && !normalized.includes('napkin'))) {
-    return affiliateLinks['cocktail-shaker'];
-  }
-  if ((normalized.includes('cup') && normalized.includes('party')) || (normalized.includes('plastic') && normalized.includes('cup'))) {
-    return affiliateLinks['party-cups'];
-  }
-  if (normalized.includes('bar') && normalized.includes('tool')) {
-    return affiliateLinks['bar-tools'];
-  }
-  if (normalized.includes('bottle') && normalized.includes('opener')) {
-    return affiliateLinks['bottle-opener'];
-  }
+  return toAmazonSearchUrl(product.searchQuery);
+}
 
-  // =============================================================================
-  // FOOD COOKING EQUIPMENT
-  // =============================================================================
-  if (normalized.includes('air') && normalized.includes('fryer')) {
-    return affiliateLinks['air-fryer'];
+/** Resolves a shopping-list row's affiliate destination from its category.
+ * "ice" is a special case: it is not shippable, so it routes to Instacart's
+ * bag ice when that retailer is enabled, or returns null for a plain note. */
+export function getAffiliateLink(item: { affiliateCategory?: string }): string | null {
+  if (!item.affiliateCategory) return null;
+  if (item.affiliateCategory === 'ice') {
+    const instacart = retailers.find((r) => r.id === 'instacart');
+    if (instacart?.enabled) {
+      return retailerUrl(instacart, 'bag ice');
+    }
+    return null;
   }
-  if (normalized.includes('slow') && normalized.includes('cooker')) {
-    return affiliateLinks['slow-cooker'];
-  }
-  if (normalized.includes('warming') && normalized.includes('tray')) {
-    return affiliateLinks['warming-tray'];
-  }
-  if (normalized.includes('chafing') || (normalized.includes('buffet') && normalized.includes('dish'))) {
-    return affiliateLinks['chafing-dish'];
-  }
-  if (normalized.includes('pizza') && normalized.includes('oven')) {
-    return affiliateLinks['pizza-oven'];
-  }
-  if (normalized.includes('smoker') || (normalized.includes('bbq') && normalized.includes('grill'))) {
-    return affiliateLinks['smoker'];
-  }
-  if (normalized.includes('instant') && normalized.includes('pot')) {
-    return affiliateLinks['instant-pot'];
-  }
-  if (normalized.includes('grill') && normalized.includes('tool')) {
-    return affiliateLinks['grill-tools'];
-  }
-  if (normalized.includes('thermometer') || normalized.includes('temp')) {
-    return affiliateLinks['meat-thermometer'];
-  }
+  return affiliateCatalog[item.affiliateCategory] ? urlFor(item.affiliateCategory) : null;
+}
 
-  // =============================================================================
-  // FOOD SERVING
-  // =============================================================================
-  if (normalized.includes('serving') && (normalized.includes('platter') || normalized.includes('tray'))) {
-    return affiliateLinks['serving-platters'];
-  }
-  if (normalized.includes('paper') && normalized.includes('plate')) {
-    return affiliateLinks['paper-plates'];
-  }
-  if (normalized.includes('plate') && !normalized.includes('paper')) {
-    return affiliateLinks['paper-plates'];
-  }
-  if (normalized.includes('utensil') || normalized.includes('fork') || normalized.includes('spoon')) {
-    return affiliateLinks['disposable-utensils'];
-  }
-  if (normalized.includes('taco') && normalized.includes('holder')) {
-    return affiliateLinks['taco-holder'];
-  }
-  if (normalized.includes('pizza') && normalized.includes('cutter')) {
-    return affiliateLinks['pizza-cutter'];
-  }
-  if (normalized.includes('napkin')) {
-    return affiliateLinks['napkins'];
-  }
-  if (normalized.includes('dispenser')) {
-    return affiliateLinks['beverage-dispenser'];
-  }
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
-  // =============================================================================
-  // BBQ SPECIFIC
-  // =============================================================================
-  if (normalized.includes('bbq') && normalized.includes('sauce')) {
-    return affiliateLinks['bbq-sauce'];
-  }
-  if (normalized.includes('grill') && !normalized.includes('tool')) {
-    return affiliateLinks['grill'];
-  }
-
-  return null;
+/** "140 glasses: two 72-packs" - how many packs of a known pack size covers a
+ * needed quantity, spelled out for small counts. */
+export function packMathSentence(quantity: number, unit: string, packSize: number, packUnit: string): string {
+  const packs = Math.ceil(quantity / packSize);
+  const packsWord = packs <= 10 ? NUMBER_WORDS[packs] : String(packs);
+  const packNoun = packs === 1 ? 'pack' : 'packs';
+  return `${quantity} ${unit}: ${packsWord} ${packSize}-${packNoun}`;
 }

@@ -1,0 +1,33 @@
+---
+/**
+ * CrossPromo.astro - a single ruled row pointing spirits buyers toward
+ * Freezer Batch Cocktails. Shown on spirits calculator pages and on
+ * bar-setup pages under the spirits line; never links back to the homepage.
+ */
+---
+
+<div class="cross-promo">
+  <p class="cross-promo-line">
+    Batching cocktails ahead of time keeps the bar moving:
+    <a href="https://freezerbatchcocktails.com/" rel="noopener" target="_blank">Freezer Batch Cocktails</a>
+    has make-ahead recipes that go straight from the freezer to the glass.
+  </p>
+</div>
+
+<style>
+  .cross-promo {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .cross-promo-line {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  .cross-promo-line a {
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,118 @@
+---
+/**
+ * WhereToBuy.astro - "You need N units (about X cases)" followed by the
+ * enabled retailers as ruled rows, or a "find it locally" fallback while
+ * every retailer is still disabled.
+ *
+ * Pass itemId/quantity/unit (+ casesLabel) on a single-drink page. On a
+ * full-bar page, pass itemIds instead so retailers are filtered by the
+ * union of drinks on the page rather than one item's own quantity.
+ */
+import Icon from './Icon.astro';
+import { retailers, retailerUrl } from '../lib/retailers';
+
+interface Props {
+  itemId?: string;
+  quantity?: number;
+  unit?: string;
+  casesLabel?: string;
+  itemIds?: string[];
+}
+
+const { itemId, quantity, unit, casesLabel, itemIds } = Astro.props;
+
+const relevantIds = itemIds ?? (itemId ? [itemId] : []);
+const applicable = retailers.filter(
+  (r) => r.enabled && (relevantIds.length === 0 || r.appliesTo.some((id) => relevantIds.includes(id))),
+);
+const searchTerm = itemId ?? relevantIds[0] ?? 'wine';
+---
+
+<div class="wtb">
+  {quantity != null && unit && (
+    <p class="num wtb-need" id="wtb-need">
+      You need {quantity} {unit}
+      {casesLabel ? ` (about ${casesLabel} cases)` : ''}
+    </p>
+  )}
+  {applicable.length > 0 ? (
+    <div class="wtb-list">
+      {applicable.map((r) => (
+        <a
+          href={retailerUrl(r, searchTerm)}
+          class="wtb-row"
+          target="_blank"
+          rel="sponsored noopener"
+          data-affiliate={r.id}
+        >
+          <span class="wtb-text">
+            <strong class="wtb-name">{r.name}</strong>
+            <span class="wtb-blurb">{r.blurb}</span>
+          </span>
+          <Icon name="external" size={18} />
+        </a>
+      ))}
+    </div>
+  ) : (
+    <div class="wtb-fallback">
+      <p class="wtb-line">Find it locally.</p>
+      <p class="wtb-line">Order a few days ahead so pickup is ready when you need it.</p>
+    </div>
+  )}
+</div>
+
+<style>
+  .wtb {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .wtb-need {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .wtb-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wtb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+  }
+
+  .wtb-row:first-child {
+    border-top: 1px solid var(--rule);
+  }
+
+  .wtb-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .wtb-blurb {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .wtb-fallback {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .wtb-line {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+</style>

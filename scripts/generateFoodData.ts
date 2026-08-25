@@ -173,8 +173,8 @@ function generateShoppingList(
   // Add complementary items based on food type
   if (item.id === 'pizza') {
     list.push(
-      { name: 'Paper plates', quantity: Math.ceil(result.totalGuests * 1.5), unit: 'plates', notes: 'For slices and seconds' },
-      { name: 'Napkins', quantity: Math.ceil(result.totalGuests * 3), unit: 'napkins', notes: 'Pizza is messy!' },
+      { name: 'Paper plates', quantity: Math.ceil(result.totalGuests * 1.5), unit: 'plates', notes: 'For slices and seconds', affiliateCategory: 'paper-plates' },
+      { name: 'Napkins', quantity: Math.ceil(result.totalGuests * 3), unit: 'napkins', notes: 'Pizza is messy!', affiliateCategory: 'napkins' },
       { name: 'Red pepper flakes', quantity: 2, unit: 'shakers', notes: 'Table condiment' },
       { name: 'Parmesan cheese', quantity: 1, unit: 'container', notes: 'Grated for topping' },
     );
@@ -183,7 +183,7 @@ function generateShoppingList(
       { name: 'Ranch/Blue cheese dressing', quantity: Math.ceil(result.unitsNeeded / 3), unit: 'bottles', notes: 'Essential for wings' },
       { name: 'Celery sticks', quantity: Math.ceil(result.totalGuests / 4), unit: 'bunches', notes: 'Classic pairing' },
       { name: 'Wet wipes', quantity: Math.ceil(result.totalGuests * 2), unit: 'wipes', notes: 'Wing fingers!' },
-      { name: 'Warming trays', quantity: Math.ceil(result.unitsNeeded / 10), unit: 'trays', notes: 'Keep wings hot' },
+      { name: 'Warming trays', quantity: Math.ceil(result.unitsNeeded / 10), unit: 'trays', notes: 'Keep wings hot', affiliateCategory: 'warming-tray' },
     );
   } else if (item.id === 'tacos') {
     list.push(
@@ -201,10 +201,10 @@ function generateShoppingList(
     );
   } else if (item.id === 'appetizers') {
     list.push(
-      { name: 'Serving platters', quantity: Math.ceil(result.unitsNeeded / 30), unit: 'platters', notes: 'For presentation' },
-      { name: 'Cocktail napkins', quantity: Math.ceil(result.totalGuests * 4), unit: 'napkins' },
+      { name: 'Serving platters', quantity: Math.ceil(result.unitsNeeded / 30), unit: 'platters', notes: 'For presentation', affiliateCategory: 'serving-platters' },
+      { name: 'Cocktail napkins', quantity: Math.ceil(result.totalGuests * 4), unit: 'napkins', affiliateCategory: 'napkins' },
       { name: 'Toothpicks', quantity: 1, unit: 'box', notes: 'For skewered items' },
-      { name: 'Small plates', quantity: Math.ceil(result.totalGuests * 1.5), unit: 'plates' },
+      { name: 'Small plates', quantity: Math.ceil(result.totalGuests * 1.5), unit: 'plates', affiliateCategory: 'paper-plates' },
     );
   } else if (item.id === 'bbq') {
     list.push(

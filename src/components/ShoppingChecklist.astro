@@ -2,8 +2,9 @@
 /**
  * ShoppingChecklist.astro - the shopping list section: a checklist with
  * square boxes and tabular quantities, Copy / Print / Email as secondary
- * buttons, and a bordered "Where to buy" box that renders a plain
- * "Find it locally" line until the retailer catalog exists.
+ * buttons, a "Things to have on hand" list of the accessory rows that
+ * resolve to the affiliate catalog, and a bordered "Where to buy" box (drink
+ * pages) or a plain "Find it locally" line (food pages).
  *
  * Each row carries data-q describing how its quantity derives from the
  * calculation ("main", "static", or "<base><op><factor>"), so the page
@@ -11,6 +12,9 @@
  */
 import PageSection from './PageSection.astro';
 import Icon from './Icon.astro';
+import ThingsToHaveOnHand from './ThingsToHaveOnHand.astro';
+import WhereToBuy from './WhereToBuy.astro';
+import AffiliateDisclosure from './AffiliateDisclosure.astro';
 import type { ShoppingItem } from '../lib/types';
 
 interface Props {
@@ -19,9 +23,30 @@ interface Props {
   rowCalcs: string[];
   /** e.g. "41 bottles" for the Where to buy heading. */
   buyLabel: string;
+  /** Drink id for the Where to buy box; omit on food pages to keep the plain
+   * "Find it locally" line. */
+  whereToBuyItemId?: string;
+  whereToBuyQuantity?: number;
+  whereToBuyUnit?: string;
+  whereToBuyCasesLabel?: string;
 }
 
-const { items: shoppingItems, rowCalcs, buyLabel } = Astro.props;
+const {
+  items: shoppingItems,
+  rowCalcs,
+  buyLabel,
+  whereToBuyItemId,
+  whereToBuyQuantity,
+  whereToBuyUnit,
+  whereToBuyCasesLabel,
+} = Astro.props;
+
+// Every row after the first is an accessory; the main item is the drink or
+// food itself, not something sold through the affiliate catalog.
+const thingsToHaveOnHand = shoppingItems
+  .slice(1)
+  .filter((item) => item.affiliateCategory)
+  .map((item) => ({ key: item.affiliateCategory as string, quantity: item.quantity, unit: item.unit }));
 ---
 
 <PageSection label="Shopping list" title="What to put in the cart">
@@ -74,13 +99,26 @@ const { items: shoppingItems, rowCalcs, buyLabel } = Astro.props;
         <p id="email-message" class="shop-email-note hidden"></p>
         <p class="shop-email-fine">No spam, unsubscribe anytime.</p>
       </div>
+
+      <ThingsToHaveOnHand items={thingsToHaveOnHand} />
     </div>
 
     <div class="buy-box">
       <span class="label buy-title" id="where-to-buy-label">Where to buy {buyLabel}</span>
-      <p class="buy-line">Find it locally.</p>
+      {whereToBuyItemId ? (
+        <WhereToBuy
+          itemId={whereToBuyItemId}
+          quantity={whereToBuyQuantity}
+          unit={whereToBuyUnit}
+          casesLabel={whereToBuyCasesLabel}
+        />
+      ) : (
+        <p class="buy-line">Find it locally.</p>
+      )}
     </div>
   </div>
+
+  <AffiliateDisclosure />
 </PageSection>
 
 <style>

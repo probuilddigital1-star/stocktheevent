@@ -8,6 +8,7 @@ import HowWeGotThere from '../components/HowWeGotThere.astro';
 import QuickReference from '../components/QuickReference.astro';
 import type { QuickReferenceRow, QuickReferenceColumn } from '../components/QuickReference.astro';
 import ShoppingChecklist from '../components/ShoppingChecklist.astro';
+import CrossPromo from '../components/CrossPromo.astro';
 import FaqSection from '../components/FaqSection.astro';
 import type { FaqItem } from '../components/FaqSection.astro';
 import RelatedPages from '../components/RelatedPages.astro';
@@ -105,6 +106,9 @@ const sharePercent = formatSharePercent(page.calculation.barShare);
 
 const contextLine = buildContextLine(fullBar.unitsNeeded, fullBar.totalServings, page.event.defaultDuration);
 const unitLine = `${fullBar.unitsDisplay} of ${drink}`;
+
+const whereToBuyCasesLabel =
+  page.item.unit === 'bottles' && fullBar.unitsNeeded >= 6 ? fractionLabel(fullBar.unitsNeeded / 12) : undefined;
 
 // Quick-reference rows read each sibling page's own generated numbers rather
 // than scaling this page's numbers by a guest ratio: drinking rate varies by
@@ -322,7 +326,13 @@ const shoppingListSchema = {
     items={page.shoppingList}
     rowCalcs={rowCalcs}
     buyLabel={`${fullBar.unitsNeeded} ${fullBar.unitsDisplay}`}
+    whereToBuyItemId={page.item.id}
+    whereToBuyQuantity={fullBar.unitsNeeded}
+    whereToBuyUnit={fullBar.unitsDisplay}
+    whereToBuyCasesLabel={whereToBuyCasesLabel}
   />
+
+  {page.item.id === 'spirits' && <CrossPromo />}
 
   <FaqSection
     heading={`${page.item.name} at a ${eventName}`}
@@ -512,6 +522,17 @@ const shoppingListSchema = {
 
     const buyLabel = document.getElementById('where-to-buy-label');
     if (buyLabel) buyLabel.textContent = `Where to buy ${calc.unitsNeeded} ${unitsDisplay(calc.unitsNeeded)}`;
+
+    const wtbNeed = document.getElementById('wtb-need');
+    if (wtbNeed) {
+      const unitWord = unitsDisplay(calc.unitsNeeded);
+      let line = `You need ${calc.unitsNeeded} ${unitWord}`;
+      if (itemData.unit === 'bottles' && calc.unitsNeeded >= 6) {
+        const cases = fractionLabel(calc.unitsNeeded / 12);
+        line += ` (about ${cases} ${cases === '1' ? 'case' : 'cases'})`;
+      }
+      wtbNeed.textContent = line;
+    }
   }
 
   let currentGuests = guestCount;

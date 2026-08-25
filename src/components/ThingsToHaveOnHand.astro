@@ -1,0 +1,144 @@
+---
+/**
+ * ThingsToHaveOnHand.astro - ruled-row list of durable party gear (glasses,
+ * openers, coolers, warming trays), each linking out to a catalog product
+ * with a one-line why and, when the pack size is known, the pack math.
+ *
+ * "ice" is a special case: it does not ship, so it links to Instacart's bag
+ * ice search when that retailer is enabled, or shows a plain same-day note.
+ */
+import Icon from './Icon.astro';
+import { affiliateCatalog, urlFor, getAffiliateLink, packMathSentence } from '../lib/affiliates';
+
+interface Row {
+  key: string;
+  quantity?: number;
+  unit?: string;
+}
+
+interface Props {
+  items: Row[];
+}
+
+const { items: rows } = Astro.props;
+
+interface ResolvedRow {
+  key: string;
+  name: string;
+  why: string;
+  href: string | null;
+  packLine: string | null;
+}
+
+const resolved: ResolvedRow[] = rows
+  .map((row): ResolvedRow | null => {
+    if (row.key === 'ice') {
+      const href = getAffiliateLink({ affiliateCategory: 'ice' });
+      return {
+        key: 'ice',
+        name: 'Bag Ice',
+        why: href
+          ? 'Delivered same day so it is still frozen when it arrives.'
+          : 'Buy it the same day locally. Ice does not ship well.',
+        href,
+        packLine: null,
+      };
+    }
+
+    const product = affiliateCatalog[row.key];
+    if (!product) return null;
+
+    const packLine =
+      product.packSize && row.quantity
+        ? packMathSentence(row.quantity, row.unit ?? product.packUnit ?? 'needed', product.packSize, product.packUnit ?? '')
+        : null;
+
+    return {
+      key: row.key,
+      name: product.name,
+      why: product.why,
+      href: urlFor(row.key),
+      packLine,
+    };
+  })
+  .filter((row): row is ResolvedRow => row !== null);
+---
+
+{resolved.length > 0 && (
+  <div class="things-list">
+    <span class="label things-title">Things to have on hand</span>
+    {resolved.map((row) => (
+      <div class="thing-row">
+        {row.href ? (
+          <a
+            href={row.href}
+            class="thing-link"
+            target="_blank"
+            rel="sponsored noopener"
+            data-affiliate={row.key}
+          >
+            <span>{row.name}</span>
+            <Icon name="external" size={16} />
+          </a>
+        ) : (
+          <p class="thing-name-plain">{row.name}</p>
+        )}
+        <p class="thing-why">{row.why}</p>
+        {row.packLine && <p class="num thing-pack">{row.packLine}</p>}
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .things-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+  }
+
+  .things-title {
+    padding-bottom: 10px;
+  }
+
+  .thing-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .thing-row:first-of-type {
+    border-top: 1px solid var(--ink);
+  }
+
+  .thing-row:last-of-type {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .thing-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .thing-name-plain {
+    margin: 0;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .thing-why {
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .thing-pack {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+</style>

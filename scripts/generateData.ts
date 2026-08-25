@@ -206,25 +206,25 @@ function generateShoppingList(
   // Add complementary items based on type
   if (item.id === 'wine') {
     list.push(
-      { name: 'Wine opener/corkscrew', quantity: 2, unit: 'pieces', notes: 'Have a backup!' },
-      { name: 'Wine glasses (or plastic)', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'glasses', notes: '2 per drinker for variety' },
+      { name: 'Wine opener/corkscrew', quantity: 2, unit: 'pieces', notes: 'Have a backup!', affiliateCategory: 'corkscrew' },
+      { name: 'Wine glasses (or plastic)', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'glasses', notes: '2 per drinker for variety', affiliateCategory: 'wine-glasses' },
     );
   } else if (item.id === 'beer') {
     const poundsOfIce = Math.ceil(result.unitsNeeded * 24 * 0.5); // ~0.5 lbs ice per beer
     list.push(
-      { name: 'Ice', quantity: poundsOfIce, unit: 'lbs', notes: 'Keep those beers cold!' },
-      { name: 'Coolers', quantity: Math.ceil(result.unitsNeeded / 2), unit: 'coolers', notes: '2 cases per cooler' },
+      { name: 'Ice', quantity: poundsOfIce, unit: 'lbs', notes: 'Keep those beers cold!', affiliateCategory: 'ice' },
+      { name: 'Coolers', quantity: Math.ceil(result.unitsNeeded / 2), unit: 'coolers', notes: '2 cases per cooler', affiliateCategory: 'cooler' },
     );
   } else if (item.id === 'champagne') {
     list.push(
-      { name: 'Champagne flutes', quantity: Math.ceil(result.actualDrinkers * 1.5), unit: 'glasses', notes: '1.5 per drinker' },
-      { name: 'Ice buckets', quantity: Math.ceil(result.unitsNeeded / 4), unit: 'buckets', notes: 'Keep bottles chilled' },
+      { name: 'Champagne flutes', quantity: Math.ceil(result.actualDrinkers * 1.5), unit: 'glasses', notes: '1.5 per drinker', affiliateCategory: 'champagne-flutes' },
+      { name: 'Ice buckets', quantity: Math.ceil(result.unitsNeeded / 4), unit: 'buckets', notes: 'Keep bottles chilled', affiliateCategory: 'ice-bucket' },
     );
   } else if (item.id === 'spirits') {
     list.push(
       { name: 'Mixers (soda, tonic, juice)', quantity: Math.ceil(result.totalServings / 3), unit: 'liters', notes: 'Variety is key' },
-      { name: 'Ice', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'lbs', notes: '~2 lbs per person' },
-      { name: 'Cocktail glasses', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'glasses', notes: '2 per drinker' },
+      { name: 'Ice', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'lbs', notes: '~2 lbs per person', affiliateCategory: 'ice' },
+      { name: 'Cocktail glasses', quantity: Math.ceil(result.actualDrinkers * 2), unit: 'glasses', notes: '2 per drinker', affiliateCategory: 'cocktail-glasses' },
       { name: 'Garnishes (limes, lemons)', quantity: Math.ceil(result.totalServings / 8), unit: 'pieces' },
     );
   }

@@ -4,10 +4,13 @@ import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import PageSection from '../../components/PageSection.astro';
 import ProTips from '../../components/ProTips.astro';
+import ThingsToHaveOnHand from '../../components/ThingsToHaveOnHand.astro';
+import WhereToBuy from '../../components/WhereToBuy.astro';
+import CrossPromo from '../../components/CrossPromo.astro';
+import AffiliateDisclosure from '../../components/AffiliateDisclosure.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
-import { affiliateLinks } from '../../lib/affiliates';
 import { isIndexable } from '../../data/indexing';
 import { drinkShare, splitsForEvent, varietyNote, DRINK_VARIETIES } from '../../data/eventSplits';
 import {
@@ -111,16 +114,17 @@ const clientData = {
   })),
 };
 
-// Plain text links for stocking the bar itself.
-const barSupplies = [
-  { label: 'Wine glasses', href: affiliateLinks['wine-glasses'] },
-  { label: 'Wine opener', href: affiliateLinks['corkscrew'] },
-  { label: 'Beverage cooler', href: affiliateLinks['cooler'] },
-  { label: 'Champagne flutes', href: affiliateLinks['champagne-flutes'] },
-  { label: 'Cocktail shaker set', href: affiliateLinks['cocktail-shaker'] },
-  { label: 'Bartender kit', href: affiliateLinks['bar-tools'] },
-  { label: 'Ice bucket', href: affiliateLinks['ice-bucket'] },
-  { label: 'Party cups', href: affiliateLinks['party-cups'] },
+// Glassware and gear for stocking the bar itself, resolved through the
+// affiliate catalog for name, why, and pack math.
+const thingsToHaveOnHandItems = [
+  { key: 'wine-glasses' },
+  { key: 'corkscrew' },
+  { key: 'cooler' },
+  { key: 'champagne-flutes' },
+  { key: 'cocktail-shaker' },
+  { key: 'bar-tools' },
+  { key: 'ice-bucket' },
+  { key: 'party-cups' },
 ];
 
 // Generate JSON-LD schema for SEO/AIO
@@ -207,6 +211,12 @@ const faqSchema = {
                 <td></td>
                 <td colspan="4" class="drink-note bar-note">{r.note}</td>
               </tr>
+              {r.item.id === 'spirits' && (
+                <tr class="cross-promo-row">
+                  <td></td>
+                  <td colspan="4"><CrossPromo /></td>
+                </tr>
+              )}
             </tbody>
           ))}
       </table>
@@ -214,6 +224,9 @@ const faqSchema = {
         <span id="total-servings" class="bar-total-strong">{grandTotalServings}</span> servings, about <span id="per-person">{perPerson}</span> drinks per person
       </p>
       <p class="bar-buffer-note">15% buffer included on each category.</p>
+
+      <WhereToBuy itemIds={fullBarResults.map((r) => r.item.id)} />
+      <AffiliateDisclosure />
     </div>
   </section>
 
@@ -230,6 +243,8 @@ const faqSchema = {
           <Icon name="copy" size={18} /> Copy shopping list
         </button>
       </div>
+
+      <ThingsToHaveOnHand items={thingsToHaveOnHandItems} />
     </div>
     <div class="bar-email">
       <EmailCapture eventType={event.id} placement="inline" />
@@ -264,21 +279,6 @@ const faqSchema = {
     tips={event.proTips.slice(0, 3)}
     guide={event.buyingGuide}
   />
-
-  <PageSection
-    label="The bar itself"
-    title="Glassware and gear"
-    note="Links open Amazon. As an Amazon Associate we earn from qualifying purchases."
-  >
-    <div class="supply-list">
-      {barSupplies.map((supply) => (
-        <a href={supply.href} target="_blank" rel="noopener sponsored" class="supply-link">
-          <span>{supply.label}</span>
-          <Icon name="external" size={16} />
-        </a>
-      ))}
-    </div>
-  </PageSection>
 </BaseLayout>
 
 <style>
@@ -388,6 +388,11 @@ const faqSchema = {
     color: var(--ink-2);
   }
 
+  .cross-promo-row td {
+    border-bottom: none;
+    padding: 0;
+  }
+
   .bar-total-line {
     margin: 14px 0 0;
     padding-top: 12px;
@@ -492,29 +497,6 @@ const faqSchema = {
     font-weight: 600;
   }
 
-  .supply-list {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-
-  @media (min-width: 700px) {
-    .supply-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0 32px;
-    }
-  }
-
-  .supply-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--rule);
-    color: var(--ink);
-    font-size: 15px;
-  }
 </style>
 
 <script define:vars={{ clientData, BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, HOURLY_DECAY, DRINKING_PERCENTAGE }}>

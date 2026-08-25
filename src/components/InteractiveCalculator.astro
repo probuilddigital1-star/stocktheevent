@@ -38,7 +38,47 @@ const eventsData = events.map(e => ({
 }));
 
 const DEFAULT_GUESTS = 100;
-const DEFAULT_HOURS = events[0].defaultDuration;
+const DEFAULT_EVENT = events[0];
+const DEFAULT_HOURS = DEFAULT_EVENT.defaultDuration;
+
+// Build-time default state: all four drinks, the first event, 100 guests,
+// its default hours. Mirrors calculate() in the client script below so the
+// static HTML and the first client render always agree.
+function getTierFromGuestCount(guests: number): string {
+  if (guests <= 30) return 'small';
+  if (guests <= 75) return 'medium';
+  if (guests <= 150) return 'large';
+  return 'xlarge';
+}
+
+function consumptionMultiplier(durationHours: number): number {
+  let total = 0;
+  for (let hour = 0; hour < durationHours; hour++) {
+    total += HOURLY_DECAY[Math.min(hour, HOURLY_DECAY.length - 1)];
+  }
+  return total;
+}
+
+const defaultTier = getTierFromGuestCount(DEFAULT_GUESTS);
+const defaultDrinkingPct = DRINKING_PERCENTAGE[defaultTier];
+const defaultConsumptionMult = consumptionMultiplier(DEFAULT_HOURS);
+const defaultSplits = EVENT_SPLITS[DEFAULT_EVENT.id] || EVENT_SPLITS.wedding;
+const defaultTotalSplit = items.reduce((sum, item) => sum + (defaultSplits[item.id] || 0.25), 0);
+
+const defaultResults = items.map((item) => {
+  const modifier = DEFAULT_EVENT.modifiers[item.id] || 1.0;
+  const totalServings = Math.round(
+    DEFAULT_GUESTS * defaultDrinkingPct * BASE_DRINKS_PER_HOUR * defaultConsumptionMult * modifier,
+  );
+  const normalizedSplit = (defaultSplits[item.id] || 0.25) / defaultTotalSplit;
+  const servings = Math.round(totalServings * normalizedSplit);
+  const unitsNeeded = Math.ceil((servings / item.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
+  return { item, unitsNeeded, servings };
+});
+
+const defaultGrandTotalServings = defaultResults.reduce((sum, r) => sum + r.servings, 0);
+const defaultPerPerson = Math.round((defaultGrandTotalServings / DEFAULT_GUESTS) * 10) / 10;
+const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-guests/?guests=${DEFAULT_GUESTS}&drinks=${items.map((i) => i.id).join(',')}&duration=${DEFAULT_HOURS}`;
 ---
 
 <div class="calc-box" id="calculator">
@@ -129,29 +169,34 @@ const DEFAULT_HOURS = events[0].defaultDuration;
 
       <table class="bar-table" id="bar-table">
         <tbody>
-          {items.map((item) => (
-            <tr data-drink-id={item.id}>
-              <td class="bar-icon"><Icon name={item.icon} size={20} /></td>
-              <td class="bar-name">{item.name}</td>
-              <td class="num bar-units">
-                <span class="bar-value drink-units"></span><span class="bar-unit drink-unit-label">{item.unit}</span>
-              </td>
-            </tr>
-          ))}
+          {items.map((item) => {
+            const result = defaultResults.find((r) => r.item.id === item.id)!;
+            return (
+              <tr data-drink-id={item.id}>
+                <td class="bar-icon"><Icon name={item.icon} size={20} /></td>
+                <td class="bar-name">{item.name}</td>
+                <td class="num bar-units">
+                  <span class="bar-value drink-units">{result.unitsNeeded}</span><span class="bar-unit drink-unit-label">{item.unit}</span>
+                </td>
+              </tr>
+            );
+          })}
           <tr class="bar-total-row">
             <td></td>
             <td>Servings in total</td>
             <td class="num bar-units">
-              <span class="bar-value" id="bar-total"></span><span class="bar-unit">drinks</span>
+              <span class="bar-value" id="bar-total">{defaultGrandTotalServings}</span><span class="bar-unit">drinks</span>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <p class="calc-note" id="calc-note"></p>
+      <p class="calc-note" id="calc-note">
+        About {defaultPerPerson} drinks per guest over the evening, heaviest in the first hour. Includes a 15 percent margin.
+      </p>
 
-      <a href="#" id="detail-link" class="btn-primary calc-cta">
-        <span id="cta-text">See the full breakdown and shopping list</span>
+      <a href={defaultDetailHref} id="detail-link" class="btn-primary calc-cta">
+        <span id="cta-text">Plan the whole bar for this occasion</span>
         <Icon name="arrow" size={20} />
       </a>
     </div>
@@ -237,6 +282,14 @@ const DEFAULT_HOURS = events[0].defaultDuration;
     border-color: var(--ink);
     background: var(--accent-soft);
     color: var(--ink);
+  }
+
+  @media (max-width: 480px) {
+    .drink-toggle {
+      padding: 12px 10px;
+      gap: 8px;
+      font-size: 14px;
+    }
   }
 
   .calc-steppers {
