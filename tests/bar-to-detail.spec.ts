@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Bar Setup to Detail Page Flow', () => {
   test('Detail links show correct units from bar-setup', async ({ page }) => {
     // Go to a bar-setup page
-    await page.goto('/bar-setup/graduation-party-100-guests?drinks=wine,beer,champagne,spirits');
+    await page.goto('/bar-setup/graduation-party-100-guests/?drinks=wine,beer,champagne,spirits');
     await page.waitForLoadState('networkidle');
 
     // Get the wine units displayed on the bar-setup page
@@ -25,7 +25,7 @@ test.describe('Bar Setup to Detail Page Flow', () => {
 
   test('Detail page shows bar context banner when coming from bar-setup', async ({ page }) => {
     // Go directly to a detail page with bar context params
-    await page.goto('/wine-for-graduation-party-100-guests?fromBar=1&units=15&servings=75');
+    await page.goto('/wine-for-graduation-party-100-guests/?fromBar=1&units=15&servings=75');
     await page.waitForLoadState('networkidle');
 
     // Verify the bar context banner is visible
@@ -47,7 +47,7 @@ test.describe('Bar Setup to Detail Page Flow', () => {
 
   test('Detail page hides bar context banner when accessed directly', async ({ page }) => {
     // Go directly to a detail page without bar context params
-    await page.goto('/wine-for-graduation-party-100-guests');
+    await page.goto('/wine-for-graduation-party-100-guests/');
     await page.waitForLoadState('networkidle');
 
     // Verify the bar context banner is hidden
@@ -57,7 +57,7 @@ test.describe('Bar Setup to Detail Page Flow', () => {
 
   test('Full flow: Bar-setup -> Detail page -> Back to bar-setup', async ({ page }) => {
     // Start at bar-setup page
-    await page.goto('/bar-setup/wedding-100-guests?drinks=wine,beer,champagne,spirits');
+    await page.goto('/bar-setup/wedding-100-guests/?drinks=wine,beer,champagne,spirits');
     await page.waitForLoadState('networkidle');
 
     // Get wine values

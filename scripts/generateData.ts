@@ -293,13 +293,10 @@ function generateMeta(
   guestCount: GuestCount,
   result: CalculationResult
 ): PageMeta {
-  const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
-
   return {
     title: `How Much ${item.name} for ${guestCount.value} Guest ${event.name}? | ${result.unitsNeeded} ${result.unitsDisplay}`,
     description: `Need ${item.name.toLowerCase()} for a ${guestCount.value}-person ${event.name.toLowerCase()}? You'll need exactly ${result.unitsNeeded} ${result.unitsDisplay}. Free calculator with pro tips from experienced bartenders.`,
     h1: `How Much ${item.name} for a ${guestCount.value} Guest ${event.name}?`,
-    canonicalUrl: `https://stocktheevent.com/${slug}`,
   };
 }
 

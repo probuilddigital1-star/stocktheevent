@@ -44,7 +44,6 @@ const calculators = defineCollection({
       title: z.string(),
       description: z.string(),
       h1: z.string(),
-      canonicalUrl: z.string(),
     }),
     mathExplanation: z.array(z.object({
       step: z.number(),

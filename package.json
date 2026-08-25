@@ -3,11 +3,12 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
+    "predev": "npm run generate",
     "dev": "astro dev",
     "build": "npm run generate && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate": "tsx scripts/generateData.ts",
+    "generate": "tsx scripts/generateData.ts && tsx scripts/generateFoodData.ts",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "check": "tsx scripts/checkSite.ts"

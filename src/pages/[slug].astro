@@ -10,6 +10,7 @@ import EmailCapture from '../components/EmailCapture.astro';
 import ProTips from '../components/ProTips.astro';
 import RelatedPages from '../components/RelatedPages.astro';
 import type { CalculatorPage } from '../lib/types';
+import { isIndexable } from '../data/indexing';
 
 export async function getStaticPaths() {
   // Read all calculator JSON files directly
@@ -43,9 +44,9 @@ const { page } = Astro.props;
 // Breadcrumbs for structured data
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Calculators', url: '/calculators' },
-  { name: page.item.name, url: `/calculators?item=${page.item.id}` },
-  { name: `${page.guestCount.value} Guests`, url: page.meta.canonicalUrl }
+  { name: 'Calculators', url: '/calculators/' },
+  { name: page.item.name, url: `/calculators/${page.item.id}/` },
+  { name: `${page.guestCount.value} Guests`, url: `/${page.slug}/` }
 ];
 
 // HowTo Schema - optimized for AIO
@@ -139,12 +140,11 @@ const shoppingListSchema = {
 <BaseLayout
   title={page.meta.title}
   description={page.meta.description}
-  canonicalUrl={page.meta.canonicalUrl}
   breadcrumbs={breadcrumbs}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
-    {page.guestCount.value <= 15 && (
+    {!isIndexable(page.guestCount.value) && (
       <meta name="robots" content="noindex, follow" />
     )}
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
@@ -220,7 +220,7 @@ const shoppingListSchema = {
                     {guests} guests {isCurrentRow && <span class="text-emerald-600 text-xs ml-1">(you)</span>}
                   </td>
                   <td class="px-4 py-3 border-b border-slate-100">
-                    <a href={`/${page.item.id}-for-${page.event.slug}-${guests}-guests`}
+                    <a href={`/${page.item.id}-for-${page.event.slug}-${guests}-guests/`}
                        class={`${isCurrentRow ? 'text-emerald-700' : 'text-emerald-600 hover:underline'}`}>
                       {units} {units === 1 ? page.item.unitSingular : page.item.unit}
                     </a>
@@ -278,7 +278,7 @@ const shoppingListSchema = {
         Use our free calculator for any combination of drinks, events, and guest counts.
       </p>
       <a
-        href="/calculators"
+        href="/calculators/"
         class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
       >
         Browse All 336 Calculators
@@ -387,7 +387,7 @@ const shoppingListSchema = {
     if (barServings) barServings.textContent = servings;
     if (backLink) {
       const guests = customGuests || guestCount;
-      backLink.href = `/bar-setup/${eventSlug}-${guests}-guests`;
+      backLink.href = `/bar-setup/${eventSlug}-${guests}-guests/`;
     }
   }
 </script>

@@ -7,6 +7,7 @@ import EmailCapture from '../../components/EmailCapture.astro';
 import { affiliateLinks, getAffiliateLink } from '../../lib/affiliates';
 import { seasonalEvents } from '../../data/seasonalEvents';
 import type { FoodCalculatorPage } from '../../lib/types';
+import { isIndexable } from '../../data/indexing';
 
 export async function getStaticPaths() {
   // Read all food calculator JSON files directly
@@ -45,11 +46,12 @@ const eventFoodTips = (page.event as any).foodTips || [];
 const eventFoodBuyingGuide = (page.event as any).foodBuyingGuide || '';
 
 // Breadcrumbs for structured data
+// Item 3 points at /food/ until per-food-type hub pages exist.
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Food Calculators', url: '/food' },
-  { name: page.item.name, url: `/food/${page.item.id}-for-${page.event.slug}-${page.guestCount.value}-guests` },
-  { name: `${page.guestCount.value} Guests`, url: page.meta.canonicalUrl }
+  { name: 'Food Calculators', url: '/food/' },
+  { name: page.item.name, url: '/food/' },
+  { name: `${page.guestCount.value} Guests`, url: `/food/${page.slug}/` }
 ];
 
 // HowTo Schema - optimized for AIO
@@ -143,12 +145,11 @@ const shoppingListSchema = {
 <BaseLayout
   title={page.meta.title}
   description={page.meta.description}
-  canonicalUrl={page.meta.canonicalUrl}
   breadcrumbs={breadcrumbs}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
-    {page.guestCount.value <= 15 && (
+    {!isIndexable(page.guestCount.value) && (
       <meta name="robots" content="noindex, follow" />
     )}
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
@@ -163,7 +164,7 @@ const shoppingListSchema = {
       <nav class="mb-6 text-sm text-[var(--chocolate-40)] text-center">
         <a href="/" class="hover:text-orange-600 transition-colors">Home</a>
         <span class="mx-2">/</span>
-        <a href="/calculators" class="hover:text-orange-600 transition-colors">Calculators</a>
+        <a href="/calculators/" class="hover:text-orange-600 transition-colors">Calculators</a>
         <span class="mx-2">/</span>
         <span class="text-[var(--chocolate-light)]">{page.item.name}</span>
       </nav>
@@ -212,7 +213,7 @@ const shoppingListSchema = {
           {matchingPartyPage ? (
             <>
               Planning a buffet spread?
-              <a href={`/party/${matchingPartyPage.slug}`} class="font-semibold text-[var(--chocolate-40)] hover:text-[var(--chocolate)] underline ml-1">
+              <a href={`/party/${matchingPartyPage.slug}/`} class="font-semibold text-[var(--chocolate-40)] hover:text-[var(--chocolate)] underline ml-1">
                 See our {page.event.name.replace(' Party', '')} Party Planner
               </a>
               for balanced quantities.
@@ -252,7 +253,7 @@ const shoppingListSchema = {
           };
           return (
             <a
-              href={`/food/${foodId}-for-${page.event.slug}-${page.guestCount.value}-guests`}
+              href={`/food/${foodId}-for-${page.event.slug}-${page.guestCount.value}-guests/`}
               class={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
                 isActive
                   ? 'bg-orange-500 text-white'
@@ -337,7 +338,7 @@ const shoppingListSchema = {
                     {guests} guests {isCurrentRow && <span class="text-orange-600 text-xs ml-1">(you)</span>}
                   </td>
                   <td class="px-4 py-3 border-b border-slate-100">
-                    <a href={`/food/${page.item.id}-for-${page.event.slug}-${guests}-guests`}
+                    <a href={`/food/${page.item.id}-for-${page.event.slug}-${guests}-guests/`}
                        class={`${isCurrentRow ? 'text-orange-700' : 'text-orange-600 hover:underline'}`}>
                       {units} {units === 1 ? page.item.orderUnitSingular : page.item.orderUnit}
                     </a>
@@ -458,7 +459,7 @@ const shoppingListSchema = {
             const drinkId = drink.slug.split('-')[0];
             return (
               <a
-                href={`/${drink.slug}`}
+                href={`/${drink.slug}/`}
                 class="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--primary-10)] hover:border-[var(--forest-light)] hover:bg-emerald-50 transition-all group"
               >
                 <span class="text-3xl">{drinkEmojis[drinkId] || '🍹'}</span>
@@ -494,7 +495,7 @@ const shoppingListSchema = {
       <div class="grid md:grid-cols-2 gap-3">
         {page.relatedPages.slice(0, 4).map((related) => (
           <a
-            href={`/food/${related.slug}`}
+            href={`/food/${related.slug}/`}
             class="flex items-center gap-3 p-4 bg-[var(--champagne-100)] rounded-xl border border-[var(--primary-10)] hover:border-[var(--primary)] hover:bg-[var(--primary-10)] transition-all group"
           >
             <span class="text-2xl">{page.item.emoji}</span>
@@ -524,7 +525,7 @@ const shoppingListSchema = {
         Use our free calculators for any combination of food, drinks, events, and guest counts.
       </p>
       <a
-        href="/calculators"
+        href="/calculators/"
         class="inline-block bg-white text-orange-600 px-8 py-4 rounded-xl font-bold hover:bg-orange-50 hover:scale-105 transition-all shadow-xl"
       >
         Browse All Calculators

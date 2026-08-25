@@ -9,14 +9,22 @@ interface BreadcrumbItem {
 interface Props {
   title: string;
   description: string;
-  canonicalUrl?: string;
   ogImage?: string;
   breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description, canonicalUrl, ogImage = '/og-default.png', breadcrumbs } = Astro.props;
+const { title, description, ogImage = '/og-default.png', breadcrumbs } = Astro.props;
 const siteUrl = 'https://www.stocktheevent.com';
-const resolvedCanonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
+
+function withTrailingSlash(url: URL): string {
+  const lastSegment = url.pathname.split('/').pop() ?? '';
+  if (url.pathname === '/' || url.pathname.endsWith('/') || lastSegment.includes('.')) {
+    return url.href;
+  }
+  return `${url.href}/`;
+}
+
+const resolvedCanonical = withTrailingSlash(new URL(Astro.url.pathname, Astro.site));
 
 // Organization Schema (sitewide)
 const organizationSchema = {
@@ -45,15 +53,22 @@ const websiteSchema = {
 };
 
 // BreadcrumbList Schema (if breadcrumbs provided)
+// The last item always represents the current page, so its URL is the derived canonical.
 const breadcrumbSchema = breadcrumbs ? {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": breadcrumbs.map((item, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": item.name,
-    "item": item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`
-  }))
+  "itemListElement": breadcrumbs.map((item, index) => {
+    const isLast = index === breadcrumbs.length - 1;
+    const url = isLast
+      ? resolvedCanonical
+      : (item.url.startsWith('http') ? item.url : `${siteUrl}${item.url}`);
+    return {
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": url
+    };
+  })
 } : null;
 ---
 
@@ -128,10 +143,10 @@ const breadcrumbSchema = breadcrumbs ? {
 
         <!-- Desktop Nav -->
         <div class="hidden sm:flex items-center gap-8 text-sm font-medium">
-          <a href="/calculators" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Drinks</a>
-          <a href="/food" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Food</a>
-          <a href="/party/march-madness-party-calculator" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Seasonal</a>
-          <a href="/about" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">About</a>
+          <a href="/calculators/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Drinks</a>
+          <a href="/food/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Food</a>
+          <a href="/party/march-madness-party-calculator/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Seasonal</a>
+          <a href="/about/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">About</a>
           <a href="/" class="forest-gradient text-white px-5 py-2.5 rounded-xl font-semibold hover:scale-105 transition-transform">
             Try Calculator
           </a>
@@ -151,10 +166,10 @@ const breadcrumbSchema = breadcrumbs ? {
       <!-- Mobile Menu -->
       <div id="mobile-menu" class="hidden sm:hidden bg-white/95 backdrop-blur-lg border-t border-[var(--primary-10)] px-4 py-4">
         <div class="flex flex-col gap-4 text-base font-medium">
-          <a href="/calculators" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Drink Calculators</a>
-          <a href="/food" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Food Calculators</a>
-          <a href="/party/march-madness-party-calculator" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Seasonal Parties</a>
-          <a href="/about" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">About</a>
+          <a href="/calculators/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Drink Calculators</a>
+          <a href="/food/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Food Calculators</a>
+          <a href="/party/march-madness-party-calculator/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Seasonal Parties</a>
+          <a href="/about/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">About</a>
           <a href="/" class="forest-gradient text-white px-4 py-3 rounded-xl text-center font-semibold">
             Try Calculator
           </a>
@@ -213,16 +228,16 @@ const breadcrumbSchema = breadcrumbs ? {
               Seasonal Parties
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/party/super-bowl-party-calculator" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/party/super-bowl-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🏈</span> Super Bowl Party
               </a></li>
-              <li><a href="/party/graduation-party-calculator" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/party/graduation-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🎓</span> Graduation Party
               </a></li>
-              <li><a href="/party/fourth-of-july-party-calculator" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/party/fourth-of-july-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🎆</span> 4th of July Party
               </a></li>
-              <li><a href="/party/christmas-party-calculator" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/party/christmas-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🎄</span> Christmas Party
               </a></li>
             </ul>
@@ -235,16 +250,16 @@ const breadcrumbSchema = breadcrumbs ? {
               Food & Drinks
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/food" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/food/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🍗</span> Food Calculators
               </a></li>
-              <li><a href="/food/pizza-for-birthday-party-50-guests" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/food/pizza-for-birthday-party-50-guests/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🍕</span> Pizza Calculator
               </a></li>
-              <li><a href="/calculators?item=beer" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/calculators/beer/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🍺</span> Beer Calculators
               </a></li>
-              <li><a href="/calculators?item=wine" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
+              <li><a href="/calculators/wine/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
                 <span>🍷</span> Wine Calculators
               </a></li>
             </ul>
@@ -263,9 +278,9 @@ const breadcrumbSchema = breadcrumbs ? {
         <div class="border-t border-[var(--chocolate)] mt-6 pt-6 text-sm">
           <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-6 text-[var(--champagne-300)]">
-              <a href="/privacy" class="hover:text-[var(--primary)] transition-colors">Privacy Policy</a>
-              <a href="/terms" class="hover:text-[var(--primary)] transition-colors">Terms of Service</a>
-              <a href="/about" class="hover:text-[var(--primary)] transition-colors">About</a>
+              <a href="/privacy/" class="hover:text-[var(--primary)] transition-colors">Privacy Policy</a>
+              <a href="/terms/" class="hover:text-[var(--primary)] transition-colors">Terms of Service</a>
+              <a href="/about/" class="hover:text-[var(--primary)] transition-colors">About</a>
             </div>
             <p class="text-[var(--chocolate-light)]">&copy; {new Date().getFullYear()} StockTheEvent. Drink responsibly. 21+</p>
           </div>

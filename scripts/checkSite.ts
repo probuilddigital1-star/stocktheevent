@@ -11,7 +11,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const CHECKS_ENFORCED: string[] = [];
+const CHECKS_ENFORCED: string[] = [
+  'canonical-format',
+  'internal-href-trailing-slash',
+  'sitemap-noindex-guest-pages',
+];
 
 const SITE_ORIGIN = 'https://www.stocktheevent.com';
 const DIST_DIR = path.join(process.cwd(), 'dist');
@@ -83,23 +87,23 @@ function readSitemapUrls(): string[] {
 }
 
 function checkCanonicalFormat(htmlFiles: string[]): CheckResult {
-  let checked = 0;
   let failed = 0;
+  const examples: string[] = [];
   for (const file of htmlFiles) {
     const html = fs.readFileSync(file, 'utf8');
     const match = html.match(/<link rel="canonical" href="([^"]+)"/);
-    if (!match) continue;
-    checked += 1;
-    const href = match[1];
-    if (!href.startsWith(`${SITE_ORIGIN}/`) || !href.endsWith('/')) {
+    const href = match?.[1];
+    const isValid = !!href && href.startsWith(`${SITE_ORIGIN}/`) && href.endsWith('/');
+    if (!isValid) {
       failed += 1;
+      if (examples.length < 3) examples.push(path.relative(DIST_DIR, file));
     }
   }
   return {
     name: 'canonical-format',
     passed: failed === 0,
     count: failed,
-    detail: `${failed} of ${checked} canonical URLs missing the https://www.stocktheevent.com/ prefix or trailing slash`,
+    detail: `${failed} of ${htmlFiles.length} pages missing a canonical tag or with a malformed canonical URL${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
   };
 }
 

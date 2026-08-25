@@ -2,6 +2,9 @@
 dist/
 # generated types
 .astro/
+# generated page data (npm run generate)
+src/content/calculators/
+src/content/food-calculators/
 
 # dependencies
 node_modules/

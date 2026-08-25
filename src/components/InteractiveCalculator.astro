@@ -542,7 +542,7 @@ const drinkIcons = {
 
       const pageGuests = getNearestValidGuests(selectedGuestCount.value);
       const slug = `${result.item.id}-for-${selectedEvent.slug}-${pageGuests}-guests`;
-      detailLink.href = `/${slug}?guests=${selectedGuestCount.value}&duration=${selectedDuration}`;
+      detailLink.href = `/${slug}/?guests=${selectedGuestCount.value}&duration=${selectedDuration}`;
       ctaText.textContent = 'Get Full Breakdown';
 
     } else if (count <= 3) {
@@ -563,7 +563,7 @@ const drinkIcons = {
 
       const drinks = selectedItems.map(i => i.id).join(',');
       const pageGuests = getNearestValidGuests(selectedGuestCount.value);
-      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuests}-guests?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuests}-guests/?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
       ctaText.textContent = 'Get Your Bar Breakdown';
 
     } else {
@@ -583,7 +583,7 @@ const drinkIcons = {
 
       const drinks = selectedItems.map(i => i.id).join(',');
       const pageGuestsFull = getNearestValidGuests(selectedGuestCount.value);
-      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuestsFull}-guests?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
+      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuestsFull}-guests/?guests=${selectedGuestCount.value}&drinks=${drinks}&duration=${selectedDuration}`;
       ctaText.textContent = 'Get Your Complete Bar Guide';
     }
 

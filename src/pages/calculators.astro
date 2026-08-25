@@ -22,14 +22,13 @@ const totalCalculators = items.length * events.length * guestCounts;
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Drink Calculators', url: '/calculators' },
+  { name: 'Drink Calculators', url: '/calculators/' },
 ];
 ---
 
 <BaseLayout
   title="Drink Calculators | StockTheEvent"
   description={`${totalCalculators} drink calculators for any event. Calculate exactly how much wine, beer, champagne, or spirits you need for weddings, parties, and more.`}
-  canonicalUrl="https://www.stocktheevent.com/calculators"
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero Section -->
@@ -74,7 +73,7 @@ const breadcrumbs = [
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {events.map((event) => (
           <a
-            href={`/calculators/${event.id}`}
+            href={`/calculators/${event.id}/`}
             class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-4">
@@ -117,7 +116,7 @@ const breadcrumbs = [
       <div class="grid md:grid-cols-2 gap-5">
         {items.map((item) => (
           <a
-            href={`/calculators/${item.id}`}
+            href={`/calculators/${item.id}/`}
             class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-5">

@@ -76,7 +76,6 @@ export interface PageMeta {
   title: string;
   description: string;
   h1: string;
-  canonicalUrl: string;
 }
 
 export interface CalculatorPage {

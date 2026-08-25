@@ -1,8 +1,8 @@
 # StockTheEvent
 
-Party quantity calculators. Given an event type, an item (beer, wine,
-pizza, ice, and so on), and a guest count, the site tells you how much to
-buy. Live at https://www.stocktheevent.com/.
+Party quantity calculators. Given an event type, a drink or food item, and a
+guest count, the site tells you how much to buy. Live at
+https://www.stocktheevent.com/.
 
 See `CLAUDE.md` for the rules every change in this repo must follow, and for
 the target design token system.
@@ -16,8 +16,9 @@ scripts/
   checkSite.ts           inspects a built dist/ and reports rule compliance
 src/
   components/           shared UI, including Icon.astro for all icons
-  content/               Astro content collections
-  data/                  static data: items, events, guest counts, food items
+  content/               generated page data (gitignored, see Generators)
+  data/                  static data: items, events, guest counts, food items,
+                         indexing thresholds
   layouts/
     BaseLayout.astro     head, canonical URL, header, footer for every page
   lib/                   shared types and helpers
@@ -33,14 +34,17 @@ tests/                   Playwright specs
 
 `scripts/generateData.ts` and `scripts/generateFoodData.ts` read the static
 data in `src/data/` and produce the page data consumed by the route
-templates. Run them with:
+templates. Run both with:
 
 ```
 npm run generate
 ```
 
-`npm run build` calls this automatically before the Astro build, so you
-rarely need to run it by hand except when iterating on a generator.
+The output, `src/content/calculators/*.json` and
+`src/content/food-calculators/*.json`, is derived data. It is gitignored and
+not committed; never hand-edit it. `npm run build` and `npm run dev` (via
+`predev`) both run `npm run generate` first, so the JSON is always in place
+before Astro reads it.
 
 ## Build
 
@@ -81,9 +85,9 @@ The site deploys to Cloudflare Pages. Cloudflare builds from this repo with
 behavior directly, since anything in `public/` is copied to the root of
 `dist/`:
 
-- `_redirects` — apex-to-www and pages.dev-to-custom-domain redirects.
-- `_headers` — not yet present. Add it here if the site needs custom response
-  headers (caching, security headers, and so on).
+- `_redirects`: apex-to-www and pages.dev-to-custom-domain redirects.
+- `_headers`: cache-control headers, long-lived immutable caching for
+  `/_astro/*` and `/fonts/*`, no caching for everything else.
 
 ## Environment variables
 

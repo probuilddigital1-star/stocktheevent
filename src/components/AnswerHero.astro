@@ -18,9 +18,9 @@ const { item, event, guestCount, calculation, h1 } = Astro.props;
     <nav class="mb-8 text-sm text-[var(--chocolate-40)] animate-fade-in-up">
       <a href="/" class="hover:text-[var(--primary-dark)] transition-colors">Home</a>
       <span class="mx-2">/</span>
-      <a href={`/calculators?item=${item.id}`} class="hover:text-[var(--primary-dark)] transition-colors">{item.name}</a>
+      <a href={`/calculators/${item.id}/`} class="hover:text-[var(--primary-dark)] transition-colors">{item.name}</a>
       <span class="mx-2">/</span>
-      <a href={`/calculators?event=${event.id}`} class="hover:text-[var(--primary-dark)] transition-colors">{event.name}</a>
+      <a href={`/calculators/${event.id}/`} class="hover:text-[var(--primary-dark)] transition-colors">{event.name}</a>
     </nav>
 
     <!-- H1 with Display Font -->

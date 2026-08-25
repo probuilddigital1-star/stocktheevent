@@ -36,18 +36,15 @@ const totalCalculators = foodItems.length * events.length * guestCounts;
 const calculatorsPerFoodType = events.length * guestCounts;
 const calculatorsPerEvent = foodItems.length * guestCounts;
 
-const canonicalUrl = 'https://www.stocktheevent.com/food';
-
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'Food Calculators', url: '/food' },
+  { name: 'Food Calculators', url: '/food/' },
 ];
 ---
 
 <BaseLayout
   title="Food Calculators | StockTheEvent"
   description={`${totalCalculators} free food calculators for any event. Calculate exactly how much pizza, wings, tacos, sliders, appetizers, or BBQ you need for weddings, parties, and more.`}
-  canonicalUrl={canonicalUrl}
   breadcrumbs={breadcrumbs}
 >
   <!-- Hero Section -->
@@ -92,7 +89,7 @@ const breadcrumbs = [
       <div class="grid md:grid-cols-2 gap-5">
         {foodItems.map((food) => (
           <a
-            href={`/food/${food.id}-for-birthday-party-50-guests`}
+            href={`/food/${food.id}-for-birthday-party-50-guests/`}
             class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-5">
@@ -135,7 +132,7 @@ const breadcrumbs = [
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {events.map((event) => (
           <a
-            href={`/food/pizza-for-${event.slug}-50-guests`}
+            href={`/food/pizza-for-${event.slug}-50-guests/`}
             class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-4">

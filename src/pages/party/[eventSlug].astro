@@ -92,7 +92,6 @@ const faqSchema = {
 <BaseLayout
   title={seasonalEvent.metaTitle}
   description={seasonalEvent.metaDescription}
-  canonicalUrl={`https://www.stocktheevent.com/party/${seasonalEvent.slug}`}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -148,7 +147,7 @@ const faqSchema = {
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {featuredFoodItems.map((food) => food && (
             <a
-              href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+              href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               class="food-card sunset-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-food-id={food.id}
             >
@@ -171,7 +170,7 @@ const faqSchema = {
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {featuredDrinkItems.map((drink) => drink && (
             <a
-              href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+              href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               class="drink-card forest-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-drink-id={drink.id}
             >
@@ -208,9 +207,9 @@ const faqSchema = {
           <div class="space-y-2">
             {foodItems.map((food) => (
               <a
-                href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
                 class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-orange-50 transition-colors group"
-                data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               >
                 <div class="flex items-center gap-3">
                   <span class="text-2xl">{food.emoji}</span>
@@ -232,9 +231,9 @@ const faqSchema = {
           <div class="space-y-2">
             {drinkItems.map((drink) => (
               <a
-                href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
                 class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors group"
-                data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests`}
+                data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               >
                 <div class="flex items-center gap-3">
                   <span class="text-2xl">{drink.emoji}</span>
@@ -324,7 +323,7 @@ const faqSchema = {
           .slice(0, 6)
           .map((event) => (
             <a
-              href={`/party/${event.slug}`}
+              href={`/party/${event.slug}/`}
               class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
             >
               <span class="text-4xl">{event.emoji}</span>
@@ -388,7 +387,7 @@ const faqSchema = {
         const modifier = parseFloat(qtyEl.dataset.modifier || '1.0');
         const quantity = Math.ceil((count * 0.9 * basePerPerson * modifier / servingsPerUnit) * 1.15);
         qtyEl.textContent = quantity.toString();
-        card.href = `/food/${foodId}-for-${baseEventSlug}-${count}-guests`;
+        card.href = `/food/${foodId}-for-${baseEventSlug}-${count}-guests/`;
       });
 
       document.querySelectorAll('.drink-card').forEach(card => {
@@ -399,7 +398,7 @@ const faqSchema = {
         const modifier = parseFloat(qtyEl.dataset.modifier || '1.0');
         const quantity = Math.ceil((count * 0.75 * 1.5 * 3.75 * modifier / servingsPerUnit) * 1.15);
         qtyEl.textContent = quantity.toString();
-        card.href = `/${drinkId}-for-${baseEventSlug}-${count}-guests`;
+        card.href = `/${drinkId}-for-${baseEventSlug}-${count}-guests/`;
       });
 
       // Update the Complete Calculators grid links

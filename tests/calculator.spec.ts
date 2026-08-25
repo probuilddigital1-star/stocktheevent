@@ -262,7 +262,7 @@ test.describe('Bar Setup Page - NaN Tests', () => {
         event.id === 'birthday' ? 'birthday-party' :
         event.id === 'super-bowl' ? 'super-bowl-party' :
         event.id === 'holiday-party' ? 'holiday-party' :
-        'wedding-shower'}-100-guests?drinks=wine,beer,champagne,spirits`;
+        'wedding-shower'}-100-guests/?drinks=wine,beer,champagne,spirits`;
 
       await page.goto(url);
       await page.waitForLoadState('networkidle');

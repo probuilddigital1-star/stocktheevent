@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
-  { name: 'About', url: '/about' }
+  { name: 'About', url: '/about/' }
 ];
 
 const personSchema = {
@@ -23,7 +23,6 @@ const personSchema = {
 <BaseLayout
   title="About StockTheEvent - Drink Calculator"
   description="Learn about StockTheEvent and our bartender-tested drink calculation formulas. Never run out (or over-buy) for your event again."
-  canonicalUrl="https://www.stocktheevent.com/about"
   breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">

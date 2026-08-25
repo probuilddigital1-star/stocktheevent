@@ -5,6 +5,7 @@ import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
 import { affiliateLinks } from '../../lib/affiliates';
+import { isIndexable } from '../../data/indexing';
 
 // Generate static paths for all event/guest combinations
 export function getStaticPaths() {
@@ -173,6 +174,9 @@ const faqSchema = {
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">
+    {!isIndexable(guestCount) && (
+      <meta name="robots" content="noindex, follow" />
+    )}
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
@@ -182,7 +186,7 @@ const faqSchema = {
       <nav class="mb-6 text-sm text-slate-500 text-center">
         <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
         <span class="mx-2">/</span>
-        <a href="/calculators" class="hover:text-emerald-600 transition-colors">Calculators</a>
+        <a href="/calculators/" class="hover:text-emerald-600 transition-colors">Calculators</a>
         <span class="mx-2">/</span>
         <span class="text-slate-700">Bar Setup</span>
       </nav>
@@ -438,7 +442,7 @@ const faqSchema = {
         <div class="grid md:grid-cols-2 gap-3">
           {fullBarResults.map((r) => (
             <a
-              href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests?fromBar=1&units=${r.unitsNeeded}&servings=${r.servings}`}
+              href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests/?fromBar=1&units=${r.unitsNeeded}&servings=${r.servings}`}
               class="detail-link flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 transition-all group"
               data-drink-id={r.item.id}
               data-units={r.unitsNeeded}
