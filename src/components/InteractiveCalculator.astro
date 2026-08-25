@@ -579,7 +579,9 @@ const drinkIcons = {
   // Update duration hint based on event
   function updateDurationHint() {
     if (selectedDuration === selectedEvent.defaultDuration) {
-      durationHint.textContent = `Recommended for ${selectedEvent.pluralName}`;
+      // pluralName is sentence case for use at the start of a sentence, so it
+      // leads here rather than following "Recommended for".
+      durationHint.textContent = `${selectedEvent.pluralName} usually run this long`;
     } else if (selectedDuration === 1) {
       durationHint.textContent = 'Perfect for cocktail hour or toasts only';
     } else if (selectedDuration >= 6) {

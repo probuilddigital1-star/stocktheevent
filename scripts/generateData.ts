@@ -27,7 +27,7 @@ import type {
 import { items, toastBottles } from '../src/data/items';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
-import { drinkShare } from '../src/data/eventSplits';
+import { drinkShare, formatSharePercent } from '../src/data/eventSplits';
 
 // =============================================================================
 // BARTENDER'S REFINED CONSTANTS
@@ -154,7 +154,7 @@ function generateMathExplanation(
   const drinkingPct = DRINKING_PERCENTAGE[guestCount.tier];
   const actualDrinkers = Math.round(guestCount.value * drinkingPct);
   const consumptionMult = calculateConsumptionMultiplier(event.defaultDuration);
-  const sharePercent = Math.round(result.barShare * 100);
+  const sharePercent = formatSharePercent(result.barShare);
 
   const steps: MathStep[] = [
     {

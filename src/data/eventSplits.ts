@@ -64,12 +64,33 @@ export function splitsForEvent(eventId: string): DrinkSplit {
  * This drink's share of the bar, normalized over the drinks being served.
  * Defaults to all four drinks, which is the full-bar case used by the
  * single-drink calculator pages. Serving one drink gives it a share of 1.
+ *
+ * Rounded to the nearest tenth of a percentage point (the precision
+ * formatSharePercent prints) rather than returned as a raw fraction. Pages
+ * quote this share in copy ("37.5 percent of drinks..."), so the quantity
+ * computed from it must match what multiplying the quoted percentage actually
+ * gives - a raw, unrounded share can differ from its own printed percentage by
+ * enough to round to a different final count. Rounding once here, rather than
+ * only when formatting for display, also keeps every caller (the drink page
+ * generator and the bar-setup page) working from the same number.
  */
 export function drinkShare(eventId: string, itemId: string, selectedIds: string[] = DRINK_IDS): number {
   const splits = splitsForEvent(eventId);
   const total = selectedIds.reduce((sum, id) => sum + (splits[id] ?? 0), 0);
   if (total <= 0) return 0;
-  return (splits[itemId] ?? 0) / total;
+  const rawShare = (splits[itemId] ?? 0) / total;
+  return Math.round(rawShare * 1000) / 1000;
+}
+
+/**
+ * A share as a percentage string, without the "%" sign: "37.5" for a share of
+ * 0.375, but "57" (no decimal) for a share that is already a whole percent.
+ * Expects a share already rounded by drinkShare(), so this only ever formats,
+ * it does not introduce a second, independent rounding.
+ */
+export function formatSharePercent(share: number): string {
+  const tenths = Math.round(share * 1000) / 10;
+  return Number.isInteger(tenths) ? `${tenths}` : tenths.toFixed(1);
 }
 
 /**

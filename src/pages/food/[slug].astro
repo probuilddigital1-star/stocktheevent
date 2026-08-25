@@ -11,6 +11,20 @@ import { seasonalEvents } from '../../data/seasonalEvents';
 import type { FoodCalculatorPage } from '../../lib/types';
 import { isIndexable } from '../../data/indexing';
 
+const QUICK_REFERENCE_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];
+const FOOD_CALCULATORS_DIR = path.join(process.cwd(), 'src/content/food-calculators');
+
+/**
+ * Reads a sibling food page's own generated data, so a quick-reference row
+ * shows exactly what its linked page shows rather than a scaled estimate.
+ * Returns null if that page was never generated.
+ */
+function readSiblingFoodPage(itemId: string, eventSlug: string, guests: number): FoodCalculatorPage | null {
+  const filePath = path.join(FOOD_CALCULATORS_DIR, `${itemId}-for-${eventSlug}-${guests}-guests.json`);
+  if (!fs.existsSync(filePath)) return null;
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+}
+
 export async function getStaticPaths() {
   // Read all food calculator JSON files directly
   const foodDir = path.join(process.cwd(), 'src/content/food-calculators');
@@ -39,6 +53,22 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+// Quick-reference rows read each sibling page's own generated numbers rather
+// than scaling this page's numbers by a guest ratio: the eating rate varies by
+// guest tier, so a scaled row can disagree with the page it links to. A guest
+// count with no generated page is skipped rather than estimated.
+const quickReferenceRows = QUICK_REFERENCE_GUEST_COUNTS
+  .map((guests) => {
+    const sibling = readSiblingFoodPage(page.item.id, page.event.slug, guests);
+    if (!sibling) return null;
+    return {
+      guests,
+      calculation: sibling.calculation,
+      isCurrentRow: guests === page.guestCount.value,
+    };
+  })
+  .filter((row): row is NonNullable<typeof row> => row !== null);
 
 // Find matching seasonal event for party planner link
 const matchingPartyPage = seasonalEvents.find(se => se.eventType === page.event.id);
@@ -318,26 +348,20 @@ const shoppingListSchema = {
             </tr>
           </thead>
           <tbody>
-            {[25, 50, 75, 100, 150, 200].map((guests) => {
-              const ratio = guests / page.guestCount.value;
-              const units = Math.ceil(page.calculation.unitsNeeded * ratio);
-              const servings = Math.round(page.calculation.totalServings * ratio);
-              const isCurrentRow = guests === page.guestCount.value;
-              return (
-                <tr class={isCurrentRow ? 'bg-orange-50 font-semibold' : 'hover:bg-slate-50'}>
-                  <td class="px-4 py-3 border-b border-slate-100">
-                    {guests} guests {isCurrentRow && <span class="text-orange-600 text-xs ml-1">(you)</span>}
-                  </td>
-                  <td class="px-4 py-3 border-b border-slate-100">
-                    <a href={`/food/${page.item.id}-for-${page.event.slug}-${guests}-guests/`}
-                       class={`${isCurrentRow ? 'text-orange-700' : 'text-orange-600 hover:underline'}`}>
-                      {units} {units === 1 ? page.item.orderUnitSingular : page.item.orderUnit}
-                    </a>
-                  </td>
-                  <td class="px-4 py-3 border-b border-slate-100">{servings} servings</td>
-                </tr>
-              );
-            })}
+            {quickReferenceRows.map((row) => (
+              <tr class={row.isCurrentRow ? 'bg-orange-50 font-semibold' : 'hover:bg-slate-50'}>
+                <td class="px-4 py-3 border-b border-slate-100">
+                  {row.guests} guests {row.isCurrentRow && <span class="text-orange-600 text-xs ml-1">(you)</span>}
+                </td>
+                <td class="px-4 py-3 border-b border-slate-100">
+                  <a href={`/food/${page.item.id}-for-${page.event.slug}-${row.guests}-guests/`}
+                     class={`${row.isCurrentRow ? 'text-orange-700' : 'text-orange-600 hover:underline'}`}>
+                    {row.calculation.unitsNeeded} {row.calculation.unitsDisplay}
+                  </a>
+                </td>
+                <td class="px-4 py-3 border-b border-slate-100">{row.calculation.totalServings} servings</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

@@ -13,8 +13,26 @@ import FaqSection from '../components/FaqSection.astro';
 import type { FaqItem } from '../components/FaqSection.astro';
 import type { CalculatorPage } from '../lib/types';
 import { isIndexable } from '../data/indexing';
-import { FLUTES_PER_BOTTLE } from '../data/items';
+import { FLUTES_PER_BOTTLE, toastBottles } from '../data/items';
 import { totalCalculatorsLabel } from '../data';
+import { formatSharePercent } from '../data/eventSplits';
+
+// The 15% buffer used throughout the site. Passed into toastBottles() rather
+// than duplicating its formula here; kept in sync with scripts/generateData.ts.
+const BUFFER_PERCENTAGE = 0.15;
+const QUICK_REFERENCE_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];
+const CALCULATORS_DIR = path.join(process.cwd(), 'src/content/calculators');
+
+/**
+ * Reads a sibling drink page's own generated data, so a quick-reference row
+ * shows exactly what its linked page shows rather than a scaled estimate.
+ * Returns null if that page was never generated.
+ */
+function readSiblingCalculatorPage(itemId: string, eventSlug: string, guests: number): CalculatorPage | null {
+  const filePath = path.join(CALCULATORS_DIR, `${itemId}-for-${eventSlug}-${guests}-guests.json`);
+  if (!fs.existsSync(filePath)) return null;
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+}
 
 export async function getStaticPaths() {
   // Read all calculator JSON files directly
@@ -44,6 +62,23 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+// Quick-reference rows read each sibling page's own generated numbers rather
+// than scaling this page's numbers by a guest ratio: drinking rate varies by
+// guest tier, so a scaled row can disagree with the page it links to. A guest
+// count with no generated page is skipped rather than estimated.
+const quickReferenceRows = QUICK_REFERENCE_GUEST_COUNTS
+  .map((guests) => {
+    const sibling = readSiblingCalculatorPage(page.item.id, page.event.slug, guests);
+    if (!sibling) return null;
+    return {
+      guests,
+      fullBar: sibling.calculation.fullBar,
+      toast: page.calculation.toastBottles !== undefined ? toastBottles(guests, BUFFER_PERCENTAGE) : null,
+      isCurrentRow: guests === page.guestCount.value,
+    };
+  })
+  .filter((row): row is NonNullable<typeof row> => row !== null);
 
 // Breadcrumbs for structured data
 const breadcrumbs = [
@@ -76,7 +111,7 @@ const drink = page.item.name.toLowerCase();
 const eventName = page.event.lowerName;
 const fullBar = page.calculation.fullBar;
 const onlyDrink = page.calculation.onlyDrink;
-const sharePercent = Math.round(page.calculation.barShare * 100);
+const sharePercent = formatSharePercent(page.calculation.barShare);
 
 const faqItems: FaqItem[] = [
   {
@@ -233,32 +268,23 @@ const shoppingListSchema = {
             </tr>
           </thead>
           <tbody>
-            {[25, 50, 75, 100, 150, 200].map((guests) => {
-              const ratio = guests / page.guestCount.value;
-              const units = Math.ceil(page.calculation.fullBar.unitsNeeded * ratio);
-              const servings = Math.round(page.calculation.fullBar.totalServings * ratio);
-              const toast = page.calculation.toastBottles
-                ? Math.ceil((guests / FLUTES_PER_BOTTLE) * 1.15)
-                : null;
-              const isCurrentRow = guests === page.guestCount.value;
-              return (
-                <tr class={isCurrentRow ? 'bg-emerald-50 font-semibold' : 'hover:bg-slate-50'}>
-                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
-                    {guests} guests {isCurrentRow && <span class="text-emerald-600 text-xs ml-1">(you)</span>}
-                  </td>
-                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
-                    <a href={`/${page.item.id}-for-${page.event.slug}-${guests}-guests/`}
-                       class={`${isCurrentRow ? 'text-emerald-700' : 'text-emerald-600 hover:underline'}`}>
-                      {units} {units === 1 ? page.item.unitSingular : page.item.unit}
-                    </a>
-                  </td>
-                  {toast !== null && (
-                    <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{toast} bottles</td>
-                  )}
-                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{servings} servings</td>
-                </tr>
-              );
-            })}
+            {quickReferenceRows.map((row) => (
+              <tr class={row.isCurrentRow ? 'bg-emerald-50 font-semibold' : 'hover:bg-slate-50'}>
+                <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
+                  {row.guests} guests {row.isCurrentRow && <span class="text-emerald-600 text-xs ml-1">(you)</span>}
+                </td>
+                <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
+                  <a href={`/${page.item.id}-for-${page.event.slug}-${row.guests}-guests/`}
+                     class={`${row.isCurrentRow ? 'text-emerald-700' : 'text-emerald-600 hover:underline'}`}>
+                    {row.fullBar.unitsNeeded} {row.fullBar.unitsDisplay}
+                  </a>
+                </td>
+                {row.toast !== null && (
+                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{row.toast} bottles</td>
+                )}
+                <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{row.fullBar.totalServings} servings</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

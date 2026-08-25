@@ -152,7 +152,7 @@ const faqSchema = {
       "name": `What is the drink breakdown for a ${event.lowerName} bar?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `A balanced bar for a ${event.lowerName} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type, and ${event.pluralName} tend to favor ${leadingDrink.item.name.toLowerCase()}.`
+        "text": `A balanced bar for a ${event.lowerName} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type. ${event.pluralName} tend to favor ${leadingDrink.item.name.toLowerCase()}.`
       }
     }
   ]
