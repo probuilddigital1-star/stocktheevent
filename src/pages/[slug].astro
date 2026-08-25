@@ -182,6 +182,7 @@ const shoppingListSchema = {
   title={page.meta.title}
   description={page.meta.description}
   breadcrumbs={breadcrumbs}
+  calculatorHref={`/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">

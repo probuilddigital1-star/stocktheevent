@@ -98,6 +98,7 @@ const faqSchema = {
 <BaseLayout
   title={`${seasonalEvent.metaTitle} ${buildYear}`}
   description={seasonalEvent.metaDescription}
+  calculatorHref={baseEvent ? `/bar-setup/${baseEvent.slug}-${defaultGuestCount}-guests/` : undefined}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

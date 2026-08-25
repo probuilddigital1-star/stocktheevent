@@ -1,10 +1,11 @@
 ---
 import '../styles/global.css';
-import { totalCalculatorsLabel } from '../data';
+import Icon from '../components/Icon.astro';
 import { nextSeasonalEvent } from '../data/seasonalEvents';
 
 // The featured seasonal event follows the build month rather than being pinned
-// to one page year-round. A monthly rebuild keeps it current.
+// to one page year-round. A monthly rebuild keeps it current. It is linked by
+// its own name (footer and homepage); the Occasions nav link goes to the index.
 const featuredSeasonal = nextSeasonalEvent(new Date());
 
 interface BreadcrumbItem {
@@ -17,9 +18,21 @@ interface Props {
   description: string;
   ogImage?: string;
   breadcrumbs?: BreadcrumbItem[];
+  /**
+   * Where the header "Try the calculator" link points. The homepage passes
+   * "#calculator" to scroll to its own calculator; calculator pages pass the
+   * bar-setup page for their event.
+   */
+  calculatorHref?: string;
 }
 
-const { title, description, ogImage = '/og-default.png', breadcrumbs } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/og-default.png',
+  breadcrumbs,
+  calculatorHref = '/#calculator',
+} = Astro.props;
 const siteUrl = 'https://www.stocktheevent.com';
 
 function withTrailingSlash(url: URL): string {
@@ -76,6 +89,15 @@ const breadcrumbSchema = breadcrumbs ? {
     };
   })
 } : null;
+
+const navLinks = [
+  { href: '/calculators/', label: 'Drinks' },
+  { href: '/food/', label: 'Food' },
+  { href: '/bar-setup/', label: 'Full bar' },
+  { href: '/calculators/', label: 'Occasions' },
+  { href: '/methodology/', label: 'How the math works' },
+  { href: '/about/', label: 'About' },
+];
 ---
 
 <!DOCTYPE html>
@@ -85,7 +107,7 @@ const breadcrumbSchema = breadcrumbs ? {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="author" content="StockTheEvent" />
-    <meta name="theme-color" content="#dfb22a" />
+    <meta name="theme-color" content="#F5F6F3" />
 
     <title>{title}</title>
 
@@ -119,64 +141,45 @@ const breadcrumbSchema = breadcrumbs ? {
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     {breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
   </head>
-  <body class="min-h-screen gradient-page font-body text-[var(--chocolate)] antialiased relative">
+  <body class="min-h-screen">
     <!-- Skip Navigation -->
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] forest-gradient text-white px-4 py-2 rounded-lg font-semibold">
-      Skip to main content
-    </a>
-
-    <!-- Background atmosphere -->
-    <div class="blob-orange" aria-hidden="true"></div>
-    <div class="blob-cream" aria-hidden="true"></div>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <!-- Header -->
-    <header class="glass-nav sticky top-0 z-50 border-b border-[var(--primary-10)]">
-      <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-        <!-- Logo -->
-        <a href="/" class="flex items-center gap-3 group">
-          <div class="flex flex-col">
-            <span class="font-display text-xl font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)] transition-colors">
-              StockTheEvent
-            </span>
-            <span class="h-0.5 w-8 bg-[var(--primary)] rounded-full"></span>
-          </div>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-name font-display">Stock the Event</span>
+          <span class="label brand-tag">Party quantity calculators</span>
         </a>
 
-        <!-- Desktop Nav -->
-        <div class="hidden sm:flex items-center gap-5 md:gap-8 text-sm font-medium">
-          <a href="/calculators/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Drinks</a>
-          <a href="/food/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Food</a>
-          <a href="/bar-setup/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Full bar</a>
-          <a href={`/party/${featuredSeasonal.slug}/`} class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Seasonal</a>
-          <a href="/about/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">About</a>
-          <a href="/" class="forest-gradient text-white px-5 py-2.5 rounded-xl font-semibold hover:scale-105 transition-transform">
-            Try Calculator
-          </a>
-        </div>
+        <nav class="site-nav" aria-label="Main">
+          {navLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+          <a href={calculatorHref}>Try the calculator</a>
+        </nav>
 
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="sm:hidden p-2 text-[var(--chocolate)] hover:text-[var(--primary)]" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-          <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+        <button
+          id="mobile-menu-btn"
+          class="menu-btn"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <span id="menu-icon"><Icon name="menu" size={24} /></span>
+          <span id="close-icon" class="hidden"><Icon name="close" size={24} /></span>
         </button>
-      </nav>
+      </div>
 
       <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden sm:hidden bg-white/95 backdrop-blur-lg border-t border-[var(--primary-10)] px-4 py-4">
-        <div class="flex flex-col gap-4 text-base font-medium">
-          <a href="/calculators/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Drink Calculators</a>
-          <a href="/food/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Food Calculators</a>
-          <a href="/bar-setup/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Full Bar Calculator</a>
-          <a href={`/party/${featuredSeasonal.slug}/`} class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Seasonal Parties</a>
-          <a href="/about/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">About</a>
-          <a href="/" class="forest-gradient text-white px-4 py-3 rounded-xl text-center font-semibold">
-            Try Calculator
-          </a>
-        </div>
+      <div id="mobile-menu" class="mobile-menu hidden">
+        <nav aria-label="Mobile">
+          {navLinks.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))}
+          <a href={calculatorHref}>Try the calculator</a>
+        </nav>
       </div>
     </header>
 
@@ -202,85 +205,211 @@ const breadcrumbSchema = breadcrumbs ? {
     </main>
 
     <!-- Footer -->
-    <footer class="bg-[var(--chocolate-dark)] text-[var(--champagne-200)]">
-      <div class="max-w-6xl mx-auto px-4 py-16">
-        <div class="grid md:grid-cols-4 gap-10">
-          <!-- Brand -->
-          <div class="md:col-span-2">
-            <div class="flex items-center gap-3 text-xl font-bold text-white mb-4">
-              <div class="flex flex-col">
-                <span class="font-display">StockTheEvent</span>
-                <span class="h-0.5 w-8 bg-[var(--primary)] rounded-full"></span>
-              </div>
-            </div>
-            <p class="text-sm leading-relaxed mb-6 text-[var(--champagne-300)]">
-              Food and drink calculators with the whole method published.
-              Never run out (or over-buy) for your event again.
-            </p>
-            <div class="flex items-center gap-2 text-sm">
-              <span class="inline-block w-2 h-2 bg-[var(--forest)] rounded-full animate-pulse"></span>
-              <span class="text-[var(--forest-light)] tabular-nums">{totalCalculatorsLabel()} calculators ready</span>
-            </div>
-          </div>
-
-          <!-- Seasonal Parties -->
-          <div>
-            <h4 class="text-white font-semibold mb-5 flex items-center gap-2">
-              <span class="w-8 h-px bg-[var(--primary)]"></span>
-              Seasonal Parties
-            </h4>
-            <ul class="space-y-3 text-sm">
-              <li><a href="/party/super-bowl-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Super Bowl Party
-              </a></li>
-              <li><a href="/party/graduation-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Graduation Party
-              </a></li>
-              <li><a href="/party/fourth-of-july-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> 4th of July Party
-              </a></li>
-              <li><a href="/party/christmas-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Christmas Party
-              </a></li>
-            </ul>
-          </div>
-
-          <!-- Food & Drinks -->
-          <div>
-            <h4 class="text-white font-semibold mb-5 flex items-center gap-2">
-              <span class="w-8 h-px bg-[var(--primary)]"></span>
-              Food & Drinks
-            </h4>
-            <ul class="space-y-3 text-sm">
-              <li><a href="/food/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Food Calculators
-              </a></li>
-              <li><a href="/food/pizza-for-birthday-party-50-guests/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Pizza Calculator
-              </a></li>
-              <li><a href="/calculators/beer/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Beer Calculators
-              </a></li>
-              <li><a href="/calculators/wine/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Wine Calculators
-              </a></li>
-            </ul>
-          </div>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <span class="font-display footer-wordmark">Stock the Event</span>
+          <span>Party quantity calculators. Drink responsibly. 21+.</span>
+          <span>As an Amazon Associate we earn from qualifying purchases.</span>
         </div>
-
-        <!-- Affiliate Disclosure -->
-        <div class="border-t border-[var(--chocolate)] mt-12 pt-8">
-          <p class="text-xs text-[var(--champagne-300)] text-center mb-4 max-w-2xl mx-auto">
-            <strong>Affiliate Disclosure:</strong> As an Amazon Associate, we earn from qualifying purchases.
-            This site contains affiliate links, and we may receive a small commission at no extra cost to you.
-          </p>
+        <div class="footer-col">
+          <span class="label">Drinks</span>
+          <a href="/calculators/wine/">Wine</a>
+          <a href="/calculators/beer/">Beer</a>
+          <a href="/calculators/champagne/">Champagne</a>
+          <a href="/calculators/spirits/">Spirits</a>
         </div>
-
-        <!-- Legal Links & Copyright -->
-        <div class="border-t border-[var(--chocolate)] mt-6 pt-6 text-sm">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-6 text-[var(--champagne-300)]">
-              <a href="/privacy/" class="hover:text-[var(--primary)] transition-colors">Privacy Policy</a>
-              <a href="/terms/" class="hover:text-[var(--primary)] transition-colors">Terms of Service</a>
-              <a href="/about/" class="hover:text-[var(--primary)] transition-colors">About</a>
-              <a href="/methodology/" class="hover:text-[var(--primary)] transition-colors">Methodology</a>
-            </div>
-            <p class="text-[var(--chocolate-light)]">&copy; {new Date().getFullYear()} StockTheEvent. Drink responsibly. 21+</p>
-          </div>
+        <div class="footer-col">
+          <span class="label">Food</span>
+          <a href="/food/pizza/">Pizza</a>
+          <a href="/food/wings/">Wings</a>
+          <a href="/food/tacos/">Tacos</a>
+          <a href="/food/bbq/">BBQ</a>
+        </div>
+        <div class="footer-col">
+          <span class="label">Site</span>
+          <a href="/methodology/">Methodology</a>
+          <a href="/bar-setup/">Full bar</a>
+          <a href={`/party/${featuredSeasonal.slug}/`}>{featuredSeasonal.shortName}</a>
+          <a href="/about/">About</a>
+        </div>
+        <div class="footer-col">
+          <span class="label">Legal</span>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
         </div>
       </div>
     </footer>
   </body>
 </html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 10px 16px;
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    left: 16px;
+    top: 16px;
+  }
+
+  .site-header {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    color: var(--ink);
+  }
+
+  .brand:hover {
+    text-decoration: none;
+  }
+
+  .brand-name {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  .brand-tag {
+    white-space: nowrap;
+  }
+
+  .site-nav {
+    display: none;
+    align-items: center;
+    gap: 28px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .site-nav a {
+    color: var(--ink);
+  }
+
+  .menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: 0;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .mobile-menu {
+    border-top: 1px solid var(--rule);
+  }
+
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 24px 16px;
+  }
+
+  .mobile-menu a {
+    color: var(--ink);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .mobile-menu a:last-child {
+    border-bottom: 0;
+  }
+
+  @media (max-width: 899px) {
+    .brand-tag {
+      display: none;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .site-nav {
+      display: flex;
+    }
+
+    .menu-btn,
+    .mobile-menu {
+      display: none;
+    }
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--ink);
+    margin-top: 64px;
+    padding: 32px 0 40px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  @media (min-width: 900px) {
+    .footer-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .footer-brand {
+      grid-column: span 4;
+    }
+
+    .footer-col {
+      grid-column: span 2;
+    }
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  @media (max-width: 899px) {
+    .footer-brand {
+      grid-column: span 2;
+    }
+  }
+
+  .footer-wordmark {
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-col a {
+    color: var(--ink);
+  }
+</style>

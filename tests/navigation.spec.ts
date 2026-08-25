@@ -5,16 +5,19 @@ test.describe('Navigation and Cross-linking', () => {
     await page.goto('/');
 
     // Check desktop nav links exist
-    await expect(page.locator('nav a:has-text("Drinks")')).toBeVisible();
-    await expect(page.locator('nav a:has-text("Food")')).toBeVisible();
-    await expect(page.locator('nav a:has-text("Seasonal")')).toBeVisible();
-    await expect(page.locator('nav a:has-text("About")')).toBeVisible();
+    const nav = page.locator('header nav[aria-label="Main"]');
+    await expect(nav.locator('a:has-text("Drinks")')).toBeVisible();
+    await expect(nav.locator('a:has-text("Food")')).toBeVisible();
+    await expect(nav.locator('a:has-text("Full bar")')).toBeVisible();
+    await expect(nav.locator('a:has-text("Occasions")')).toBeVisible();
+    await expect(nav.locator('a:has-text("How the math works")')).toBeVisible();
+    await expect(nav.locator('a:has-text("About")')).toBeVisible();
   });
 
   test('Food nav link goes to food page', async ({ page }) => {
     await page.goto('/');
 
-    const foodLink = page.locator('nav a:has-text("Food")').first();
+    const foodLink = page.locator('header nav[aria-label="Main"] a:has-text("Food")').first();
     const href = await foodLink.getAttribute('href');
     expect(href).toMatch(/\/food\//);
 
@@ -22,53 +25,52 @@ test.describe('Navigation and Cross-linking', () => {
     await expect(page).toHaveURL(/\/food\//);
   });
 
-  test('Seasonal nav link goes to party page', async ({ page }) => {
+  test('Occasions nav link goes to the occasions index', async ({ page }) => {
     await page.goto('/');
 
-    const seasonalLink = page.locator('nav a:has-text("Seasonal")').first();
-    const href = await seasonalLink.getAttribute('href');
-    expect(href).toMatch(/\/party\//);
+    // A link named Occasions lands on the list of all occasions, not on one
+    // rotating seasonal page.
+    const occasionsLink = page.locator('header nav[aria-label="Main"] a:has-text("Occasions")');
+    const href = await occasionsLink.getAttribute('href');
+    expect(href).toBe('/calculators/');
   });
 
-  test('Footer has seasonal party links', async ({ page }) => {
+  test('Footer carries the rotating seasonal link under its own name', async ({ page }) => {
     await page.goto('/');
 
-    // Check footer seasonal links
-    await expect(page.locator('footer a:has-text("Super Bowl")')).toBeVisible();
-    await expect(page.locator('footer a:has-text("Graduation")')).toBeVisible();
-    await expect(page.locator('footer a:has-text("4th of July")')).toBeVisible();
-    await expect(page.locator('footer a:has-text("Christmas")')).toBeVisible();
+    // The seasonal link rotates monthly and is labeled with the event's name,
+    // so assert on its target rather than a hardcoded name.
+    const seasonalLink = page.locator('footer a[href*="/party/"]');
+    await expect(seasonalLink.first()).toBeVisible();
+    const name = await seasonalLink.first().textContent();
+    expect(name?.trim().length).toBeGreaterThan(0);
   });
 
-  test('Footer has food calculator links', async ({ page }) => {
+  test('Footer has drink and food hub links', async ({ page }) => {
     await page.goto('/');
 
-    // Check footer food links. The footer lists calculator hubs, not individual
-    // foods, so match the links that are actually there.
-    await expect(page.locator('footer a:has-text("Food Calculators")')).toBeVisible();
-    await expect(page.locator('footer a:has-text("Pizza")')).toBeVisible();
+    await expect(page.locator('footer a[href="/calculators/wine/"]')).toBeVisible();
+    await expect(page.locator('footer a[href="/food/pizza/"]')).toBeVisible();
+    await expect(page.locator('footer a[href="/methodology/"]')).toBeVisible();
   });
 
   test('Mobile menu has all navigation items', async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
+    // The mobile menu appears under the 900px breakpoint.
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/');
 
-    // Open mobile menu. The button is labelled "Open navigation menu" and the
-    // label flips when it opens, so target it by id.
     const menuButton = page.locator('#mobile-menu-btn');
     await menuButton.click();
 
-    // Check mobile menu links
-    await expect(page.locator('#mobile-menu a:has-text("Drink")')).toBeVisible();
+    await expect(page.locator('#mobile-menu a:has-text("Drinks")')).toBeVisible();
     await expect(page.locator('#mobile-menu a:has-text("Food")')).toBeVisible();
-    await expect(page.locator('#mobile-menu a:has-text("Seasonal")')).toBeVisible();
+    await expect(page.locator('#mobile-menu a:has-text("Occasions")')).toBeVisible();
   });
 
   test('Logo links to homepage', async ({ page }) => {
     await page.goto('/about/');
 
-    const logo = page.locator('a:has-text("StockTheEvent")').first();
+    const logo = page.locator('a:has-text("Stock the Event")').first();
     await logo.click();
 
     await expect(page).toHaveURL('/');
