@@ -26,3 +26,12 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 nul
+
+# generated reports and test artifacts
+reports/
+test-results/
+playwright-report/
+
+# local-only settings
+.claude/settings.local.json
+.claude/*.local.md

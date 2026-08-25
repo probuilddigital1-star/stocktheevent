@@ -10,6 +10,7 @@ the target design token system.
 ## Structure
 
 ```
+docs/                    planning docs: PRDs, user stories, audits
 scripts/
   generateData.ts       drink calculator page data
   generateFoodData.ts   food calculator page data
