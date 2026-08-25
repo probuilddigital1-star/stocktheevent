@@ -41,7 +41,7 @@ const { item, event, guestCount, calculation, h1 } = Astro.props;
           {calculation.unitsDisplay} of {item.name.toLowerCase()}
         </div>
         <p id="guest-context-text" class="text-white/80 text-sm md:text-base max-w-md mx-auto">
-          For a <span id="guest-count-display">{guestCount.value}</span>-guest {event.name.toLowerCase()} lasting {event.defaultDuration} hours
+          For a <span id="guest-count-display">{guestCount.value}</span>-guest {event.lowerName} lasting {event.defaultDuration} hours
         </p>
         <div class="mt-4 flex items-center justify-center gap-2 text-sm text-white/80">
           <span class="material-symbols-outlined text-base">info</span>

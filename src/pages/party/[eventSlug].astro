@@ -63,26 +63,26 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": `How much food do I need for a ${defaultGuestCount} person ${baseEvent?.name || 'party'}?`,
+      "name": `How much food do I need for a ${defaultGuestCount} person ${seasonalEvent.shortName}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `For a ${defaultGuestCount}-person ${baseEvent?.name?.toLowerCase() || 'party'}, plan for ${featuredFoodItems.map(f => f ? `${getExampleQuantity(f.id, 'food')} ${f.orderUnit} of ${f.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
+        "text": `For a ${defaultGuestCount}-person ${seasonalEvent.shortName}, plan for ${featuredFoodItems.map(f => f ? `${getExampleQuantity(f.id, 'food')} ${f.orderUnit} of ${f.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
       }
     },
     {
       "@type": "Question",
-      "name": `How much beer and drinks for a ${baseEvent?.name || 'party'}?`,
+      "name": `How much beer and drinks for a ${seasonalEvent.shortName}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `For a ${defaultGuestCount}-person ${baseEvent?.name?.toLowerCase() || 'party'}, plan for ${featuredDrinkItems.map(d => d ? `${getExampleQuantity(d.id, 'drink')} ${d.unit} of ${d.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
+        "text": `For a ${defaultGuestCount}-person ${seasonalEvent.shortName}, plan for ${featuredDrinkItems.map(d => d ? `${getExampleQuantity(d.id, 'drink')} ${d.unit} of ${d.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
       }
     },
     {
       "@type": "Question",
-      "name": `What food is best for a ${baseEvent?.name || 'party'}?`,
+      "name": `What food is best for a ${seasonalEvent.shortName}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `The most popular foods for a ${baseEvent?.name?.toLowerCase() || 'party'} are ${featuredFoodItems.map(f => f?.name.toLowerCase()).filter(Boolean).join(', ')}. These are crowd favorites that are easy to serve and enjoy.`
+        "text": `The most popular foods for a ${seasonalEvent.shortName} are ${featuredFoodItems.map(f => f?.name.toLowerCase()).filter(Boolean).join(', ')}. These are crowd favorites that are easy to serve and enjoy.`
       }
     }
   ]
@@ -195,7 +195,7 @@ const faqSchema = {
   <section class="py-12 bg-slate-50">
     <div class="max-w-5xl mx-auto px-4">
       <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
-        Complete {baseEvent?.name || 'Party'} Calculators
+        Complete {seasonalEvent.shortName} Calculators
       </h2>
 
       <div class="grid md:grid-cols-2 gap-8">
@@ -254,7 +254,7 @@ const faqSchema = {
   <section class="py-12 bg-white">
     <div class="max-w-5xl mx-auto px-4">
       <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-2 text-center">
-        {baseEvent?.name || 'Party'} Essentials
+        {seasonalEvent.shortName} Essentials
       </h2>
       <p class="text-slate-600 text-center mb-8">Everything you need to host an amazing event</p>
 
@@ -283,7 +283,7 @@ const faqSchema = {
   <section class="py-12 bg-gradient-to-br from-amber-50 to-orange-50">
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
-        Pro Tips for Your {baseEvent?.name || 'Party'}
+        Pro Tips for Your {seasonalEvent.shortName}
       </h2>
 
       <div class="grid md:grid-cols-2 gap-4">
@@ -304,7 +304,7 @@ const faqSchema = {
     <div class="max-w-3xl mx-auto px-4">
       <EmailCapture
         eventType={seasonalEvent.eventType}
-        eventName={baseEvent?.name || 'Party'}
+        eventName={seasonalEvent.shortName}
         placement="inline"
       />
     </div>
@@ -345,7 +345,7 @@ const faqSchema = {
     <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
       <div class="text-6xl mb-6">{seasonalEvent.emoji}</div>
       <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-        Ready to Plan Your {baseEvent?.name || 'Party'}?
+        Ready to Plan Your {seasonalEvent.shortName}?
       </h2>
       <p class="text-amber-100 mb-8 text-lg max-w-xl mx-auto">
         Use our free calculators to get exact quantities for your event.

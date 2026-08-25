@@ -26,6 +26,10 @@ export interface FoodItem extends Item {
 export interface EventType {
   id: string;
   name: string;
+  /** Plural form for generated copy, so we get "Thanksgiving dinners" rather than "Thanksgivings". */
+  pluralName: string;
+  /** Mid-sentence form. Proper nouns keep their capitals: "4th of July party", not "4th of july party". */
+  lowerName: string;
   slug: string;
   description: string;
   defaultDuration: number;
@@ -40,7 +44,19 @@ export interface GuestCount {
   tier: 'small' | 'medium' | 'large' | 'xlarge';
 }
 
+/** One resolved quantity: servings, the units to buy, and how it displays. */
+export interface DrinkQuantity {
+  totalServings: number;
+  unitsNeeded: number;
+  unitsDisplay: string;
+  perPersonServings: number;
+  buffer: number;
+  rawUnits: number;
+}
+
 export interface CalculationResult {
+  // Top-level fields carry the primary (full bar) answer, so existing consumers
+  // pick it up without change.
   totalServings: number;
   unitsNeeded: number;
   unitsDisplay: string;
@@ -48,6 +64,15 @@ export interface CalculationResult {
   buffer: number;
   rawUnits: number;
   actualDrinkers: number;
+
+  /** This drink's share of a full four-drink bar. The primary answer. */
+  fullBar: DrinkQuantity;
+  /** What you need if this drink is the only alcohol served. The secondary answer. */
+  onlyDrink: DrinkQuantity;
+  /** This drink's normalized share of the bar, 0 to 1. */
+  barShare: number;
+  /** Bottles for a one-flute-per-guest toast. Champagne pages only. */
+  toastBottles?: number;
 }
 
 export interface MathStep {
@@ -130,6 +155,8 @@ export interface AffiliateProduct {
 
 export interface SeasonalEvent {
   slug: string;
+  /** What this event is called in headings and CTAs. The base event drives math, not naming. */
+  shortName: string;
   title: string;
   metaTitle: string;
   metaDescription: string;

@@ -1,8 +1,14 @@
-/*
-  Cache-Control: public, max-age=0, must-revalidate
+# Cloudflare Pages joins its own Cache-Control with anything set here, so a rule
+# that only adds a value ships both (for example "max-age=0, must-revalidate,
+# max-age=31536000, immutable"). "! Cache-Control" detaches the default first.
+#
+# HTML needs no rule at all: the Pages default already sends
+# public, max-age=0, must-revalidate.
 
 /_astro/*
+  ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable
 
 /fonts/*
+  ! Cache-Control
   Cache-Control: public, max-age=31536000, immutable

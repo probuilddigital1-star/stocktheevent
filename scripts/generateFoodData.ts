@@ -139,12 +139,12 @@ function generateMathExplanation(
     },
     {
       step: 3,
-      label: `Apply ${event.name.toLowerCase()} modifier`,
+      label: `Apply ${event.lowerName} modifier`,
       formula: `× ${modifier} (${modifier > 1 ? '+' : ''}${Math.round((modifier - 1) * 100)}% for ${item.name.toLowerCase()})`,
       result: `${result.totalServings} ${item.unitType === 'weight' ? 'pieces' : item.unit} needed`,
       explanation: modifier !== 1
-        ? `${event.name}s typically consume ${Math.abs(Math.round((modifier - 1) * 100))}% ${modifier > 1 ? 'more' : 'less'} ${item.name.toLowerCase()} than average.`
-        : `${event.name}s have standard ${item.name.toLowerCase()} consumption.`,
+        ? `${event.pluralName} typically consume ${Math.abs(Math.round((modifier - 1) * 100))}% ${modifier > 1 ? 'more' : 'less'} ${item.name.toLowerCase()} than average.`
+        : `${event.pluralName} have standard ${item.name.toLowerCase()} consumption.`,
     },
     {
       step: 4,
@@ -321,9 +321,9 @@ function generateMeta(
   result: FoodCalculationResult
 ): PageMeta {
   return {
-    title: `How Much ${item.name} for ${guestCount.value} Guests ${event.name}? | ${result.unitsNeeded} ${result.unitsDisplay}`,
-    description: `Need ${item.name.toLowerCase()} for a ${guestCount.value}-person ${event.name.toLowerCase()}? You'll need exactly ${result.unitsNeeded} ${result.unitsDisplay}. Free calculator with pro tips for party planning.`,
-    h1: `How Much ${item.name} for a ${guestCount.value} Guests ${event.name}?`,
+    title: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}? | ${result.unitsNeeded} ${result.unitsDisplay}`,
+    description: `Need ${item.name.toLowerCase()} for a ${guestCount.value}-guest ${event.lowerName}? You'll need exactly ${result.unitsNeeded} ${result.unitsDisplay}. Free calculator with pro tips for party planning.`,
+    h1: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}?`,
   };
 }
 

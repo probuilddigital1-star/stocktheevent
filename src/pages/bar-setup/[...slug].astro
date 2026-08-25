@@ -6,6 +6,7 @@ import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
 import { affiliateLinks } from '../../lib/affiliates';
 import { isIndexable } from '../../data/indexing';
+import { drinkShare, splitsForEvent, varietyNote, DRINK_VARIETIES } from '../../data/eventSplits';
 
 // Generate static paths for all event/guest combinations
 export function getStaticPaths() {
@@ -46,19 +47,6 @@ const DRINKING_PERCENTAGE: Record<string, number> = {
   xlarge: 0.65,
 };
 
-const EVENT_SPLITS: Record<string, Record<string, number>> = {
-  wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },
-  'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },
-  corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },
-  birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },
-  'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },
-  graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },
-  'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },
-};
-
-const VARIETY_FACTORS: Record<number, number> = { 1: 1.00, 2: 1.25, 3: 1.40, 4: 1.60 };
-const MINIMUM_UNITS: Record<string, number> = { wine: 6, beer: 2, champagne: 4, spirits: 8 };
-
 // Calculate consumption multiplier
 function calculateConsumptionMultiplier(durationHours: number): number {
   let total = 0;
@@ -76,30 +64,29 @@ const allDrinks = items; // wine, beer, champagne, spirits
 const drinkingPct = DRINKING_PERCENTAGE[guestData.tier];
 const actualDrinkers = guestCount * drinkingPct;
 const consumptionMult = calculateConsumptionMultiplier(duration);
-const splits = EVENT_SPLITS[event.id] || EVENT_SPLITS.wedding;
+const splits = splitsForEvent(event.id);
 
-// Calculate for full bar (4 drinks) - this will be filtered client-side
+// Calculate for full bar (4 drinks) - this will be filtered client-side.
+// Total drinks are fixed by guests and duration; the share only divides them,
+// so there is no variety multiplier. Same order of operations as
+// scripts/generateData.ts, which is what keeps the numbers on this page equal to
+// the full bar number on each drink's own page.
 const fullBarResults = allDrinks.map(item => {
   const modifier = event.modifiers[item.id] || 1.0;
   const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * modifier);
-  const rawUnits = totalServings / item.servingsPerUnit;
-  const baseUnits = Math.ceil(rawUnits * (1 + BUFFER_PERCENTAGE));
+  const baseUnits = Math.ceil((totalServings / item.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
 
-  // Apply full bar calculation (4 drinks, variety factor 1.60)
-  const varietyFactor = VARIETY_FACTORS[4];
-  const totalSplit = Object.values(splits).reduce((a, b) => a + b, 0);
-  const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
-  let unitsNeeded = Math.ceil(baseUnits * normalizedSplit * varietyFactor);
-  let servings = Math.round(totalServings * normalizedSplit * varietyFactor);
-
-  // Apply minimums for full bar
-  const minUnits = MINIMUM_UNITS[item.id] || 4;
-  unitsNeeded = Math.max(unitsNeeded, minUnits);
+  const share = drinkShare(event.id, item.id);
+  const servings = Math.round(totalServings * share);
+  const unitsNeeded = Math.ceil((servings / item.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
 
   return {
     item,
     unitsNeeded,
     servings,
+    // A note rather than an inflated count where the bar is thinner than the
+    // varieties worth stocking.
+    note: varietyNote(item, unitsNeeded),
     // Also store single-drink calculation for client-side recalc
     singleDrinkUnits: baseUnits,
     singleDrinkServings: totalServings,
@@ -109,6 +96,10 @@ const fullBarResults = allDrinks.map(item => {
 const grandTotalServings = fullBarResults.reduce((sum, r) => sum + r.servings, 0);
 const grandTotalUnits = fullBarResults.reduce((sum, r) => sum + r.unitsNeeded, 0);
 const perPerson = Math.round((grandTotalServings / guestCount) * 10) / 10;
+
+// Which drink this event actually leans on, taken from the split rather than
+// guessed per event id.
+const leadingDrink = fullBarResults.reduce((top, r) => (r.servings > top.servings ? r : top));
 
 // Event emoji mapping (keys match event.id)
 const eventEmojis: Record<string, string> = {
@@ -127,14 +118,14 @@ const clientData = {
   guestCount,
   duration,
   splits,
-  varietyFactors: VARIETY_FACTORS,
-  minimumUnits: MINIMUM_UNITS,
+  drinkVarieties: DRINK_VARIETIES,
   eventModifiers: event.modifiers,
   results: fullBarResults.map(r => ({
     id: r.item.id,
     name: r.item.name,
     emoji: r.item.emoji,
     unit: r.item.unit,
+    unitSingular: r.item.unitSingular,
     servingsPerUnit: r.item.servingsPerUnit,
     unitsNeeded: r.unitsNeeded,
     servings: r.servings,
@@ -150,18 +141,18 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": `How much alcohol do I need for a ${guestCount} guest ${event.name.toLowerCase()}?`,
+      "name": `How much alcohol do I need for a ${guestCount} guest ${event.lowerName}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `For a ${guestCount}-guest ${event.name.toLowerCase()}, you need approximately ${grandTotalUnits} total items: ${fullBarResults.map(r => `${r.unitsNeeded} ${r.item.unit} of ${r.item.name.toLowerCase()}`).join(', ')}. This provides ${grandTotalServings} total servings (${perPerson} drinks per person) with a 15% buffer included.`
+        "text": `For a ${guestCount}-guest ${event.lowerName}, you need approximately ${grandTotalUnits} total items: ${fullBarResults.map(r => `${r.unitsNeeded} ${r.item.unit} of ${r.item.name.toLowerCase()}`).join(', ')}. This provides ${grandTotalServings} total servings (${perPerson} drinks per person) with a 15% buffer included.`
       }
     },
     {
       "@type": "Question",
-      "name": `What is the drink breakdown for a ${event.name.toLowerCase()} bar?`,
+      "name": `What is the drink breakdown for a ${event.lowerName} bar?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `A balanced bar for a ${event.name.toLowerCase()} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type - ${event.name.toLowerCase()}s tend to favor ${event.id === 'super-bowl' ? 'beer' : event.id === 'wedding-shower' ? 'champagne' : 'wine'}.`
+        "text": `A balanced bar for a ${event.lowerName} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type, and ${event.pluralName} tend to favor ${leadingDrink.item.name.toLowerCase()}.`
       }
     }
   ]
@@ -170,7 +161,7 @@ const faqSchema = {
 
 <BaseLayout
   title={`Complete Bar for ${event.name} (${guestCount} guests) | StockTheEvent`}
-  description={`Complete bar breakdown for your ${event.name.toLowerCase()} with ${guestCount} guests. Wine, beer, champagne, and spirits quantities with 15% buffer included.`}
+  description={`Complete bar breakdown for your ${event.lowerName} with ${guestCount} guests. Wine, beer, champagne, and spirits quantities with 15% buffer included.`}
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">
@@ -217,9 +208,10 @@ const faqSchema = {
                 data-single-servings={r.singleDrinkServings}
               >
                 <div class="text-5xl mb-2">{r.item.emoji}</div>
-                <div class="drink-units text-4xl font-black">{r.unitsNeeded}</div>
+                <div class="drink-units text-4xl font-black tabular-nums">{r.unitsNeeded}</div>
                 <div class="text-sm opacity-90">{r.item.unit}</div>
-                <div class="drink-servings text-xs opacity-75 mt-1">{r.servings} servings</div>
+                <div class="drink-servings text-xs opacity-75 mt-1 tabular-nums">{r.servings} servings</div>
+                <div class="drink-note text-xs opacity-90 mt-2 leading-snug" style={r.note ? undefined : 'display: none'}>{r.note}</div>
               </div>
             ))}
           </div>
@@ -617,9 +609,23 @@ const faqSchema = {
     }
   });
 
-  // Recalculate totals based on visible drinks
-  const varietyFactor = clientData.varietyFactors[drinkCount] || 1.0;
+  // Recalculate totals based on visible drinks.
+  // No variety factor: total drinks are fixed by guests and duration, and the
+  // selection only divides them.
   const splits = clientData.splits;
+
+  function formatList(values) {
+    if (values.length <= 1) return values[0] || '';
+    if (values.length === 2) return `${values[0]} and ${values[1]}`;
+    return `${values.slice(0, -1).join(', ')}, and ${values[values.length - 1]}`;
+  }
+
+  function varietyNoteFor(drinkId, units) {
+    const info = clientData.results.find(r => r.id === drinkId);
+    const varieties = clientData.drinkVarieties[drinkId] || [];
+    if (!info || varieties.length === 0 || units >= varieties.length) return null;
+    return `For a proper ${info.name.toLowerCase()} selection, that is at least one ${info.unitSingular} each of ${formatList(varieties)}.`;
+  }
 
   // Calculate total split for selected drinks only
   const totalSplit = selectedDrinkIds.reduce((sum, id) => sum + (splits[id] || 0.25), 0);
@@ -642,30 +648,27 @@ const faqSchema = {
       singleServings = parseInt(card.getAttribute('data-single-servings') || '0');
     }
 
-    let newUnits, newServings;
-
-    if (drinkCount === 1) {
-      // Single drink - use base calculation
-      newUnits = singleUnits;
-      newServings = singleServings;
-    } else {
-      // Multi-drink - apply normalized split and variety factor
-      const normalizedSplit = (splits[drinkId] || 0.25) / totalSplit;
-      newUnits = Math.ceil(singleUnits * normalizedSplit * varietyFactor);
-      newServings = Math.round(singleServings * normalizedSplit * varietyFactor);
-
-      // Apply minimums for full bar
-      if (drinkCount === 4) {
-        const minUnits = clientData.minimumUnits[drinkId] || 4;
-        newUnits = Math.max(newUnits, minUnits);
-      }
-    }
+    // One drink selected normalizes to a share of 1, which reduces to the
+    // only-drink figure, so there is no special case for it.
+    const itemInfo = clientData.results.find(r => r.id === drinkId);
+    const servingsPerUnit = itemInfo ? itemInfo.servingsPerUnit : 1;
+    const normalizedSplit = (splits[drinkId] || 0.25) / totalSplit;
+    const newServings = Math.round(singleServings * normalizedSplit);
+    const newUnits = Math.ceil((newServings / servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
 
     // Update card display
     const unitsEl = card.querySelector('.drink-units');
     const servingsEl = card.querySelector('.drink-servings');
     if (unitsEl) unitsEl.textContent = newUnits.toString();
     if (servingsEl) servingsEl.textContent = `${newServings} servings`;
+
+    // Show or hide the variety note for this drink
+    const noteEl = card.querySelector('.drink-note');
+    if (noteEl) {
+      const note = varietyNoteFor(drinkId, newUnits);
+      noteEl.textContent = note || '';
+      noteEl.style.display = note ? '' : 'none';
+    }
 
     // Update shopping list
     const shoppingItem = document.querySelector(`.shopping-item[data-drink-id="${drinkId}"]`);

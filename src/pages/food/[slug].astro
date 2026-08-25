@@ -4,6 +4,8 @@ import * as path from 'path';
 import { glob } from 'astro/loaders';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import type { FaqItem } from '../../components/FaqSection.astro';
 import { affiliateLinks, getAffiliateLink } from '../../lib/affiliates';
 import { seasonalEvents } from '../../data/seasonalEvents';
 import type { FoodCalculatorPage } from '../../lib/types';
@@ -71,60 +73,49 @@ const howToSchema = {
   "supply": [{ "@type": "HowToSupply", "name": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}` }]
 };
 
-// Expanded FAQ Schema - 6 questions for better AIO coverage
+// FAQ built once, then fed to both the visible section and the JSON-LD so the
+// two cannot drift apart.
+const food = page.item.name.toLowerCase();
+const eventName = page.event.lowerName;
+
+const faqItems: FaqItem[] = [
+  {
+    question: `How much ${food} do I need for ${page.guestCount.value} guests?`,
+    answer: `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} for ${page.guestCount.value} guests at a ${eventName}. This provides ${page.calculation.totalServings} total servings with a 15% buffer.`,
+  },
+  {
+    question: `How much ${food} per person for a ${eventName}?`,
+    answer: `Plan for ${page.calculation.perPersonServings} servings of ${food} per person at a ${eventName}. This assumes ${food} is your main food; reduce by 30-40% if serving multiple dishes.`,
+  },
+  {
+    question: `How many servings in ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food}?`,
+    answer: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} provides ${page.calculation.totalServings} total servings, enough for ${page.guestCount.value} guests with a 15% buffer to ensure you don't run out.`,
+  },
+  {
+    question: `Is ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${food} enough for ${page.guestCount.value} people?`,
+    answer: `Yes, ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${eventName}. This includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}) so you won't run short.`,
+  },
+  {
+    question: `Should I order more ${food} than calculated?`,
+    answer: `Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer. However, if your guests are big eaters or ${food} is the only food, consider adding 10-20% more. It's always better to have leftovers!`,
+  },
+  {
+    question: `What if I'm serving ${food} with other foods?`,
+    answer: `If serving ${food} as part of a buffet spread with other options, reduce this amount by 30-40%. Instead of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}, you'd need approximately ${Math.ceil(page.calculation.unitsNeeded * 0.65)} ${page.calculation.unitsDisplay}.`,
+  },
+];
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": `How much ${page.item.name.toLowerCase()} do I need for ${page.guestCount.value} guests?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This provides ${page.calculation.totalServings} total servings with a 15% buffer.`
-      }
+  "mainEntity": faqItems.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
     },
-    {
-      "@type": "Question",
-      "name": `How much ${page.item.name.toLowerCase()} per person for a ${page.event.name.toLowerCase()}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Plan for ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This assumes ${page.item.name.toLowerCase()} is your main food; reduce by 30-40% if serving multiple dishes.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `How many servings in ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} provides ${page.calculation.totalServings} total servings, enough for ${page.guestCount.value} guests with a 15% buffer to ensure you don't run out.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `Is ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} enough for ${page.guestCount.value} people?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Yes, ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}) so you won't run short.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `Should I order more ${page.item.name.toLowerCase()} than calculated?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer. However, if your guests are big eaters or ${page.item.name.toLowerCase()} is the only food, consider adding 10-20% more. It's always better to have leftovers!`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `What if I'm serving ${page.item.name.toLowerCase()} with other foods?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `If serving ${page.item.name.toLowerCase()} as part of a buffet spread with other options, reduce this amount by 30-40%. Instead of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}, you'd need approximately ${Math.ceil(page.calculation.unitsNeeded * 0.65)} ${page.calculation.unitsDisplay}.`
-      }
-    }
-  ]
+  })),
 };
 
 // ItemList Schema for shopping list
@@ -184,7 +175,7 @@ const shoppingListSchema = {
       <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
         <div class="bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 p-8 text-white text-center">
           <div class="text-sm uppercase tracking-wide opacity-90 mb-2">Your Total</div>
-          <div class="text-6xl md:text-7xl font-black mb-2">{page.calculation.unitsNeeded}</div>
+          <div class="answer-number text-6xl md:text-7xl font-black mb-2 tabular-nums">{page.calculation.unitsNeeded}</div>
           <div class="text-2xl font-semibold opacity-95">{page.calculation.unitsDisplay}</div>
           <div class="text-sm opacity-80 mt-2">of {page.item.name.toLowerCase()}</div>
         </div>
@@ -280,7 +271,7 @@ const shoppingListSchema = {
         {page.mathExplanation.map((step) => (
           <div class="bg-gradient-to-br from-[var(--champagne-100)] to-white rounded-2xl p-6 border border-[var(--primary-10)]">
             <div class="flex items-start gap-4">
-              <div class="w-8 h-8 sunset-gradient text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0">
+              <div class="math-step w-8 h-8 sunset-gradient text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 tabular-nums">
                 {step.step}
               </div>
               <div class="flex-1">
@@ -351,7 +342,7 @@ const shoppingListSchema = {
         </table>
       </div>
       <p class="text-xs text-slate-500 mt-3">
-        * All calculations include a 15% buffer. Amounts for {page.event.name.toLowerCase()} as main dish.
+        * All calculations include a 15% buffer. Amounts for {page.event.lowerName} as main dish.
       </p>
     </div>
   </section>
@@ -474,6 +465,12 @@ const shoppingListSchema = {
       </div>
     </section>
   )}
+
+  <!-- FAQ (same questions as the JSON-LD above) -->
+  <FaqSection
+    heading={`Questions about ${page.item.name.toLowerCase()} for a ${page.event.lowerName}`}
+    items={faqItems}
+  />
 
   <!-- Email Capture -->
   <div class="max-w-3xl mx-auto px-4 py-12">

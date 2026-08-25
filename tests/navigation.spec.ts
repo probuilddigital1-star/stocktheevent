@@ -43,8 +43,9 @@ test.describe('Navigation and Cross-linking', () => {
   test('Footer has food calculator links', async ({ page }) => {
     await page.goto('/');
 
-    // Check footer food links
-    await expect(page.locator('footer a:has-text("Wings")')).toBeVisible();
+    // Check footer food links. The footer lists calculator hubs, not individual
+    // foods, so match the links that are actually there.
+    await expect(page.locator('footer a:has-text("Food Calculators")')).toBeVisible();
     await expect(page.locator('footer a:has-text("Pizza")')).toBeVisible();
   });
 
@@ -53,8 +54,9 @@ test.describe('Navigation and Cross-linking', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
 
-    // Open mobile menu
-    const menuButton = page.locator('button[aria-label="Menu"]');
+    // Open mobile menu. The button is labelled "Open navigation menu" and the
+    // label flips when it opens, so target it by id.
+    const menuButton = page.locator('#mobile-menu-btn');
     await menuButton.click();
 
     // Check mobile menu links

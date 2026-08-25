@@ -2,6 +2,8 @@
 import { items } from '../data/items';
 import { events } from '../data/events';
 import { guestCounts } from '../data/guestCounts';
+import { EVENT_SPLITS } from '../data/eventSplits';
+import { totalCalculatorsLabel } from '../data';
 
 // Pass data to client
 const itemsData = items.map(i => ({
@@ -16,6 +18,7 @@ const itemsData = items.map(i => ({
 const eventsData = events.map(e => ({
   id: e.id,
   name: e.name,
+  pluralName: e.pluralName,
   slug: e.slug,
   defaultDuration: e.defaultDuration,
   modifiers: e.modifiers,
@@ -54,7 +57,7 @@ const drinkIcons = {
       <p class="text-lg text-[var(--chocolate-light)] max-w-2xl mx-auto">
         Calculate exactly what you need with our <span class="text-[var(--primary-dark)] font-semibold">bartender-tested formulas</span>
       </p>
-      <p class="text-sm text-[var(--chocolate-40)] mt-2">336 drink + event + guest combinations available</p>
+      <p class="text-sm text-[var(--chocolate-40)] mt-2 tabular-nums">{totalCalculatorsLabel()} drink, food, and event combinations available</p>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-8 items-start">
@@ -301,7 +304,7 @@ const drinkIcons = {
   }
 </style>
 
-<script define:vars={{ itemsData, eventsData, guestCountsData }}>
+<script define:vars={{ itemsData, eventsData, guestCountsData, EVENT_SPLITS }}>
   // Bartender constants
   const BASE_DRINKS_PER_HOUR = 1.5;
   const BUFFER_PERCENTAGE = 0.15;
@@ -313,37 +316,8 @@ const drinkIcons = {
     xlarge: 0.65,
   };
 
-  // Event-specific drink splits
-  const EVENT_SPLITS = {
-    wedding: { wine: 0.45, beer: 0.30, champagne: 0.20, spirits: 0.25 },
-    'super-bowl': { wine: 0.15, beer: 0.70, champagne: 0.05, spirits: 0.25 },
-    corporate: { wine: 0.45, beer: 0.30, champagne: 0.15, spirits: 0.25 },
-    birthday: { wine: 0.22, beer: 0.55, champagne: 0.08, spirits: 0.30 },
-    'holiday-party': { wine: 0.40, beer: 0.20, champagne: 0.15, spirits: 0.40 },
-    graduation: { wine: 0.28, beer: 0.50, champagne: 0.12, spirits: 0.25 },
-    'wedding-shower': { wine: 0.40, beer: 0.08, champagne: 0.60, spirits: 0.10 },
-    'march-madness': { wine: 0.15, beer: 0.65, champagne: 0.05, spirits: 0.30 },
-    'fourth-of-july': { wine: 0.10, beer: 0.65, champagne: 0.05, spirits: 0.35 },
-    'labor-day': { wine: 0.15, beer: 0.60, champagne: 0.05, spirits: 0.35 },
-    'halloween': { wine: 0.20, beer: 0.35, champagne: 0.10, spirits: 0.50 },
-    'thanksgiving': { wine: 0.45, beer: 0.30, champagne: 0.10, spirits: 0.30 },
-    'new-years-eve': { wine: 0.25, beer: 0.15, champagne: 0.50, spirits: 0.25 },
-    'brunch': { wine: 0.30, beer: 0.10, champagne: 0.50, spirits: 0.20 },
-  };
-
-  const VARIETY_FACTORS = {
-    1: 1.00,
-    2: 1.25,
-    3: 1.40,
-    4: 1.60,
-  };
-
-  const MINIMUM_UNITS = {
-    wine: 6,
-    beer: 2,
-    champagne: 4,
-    spirits: 8,
-  };
+  // Drink splits come from src/data/eventSplits.ts via define:vars, so this
+  // calculator, the bar-setup pages, and the generator all read one table.
 
   // Calculate tier based on guest count
   function getTierFromGuestCount(guests) {
@@ -473,9 +447,6 @@ const drinkIcons = {
     const duration = selectedDuration;
     const eventId = selectedEvent.id;
     const splits = EVENT_SPLITS[eventId] || EVENT_SPLITS.wedding;
-    const drinkCount = selectedItems.length;
-    const isMulti = drinkCount > 1;
-    const varietyFactor = VARIETY_FACTORS[drinkCount] || 1.0;
 
     const totalSplit = selectedItems.reduce((sum, item) => sum + (splits[item.id] || 0.25), 0);
 
@@ -483,23 +454,17 @@ const drinkIcons = {
     let grandTotalUnits = 0;
     const results = [];
 
+    // Total drinks are fixed by guests and duration. Selecting more drinks
+    // divides that total rather than growing it, so there is no variety factor.
+    // A single selection normalizes to a share of 1 and reduces to the
+    // only-drink figure on its own.
     selectedItems.forEach(item => {
       const modifier = selectedEvent.modifiers[item.id] || 1.0;
       const singleCalc = calculateSingleDrink(item, guests, tier, duration, modifier);
 
-      let unitsNeeded = singleCalc.unitsNeeded;
-      let servings = singleCalc.totalServings;
-
-      if (isMulti) {
-        const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
-        unitsNeeded = Math.ceil(singleCalc.unitsNeeded * normalizedSplit * varietyFactor);
-        servings = Math.round(singleCalc.totalServings * normalizedSplit * varietyFactor);
-
-        if (drinkCount === 4) {
-          const minUnits = MINIMUM_UNITS[item.id] || 4;
-          unitsNeeded = Math.max(unitsNeeded, minUnits);
-        }
-      }
+      const normalizedSplit = (splits[item.id] || 0.25) / totalSplit;
+      const servings = Math.round(singleCalc.totalServings * normalizedSplit);
+      const unitsNeeded = Math.ceil((servings / item.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
 
       grandTotalServings += servings;
       grandTotalUnits += unitsNeeded;
@@ -613,9 +578,8 @@ const drinkIcons = {
 
   // Update duration hint based on event
   function updateDurationHint() {
-    const eventName = selectedEvent.name.toLowerCase();
     if (selectedDuration === selectedEvent.defaultDuration) {
-      durationHint.textContent = `Recommended for ${eventName}s`;
+      durationHint.textContent = `Recommended for ${selectedEvent.pluralName}`;
     } else if (selectedDuration === 1) {
       durationHint.textContent = 'Perfect for cocktail hour or toasts only';
     } else if (selectedDuration >= 6) {

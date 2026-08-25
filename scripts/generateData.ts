@@ -17,15 +17,17 @@ import type {
   EventType,
   GuestCount,
   CalculationResult,
+  DrinkQuantity,
   MathStep,
   ShoppingItem,
   RelatedPage,
   PageMeta,
   CalculatorPage
 } from '../src/lib/types';
-import { items } from '../src/data/items';
+import { items, toastBottles } from '../src/data/items';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
+import { drinkShare } from '../src/data/eventSplits';
 
 // =============================================================================
 // BARTENDER'S REFINED CONSTANTS
@@ -83,6 +85,22 @@ function calculateUnitsNeeded(servings: number, servingsPerUnit: number): number
   return Math.ceil(withBuffer);
 }
 
+/** Resolve a servings figure into the units to buy, with the buffer applied. */
+function toQuantity(totalServings: number, item: Item, guests: number): DrinkQuantity {
+  const rawUnits = totalServings / item.servingsPerUnit;
+  const unitsNeeded = calculateUnitsNeeded(totalServings, item.servingsPerUnit);
+  const buffer = unitsNeeded - Math.ceil(rawUnits);
+
+  return {
+    totalServings,
+    unitsNeeded,
+    unitsDisplay: unitsNeeded === 1 ? item.unitSingular : item.unit,
+    perPersonServings: Math.round((totalServings / guests) * 10) / 10,
+    buffer,
+    rawUnits: Math.round(rawUnits * 10) / 10,
+  };
+}
+
 function calculate(
   item: Item,
   event: EventType,
@@ -92,28 +110,33 @@ function calculate(
   const drinkingPercentage = DRINKING_PERCENTAGE[guestCount.tier];
   const actualDrinkers = Math.round(guestCount.value * drinkingPercentage);
 
-  const totalServings = calculateServings(
+  // What you need if this drink is the only alcohol at the party.
+  const onlyDrinkServings = calculateServings(
     guestCount.value,
     guestCount.tier,
     event.defaultDuration,
     modifier
   );
 
-  const rawUnits = totalServings / item.servingsPerUnit;
-  const unitsNeeded = calculateUnitsNeeded(totalServings, item.servingsPerUnit);
-  const buffer = unitsNeeded - Math.ceil(rawUnits);
+  // What you need when this drink is one of four on a full bar. Total drinks are
+  // fixed by guests and duration; the share only divides them.
+  const barShare = drinkShare(event.id, item.id);
+  const fullBarServings = Math.round(onlyDrinkServings * barShare);
 
-  const unitsDisplay = unitsNeeded === 1 ? item.unitSingular : item.unit;
-  const perPersonServings = Math.round((totalServings / guestCount.value) * 10) / 10;
+  const onlyDrink = toQuantity(onlyDrinkServings, item, guestCount.value);
+  const fullBar = toQuantity(fullBarServings, item, guestCount.value);
 
   return {
-    totalServings,
-    unitsNeeded,
-    unitsDisplay,
-    perPersonServings,
-    buffer,
-    rawUnits: Math.round(rawUnits * 10) / 10,
+    // The full bar answer is the primary one, so it sits at the top level where
+    // every existing consumer already reads from.
+    ...fullBar,
     actualDrinkers,
+    fullBar,
+    onlyDrink,
+    barShare,
+    ...(item.id === 'champagne'
+      ? { toastBottles: toastBottles(guestCount.value, BUFFER_PERCENTAGE) }
+      : {}),
   };
 }
 
@@ -131,6 +154,7 @@ function generateMathExplanation(
   const drinkingPct = DRINKING_PERCENTAGE[guestCount.tier];
   const actualDrinkers = Math.round(guestCount.value * drinkingPct);
   const consumptionMult = calculateConsumptionMultiplier(event.defaultDuration);
+  const sharePercent = Math.round(result.barShare * 100);
 
   const steps: MathStep[] = [
     {
@@ -156,25 +180,32 @@ function generateMathExplanation(
     },
     {
       step: 4,
-      label: `Apply ${event.name.toLowerCase()} modifier`,
+      label: `Apply ${event.lowerName} modifier`,
       formula: `× ${modifier} (${modifier > 1 ? '+' : ''}${Math.round((modifier - 1) * 100)}% for ${item.name.toLowerCase()})`,
-      result: `${result.totalServings} ${item.name.toLowerCase()} servings needed`,
+      result: `${result.onlyDrink.totalServings} ${item.name.toLowerCase()} servings if served alone`,
       explanation: modifier !== 1
-        ? `${event.name}s typically consume ${Math.abs(Math.round((modifier - 1) * 100))}% ${modifier > 1 ? 'more' : 'less'} ${item.name.toLowerCase()} than average.`
-        : `${event.name}s have standard ${item.name.toLowerCase()} consumption.`,
+        ? `${event.pluralName} typically consume ${Math.abs(Math.round((modifier - 1) * 100))}% ${modifier > 1 ? 'more' : 'less'} ${item.name.toLowerCase()} than average.`
+        : `${event.pluralName} have standard ${item.name.toLowerCase()} consumption.`,
     },
     {
       step: 5,
-      label: `Convert to ${item.unit}`,
-      formula: `${result.totalServings} servings ÷ ${item.servingsPerUnit} servings per ${item.unitSingular}`,
-      result: `${result.rawUnits} ${item.unit} (raw)`,
-      explanation: `Each ${item.unitSingular} of ${item.name.toLowerCase()} provides ${item.servingsPerUnit} servings.`,
+      label: 'Share of the bar',
+      formula: `${result.onlyDrink.totalServings} servings × ${sharePercent}%`,
+      result: `${result.fullBar.totalServings} ${item.name.toLowerCase()} servings`,
+      explanation: `Share of the bar: ${sharePercent} percent of drinks at a ${event.lowerName} are ${item.name.toLowerCase()}. The rest of the bar covers the other drinks.`,
     },
     {
       step: 6,
+      label: `Convert to ${item.unit}`,
+      formula: `${result.fullBar.totalServings} servings ÷ ${item.servingsPerUnit} servings per ${item.unitSingular}`,
+      result: `${result.fullBar.rawUnits} ${item.unit} (raw)`,
+      explanation: `Each ${item.unitSingular} of ${item.name.toLowerCase()} provides ${item.servingsPerUnit} servings.`,
+    },
+    {
+      step: 7,
       label: 'Add 15% buffer & round up',
-      formula: `${result.rawUnits} × 1.15 = ${(result.rawUnits * 1.15).toFixed(1)}, rounded up`,
-      result: `${result.unitsNeeded} ${result.unitsDisplay}`,
+      formula: `${result.fullBar.rawUnits} × 1.15 = ${(result.fullBar.rawUnits * 1.15).toFixed(1)}, rounded up`,
+      result: `${result.fullBar.unitsNeeded} ${result.fullBar.unitsDisplay}`,
       explanation: 'Always round up and add a buffer. Running out is worse than having leftovers!',
     },
   ];
@@ -293,10 +324,19 @@ function generateMeta(
   guestCount: GuestCount,
   result: CalculationResult
 ): PageMeta {
+  const drink = item.name.toLowerCase();
+  const eventName = event.lowerName;
+  const fullBar = result.fullBar;
+  const onlyDrink = result.onlyDrink;
+
+  const toastSentence = result.toastBottles
+    ? ` For the toast alone, ${result.toastBottles} bottles.`
+    : '';
+
   return {
-    title: `How Much ${item.name} for ${guestCount.value} Guest ${event.name}? | ${result.unitsNeeded} ${result.unitsDisplay}`,
-    description: `Need ${item.name.toLowerCase()} for a ${guestCount.value}-person ${event.name.toLowerCase()}? You'll need exactly ${result.unitsNeeded} ${result.unitsDisplay}. Free calculator with pro tips from experienced bartenders.`,
-    h1: `How Much ${item.name} for a ${guestCount.value} Guest ${event.name}?`,
+    title: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}? | ${fullBar.unitsNeeded} ${fullBar.unitsDisplay}`,
+    description: `Need ${drink} for a ${guestCount.value}-guest ${eventName}? Plan on ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} as part of a full bar, or ${onlyDrink.unitsNeeded} ${onlyDrink.unitsDisplay} if ${drink} is the only alcohol you serve.${toastSentence}`,
+    h1: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}?`,
   };
 }
 

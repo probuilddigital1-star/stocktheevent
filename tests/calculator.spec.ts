@@ -230,6 +230,25 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
     expect(isInvalidNumber(afterMin || '')).toBe(false);
   });
 
+  test('Adding drinks divides the total rather than growing it', async ({ page }) => {
+    // Total drinks are fixed by guests and duration. Selecting all four drinks
+    // splits that total, so no single drink can come out higher than it does
+    // when it is the only thing being served.
+    await selectDrinks(page, ['wine']);
+    await selectEvent(page, 'wedding');
+    const alone = parseInt((await page.locator('#result-units').textContent()) || '0');
+
+    await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
+    const shared = await page
+      .locator('#fullbar-grid .drink-card-sm')
+      .filter({ hasText: 'Wine' })
+      .locator('.font-mono-luxe.font-bold')
+      .textContent();
+
+    expect(parseInt(shared || '0')).toBeLessThan(alone);
+    expect(parseInt(shared || '0')).toBeGreaterThan(0);
+  });
+
   test('Event-specific modifiers affect calculations', async ({ page }) => {
     await selectDrinks(page, ['beer']);
 

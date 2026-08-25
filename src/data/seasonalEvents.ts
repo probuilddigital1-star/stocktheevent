@@ -3,6 +3,7 @@ import type { SeasonalEvent } from '../lib/types';
 export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'super-bowl-party-calculator',
+    shortName: 'Super Bowl Party',
     title: 'Super Bowl Party Calculator 2026',
     metaTitle: 'Super Bowl Party Calculator 2026 — How Much Food & Beer You Need',
     metaDescription: 'Free Super Bowl party calculator. Find out exactly how many wings, pizzas, and beers for 25-300 guests. Bartender-tested formulas.',
@@ -36,6 +37,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'march-madness-party-calculator',
+    shortName: 'March Madness Party',
     title: 'March Madness Party Calculator 2026',
     metaTitle: 'March Madness Party Calculator 2026 — Food & Drinks for Your Bracket Party',
     metaDescription: 'Free March Madness party calculator. Calculate wings, pizza, and beer for 25-300 guests. Perfect for bracket parties and watch parties.',
@@ -67,6 +69,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'graduation-party-calculator',
+    shortName: 'Graduation Party',
     title: 'Graduation Party Calculator 2026',
     metaTitle: 'Graduation Party Calculator 2026 — Food & Drinks for Your Grad',
     metaDescription: 'Free graduation party calculator. Find out how much food and drinks for 25-300 guests. Plan the perfect celebration.',
@@ -98,6 +101,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'fourth-of-july-party-calculator',
+    shortName: '4th of July Party',
     title: '4th of July Party Calculator 2026',
     metaTitle: '4th of July Party Calculator 2026 — BBQ, Beer & More',
     metaDescription: 'Free 4th of July party calculator. Calculate BBQ, burgers, beer and more for 25-300 guests. Plan your Independence Day cookout.',
@@ -129,6 +133,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'labor-day-party-calculator',
+    shortName: 'Labor Day Party',
     title: 'Labor Day Party Calculator 2026',
     metaTitle: 'Labor Day Party Calculator 2026 — End of Summer BBQ Planning',
     metaDescription: 'Free Labor Day party calculator. Plan your end-of-summer cookout with the right amount of food and drinks for 25-300 guests.',
@@ -160,6 +165,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'halloween-party-calculator',
+    shortName: 'Halloween Party',
     title: 'Halloween Party Calculator 2026',
     metaTitle: 'Halloween Party Calculator 2026 — Spooky Snacks & Drinks',
     metaDescription: 'Free Halloween party calculator. Plan creepy cocktails and monster munchies for 25-300 guests.',
@@ -191,6 +197,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'thanksgiving-calculator',
+    shortName: 'Thanksgiving',
     title: 'Thanksgiving Calculator 2026',
     metaTitle: 'Thanksgiving Calculator 2026 — Turkey, Sides & Wine for Your Feast',
     metaDescription: 'Free Thanksgiving calculator. Plan turkey, sides, wine and more for 10-50 guests. Never run short on the big day.',
@@ -222,6 +229,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'christmas-party-calculator',
+    shortName: 'Christmas Party',
     title: 'Christmas Party Calculator 2026',
     metaTitle: 'Christmas Party Calculator 2026 — Holiday Food & Drinks',
     metaDescription: 'Free Christmas party calculator. Plan appetizers, cocktails, and wine for 25-300 guests. Make your holiday party memorable.',
@@ -253,6 +261,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'new-years-eve-party-calculator',
+    shortName: "New Year's Eve Party",
     title: "New Year's Eve Party Calculator 2026",
     metaTitle: "New Year's Eve Party Calculator 2026 — Champagne, Cocktails & Appetizers",
     metaDescription: "Free New Year's Eve party calculator. Plan champagne, cocktails, and appetizers for 25-300 guests. Ring in the new year right.",
@@ -284,6 +293,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'st-patricks-day-party-calculator',
+    shortName: "St. Patrick's Day Party",
     title: "St. Patrick's Day Party Calculator 2026",
     metaTitle: "St. Patrick's Day Party Calculator 2026 — Irish Food, Green Beer & More",
     metaDescription: "Free St. Patrick's Day party calculator. Plan Irish food, green beer, and Guinness for 25-300 guests. Bartender-tested formulas.",
@@ -315,6 +325,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'cinco-de-mayo-party-calculator',
+    shortName: 'Cinco de Mayo Party',
     title: 'Cinco de Mayo Party Calculator 2026',
     metaTitle: 'Cinco de Mayo Party Calculator 2026 — Margaritas, Tacos & Mexican Beer',
     metaDescription: 'Free Cinco de Mayo party calculator. Plan margaritas, tacos, and Mexican beer for 25-300 guests. Fiesta-ready formulas.',
@@ -346,6 +357,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'memorial-day-party-calculator',
+    shortName: 'Memorial Day Cookout',
     title: 'Memorial Day Party Calculator 2026',
     metaTitle: 'Memorial Day Party Calculator 2026 — BBQ, Beer & Summer Kickoff',
     metaDescription: 'Free Memorial Day party calculator. Plan your summer kickoff BBQ with the right amount of food and drinks for 25-300 guests.',
@@ -377,6 +389,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'easter-brunch-party-calculator',
+    shortName: 'Easter Brunch',
     title: 'Easter Brunch Party Calculator 2026',
     metaTitle: 'Easter Brunch Party Calculator 2026 — Mimosas, Ham & Spring Brunch',
     metaDescription: 'Free Easter brunch calculator. Plan mimosas, ham, and spring brunch dishes for 25-300 guests. Perfect for family gatherings.',
@@ -408,6 +421,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'tailgate-party-calculator',
+    shortName: 'Tailgate',
     title: 'Tailgate Party Calculator 2026',
     metaTitle: 'Tailgate Party Calculator 2026 — BBQ, Beer & Game Day Grub',
     metaDescription: 'Free tailgate party calculator. Plan BBQ, wings, and beer for 25-300 guests. Built for parking lot parties and game day gatherings.',

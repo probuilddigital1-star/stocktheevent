@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { totalCalculatorsLabel } from '../data';
 
 interface BreadcrumbItem {
   name: string;
@@ -217,7 +218,7 @@ const breadcrumbSchema = breadcrumbs ? {
             </p>
             <div class="flex items-center gap-2 text-sm">
               <span class="inline-block w-2 h-2 bg-[var(--forest)] rounded-full animate-pulse"></span>
-              <span class="text-[var(--forest-light)]">2,000+ calculators ready</span>
+              <span class="text-[var(--forest-light)] tabular-nums">{totalCalculatorsLabel()} calculators ready</span>
             </div>
           </div>
 

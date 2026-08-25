@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 import { INDEXABLE_GUEST_COUNTS } from './src/data/indexing.ts';
+import { CONTENT_UPDATED } from './src/data/site.ts';
 
 function hasIndexableGuestCount(page) {
   const match = page.match(/-(\d+)-guests\/?$/);
@@ -27,6 +28,7 @@ export default defineConfig({
       !page.includes('/unsubscribe') &&
       !page.includes('/404') &&
       hasIndexableGuestCount(page),
-    lastmod: new Date(),
+    // Fixed date, not new Date(), so lastmod only moves when content moves.
+    lastmod: new Date(CONTENT_UPDATED),
   })]
 });

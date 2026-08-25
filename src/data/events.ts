@@ -11,6 +11,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'wedding',
     name: 'Wedding',
+    pluralName: 'Weddings',
+    lowerName: 'wedding',
     slug: 'wedding',
     description: 'Wedding reception celebration',
     defaultDuration: 5,
@@ -48,6 +50,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'graduation',
     name: 'Graduation Party',
+    pluralName: 'Graduation Parties',
+    lowerName: 'graduation party',
     slug: 'graduation-party',
     description: 'Graduation celebration',
     defaultDuration: 4,
@@ -85,6 +89,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'corporate',
     name: 'Corporate Event',
+    pluralName: 'Corporate Events',
+    lowerName: 'corporate event',
     slug: 'corporate-event',
     description: 'Professional corporate gathering',
     defaultDuration: 3,
@@ -122,6 +128,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'birthday',
     name: 'Birthday Party',
+    pluralName: 'Birthday Parties',
+    lowerName: 'birthday party',
     slug: 'birthday-party',
     description: 'Birthday celebration',
     defaultDuration: 4,
@@ -159,6 +167,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'super-bowl',
     name: 'Super Bowl Party',
+    pluralName: 'Super Bowl Parties',
+    lowerName: 'Super Bowl party',
     slug: 'super-bowl-party',
     description: 'Super Bowl viewing party',
     defaultDuration: 5,
@@ -196,6 +206,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'holiday-party',
     name: 'Holiday Party',
+    pluralName: 'Holiday Parties',
+    lowerName: 'holiday party',
     slug: 'holiday-party',
     description: 'Holiday celebration',
     defaultDuration: 4,
@@ -233,6 +245,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'wedding-shower',
     name: 'Wedding Shower',
+    pluralName: 'Wedding Showers',
+    lowerName: 'wedding shower',
     slug: 'wedding-shower',
     description: 'Bridal or wedding shower celebration',
     defaultDuration: 3,
@@ -273,6 +287,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'march-madness',
     name: 'March Madness Party',
+    pluralName: 'March Madness Parties',
+    lowerName: 'March Madness party',
     slug: 'march-madness-party',
     description: 'March Madness basketball viewing party',
     defaultDuration: 4,
@@ -310,6 +326,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'fourth-of-july',
     name: '4th of July Party',
+    pluralName: '4th of July Parties',
+    lowerName: '4th of July party',
     slug: 'fourth-of-july-party',
     description: 'Independence Day celebration',
     defaultDuration: 5,
@@ -347,6 +365,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'labor-day',
     name: 'Labor Day Party',
+    pluralName: 'Labor Day Parties',
+    lowerName: 'Labor Day party',
     slug: 'labor-day-party',
     description: 'Labor Day end of summer celebration',
     defaultDuration: 5,
@@ -384,6 +404,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'halloween',
     name: 'Halloween Party',
+    pluralName: 'Halloween Parties',
+    lowerName: 'Halloween party',
     slug: 'halloween-party',
     description: 'Halloween costume party',
     defaultDuration: 4,
@@ -421,6 +443,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'thanksgiving',
     name: 'Thanksgiving',
+    pluralName: 'Thanksgiving dinners',
+    lowerName: 'Thanksgiving',
     slug: 'thanksgiving',
     description: 'Thanksgiving dinner celebration',
     defaultDuration: 4,
@@ -458,6 +482,8 @@ export const events: ExtendedEventType[] = [
   {
     id: 'new-years-eve',
     name: "New Year's Eve Party",
+    pluralName: "New Year's Eve parties",
+    lowerName: "New Year's Eve party",
     slug: 'new-years-eve-party',
     description: "New Year's Eve celebration",
     defaultDuration: 5,

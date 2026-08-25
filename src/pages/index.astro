@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import InteractiveCalculator from '../components/InteractiveCalculator.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import { affiliateLinks } from '../lib/affiliates';
+import { totalCalculatorsLabel } from '../data';
 ---
 
 <BaseLayout
@@ -90,7 +91,7 @@ import { affiliateLinks } from '../lib/affiliates';
       </div>
       <div class="text-center mt-8">
         <a href="/calculators/" class="text-[var(--primary-dark)] hover:text-[var(--primary)] font-medium hover:underline">
-          View all 1,820+ calculators →
+          View all {totalCalculatorsLabel()} calculators →
         </a>
       </div>
     </div>
@@ -111,7 +112,7 @@ import { affiliateLinks } from '../lib/affiliates';
           <div class="text-sm">Years Experience</div>
         </div>
         <div class="text-center">
-          <div class="text-4xl font-bold text-[var(--primary)]">1,820+</div>
+          <div class="text-4xl font-bold text-[var(--primary)] tabular-nums">{totalCalculatorsLabel()}</div>
           <div class="text-sm">Calculators</div>
         </div>
         <div class="text-center">

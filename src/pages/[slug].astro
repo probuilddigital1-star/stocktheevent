@@ -9,8 +9,12 @@ import ShoppingList from '../components/ShoppingList.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import ProTips from '../components/ProTips.astro';
 import RelatedPages from '../components/RelatedPages.astro';
+import FaqSection from '../components/FaqSection.astro';
+import type { FaqItem } from '../components/FaqSection.astro';
 import type { CalculatorPage } from '../lib/types';
 import { isIndexable } from '../data/indexing';
+import { FLUTES_PER_BOTTLE } from '../data/items';
+import { totalCalculatorsLabel } from '../data';
 
 export async function getStaticPaths() {
   // Read all calculator JSON files directly
@@ -66,60 +70,58 @@ const howToSchema = {
   "supply": [{ "@type": "HowToSupply", "name": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}` }]
 };
 
-// Expanded FAQ Schema - 6 questions for better AIO coverage
+// FAQ built once, then fed to both the visible section and the JSON-LD so the
+// two cannot drift apart.
+const drink = page.item.name.toLowerCase();
+const eventName = page.event.lowerName;
+const fullBar = page.calculation.fullBar;
+const onlyDrink = page.calculation.onlyDrink;
+const sharePercent = Math.round(page.calculation.barShare * 100);
+
+const faqItems: FaqItem[] = [
+  {
+    question: `How much ${drink} do I need for ${page.guestCount.value} guests?`,
+    answer: `You need ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} for ${page.guestCount.value} guests at a ${eventName}, assuming you are serving a full bar. That is ${fullBar.totalServings} servings with a 15% buffer. If ${drink} is the only alcohol you serve, plan on ${onlyDrink.unitsNeeded} ${onlyDrink.unitsDisplay} instead.`,
+  },
+  {
+    question: `How much ${drink} per person for a ${eventName}?`,
+    answer: `Plan for ${fullBar.perPersonServings} servings of ${drink} per person at a ${eventName} with a full bar. This accounts for the fact that not everyone drinks alcohol, that consumption slows as the event progresses, and that ${drink} is only ${sharePercent} percent of what gets poured.`,
+  },
+  {
+    question: `How many servings are in a ${page.item.unitSingular} of ${drink}?`,
+    answer: `One ${page.item.unitSingular} of ${drink} contains ${page.item.servingsPerUnit} servings. For ${page.guestCount.value} guests, you'll need ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} to provide ${fullBar.totalServings} total servings.`,
+  },
+  {
+    question: `What percentage of the bar is ${drink} at a ${eventName}?`,
+    answer: `About ${sharePercent} percent of the drinks poured at a ${eventName} are ${drink}. With ${page.guestCount.value} guests, roughly ${page.calculation.actualDrinkers} will be drinking, and that share works out to ${fullBar.unitsNeeded} ${fullBar.unitsDisplay}.`,
+  },
+  {
+    question: `Should I buy extra ${drink} as a buffer?`,
+    answer: `Our figure of ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} already includes a 15% buffer (${fullBar.buffer} extra ${fullBar.unitsDisplay}). That covers guests who drink more than average. It is always better to have leftovers than to run short.`,
+  },
+  {
+    question: `How long will ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} last for ${page.guestCount.value} guests?`,
+    answer: `${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} will last approximately ${page.event.defaultDuration} hours for ${page.guestCount.value} guests at a ${eventName}, alongside the other drinks on the bar. This factors in the natural slowdown of consumption as the event progresses.`,
+  },
+  ...(page.calculation.toastBottles
+    ? [{
+        question: `How much champagne do I need for just the toast?`,
+        answer: `For a toast alone, plan on ${page.calculation.toastBottles} bottles. That is one flute for every one of your ${page.guestCount.value} guests, not just the drinkers, since everyone takes a glass for the toast, at about ${FLUTES_PER_BOTTLE} flutes per bottle with the same 15% buffer.`,
+      }]
+    : []),
+];
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": `How much ${page.item.name.toLowerCase()} do I need for ${page.guestCount.value} guests?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `You need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This provides ${page.calculation.totalServings} total servings with a 15% buffer to ensure you don't run out.`
-      }
+  "mainEntity": faqItems.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
     },
-    {
-      "@type": "Question",
-      "name": `How much ${page.item.name.toLowerCase()} per person for a ${page.event.name.toLowerCase()}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Plan for ${page.calculation.perPersonServings} servings of ${page.item.name.toLowerCase()} per person at a ${page.event.name.toLowerCase()}. This accounts for the fact that not everyone drinks alcohol and consumption naturally slows as the event progresses.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `How many servings are in a ${page.item.unitSingular} of ${page.item.name.toLowerCase()}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `One ${page.item.unitSingular} of ${page.item.name.toLowerCase()} contains ${page.item.servingsPerUnit} servings. For ${page.guestCount.value} guests, you'll need ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} to provide ${page.calculation.totalServings} total servings.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `What percentage of guests will drink ${page.item.name.toLowerCase()} at a ${page.event.name.toLowerCase()}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `At a ${page.event.name.toLowerCase()} with ${page.guestCount.value} guests, approximately ${page.calculation.actualDrinkers} guests (${Math.round(page.calculation.actualDrinkers / page.guestCount.value * 100)}%) will actively drink. Our formula accounts for this when calculating the ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} you need.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `Should I buy extra ${page.item.name.toLowerCase()} as a buffer?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Yes! Our calculation of ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} already includes a 15% buffer (${page.calculation.buffer} extra ${page.calculation.unitsDisplay}). This ensures you won't run out even if some guests drink more than average. It's always better to have leftovers than to run short.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `How long will ${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} last for ${page.guestCount.value} guests?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()} will last approximately ${page.event.defaultDuration} hours for ${page.guestCount.value} guests at a ${page.event.name.toLowerCase()}. This calculation factors in the natural slowdown of consumption as the event progresses.`
-      }
-    }
-  ]
+  })),
 };
 
 // ItemList Schema for shopping list
@@ -189,6 +191,25 @@ const shoppingListSchema = {
     h1={page.meta.h1}
   />
 
+  <!-- Secondary answers: the only-drink case, and the toast for champagne -->
+  <section class="pb-4">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="border-t border-b border-[var(--rule,#C7CDC8)] py-4 text-center">
+        <p class="answer-only-drink text-[var(--chocolate-light)] tabular-nums">
+          If {page.item.name.toLowerCase()} is the only alcohol you serve:
+          <span class="font-semibold text-[var(--chocolate)]">{page.calculation.onlyDrink.unitsNeeded} {page.calculation.onlyDrink.unitsDisplay}</span>
+        </p>
+        {page.calculation.toastBottles && (
+          <p class="answer-toast text-[var(--chocolate-light)] tabular-nums mt-2">
+            For a toast only:
+            <span class="font-semibold text-[var(--chocolate)]">{page.calculation.toastBottles} bottles</span>
+            (one flute per guest, about {FLUTES_PER_BOTTLE} flutes per bottle, with the same buffer)
+          </p>
+        )}
+      </div>
+    </div>
+  </section>
+
   <!-- Math Breakdown -->
   <MathBreakdown steps={page.mathExplanation} />
 
@@ -204,28 +225,37 @@ const shoppingListSchema = {
           <thead>
             <tr class="bg-slate-100">
               <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Guests</th>
-              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">{page.item.name} Needed</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">{page.item.name} on a Full Bar</th>
+              {page.calculation.toastBottles && (
+                <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Toast Only</th>
+              )}
               <th class="px-4 py-3 text-left font-semibold text-slate-700 border-b border-slate-200">Total Servings</th>
             </tr>
           </thead>
           <tbody>
             {[25, 50, 75, 100, 150, 200].map((guests) => {
               const ratio = guests / page.guestCount.value;
-              const units = Math.ceil(page.calculation.unitsNeeded * ratio);
-              const servings = Math.round(page.calculation.totalServings * ratio);
+              const units = Math.ceil(page.calculation.fullBar.unitsNeeded * ratio);
+              const servings = Math.round(page.calculation.fullBar.totalServings * ratio);
+              const toast = page.calculation.toastBottles
+                ? Math.ceil((guests / FLUTES_PER_BOTTLE) * 1.15)
+                : null;
               const isCurrentRow = guests === page.guestCount.value;
               return (
                 <tr class={isCurrentRow ? 'bg-emerald-50 font-semibold' : 'hover:bg-slate-50'}>
-                  <td class="px-4 py-3 border-b border-slate-100">
+                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
                     {guests} guests {isCurrentRow && <span class="text-emerald-600 text-xs ml-1">(you)</span>}
                   </td>
-                  <td class="px-4 py-3 border-b border-slate-100">
+                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">
                     <a href={`/${page.item.id}-for-${page.event.slug}-${guests}-guests/`}
                        class={`${isCurrentRow ? 'text-emerald-700' : 'text-emerald-600 hover:underline'}`}>
                       {units} {units === 1 ? page.item.unitSingular : page.item.unit}
                     </a>
                   </td>
-                  <td class="px-4 py-3 border-b border-slate-100">{servings} servings</td>
+                  {toast !== null && (
+                    <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{toast} bottles</td>
+                  )}
+                  <td class="px-4 py-3 border-b border-slate-100 tabular-nums">{servings} servings</td>
                 </tr>
               );
             })}
@@ -233,10 +263,16 @@ const shoppingListSchema = {
         </table>
       </div>
       <p class="text-xs text-slate-500 mt-3">
-        * All calculations include a 15% buffer. Amounts for {page.event.name.toLowerCase()}.
+        * All calculations include a 15% buffer. Amounts for a {page.event.lowerName} serving a full bar.
       </p>
     </div>
   </section>
+
+  <!-- FAQ (same questions as the JSON-LD above) -->
+  <FaqSection
+    heading={`Questions about ${page.item.name.toLowerCase()} for a ${page.event.lowerName}`}
+    items={faqItems}
+  />
 
   <!-- Shopping List -->
   <ShoppingList items={page.shoppingList} mainItem={page.item} />
@@ -281,7 +317,7 @@ const shoppingListSchema = {
         href="/calculators/"
         class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
       >
-        Browse All 336 Calculators
+        Browse All {totalCalculatorsLabel()} Calculators
       </a>
     </div>
   </section>
@@ -292,7 +328,8 @@ const shoppingListSchema = {
   guestCount: page.guestCount.value,
   itemData: { servingsPerUnit: page.item.servingsPerUnit, unit: page.item.unit, unitSingular: page.item.unitSingular, name: page.item.name },
   eventModifier: page.event.modifiers[page.item.id] || 1.0,
-  eventDuration: page.event.defaultDuration
+  eventDuration: page.event.defaultDuration,
+  barShare: page.calculation.barShare
 }}>
   // Calculation constants
   const BASE_DRINKS_PER_HOUR = 1.5;
@@ -316,17 +353,25 @@ const shoppingListSchema = {
     return total;
   }
 
+  // Mirrors scripts/generateData.ts: full bar is the primary answer, so the
+  // share is applied before converting to units. Without this the ?guests=
+  // override would quietly swap the headline back to the only-drink figure.
   function recalculate(guests, duration) {
     const tier = getTier(guests);
     const drinkingPct = DRINKING_PERCENTAGE[tier];
     const actualDrinkers = guests * drinkingPct;
     const consumptionMult = calculateConsumption(duration);
-    const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * eventModifier);
+    const onlyDrinkServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * eventModifier);
+
+    const totalServings = Math.round(onlyDrinkServings * barShare);
     const rawUnits = totalServings / itemData.servingsPerUnit;
     const unitsNeeded = Math.ceil(rawUnits * (1 + BUFFER_PERCENTAGE));
     const perPerson = Math.round((totalServings / guests) * 10) / 10;
     const buffer = Math.ceil(rawUnits * BUFFER_PERCENTAGE);
-    return { unitsNeeded, totalServings, perPerson, buffer };
+
+    const onlyDrinkUnits = Math.ceil((onlyDrinkServings / itemData.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
+
+    return { unitsNeeded, totalServings, perPerson, buffer, onlyDrinkUnits, onlyDrinkServings };
   }
 
   // Check URL parameters

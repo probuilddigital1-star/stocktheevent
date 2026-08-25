@@ -221,6 +221,32 @@ async function checkCacheControlMaxAge0(): Promise<CheckResult> {
   }
 }
 
+async function checkAssetCacheControl(): Promise<CheckResult> {
+  const name = 'astro-asset-cache-immutable';
+  try {
+    const { body } = await fetchFresh('/');
+    const match = body.match(/href="(\/_astro\/[^"]+\.css)"/);
+    if (!match) {
+      return { name, passed: false, count: 1, detail: 'no /_astro/*.css link found on the homepage' };
+    }
+
+    const assetPath = match[1];
+    const res = await fetch(`${SITE}${assetPath}`, { cache: 'no-store' });
+    const cacheControl = res.headers.get('cache-control') ?? '';
+    const maxAgeCount = (cacheControl.match(/max-age=/g) ?? []).length;
+    const ok = cacheControl.includes('immutable') && maxAgeCount === 1;
+
+    return {
+      name,
+      passed: ok,
+      count: ok ? 0 : 1,
+      detail: `Cache-Control on ${assetPath} is "${cacheControl}" (immutable: ${cacheControl.includes('immutable')}, max-age= appears ${maxAgeCount}x, expected 1)`,
+    };
+  } catch (err) {
+    return { name, passed: false, count: 1, detail: `fetch error: ${(err as Error).message}` };
+  }
+}
+
 async function checkSampledHrefsTrailingSlash(): Promise<CheckResult> {
   let checked = 0;
   let failed = 0;
@@ -277,6 +303,7 @@ async function main(): Promise<void> {
     await checkLogoReturns200(),
     await checkOgImageSize(),
     await checkCacheControlMaxAge0(),
+    await checkAssetCacheControl(),
     await checkSampledHrefsTrailingSlash(),
   ];
 

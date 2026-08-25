@@ -1,0 +1,66 @@
+---
+/**
+ * FaqSection.astro - renders the questions that are also emitted as FAQPage
+ * JSON-LD, so readers see the same answers search engines do.
+ *
+ * Callers build the question list once and pass it here and to the schema, which
+ * keeps the two from drifting.
+ */
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  heading: string;
+  items: FaqItem[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <section class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-6">
+        {heading}
+      </h2>
+
+      <div class="border-t border-[var(--rule,#C7CDC8)]">
+        {items.map((item, index) => (
+          <details class="faq-item border-b border-[var(--rule,#C7CDC8)]" open={index === 0}>
+            <summary class="cursor-pointer list-none py-4 pr-8 font-semibold text-[var(--chocolate)] relative">
+              {item.question}
+              <span class="faq-marker absolute right-0 top-4 text-[var(--chocolate-40)]" aria-hidden="true">+</span>
+            </summary>
+            <p class="pb-5 text-[var(--chocolate-light)] leading-relaxed tabular-nums">
+              {item.answer}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  /* Hide the native disclosure triangle across browsers. */
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
+
+<script>
+  // Swap the plus for a minus when a question is open. Done in script so the
+  // marker stays correct without a CSS pseudo-element carrying text.
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const marker = item.querySelector('.faq-marker');
+    if (!marker) return;
+    const sync = () => {
+      marker.textContent = (item as HTMLDetailsElement).open ? '−' : '+';
+    };
+    sync();
+    item.addEventListener('toggle', sync);
+  });
+</script>
