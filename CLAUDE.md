@@ -18,6 +18,12 @@ https://www.stocktheevent.com/.
 - `npm test`: run the Playwright test suite.
 - `npm run check`: inspect a built `dist/` and print a PASS/FAIL table for the
   site-wide rules below. Run it after `npm run build`.
+- `npm run deploy`: build, check, and deploy `dist/` to Cloudflare Pages.
+- `npm run verify:live`: fetch the live site and check it matches what was
+  deployed. Run it after `npm run deploy`.
+
+A prompt is not done until `npm run deploy` has succeeded and
+`npm run verify:live` passes.
 
 ## Rules every change must follow
 
