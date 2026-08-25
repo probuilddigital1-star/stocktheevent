@@ -71,7 +71,7 @@ if (props.type === 'item') {
 
   h1 = `${event.name} Drink and Food Calculator`;
   title = `${h1}: 25 to 200 Guests | StockTheEvent`;
-  description = `A ${ANCHOR}-guest ${event.lowerName} needs about ${totals!.units} bar items, roughly ${totals!.servings} drinks. Wine, beer, spirits, champagne and six foods at 25 to 200 guests.`;
+  description = `A ${ANCHOR}-guest ${event.lowerName} needs about ${totals!.servings} drinks across a full bar. Wine, beer, spirits, champagne and six foods at 25 to 200 guests.`;
   intro = hubIntro(`event:${event.id}`);
   breadcrumbLabel = event.name;
   breadcrumbUrl = `/calculators/${event.id}/`;
@@ -110,7 +110,8 @@ if (props.type === 'item') {
   // statistics they used to carry were rewritten at the source.
   eventTips = event.proTips.slice(0, 2);
   barSetupHref = `/bar-setup/${event.slug}-${ANCHOR}-guests/`;
-  barSetupSummary = `${totals!.units} items, about ${totals!.servings} drinks`;
+  // Drinks, not a combined unit count: bottles and cases are not the same thing.
+  barSetupSummary = `About ${totals!.servings} drinks`;
 }
 
 const breadcrumbs = [

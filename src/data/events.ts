@@ -31,13 +31,13 @@ export const events: ExtendedEventType[] = [
       bbq: 0.9,         // BBQ weddings are a thing
     },
     foodTips: [
-      "Plan 6-8 appetizer pieces per guest for a 1-hour cocktail hour before dinner.",
-      "Sliders are a late-night hit after dancing starts - plan 2 per guest for after 10pm.",
+      "The appetizer table sizes a one-hour cocktail hour before dinner.",
+      "Sliders are a late-night hit once dancing starts, so size a second round for whoever is still on the floor.",
       "If serving tacos, offer 3 protein options minimum for dietary variety.",
       "Food trucks are popular, and guests tend to go back for seconds, so plan a little extra.",
       "Passed appetizers tend to disappear faster than stationed ones, so plan accordingly.",
     ],
-    foodBuyingGuide: "For wedding receptions, appetizers during cocktail hour are essential. Plan 6-8 pieces per guest for a 1-hour cocktail hour. If you're doing late-night snacks (pizza, sliders, tacos), plan for 70% of guests still present to eat again around 10-11pm.",
+    foodBuyingGuide: "For wedding receptions, appetizers during cocktail hour are essential. The table above sizes the appetizers for a cocktail hour. If you are doing late-night snacks such as pizza, sliders, or tacos, size them for the share of guests still on the floor rather than the full list.",
     proTips: [
       "Cocktail hour is usually the heaviest stretch of the night, so front-load your bar staff and ice.",
       "Offering one or two signature cocktails instead of a full bar trims spirit costs and speeds up service.",
@@ -111,11 +111,11 @@ export const events: ExtendedEventType[] = [
     foodTips: [
       "Elegant finger foods that don't require utensils or create mess are ideal.",
       "Vegetarian and dietary options are essential, so plan a solid share of the spread as veg-friendly.",
-      "Shorter events (2-3 hours) need less food - plan 4-5 appetizer pieces per person.",
+      "Shorter events need less food, and these tables already assume a three-hour corporate format.",
       "Evening events tend to go through more food than lunch events, since guests arrive hungrier.",
       "Avoid foods that stain (red sauces, turmeric) - people are in work clothes.",
     ],
-    foodBuyingGuide: "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Budget $8-15 per person for appetizers at a cocktail reception.",
+    foodBuyingGuide: "Corporate events require elevated finger foods. Think caprese skewers, shrimp cocktail, bruschetta, and elegant cheese boards. Avoid anything too casual or messy. Price the spread against your own caterer's rates, which vary far more than the quantities do.",
     proTips: [
       "Most corporate guests self-limit to 2 drinks max - don't over-order.",
       "Wine outsells beer 3:1 at corporate events - flip your usual ratio.",
@@ -193,7 +193,7 @@ export const events: ExtendedEventType[] = [
       "Prep dips in slow cookers - they stay warm and free up oven space.",
       "Use halftime to refresh ALL food stations - you have exactly 25 minutes.",
     ],
-    foodBuyingGuide: "Super Bowl is the biggest food day of the year after Thanksgiving. Plan 10-12 wings per person, 3 slices of pizza, and plenty of chips and dip. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
+    foodBuyingGuide: "Super Bowl is the biggest food day of the year after Thanksgiving. The table above sizes the wings and the pizza. Add chips and dip generously on top, since they are cheap and they go fast. Make everything shareable and easy to eat without utensils. Cold foods should stay cold, hot foods in warming trays or slow cookers.",
     proTips: [
       "Beer moves fastest early and again at the finish, so keep the coolers stocked from the first quarter on.",
       "Keep spare beer cold and ready. A game that runs to overtime can go through far more than expected.",
@@ -201,7 +201,7 @@ export const events: ExtendedEventType[] = [
       "Heavy food like wings and nachos slows drinking down, so a big spread stretches the bar further.",
       "Light beers disappear fastest - they're easier to drink during a 4-hour game.",
     ],
-    buyingGuide: "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk - you'll need 3lbs per person for a Super Bowl party.",
+    buyingGuide: "This is a beer event, period. Stock 70% light/domestic beers and 30% craft/premium options. Have coolers pre-staged in multiple locations so guests can grab drinks without blocking the TV. Buy ice in bulk. It is the one supply worth over-buying, since a room full of coolers goes through more than seems reasonable.",
   },
   {
     id: 'holiday-party',
@@ -232,7 +232,7 @@ export const events: ExtendedEventType[] = [
       "Dietary restrictions matter more at holidays - have vegetarian and gluten-free options clearly labeled.",
       "If it is a potluck, assume a fair number of guests will forget to bring anything.",
     ],
-    foodBuyingGuide: "Holiday parties are about elevated comfort food. Plan 8-10 appetizer pieces per person for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
+    foodBuyingGuide: "Holiday parties are about elevated comfort food. The table above sizes the appetizers for a cocktail-style party. Include a mix of hot and cold options, with at least one 'showstopper' like a cheese board or charcuterie spread.",
     proTips: [
       "Red wine outsells white 2:1 at winter holidays - adjust accordingly.",
       "Festive signature cocktails are expected - plan for mixers like cranberry juice and eggnog.",
@@ -267,19 +267,19 @@ export const events: ExtendedEventType[] = [
     foodTips: [
       "Elegant, bite-sized foods are the gold standard - tea sandwiches, fruit skewers, mini quiches.",
       "Sweet treats are essential - petit fours, macarons, and a beautiful cake or cupcakes.",
-      "Plan 5-7 savory pieces and 2-3 sweet pieces per guest for a 2-3 hour event.",
+      "Weight the spread toward savory, with a smaller run of sweets alongside it.",
       "Presentation matters more than quantity - use tiered trays and beautiful serving pieces.",
       "Dietary accommodations are essential - have vegetarian and gluten-free clearly labeled.",
     ],
-    foodBuyingGuide: "Bridal showers call for elegant finger foods. Think tea sandwiches, fresh fruit displays, cheese boards, and beautiful desserts. Plan $12-20 per person for a nice spread. Avoid anything messy or requiring utensils.",
+    foodBuyingGuide: "Bridal showers call for elegant finger foods. Think tea sandwiches, fresh fruit displays, cheese boards, and beautiful desserts. Price the spread against your own caterer's rates, which vary far more than the quantities do. Avoid anything messy or requiring utensils.",
     proTips: [
-      "Mimosa bars are the gold standard. Stock 1 bottle of sparkling per 3 guests, plus orange juice and peach nectar for variety.",
+      "Mimosa bars are the gold standard. The table sizes the sparkling; add orange juice and peach nectar for variety.",
       "Skip heavy reds. Lean toward whites and rosé such as Pinot Grigio or Sauvignon Blanc, plus a light Pinot Noir.",
-      "Create one signature cocktail (Aperol Spritz, French 75) and batch it ahead of time - plan 2 servings per guest.",
+      "Create one signature cocktail such as an Aperol Spritz or a French 75, and batch it ahead of time.",
       "A good share of guests will not drink alcohol. Offer elegant non-alcoholic options like mocktails or sparkling water.",
       "Afternoon timing means lower consumption - most guests have 1-2 drinks max.",
     ],
-    buyingGuide: "For a 2-3 hour afternoon shower, plan for 1.3 drinks per guest. Champagne and wine dominate - stock 1 bottle of sparkling per 3 guests for mimosas, plus 1 wine bottle per 2 drinking guests. Buy 10-15% extra; unopened bottles can be returned or saved for the wedding. Prosecco is cost-effective for mimosas; save real Champagne for the toast.",
+    buyingGuide: "The table above sizes the bar for a short afternoon shower. Champagne and wine dominate the mix, so weight the order toward sparkling for mimosas with wine close behind. Buy 10-15% extra; unopened bottles can be returned or saved for the wedding. Prosecco is cost-effective for mimosas; save real Champagne for the toast.",
   },
   // ============================================================================
   // NEW EVENT TYPES FOR SEASONAL LANDING PAGES
@@ -313,7 +313,7 @@ export const events: ExtendedEventType[] = [
       "Overtime games run long and hungry, so keep backup food ready to go.",
       "Multiple TV setups mean multiple food stations - don't make people miss the game.",
     ],
-    foodBuyingGuide: "March Madness is similar to Super Bowl but spread over multiple games. Wings, pizza, and shareable appetizers are ideal. Plan 8-10 wings and 2-3 pizza slices per person per game session.",
+    foodBuyingGuide: "March Madness is similar to Super Bowl but spread over multiple games. Wings, pizza, and shareable appetizers are ideal. The table above sizes the wings and the pizza for a full game session.",
     proTips: [
       "Games run back-to-back during opening weekend - people may stay 6-8 hours.",
       "Stock light beers for marathon watching sessions.",
@@ -321,7 +321,7 @@ export const events: ExtendedEventType[] = [
       "Have non-alcoholic options for designated drivers and early bracket busts.",
       "Weekend games tend to run heavier than weekday games, since nobody is heading back to work.",
     ],
-    buyingGuide: "March Madness parties are beer-heavy but lighter than Super Bowl (longer duration, people pace themselves). Stock 70% light beers. Have coolers at every TV location. Plan 4-5 beers per person for a 4-hour session.",
+    buyingGuide: "March Madness parties are beer-heavy but lighter than Super Bowl (longer duration, people pace themselves). Stock 70% light beers. Have coolers at every TV location. The table above sizes the beer for a full tournament session.",
   },
   {
     id: 'fourth-of-july',
@@ -352,15 +352,15 @@ export const events: ExtendedEventType[] = [
       "Fireworks timing matters - have lighter snacks for after dark.",
       "Patriotic presentation adds to the fun - use themed plates and decorations.",
     ],
-    foodBuyingGuide: "4th of July is about grilled meats and outdoor eating. Plan 1 burger/hot dog + 1 side per person, or 6oz pulled pork with buns. Keep everything fresh with plenty of ice. Watermelon and cold sides are essential in summer heat.",
+    foodBuyingGuide: "4th of July is about grilled meats and outdoor eating. The table above sizes the pulled pork, and buns and sides scale alongside it. Keep everything fresh with plenty of ice. Watermelon and cold sides are essential in summer heat.",
     proTips: [
       "Outdoor heat pushes beer consumption up, so buy more than you would for an indoor party.",
-      "Ice melts FAST in July - buy 5lbs per person and have backup bags.",
+      "Ice melts fast in July. Buy more than seems reasonable and keep backup bags in the freezer.",
       "Coolers kept in the shade hold their ice far longer than those sitting in direct sun.",
       "Red, white, and blue cocktails are a fun addition to the bar.",
       "People drink less after sunset when fireworks start - front-load your ice.",
     ],
-    buyingGuide: "This is a daytime outdoor beer event. Stock heavily on light, refreshing beers and have plenty of ice. Mixed drinks with vodka and lemonade or margaritas are popular. Plan 5-6 drinks per person for a 5-hour party.",
+    buyingGuide: "This is a daytime outdoor beer event. Stock heavily on light, refreshing beers and have plenty of ice. Mixed drinks with vodka and lemonade or margaritas are popular. The table above sizes the bar for a full afternoon outdoors.",
   },
   {
     id: 'labor-day',
@@ -399,7 +399,7 @@ export const events: ExtendedEventType[] = [
       "It's often slightly cooler than July - ice lasts longer.",
       "Monday holiday means people may drink a bit more than usual.",
     ],
-    buyingGuide: "Similar to 4th of July but slightly higher consumption as people celebrate the end of summer. Plan 5-6 drinks per person with heavy beer emphasis.",
+    buyingGuide: "Similar to 4th of July but slightly higher consumption as people celebrate the end of summer. The table above sizes the bar, and beer carries most of it.",
   },
   {
     id: 'halloween',
@@ -438,7 +438,7 @@ export const events: ExtendedEventType[] = [
       "People in elaborate costumes drink slower - they don't want to spill.",
       "Adult-only parties go through noticeably more than a family Halloween event does.",
     ],
-    buyingGuide: "Halloween parties are cocktail-heavy. Plan for 2-3 specialty cocktails per person plus regular bar options. Red wine fits the theme well. Have themed cups and garnishes.",
+    buyingGuide: "Halloween parties are cocktail-heavy. The table above sizes the spirits, and batching one or two specialty cocktails is the easiest way to serve them. Red wine fits the theme well. Have themed cups and garnishes.",
   },
   {
     id: 'thanksgiving',
@@ -463,13 +463,13 @@ export const events: ExtendedEventType[] = [
       bbq: 0.5,         // Not traditional
     },
     foodTips: [
-      "Turkey is 1-1.5 lbs per person (includes bone weight).",
-      "Appetizers before dinner should be light - 3-4 pieces per person max.",
-      "Plan 3-4 side dishes total - not 3-4 per person.",
+      "Turkey is sized by weight per guest, and a bone-in bird weighs more than it actually serves.",
+      "Appetizers before dinner should stay light, since the meal is the point.",
+      "Count side dishes for the table as a whole, not for each guest.",
       "Dessert is non-negotiable - 1 pie per 6-8 guests.",
       "Leftovers are part of Thanksgiving - plan for turkey sandwiches.",
     ],
-    foodBuyingGuide: "Thanksgiving is about the traditional spread: turkey (1-1.5 lbs per person), stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
+    foodBuyingGuide: "Thanksgiving is about the traditional spread: turkey, stuffing, mashed potatoes, gravy, cranberry sauce, and pie. Light appetizers before dinner only. Plan for leftovers!",
     proTips: [
       "Wine consumption peaks during dinner - have bottles ready at the table.",
       "Pre-dinner cocktails should be light so people can enjoy the meal.",
@@ -477,7 +477,7 @@ export const events: ExtendedEventType[] = [
       "Football watching = beer in the afternoon before dinner.",
       "Designated drivers are essential - plan non-alcoholic options.",
     ],
-    buyingGuide: "Thanksgiving is wine-heavy with the meal. Plan 1 bottle of wine per 2 adults at the table. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy.",
+    buyingGuide: "Thanksgiving is wine-heavy with the meal. The table above sizes the wine for the meal. Have a light cocktail option for pre-dinner and maybe some beer for football watching. Keep it classy.",
   },
   {
     id: 'new-years-eve',
@@ -508,7 +508,7 @@ export const events: ExtendedEventType[] = [
       "Sweet treats for after midnight - champagne and dessert pair perfectly.",
       "Breakfast items for really late parties - mini quiches, bacon strips.",
     ],
-    foodBuyingGuide: "NYE is about elegant appetizers and champagne. Plan 8-10 appetizer pieces per person for the main event, plus late-night snacks for after midnight. End with something sweet.",
+    foodBuyingGuide: "NYE is about elegant appetizers and champagne. The table above sizes the appetizers for the main event. Add late-night snacks for after midnight on top of that. End with something sweet.",
     proTips: [
       "Champagne goes almost entirely in the window around midnight, so time your chilling for the countdown.",
       "Have champagne COLD and ready to pour at 11:55pm.",
@@ -516,7 +516,7 @@ export const events: ExtendedEventType[] = [
       "Late-night parties need designated drivers or Uber - plan ahead.",
       "Noisemakers and party favors should be near the champagne station.",
     ],
-    buyingGuide: "This is THE champagne event. Plan 1 bottle per 3-4 guests for the midnight toast, plus additional for cocktails (French 75s, Kir Royale). Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight.",
+    buyingGuide: "This is THE champagne event. The champagne page gives a separate toast figure, one flute per guest, on top of what the bar needs for cocktails like a French 75 or Kir Royale. Have regular bar options for earlier in the evening. Stock more than you think - better to have leftovers than run out at midnight.",
   },
 ];
 
