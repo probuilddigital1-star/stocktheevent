@@ -4,86 +4,81 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Page Not Found - StockTheEvent"
-  description="Oops! The page you're looking for doesn't exist. Let's get you back to planning your event."
+  description="The page you're looking for doesn't exist. Let's get you back to planning your event."
 >
-  <section class="py-20 px-4">
-    <div class="max-w-2xl mx-auto text-center">
-      <!-- Big 404 -->
-      <div class="mb-8">
-        <span class="text-8xl md:text-9xl font-display font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
-          404
-        </span>
-      </div>
+  <section class="container nf-page">
+    <span class="num nf-code">404</span>
+    <h1 class="nf-h1">This party ended early</h1>
+    <p class="nf-note">
+      This page does not exist. Let's get you back to the main event.
+    </p>
 
-      <!-- Emoji and Message -->
-      <div class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-display font-bold text-[var(--chocolate)] mb-4">
-          This Party Ended Early
-        </h1>
-        <p class="text-lg text-[var(--chocolate-light)] max-w-md mx-auto">
-          Looks like this page doesn't exist. Maybe it ran out of drinks?
-          Let's get you back to the main event.
-        </p>
-      </div>
+    <div class="nf-actions">
+      <a href="/" class="btn-primary">Go to the calculator</a>
+      <a href="/calculators/" class="btn-secondary">Browse all calculators</a>
+    </div>
 
-      <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-        <a
-          href="/"
-          class="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all"
-        >
-          Go to Calculator
-        </a>
-        <a
-          href="/calculators/"
-          class="bg-white text-[var(--chocolate)] px-8 py-4 rounded-xl font-semibold border border-[var(--primary-20)] hover:border-[var(--forest)] hover:text-[var(--forest)] transition-all"
-        >
-          Browse All Calculators
-        </a>
-      </div>
-
-      <!-- Popular Suggestions -->
-      <div class="bg-white rounded-2xl p-8 shadow-sm border border-[var(--primary-10)]">
-        <h2 class="text-lg font-semibold text-[var(--chocolate)] mb-6">Popular Calculators</h2>
-        <div class="grid sm:grid-cols-2 gap-4 text-left">
-          <a
-            href="/wine-for-wedding-100-guests/"
-            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
-          >
-            <div>
-              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Wine for Wedding</div>
-              <div class="text-sm text-[var(--chocolate-40)]">100 guests</div>
-            </div>
-          </a>
-          <a
-            href="/party/march-madness-party-calculator/"
-            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
-          >
-            <div>
-              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">March Madness Party</div>
-              <div class="text-sm text-[var(--chocolate-40)]">Bracket party calculator</div>
-            </div>
-          </a>
-          <a
-            href="/champagne-for-holiday-party-75-guests/"
-            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
-          >
-            <div>
-              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Champagne for Holiday</div>
-              <div class="text-sm text-[var(--chocolate-40)]">75 guests</div>
-            </div>
-          </a>
-          <a
-            href="/spirits-for-birthday-party-30-guests/"
-            class="flex items-center gap-3 p-4 rounded-xl bg-[var(--champagne-100)] hover:bg-amber-50 hover:border-amber-200 border border-transparent transition-all group"
-          >
-            <div>
-              <div class="font-medium text-[var(--chocolate)] group-hover:text-amber-700">Spirits for Birthday</div>
-              <div class="text-sm text-[var(--chocolate-40)]">30 guests</div>
-            </div>
-          </a>
-        </div>
-      </div>
+    <div class="nf-popular">
+      <span class="label nf-popular-head">Popular calculators</span>
+      <a href="/wine-for-wedding-100-guests/" class="nf-link">Wine for a 100-guest wedding</a>
+      <a href="/beer-for-super-bowl-party-50-guests/" class="nf-link">Beer for a 50-guest Super Bowl party</a>
+      <a href="/champagne-for-holiday-party-75-guests/" class="nf-link">Champagne for a 75-guest holiday party</a>
+      <a href="/spirits-for-birthday-party-30-guests/" class="nf-link">Spirits for a 30-guest birthday party</a>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .nf-page {
+    max-width: 34rem;
+    padding-top: 56px;
+    padding-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nf-code {
+    font-size: 104px;
+    line-height: 0.9;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    font-stretch: 105%;
+  }
+
+  .nf-h1 {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.1;
+  }
+
+  .nf-note {
+    margin: 0;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .nf-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+  }
+
+  .nf-popular {
+    display: flex;
+    flex-direction: column;
+    margin-top: 24px;
+  }
+
+  .nf-popular-head {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .nf-link {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+  }
+</style>

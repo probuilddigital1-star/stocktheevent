@@ -3,12 +3,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import { items } from '../data/items';
 import { events } from '../data/events';
+import { drinkShare } from '../data/eventSplits';
 
-// Calculate counts
-const guestCounts = 14;
-const drinksPerEvent = items.length * guestCounts;
-const eventsPerDrink = events.length * guestCounts;
-const totalCalculators = items.length * events.length * guestCounts;
+// One-line note per occasion, derived from the split data: the leading drink
+// (or the leading pair when the bar is balanced) and the default run time.
+function occasionNote(event: (typeof events)[number]): string {
+  const shares = items
+    .map((item) => ({ item, share: drinkShare(event.id, item.id) }))
+    .sort((a, b) => b.share - a.share);
+  const [top, second] = shares;
+  const lead =
+    top.share >= second.share * 1.4
+      ? `${top.item.name.toLowerCase()} forward`
+      : `${top.item.name.toLowerCase()} and ${second.item.name.toLowerCase()}`;
+  return `${lead} · ${event.defaultDuration} hours`;
+}
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -17,139 +26,220 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title="Drink Calculators | StockTheEvent"
-  description={`${totalCalculators} drink calculators for any event. Calculate exactly how much wine, beer, champagne, or spirits you need for weddings, parties, and more.`}
+  title="Drink and Occasion Calculators | StockTheEvent"
+  description="Drink calculators for any event. Pick an occasion or a drink to see exactly how much wine, beer, champagne, or spirits you need for weddings, parties, and more."
   breadcrumbs={breadcrumbs}
 >
-  <!-- Hero Section -->
-  <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--chocolate)] mb-6 animate-fade-in-up">
-        Drink Calculators
-      </h1>
-      <p class="text-xl text-[var(--chocolate-light)] mb-8 max-w-2xl mx-auto animate-fade-in-up">
-        <span class="font-semibold text-[var(--primary-dark)]">{totalCalculators} calculators</span> to help you stock the perfect bar for any event
-      </p>
+  <section class="container index-hero">
+    <nav class="index-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Calculators</span>
+    </nav>
+    <h1 class="index-h1">Every occasion, every drink</h1>
+    <p class="index-deck">
+      Pick your occasion for the full bar, or a drink for its numbers across
+      every event. Each page shows the arithmetic behind its answer.
+    </p>
+  </section>
 
-      <!-- CTA to Homepage Calculator -->
-      <div class="glass-card rounded-3xl shadow-xl p-8 md:p-10 max-w-xl mx-auto animate-fade-in-up animate-delay-100">
-        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-3">
-          Need a Quick Calculation?
-        </h2>
-        <p class="text-[var(--chocolate-light)] mb-6">
-          Use our interactive calculator for instant results
+  <section class="container index-section">
+    <div class="rule"></div>
+    <div class="section-grid index-grid">
+      <div class="section-head">
+        <span class="label index-label">By occasion</span>
+        <h2 class="index-title">All {events.length} occasions</h2>
+        <p class="index-note">
+          Each occasion has its own split across the four drinks and its own
+          pace.
         </p>
-        <a
-          href="/"
-          class="inline-block sunset-gradient text-white px-8 py-4 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all"
-        >
-          Try the Calculator
+      </div>
+      <div class="section-body occasion-index">
+        {events.map((event) => (
+          <a href={`/calculators/${event.id}/`} class="occasion-row">
+            <span>{event.name}</span>
+            <span class="occasion-note">{occasionNote(event)}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container index-section">
+    <div class="rule"></div>
+    <div class="section-grid index-grid">
+      <div class="section-head">
+        <span class="label index-label">By drink</span>
+        <h2 class="index-title">One drink at a time</h2>
+        <p class="index-note">
+          Every figure is that drink's share of a full bar, with the only-drink
+          figure alongside it.
+        </p>
+      </div>
+      <div class="section-body drink-index">
+        {items.map((item) => (
+          <a href={`/calculators/${item.id}/`} class="drink-row">
+            <Icon name={item.icon} size={22} />
+            <span class="drink-row-name">{item.name}</span>
+            <span class="num drink-row-note">{item.servingsPerUnit} servings per {item.unitSingular}</span>
+            <Icon name="arrow" size={18} />
+          </a>
+        ))}
+        <a href="/bar-setup/" class="drink-row drink-row-all">
+          <span class="drink-row-name">All four together, the full bar</span>
+          <Icon name="arrow" size={18} />
+        </a>
+        <a href="/food/" class="drink-row drink-row-all">
+          <span class="drink-row-name">Food calculators</span>
+          <Icon name="arrow" size={18} />
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Browse by Event -->
-  <section class="py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
-          Browse by Event
-        </h2>
-        <p class="text-[var(--chocolate-40)]">Find calculators for your specific occasion</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {events.map((event) => (
-          <a
-            href={`/calculators/${event.id}/`}
-            class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
-          >
-            <div class="flex items-center gap-4">
-              <div class="flex-1">
-                <div class="font-semibold text-lg text-[var(--chocolate)] group-hover:text-[var(--forest)]">
-                  {event.name}
-                </div>
-                <div class="text-sm text-[var(--chocolate-40)]">
-                  {drinksPerEvent} calculators
-                </div>
-              </div>
-              <div class="w-10 h-10 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-emerald-50 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[var(--chocolate-40)] group-hover:text-[var(--forest)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-            <p class="mt-4 text-sm text-[var(--chocolate-40)] line-clamp-2">
-              {event.proTips[0]}
-            </p>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Browse by Drink -->
-  <section class="py-16 bg-gradient-to-b from-[var(--champagne-100)] to-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <h2 class="font-display text-2xl md:text-3xl font-bold text-[var(--chocolate)] mb-3">
-          Browse by Drink Type
-        </h2>
-        <p class="text-[var(--chocolate-40)]">Calculate quantities for your beverage of choice</p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-5">
-        {items.map((item) => (
-          <a
-            href={`/calculators/${item.id}/`}
-            class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
-          >
-            <div class="flex items-center gap-5">
-              <div class="flex items-center justify-center">
-                <Icon name={item.icon} size={40} />
-              </div>
-              <div class="flex-1">
-                <div class="font-semibold text-xl text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">
-                  {item.name} Calculators
-                </div>
-                <div class="text-[var(--chocolate-40)] mt-1">
-                  {eventsPerDrink} calculators across all events
-                </div>
-                <div class="text-sm text-[var(--chocolate-40)] mt-2">
-                  {item.servingsPerUnit} servings per {item.unitSingular}
-                </div>
-              </div>
-              <div class="w-12 h-12 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-[var(--primary-10)] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--primary)] group-hover:text-[var(--primary-dark)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Bottom CTA -->
-  <section class="py-16 forest-gradient relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-    <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-
-    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <h2 class="font-display text-3xl font-bold text-white mb-4">
-        Not sure where to start?
-      </h2>
-      <p class="text-emerald-100 mb-8 text-lg">
-        Our interactive calculator lets you pick any drink, event, and guest count
-      </p>
-      <a
-        href="/"
-        class="inline-block bg-white text-emerald-700 px-8 py-4 rounded-xl font-bold hover:bg-emerald-50 hover:scale-105 transition-all shadow-xl"
-      >
-        Use the Interactive Calculator
-      </a>
-    </div>
+  <section class="container index-section">
+    <div class="rule"></div>
+    <p class="index-method">
+      Every number here comes from the same model, explained in full on the
+      <a href="/methodology/">methodology page</a>.
+    </p>
   </section>
 </BaseLayout>
+
+<style>
+  .index-hero {
+    padding-top: 40px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .index-crumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .index-crumbs a,
+  .index-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .index-h1 {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.06;
+  }
+
+  @media (min-width: 900px) {
+    .index-h1 {
+      font-size: 56px;
+    }
+  }
+
+  .index-deck {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 48ch;
+  }
+
+  .index-section {
+    padding-bottom: 56px;
+  }
+
+  .index-grid {
+    padding-top: 32px;
+  }
+
+  .index-label {
+    color: var(--accent);
+  }
+
+  .index-title {
+    margin: 0;
+    font-size: 26px;
+    line-height: 1.15;
+  }
+
+  @media (min-width: 900px) {
+    .index-title {
+      font-size: 32px;
+    }
+  }
+
+  .index-note {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 30ch;
+  }
+
+  .occasion-index {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 48px;
+  }
+
+  @media (min-width: 700px) {
+    .occasion-index {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .occasion-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  .occasion-note {
+    font-size: 13px;
+    color: var(--ink-2);
+    text-align: right;
+  }
+
+  .drink-index {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .drink-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  .drink-row-name {
+    flex: 1;
+  }
+
+  .drink-row-note {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .drink-row-all {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .index-method {
+    margin: 32px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+</style>

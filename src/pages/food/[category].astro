@@ -106,14 +106,14 @@ const breadcrumbs = [
   }
 
   .hub-inner {
-    max-width: 64rem;
+    max-width: 1296px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 24px;
   }
 
   .hub-crumbs {
     font-size: 0.8125rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
     margin-bottom: 1.5rem;
   }
 
@@ -122,15 +122,21 @@ const breadcrumbs = [
   }
 
   .hub-h1 {
-    font-size: 2rem;
-    line-height: 1.2;
-    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 400;
     margin-bottom: 1.25rem;
   }
 
+  @media (min-width: 900px) {
+    .hub-h1 {
+      font-size: 3rem;
+    }
+  }
+
   .hub-h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: 1.375rem;
+    font-weight: 400;
     margin-bottom: 0.75rem;
   }
 
@@ -155,6 +161,6 @@ const breadcrumbs = [
   .hub-method {
     margin-top: 2.5rem;
     font-size: 0.875rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
   }
 </style>

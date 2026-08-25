@@ -18,7 +18,11 @@ https://www.stocktheevent.com/.
 - `npm test`: run the Playwright test suite.
 - `npm run check`: inspect a built `dist/` and print a PASS/FAIL table for the
   site-wide rules below. Run it after `npm run build`.
-- `npm run deploy`: build, check, and deploy `dist/` to Cloudflare Pages.
+- `npm run deploy`: build, check, and deploy `dist/` to Cloudflare Pages
+  production.
+- `npm run deploy:preview`: build, check, and deploy `dist/` as a Cloudflare
+  Pages preview on the `redesign-a` branch. A preview deploy never runs with
+  `--branch main`; `scripts/ops/deploy.ts` refuses it.
 - `npm run verify:live`: fetch the live site and check it matches what was
   deployed. Run it after `npm run deploy`.
 
@@ -52,9 +56,10 @@ A prompt is not done until `npm run deploy` has succeeded and
 
 ## Design tokens (Bar book)
 
-This is the target design system. It is not yet applied across the site; a
-later prompt wires it in. When you touch styling, move toward these tokens
-rather than introducing new ones.
+This design system is applied across the whole site. `src/styles/global.css`
+defines the tokens, the ruled 4+8 section grid, ledger tables, square
+buttons, and the steppers; new styling uses these tokens rather than
+introducing new ones.
 
 | Token | Value |
 |---|---|
@@ -66,8 +71,15 @@ rather than introducing new ones.
 | `--accent` | `#1F4D3A` |
 | `--accent-soft` | `#E3EBE6` |
 
-Display face: Libre Caslon Text. Text face: Archivo. Both self-hosted from
-`public/fonts`, per the font rule above.
+Display face: Libre Caslon Text. Text face: Archivo (variable, wdth 62 to
+125). Both self-hosted from `public/fonts`, per the font rule above, with
+metric-fallback `@font-face` rules against Georgia and Arial so the swap does
+not shift layout.
+
+`src/components/Icon.astro` renders every icon, by id: `wine`, `beer`,
+`flute`, `spirit`, `pizza`, `wings`, `tacos`, `sliders`, `appetizers`, `bbq`,
+`bottle`, `case`, `glass`, `check`, `arrow`, `minus`, `plus`, `external`,
+`menu`, `close`, `print`, `copy`, `mail`, `calendar`.
 
 ## See also
 

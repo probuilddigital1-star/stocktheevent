@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
+import PageSection from '../../components/PageSection.astro';
+import ProTips from '../../components/ProTips.astro';
 import { seasonalEvents } from '../../data/seasonalEvents';
 import { events } from '../../data/events';
 import { items as drinkItems } from '../../data/items';
@@ -104,28 +106,26 @@ const faqSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
-  <!-- Hero Section -->
-  <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white relative overflow-hidden">
-    <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-      <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
-        {seasonalEvent.h1}
-      </h1>
-      <p class="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto mb-8">
-        {seasonalEvent.subhead}
-      </p>
+  <!-- Hero -->
+  <section class="container party-hero">
+    <nav class="party-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/calculators/">Occasions</a>
+      <span aria-hidden="true">/</span>
+      <span>{seasonalEvent.shortName}</span>
+    </nav>
+    <h1 class="party-h1">{seasonalEvent.h1}</h1>
+    <p class="party-deck">{seasonalEvent.subhead}</p>
 
-      <!-- Quick Guest Count Selector -->
-      <div class="inline-flex items-center gap-2 bg-white rounded-full shadow-lg p-2 border border-slate-200">
-        <span class="text-slate-600 font-medium px-3">Guests:</span>
+    <div class="guest-select">
+      <span class="label" id="guest-select-label">Guests</span>
+      <div class="guest-btn-row" role="group" aria-labelledby="guest-select-label">
         {guestCountOptions.map((count) => (
           <button
             type="button"
             data-guest-count={count}
-            class={`guest-btn px-4 py-2 rounded-full font-bold transition-all ${
-              count === defaultGuestCount
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
+            class:list={['guest-btn num', count === defaultGuestCount && 'guest-btn-active']}
           >
             {count}
           </button>
@@ -134,176 +134,139 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- Quick Answers Section -->
-  <section id="results" class="py-12 bg-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
-        For <span id="selected-guests" class="text-orange-600">{defaultGuestCount}</span> Guests, You Need:
-      </h2>
+  <!-- Quick answers -->
+  <PageSection
+    label="The spread"
+    title="What you need"
+    note="Food amounts assume a buffet spread with several dishes; drinks split one shared bar."
+    ruleTone="ink"
+    id="results"
+  >
+    <p class="party-for label">For <span id="selected-guests" class="num">{defaultGuestCount}</span> guests</p>
 
-      <!-- Food Cards -->
-      <div class="mb-8">
-        <h3 class="text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2">
-          Food
-        </h3>
-        <p class="text-sm text-slate-500 mb-4">Amounts calculated for a buffet spread with multiple options</p>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredFoodItems.map((food) => food && (
-            <a
-              href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-              class="food-card sunset-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
-              data-food-id={food.id}
-            >
-              <div class="mb-3 flex justify-center"><Icon name={food.icon} size={32} /></div>
-              <div class="food-quantity text-4xl font-black mb-1" data-base-per-person={food.servingsPerPersonSide} data-servings-per-unit={food.servingsPerOrderUnit} data-modifier={(baseEvent as any).foodModifiers?.[food.id] || 1.0}>
-                {getExampleQuantity(food.id, 'food')}
-              </div>
-              <div class="text-sm opacity-90">{food.orderUnit}</div>
-              <div class="font-semibold mt-2">{food.name}</div>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <!-- Drink Cards -->
-      <div>
-        <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-          Drinks
-        </h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredDrinkItems.map((drink) => drink && (
-            <a
-              href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-              class="drink-card forest-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
-              data-drink-id={drink.id}
-            >
-              <div class="mb-3 flex justify-center"><Icon name={drink.icon} size={32} /></div>
-              <div class="drink-quantity text-4xl font-black mb-1" data-servings-per-unit={drink.servingsPerUnit} data-modifier={baseEvent?.modifiers[drink.id] || 1.0}>
-                {getExampleQuantity(drink.id, 'drink')}
-              </div>
-              <div class="text-sm opacity-90">{drink.unit}</div>
-              <div class="font-semibold mt-2">{drink.name}</div>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <p class="text-center text-sm text-slate-500 mt-6">
-        Click any card for detailed breakdown and shopping list
-      </p>
-    </div>
-  </section>
-
-  <!-- All Calculators Grid -->
-  <section class="py-12 bg-slate-50">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
-        Complete {seasonalEvent.shortName} Calculators
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- Food Calculators -->
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-          <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            Food Calculators
-          </h3>
-          <div class="space-y-2">
-            {foodItems.map((food) => (
-              <a
-                href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-                class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-orange-50 transition-colors group"
-                data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-              >
-                <div class="flex items-center gap-3">
-                  <Icon name={food.icon} size={22} />
-                  <span class="font-medium text-slate-900 group-hover:text-orange-700">{food.name}</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <!-- Drink Calculators -->
-        <div class="bg-white rounded-2xl shadow-lg p-6">
-          <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            Drink Calculators
-          </h3>
-          <div class="space-y-2">
-            {drinkItems.map((drink) => (
-              <a
-                href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-                class="complete-calc-link flex items-center justify-between p-3 rounded-lg hover:bg-emerald-50 transition-colors group"
-                data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
-              >
-                <div class="flex items-center gap-3">
-                  <Icon name={drink.icon} size={22} />
-                  <span class="font-medium text-slate-900 group-hover:text-emerald-700">{drink.name}</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Event Essentials (Affiliate Section) -->
-  <section class="py-12 bg-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-2 text-center">
-        {seasonalEvent.shortName} Essentials
-      </h2>
-      <p class="text-slate-600 text-center mb-8">Everything you need to host an amazing event</p>
-
-      <div class="grid md:grid-cols-4 gap-4">
-        {seasonalEvent.affiliateProducts.map((product) => (
+    <div class="party-tables">
+      <div class="party-col">
+        <span class="label party-col-head">Food</span>
+        {featuredFoodItems.map((food) => food && (
           <a
-            href={`https://www.amazon.com/s?k=${product.searchTerm}&tag=${AMAZON_TAG}`}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl hover:bg-amber-50 hover:border-amber-300 border-2 border-transparent transition-all group"
+            href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+            class="food-card party-row"
+            data-food-id={food.id}
           >
-            <span class="font-semibold text-slate-900 group-hover:text-amber-700 text-center">{product.name}</span>
-            <span class="text-xs text-slate-500 mt-1">Shop on Amazon →</span>
+            <Icon name={food.icon} size={20} />
+            <span class="party-row-name">{food.name}</span>
+            <span
+              class="num party-row-qty food-quantity"
+              data-base-per-person={food.servingsPerPersonSide}
+              data-servings-per-unit={food.servingsPerOrderUnit}
+              data-modifier={(baseEvent as any).foodModifiers?.[food.id] || 1.0}
+            >
+              {getExampleQuantity(food.id, 'food')}
+            </span>
+            <span class="party-row-unit">{food.orderUnit}</span>
           </a>
         ))}
       </div>
-
-      <p class="text-xs text-slate-500 text-center mt-6">
-        As an Amazon Associate, we earn from qualifying purchases.
-      </p>
-    </div>
-  </section>
-
-  <!-- Pro Tips Section -->
-  <section class="py-12 bg-gradient-to-br from-amber-50 to-orange-50">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-8 text-center">
-        Pro Tips for Your {seasonalEvent.shortName}
-      </h2>
-
-      <div class="grid md:grid-cols-2 gap-4">
-        {seasonalEvent.seasonalTips.map((tip, index) => (
-          <div class="bg-white rounded-xl p-4 shadow-sm border border-amber-100 flex items-start gap-3">
-            <div class="w-8 h-8 bg-amber-500 text-white rounded-full flex items-center justify-center font-bold text-sm shrink-0">
-              {index + 1}
-            </div>
-            <p class="text-slate-700">{tip}</p>
-          </div>
+      <div class="party-col">
+        <span class="label party-col-head">Drinks</span>
+        {featuredDrinkItems.map((drink) => drink && (
+          <a
+            href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+            class="drink-card party-row"
+            data-drink-id={drink.id}
+          >
+            <Icon name={drink.icon} size={20} />
+            <span class="party-row-name">{drink.name}</span>
+            <span
+              class="num party-row-qty drink-quantity"
+              data-servings-per-unit={drink.servingsPerUnit}
+              data-modifier={baseEvent?.modifiers[drink.id] || 1.0}
+            >
+              {getExampleQuantity(drink.id, 'drink')}
+            </span>
+            <span class="party-row-unit">{drink.unit}</span>
+          </a>
         ))}
       </div>
     </div>
-  </section>
+    <p class="party-note">Open any line for the full breakdown and shopping list.</p>
+  </PageSection>
 
-  <!-- Email Capture -->
-  <section class="py-12 bg-white">
-    <div class="max-w-3xl mx-auto px-4">
+  <!-- All calculators -->
+  <PageSection
+    label="All calculators"
+    title={`Every number for a ${seasonalEvent.shortName}`}
+  >
+    <div class="party-tables">
+      <div class="party-col">
+        <span class="label party-col-head">Food calculators</span>
+        {foodItems.map((food) => (
+          <a
+            href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+            class="complete-calc-link party-row"
+            data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+          >
+            <Icon name={food.icon} size={20} />
+            <span class="party-row-name">{food.name}</span>
+            <Icon name="arrow" size={16} />
+          </a>
+        ))}
+      </div>
+      <div class="party-col">
+        <span class="label party-col-head">Drink calculators</span>
+        {drinkItems.map((drink) => (
+          <a
+            href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+            class="complete-calc-link party-row"
+            data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
+          >
+            <Icon name={drink.icon} size={20} />
+            <span class="party-row-name">{drink.name}</span>
+            <Icon name="arrow" size={16} />
+          </a>
+        ))}
+        {baseEvent && (
+          <a
+            href={`/bar-setup/${baseEvent.slug}-${defaultGuestCount}-guests/`}
+            class="complete-calc-link party-row party-row-all"
+            data-base-href={`/bar-setup/${baseEvent.slug}-${defaultGuestCount}-guests/`}
+          >
+            <span class="party-row-name">The whole bar together</span>
+            <Icon name="arrow" size={16} />
+          </a>
+        )}
+      </div>
+    </div>
+  </PageSection>
+
+  <!-- Seasonal tips -->
+  <ProTips title={`Notes for a ${seasonalEvent.shortName}`} tips={seasonalEvent.seasonalTips} />
+
+  <!-- Essentials (affiliate) -->
+  <PageSection
+    label="Essentials"
+    title="Gear worth having"
+    note="Links open Amazon. As an Amazon Associate we earn from qualifying purchases."
+  >
+    <div class="party-supplies">
+      {seasonalEvent.affiliateProducts.map((product) => (
+        <a
+          href={`https://www.amazon.com/s?k=${product.searchTerm}&tag=${AMAZON_TAG}`}
+          target="_blank"
+          rel="noopener sponsored"
+          class="party-supply"
+        >
+          <span>{product.name}</span>
+          <Icon name="external" size={16} />
+        </a>
+      ))}
+    </div>
+  </PageSection>
+
+  <!-- Email capture -->
+  <section class="container party-email-section">
+    <div class="rule"></div>
+    <div class="party-email">
       <EmailCapture
         eventType={seasonalEvent.eventType}
         eventName={seasonalEvent.shortName}
@@ -312,53 +275,214 @@ const faqSchema = {
     </div>
   </section>
 
-  <!-- Other Seasonal Events -->
-  <section class="py-12 bg-slate-50">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="font-display text-2xl font-bold text-slate-900 mb-8 text-center">
-        Planning a Different Event?
-      </h2>
-
-      <div class="grid md:grid-cols-3 gap-4">
-        {seasonalEvents
-          .filter(e => e.slug !== seasonalEvent.slug)
-          .slice(0, 6)
-          .map((event) => (
-            <a
-              href={`/party/${event.slug}/`}
-              class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-            >
-              <div>
-                <div class="font-semibold text-slate-900 group-hover:text-amber-700">{event.title.replace(' Calculator 2026', '')}</div>
-                <div class="text-sm text-slate-500">View calculator →</div>
-              </div>
-            </a>
-          ))}
-      </div>
+  <!-- Other occasions -->
+  <PageSection label="Other occasions" title="Planning a different party?">
+    <div class="party-others">
+      {seasonalEvents
+        .filter(e => e.slug !== seasonalEvent.slug)
+        .slice(0, 8)
+        .map((event) => (
+          <a href={`/party/${event.slug}/`} class="party-other-row">
+            <span>{event.shortName}</span>
+            <Icon name="arrow" size={16} />
+          </a>
+        ))}
     </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-20 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
-
-    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
-        Ready to Plan Your {seasonalEvent.shortName}?
-      </h2>
-      <p class="text-amber-100 mb-8 text-lg max-w-xl mx-auto">
-        Use our free calculators to get exact quantities for your event.
-      </p>
-      <a
-        href="/"
-        class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
-      >
-        Try Interactive Calculator
-      </a>
-    </div>
-  </section>
+  </PageSection>
 </BaseLayout>
+
+<style>
+  .party-hero {
+    padding-top: 40px;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .party-crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .party-crumbs a,
+  .party-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .party-h1 {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.1;
+    text-wrap: balance;
+    max-width: 24ch;
+  }
+
+  @media (min-width: 900px) {
+    .party-h1 {
+      font-size: 52px;
+    }
+  }
+
+  .party-deck {
+    margin: 0;
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+
+  .guest-select {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 8px;
+  }
+
+  .guest-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .guest-btn {
+    min-width: 56px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink-2);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .guest-btn-active {
+    border-color: var(--ink);
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  .party-for {
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+
+  .party-tables {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  @media (min-width: 800px) {
+    .party-tables {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .party-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .party-col-head {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .party-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 16px;
+  }
+
+  .party-row-name {
+    flex: 1;
+  }
+
+  .party-row-qty {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .party-row-unit {
+    color: var(--ink-2);
+    font-size: 14px;
+    width: 64px;
+  }
+
+  .party-row-all {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .party-note {
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  .party-supplies {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 32px;
+  }
+
+  @media (min-width: 700px) {
+    .party-supplies {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .party-supply {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 15px;
+  }
+
+  .party-email-section {
+    padding-bottom: 56px;
+  }
+
+  .party-email {
+    max-width: 560px;
+    padding-top: 32px;
+  }
+
+  .party-others {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 32px;
+  }
+
+  @media (min-width: 700px) {
+    .party-others {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .party-other-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 16px;
+  }
+</style>
 
 <script define:vars={{ defaultGuestCount, baseEventSlug: baseEvent?.slug || 'party' }}>
   // Guest count selector functionality
@@ -367,12 +491,8 @@ const faqSchema = {
       const count = parseInt(btn.dataset.guestCount);
 
       // Update UI
-      document.querySelectorAll('.guest-btn').forEach(b => {
-        b.classList.remove('bg-gradient-to-r', 'from-amber-500', 'to-orange-500', 'text-white');
-        b.classList.add('text-slate-600', 'hover:bg-slate-100');
-      });
-      btn.classList.remove('text-slate-600', 'hover:bg-slate-100');
-      btn.classList.add('bg-gradient-to-r', 'from-amber-500', 'to-orange-500', 'text-white');
+      document.querySelectorAll('.guest-btn').forEach(b => b.classList.remove('guest-btn-active'));
+      btn.classList.add('guest-btn-active');
 
       // Update display
       document.getElementById('selected-guests').textContent = count.toString();

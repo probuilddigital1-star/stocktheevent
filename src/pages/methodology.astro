@@ -253,7 +253,7 @@ const breadcrumbs = [
 
   .method-crumbs {
     font-size: 0.8125rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
     margin-bottom: 1.5rem;
   }
 
@@ -262,21 +262,27 @@ const breadcrumbs = [
   }
 
   .method-h1 {
-    font-size: 2rem;
-    line-height: 1.2;
-    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 1.1;
+    font-weight: 400;
     margin-bottom: 1.25rem;
   }
 
+  @media (min-width: 900px) {
+    .method-h1 {
+      font-size: 3rem;
+    }
+  }
+
   .method-h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 400;
     margin: 2.25rem 0 0.75rem;
   }
 
   .method-h3 {
     font-size: 1.0625rem;
-    font-weight: 700;
+    font-weight: 600;
     margin: 1.5rem 0 0.5rem;
   }
 
@@ -299,19 +305,22 @@ const breadcrumbs = [
     border-collapse: collapse;
     font-size: 0.9375rem;
     margin: 1rem 0 1.25rem;
-    border: 1px solid var(--rule, #C7CDC8);
   }
 
   .method-table th,
   .method-table td {
     padding: 0.5rem 0.75rem;
     text-align: left;
-    border-bottom: 1px solid var(--rule, #C7CDC8);
+    border-bottom: 1px solid var(--rule);
   }
 
   .method-table thead th {
-    background: var(--paper-2, #ECEEE9);
-    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--ink);
   }
 
   .method-table tbody tr:last-child th,
@@ -325,17 +334,17 @@ const breadcrumbs = [
 
   .method-source {
     font-size: 0.875rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
   }
 
   .method-author {
     margin-top: 3rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--rule, #C7CDC8);
+    border-top: 1px solid var(--rule);
   }
 
   .method-updated {
     font-size: 0.875rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
   }
 </style>

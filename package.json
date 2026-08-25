@@ -13,6 +13,7 @@
     "test:ui": "playwright test --ui",
     "check": "tsx scripts/checkSite.ts",
     "deploy": "npm run build && npm run check && tsx scripts/ops/deploy.ts",
+    "deploy:preview": "npm run build && npm run check && tsx scripts/ops/deploy.ts --branch redesign-a",
     "verify:live": "tsx scripts/ops/verifyLive.ts"
   },
   "dependencies": {

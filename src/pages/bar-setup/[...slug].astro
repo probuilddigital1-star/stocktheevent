@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
+import PageSection from '../../components/PageSection.astro';
+import ProTips from '../../components/ProTips.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
@@ -99,7 +101,7 @@ const clientData = {
   results: fullBarResults.map(r => ({
     id: r.item.id,
     name: r.item.name,
-    emoji: r.item.emoji,
+    icon: r.item.icon,
     unit: r.item.unit,
     unitSingular: r.item.unitSingular,
     servingsPerUnit: r.item.servingsPerUnit,
@@ -109,6 +111,18 @@ const clientData = {
     singleDrinkServings: r.singleDrinkServings,
   })),
 };
+
+// Plain text links for stocking the bar itself.
+const barSupplies = [
+  { label: 'Wine glasses', href: affiliateLinks['wine-glasses'] },
+  { label: 'Wine opener', href: affiliateLinks['corkscrew'] },
+  { label: 'Beverage cooler', href: affiliateLinks['cooler'] },
+  { label: 'Champagne flutes', href: affiliateLinks['champagne-flutes'] },
+  { label: 'Cocktail shaker set', href: affiliateLinks['cocktail-shaker'] },
+  { label: 'Bartender kit', href: affiliateLinks['bar-tools'] },
+  { label: 'Ice bucket', href: affiliateLinks['ice-bucket'] },
+  { label: 'Party cups', href: affiliateLinks['party-cups'] },
+];
 
 // Generate JSON-LD schema for SEO/AIO
 const faqSchema = {
@@ -147,326 +161,366 @@ const faqSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
-  <section class="py-12 md:py-16 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
-    <div class="max-w-4xl mx-auto px-4">
-      <!-- Breadcrumb -->
-      <nav class="mb-6 text-sm text-slate-500 text-center">
-        <a href="/" class="hover:text-emerald-600 transition-colors">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/calculators/" class="hover:text-emerald-600 transition-colors">Calculators</a>
-        <span class="mx-2">/</span>
-        <span class="text-slate-700">Bar Setup</span>
-      </nav>
+  <section class="container bar-header">
+    <div class="bar-grid">
+      <div class="bar-main">
+        <nav class="bar-crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="/bar-setup/">Full bar</a>
+          <span aria-hidden="true">/</span>
+          <span>{event.name}</span>
+        </nav>
 
-      <!-- Hero -->
-      <div class="text-center mb-8">
-          <!--
+        <!--
           The H1 is the page's own heading and stays put. The selection label
           below it is what the client script rewrites when ?drinks= narrows the
           list, so changing the selection no longer overwrites the heading.
         -->
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
-          {event.name} Alcohol Calculator: {guestCount} Guests
-        </h1>
-        <p id="page-title" class="text-lg font-semibold text-slate-700 mb-2">
-          Your Complete Bar
-        </p>
-        <p class="text-xl text-slate-600">
-          {event.name} • <span id="guest-display">{guestCount}</span> guests • <span id="duration-display">{duration}</span> hours
+        <h1 class="bar-h1">{event.name} Alcohol Calculator: {guestCount} Guests</h1>
+        <p class="bar-context">
+          <span id="page-title" class="label bar-subtitle">Your Complete Bar</span>
+          <span class="num bar-meta"><span id="guest-display">{guestCount}</span> guests · <span id="duration-display">{duration}</span> hours</span>
         </p>
       </div>
+    </div>
 
-      <!-- Main Results Card -->
-      <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-8">
-        <!-- Drink Grid -->
-        <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 p-8 text-white">
-          <div id="drink-grid" class="grid gap-4 grid-cols-2">
-            {fullBarResults.map((r) => (
-              <div
-                class="drink-card bg-white/15 backdrop-blur rounded-2xl p-5 text-center"
-                data-drink-id={r.item.id}
-                data-units={r.unitsNeeded}
-                data-servings={r.servings}
-                data-single-units={r.singleDrinkUnits}
-                data-single-servings={r.singleDrinkServings}
-              >
-                <div class="mb-2 flex justify-center"><Icon name={r.item.icon} size={36} /></div>
-                <div class="drink-units text-4xl font-black tabular-nums">{r.unitsNeeded}</div>
-                <div class="text-sm opacity-90">{r.item.unit}</div>
-                <div class="drink-servings text-xs opacity-75 mt-1 tabular-nums">{r.servings} servings</div>
-                <div class="drink-note text-xs opacity-90 mt-2 leading-snug" style={r.note ? undefined : 'display: none'}>{r.note}</div>
-              </div>
-            ))}
-          </div>
-
-          <div class="mt-6 pt-6 border-t border-white/20 text-center">
-            <div class="text-lg opacity-90">
-              Total: <span id="total-units" class="font-bold">{grandTotalUnits} items</span> •
-              <span id="total-servings">{grandTotalServings}</span> servings •
-              <span id="per-person">{perPerson}</span> drinks/person
-            </div>
-            <div class="text-sm opacity-75 mt-1">15% buffer included on each category</div>
-          </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="grid grid-cols-3 bg-gradient-to-b from-slate-50 to-white">
-          <div class="p-5 text-center border-r border-slate-100">
-            <div id="stat-servings" class="text-3xl font-bold text-slate-900">{grandTotalServings}</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">total servings</div>
-          </div>
-          <div class="p-5 text-center border-r border-slate-100">
-            <div id="stat-per-person" class="text-3xl font-bold text-slate-900">{perPerson}</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">per person</div>
-          </div>
-          <div class="p-5 text-center">
-            <div id="stat-duration" class="text-3xl font-bold text-slate-900">{duration}</div>
-            <div class="text-xs text-slate-500 font-medium uppercase tracking-wide mt-1">hours</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Shopping List -->
-      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <h2 class="font-display text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-          Shopping List
-        </h2>
-        <div id="shopping-list" class="space-y-3">
+    <div class="bar-table-wrap" id="drink-grid">
+      <table class="bar-table">
           {fullBarResults.map((r) => (
-            <div
-              class="shopping-item flex items-center justify-between py-3 border-b border-slate-100 last:border-0"
-              data-drink-id={r.item.id}
-            >
-              <div class="flex items-center gap-3">
-                <Icon name={r.item.icon} size={22} />
-                <span class="font-medium text-slate-900">{r.item.name}</span>
-              </div>
-              <div class="text-right">
-                <span class="item-units font-bold text-lg text-slate-900">{r.unitsNeeded}</span>
-                <span class="text-slate-500 ml-1">{r.item.unit}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div class="mt-4 pt-4 border-t border-slate-200 flex items-center justify-between">
-          <span class="font-semibold text-slate-700">Total Items</span>
-          <span id="shopping-total" class="font-bold text-xl text-emerald-600">{grandTotalUnits}</span>
-        </div>
-        <button
-          id="copy-list"
-          class="mt-4 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-medium transition-colors"
-        >
-          Copy Shopping List
-        </button>
-      </div>
-
-      <!-- Bar Supplies (Amazon Links) -->
-      <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <h2 class="font-display text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-          Complete Your Bar Setup
-        </h2>
-        <p class="text-slate-600 mb-4 text-sm">Everything you need to serve your drinks (links open Amazon)</p>
-
-        <div class="grid md:grid-cols-2 gap-3">
-          <!-- Wine Setup -->
-          <a
-            href={affiliateLinks['wine-glasses']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Glasses</div>
-              <div class="text-sm text-slate-500">Party-ready stemware</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Corkscrew -->
-          <a
-            href={affiliateLinks['corkscrew']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Opener</div>
-              <div class="text-sm text-slate-500">Corkscrew & accessories</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Beer Cooler -->
-          <a
-            href={affiliateLinks['cooler']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Beverage Cooler</div>
-              <div class="text-sm text-slate-500">Keep drinks cold</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Champagne Flutes -->
-          <a
-            href={affiliateLinks['champagne-flutes']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Champagne Flutes</div>
-              <div class="text-sm text-slate-500">Elegant toasting glasses</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Cocktail Shaker -->
-          <a
-            href={affiliateLinks['cocktail-shaker']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Cocktail Shaker Set</div>
-              <div class="text-sm text-slate-500">Mix drinks like a pro</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Bar Tools -->
-          <a
-            href={affiliateLinks['bar-tools']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Bartender Kit</div>
-              <div class="text-sm text-slate-500">Complete bar tool set</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Ice Bucket -->
-          <a
-            href={affiliateLinks['ice-bucket']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Ice Bucket</div>
-              <div class="text-sm text-slate-500">Chill bottles in style</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-
-          <!-- Party Cups -->
-          <a
-            href={affiliateLinks['party-cups']}
-            target="_blank"
-            rel="noopener sponsored"
-            class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
-          >
-            <div class="flex-1">
-              <div class="font-medium text-slate-900 group-hover:text-amber-700">Party Cups</div>
-              <div class="text-sm text-slate-500">Disposable drinkware</div>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Email Capture -->
-      <EmailCapture eventType={event.id} placement="inline" />
-
-      <!-- Detailed Breakdown Links -->
-      <div id="detail-links" class="bg-white rounded-2xl shadow-lg p-6 mb-8">
-        <h2 class="font-display text-xl font-bold text-slate-900 mb-4">
-          Want more details on each drink?
-        </h2>
-        <div class="grid md:grid-cols-2 gap-3">
-          {fullBarResults.map((r) => (
-            <a
-              href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests/?fromBar=1&units=${r.unitsNeeded}&servings=${r.servings}`}
-              class="detail-link flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-emerald-400 hover:bg-emerald-50 transition-all group"
+            <tbody
+              class="drink-card"
               data-drink-id={r.item.id}
               data-units={r.unitsNeeded}
               data-servings={r.servings}
+              data-single-units={r.singleDrinkUnits}
+              data-single-servings={r.singleDrinkServings}
             >
-              <Icon name={r.item.icon} size={24} />
-              <div class="flex-1">
-                <div class="font-medium text-slate-900 group-hover:text-emerald-600">{r.item.name} Details</div>
-                <div class="text-sm text-slate-500">
-                  <span class="detail-units font-semibold text-amber-600">{r.unitsNeeded} {r.item.unit}</span> • Pro tips & math breakdown
-                </div>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
+              <tr>
+                <td class="bar-icon"><Icon name={r.item.icon} size={20} /></td>
+                <td class="bar-name">{r.item.name}</td>
+                <td class="num bar-units drink-units">{r.unitsNeeded}</td>
+                <td class="bar-unit-label">{r.item.unit}</td>
+                <td class="num bar-servings drink-servings">{r.servings} servings</td>
+              </tr>
+              <tr class="bar-note-row" style={r.note ? undefined : 'display: none'}>
+                <td></td>
+                <td colspan="4" class="drink-note bar-note">{r.note}</td>
+              </tr>
+            </tbody>
           ))}
-        </div>
-      </div>
-
-      <!-- Pro Tips -->
-      <div class="bg-emerald-50 rounded-2xl p-6">
-        <h2 class="font-display text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
-          Pro Tips for Your {event.name}
-        </h2>
-        <ul class="space-y-3">
-          {event.proTips.slice(0, 3).map((tip) => (
-            <li class="flex items-start gap-3">
-              <span class="text-emerald-800">{tip}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-16 bg-gradient-to-br from-amber-500 via-orange-500 to-orange-600 relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
-
-    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <h2 class="font-display text-3xl font-bold text-white mb-4">
-        Need to adjust your selection?
-      </h2>
-      <p class="text-amber-100 mb-8 text-lg">
-        Use our interactive calculator to try different combinations
+      </table>
+      <p class="num bar-total-line">
+        Total: <span id="total-units" class="bar-total-strong">{grandTotalUnits} items</span> ·
+        <span id="total-servings">{grandTotalServings}</span> servings ·
+        <span id="per-person">{perPerson}</span> drinks per person
       </p>
-      <a
-        href="/"
-        class="inline-block bg-white text-amber-600 px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
-      >
-        Back to Calculator
-      </a>
+      <p class="bar-buffer-note">15% buffer included on each category.</p>
     </div>
   </section>
+
+  <PageSection label="Shopping list" title="What to put in the cart">
+    <div class="shop-list" id="shopping-list">
+      {fullBarResults.map((r) => (
+        <div class="shopping-item shop-row" data-drink-id={r.item.id}>
+          <span class="num shop-qty"><span class="item-units">{r.unitsNeeded}</span> <span class="shop-unit">{r.item.unit}</span></span>
+          <span class="shop-name">{r.item.name}</span>
+        </div>
+      ))}
+      <p class="num shop-total">
+        Total items <span id="shopping-total" class="bar-total-strong">{grandTotalUnits}</span>
+      </p>
+      <div class="shop-actions">
+        <button id="copy-list" type="button" class="btn-secondary shop-btn">
+          <Icon name="copy" size={18} /> Copy shopping list
+        </button>
+      </div>
+    </div>
+    <div class="bar-email">
+      <EmailCapture eventType={event.id} placement="inline" />
+    </div>
+  </PageSection>
+
+  <PageSection
+    label="More detail"
+    title="Each drink, shown with its work"
+    note="Every drink page prints the arithmetic and a printable list."
+  >
+    <div class="detail-links" id="detail-links">
+      {fullBarResults.map((r) => (
+        <a
+          href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests/`}
+          class="detail-link"
+          data-drink-id={r.item.id}
+          data-units={r.unitsNeeded}
+          data-servings={r.servings}
+        >
+          <Icon name={r.item.icon} size={20} />
+          <span class="detail-name">{r.item.name}</span>
+          <span class="num detail-units">{r.unitsNeeded} {r.item.unit}</span>
+          <Icon name="arrow" size={18} />
+        </a>
+      ))}
+    </div>
+  </PageSection>
+
+  <ProTips
+    title={`Planning notes for a ${event.lowerName}`}
+    tips={event.proTips.slice(0, 3)}
+    guide={event.buyingGuide}
+  />
+
+  <PageSection
+    label="The bar itself"
+    title="Glassware and gear"
+    note="Links open Amazon. As an Amazon Associate we earn from qualifying purchases."
+  >
+    <div class="supply-list">
+      {barSupplies.map((supply) => (
+        <a href={supply.href} target="_blank" rel="noopener sponsored" class="supply-link">
+          <span>{supply.label}</span>
+          <Icon name="external" size={16} />
+        </a>
+      ))}
+    </div>
+  </PageSection>
 </BaseLayout>
+
+<style>
+  .bar-header {
+    padding-top: 40px;
+    padding-bottom: 56px;
+  }
+
+  .bar-main {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .bar-crumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .bar-crumbs a,
+  .bar-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .bar-h1 {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 900px) {
+    .bar-h1 {
+      font-size: 48px;
+    }
+  }
+
+  .bar-context {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bar-subtitle {
+    color: var(--ink);
+  }
+
+  .bar-meta {
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  .bar-table-wrap {
+    max-width: 720px;
+    margin-top: 28px;
+  }
+
+  .bar-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .bar-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: middle;
+  }
+
+  .bar-icon {
+    width: 32px;
+    color: var(--ink);
+  }
+
+  .bar-units {
+    text-align: right;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .bar-unit-label {
+    color: var(--ink-2);
+    width: 84px;
+    padding-left: 16px;
+  }
+
+  .bar-servings {
+    text-align: right;
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+
+  .bar-note-row td {
+    border-bottom: 1px solid var(--rule);
+    padding-top: 0;
+  }
+
+  .bar-note {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .bar-total-line {
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--ink);
+    font-size: 16px;
+    color: var(--ink-2);
+  }
+
+  .bar-total-strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .bar-buffer-note {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  .shop-list {
+    display: flex;
+    flex-direction: column;
+    max-width: 560px;
+  }
+
+  .shop-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .shop-row:first-child {
+    border-top: 1px solid var(--ink);
+  }
+
+  .shop-qty {
+    font-weight: 600;
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .shop-unit {
+    font-weight: 400;
+    color: var(--ink-2);
+  }
+
+  .shop-total {
+    margin: 0;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+  }
+
+  .shop-actions {
+    padding-top: 16px;
+  }
+
+  .shop-btn {
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .bar-email {
+    margin-top: 24px;
+    max-width: 560px;
+  }
+
+  .detail-links {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  @media (min-width: 700px) {
+    .detail-links {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .detail-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    min-height: 44px;
+  }
+
+  .detail-link:hover {
+    border-color: var(--ink);
+    background: var(--accent-soft);
+    text-decoration: none;
+  }
+
+  .detail-name {
+    flex: 1;
+  }
+
+  .detail-units {
+    font-weight: 600;
+  }
+
+  .supply-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  @media (min-width: 700px) {
+    .supply-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 32px;
+    }
+  }
+
+  .supply-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 15px;
+  }
+</style>
 
 <script define:vars={{ clientData, BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, HOURLY_DECAY, DRINKING_PERCENTAGE }}>
   // Model constants arrive from src/data/model.ts via define:vars rather than
@@ -530,31 +584,20 @@ const faqSchema = {
     const guestDisplayEl = document.getElementById('guest-display');
     if (guestDisplayEl) guestDisplayEl.textContent = actualGuests.toString();
   }
-  const statGuests = document.getElementById('stat-guests');
-  if (statGuests) statGuests.textContent = actualGuests.toString();
 
   // Update page title based on selection
   const pageTitle = document.getElementById('page-title');
   if (pageTitle) {
-    if (drinkCount === 4) {
-      pageTitle.textContent = 'Your Complete Bar';
-    } else if (drinkCount === 1) {
-      pageTitle.textContent = 'Your Bar Setup';
-    } else {
-      pageTitle.textContent = 'Your Bar Setup';
-    }
+    pageTitle.textContent = drinkCount === 4 ? 'Your Complete Bar' : 'Your Bar Setup';
   }
 
   // Update duration if provided
   if (durationParam) {
-    const dur = parseInt(durationParam);
-    document.getElementById('duration-display')?.textContent &&
-      (document.getElementById('duration-display').textContent = dur.toString());
-    document.getElementById('stat-duration')?.textContent &&
-      (document.getElementById('stat-duration').textContent = dur.toString());
+    const durationDisplayEl = document.getElementById('duration-display');
+    if (durationDisplayEl) durationDisplayEl.textContent = String(parseInt(durationParam));
   }
 
-  // Hide drink cards that weren't selected
+  // Hide drink rows that weren't selected
   const drinkCards = document.querySelectorAll('.drink-card');
   const shoppingItems = document.querySelectorAll('.shopping-item');
   const detailLinks = document.querySelectorAll('.detail-link');
@@ -627,7 +670,7 @@ const faqSchema = {
     const newServings = Math.round(singleServings * normalizedSplit);
     const newUnits = Math.ceil((newServings / servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
 
-    // Update card display
+    // Update row display
     const unitsEl = card.querySelector('.drink-units');
     const servingsEl = card.querySelector('.drink-servings');
     if (unitsEl) unitsEl.textContent = newUnits.toString();
@@ -638,7 +681,8 @@ const faqSchema = {
     if (noteEl) {
       const note = varietyNoteFor(drinkId, newUnits);
       noteEl.textContent = note || '';
-      noteEl.style.display = note ? '' : 'none';
+      const noteRow = noteEl.closest('.bar-note-row');
+      if (noteRow) noteRow.style.display = note ? '' : 'none';
     }
 
     // Update shopping list
@@ -657,12 +701,15 @@ const faqSchema = {
       if (detailUnits && itemData) {
         detailUnits.textContent = `${newUnits} ${itemData.unit}`;
       }
-      // Update the href with new query params including guests if custom
+      // Carry adjusted guests and duration through to the drink page, which
+      // reads them and recalculates on load.
       const currentHref = detailLink.getAttribute('href') || '';
       const baseHref = currentHref.split('?')[0];
-      const guestsParam = needsRecalc ? `&guests=${actualGuests}` : '';
-      const durationParam = actualDuration !== clientData.duration ? `&duration=${actualDuration}` : '';
-      detailLink.setAttribute('href', `${baseHref}?fromBar=1&units=${newUnits}&servings=${newServings}${guestsParam}${durationParam}`);
+      const linkParams = new URLSearchParams();
+      if (needsRecalc) linkParams.set('guests', String(actualGuests));
+      if (actualDuration !== clientData.duration) linkParams.set('duration', String(actualDuration));
+      const query = linkParams.toString();
+      detailLink.setAttribute('href', `${baseHref}${query ? `?${query}` : ''}`);
     }
 
     newTotalUnits += newUnits;
@@ -675,31 +722,12 @@ const faqSchema = {
   const totalUnitsEl = document.getElementById('total-units');
   const totalServingsEl = document.getElementById('total-servings');
   const perPersonEl = document.getElementById('per-person');
-  const statServingsEl = document.getElementById('stat-servings');
-  const statPerPersonEl = document.getElementById('stat-per-person');
   const shoppingTotalEl = document.getElementById('shopping-total');
 
   if (totalUnitsEl) totalUnitsEl.textContent = `${newTotalUnits} items`;
   if (totalServingsEl) totalServingsEl.textContent = newTotalServings.toString();
   if (perPersonEl) perPersonEl.textContent = perPerson.toString();
-  if (statServingsEl) statServingsEl.textContent = newTotalServings.toString();
-  if (statPerPersonEl) statPerPersonEl.textContent = perPerson.toString();
   if (shoppingTotalEl) shoppingTotalEl.textContent = newTotalUnits.toString();
-
-  // Update grid layout based on drink count
-  const drinkGrid = document.getElementById('drink-grid');
-  if (drinkGrid) {
-    drinkGrid.className = drinkGrid.className.replace(/grid-cols-\d/g, '');
-    if (drinkCount === 4) {
-      drinkGrid.classList.add('grid-cols-2');
-    } else if (drinkCount === 3) {
-      drinkGrid.classList.add('grid-cols-1', 'md:grid-cols-3');
-    } else if (drinkCount === 2) {
-      drinkGrid.classList.add('grid-cols-1', 'md:grid-cols-2');
-    } else {
-      drinkGrid.classList.add('grid-cols-1');
-    }
-  }
 
   // Copy shopping list functionality
   const copyBtn = document.getElementById('copy-list');
@@ -707,9 +735,9 @@ const faqSchema = {
     const visibleItems = [];
     document.querySelectorAll('.shopping-item').forEach(item => {
       if (item.style.display !== 'none') {
-        const name = item.querySelector('.font-medium')?.textContent;
-        const units = item.querySelector('.item-units')?.textContent;
-        const unit = item.querySelector('.text-slate-500')?.textContent?.trim();
+        const name = item.querySelector('.shop-name')?.textContent?.trim();
+        const units = item.querySelector('.item-units')?.textContent?.trim();
+        const unit = item.querySelector('.shop-unit')?.textContent?.trim();
         if (name && units) {
           visibleItems.push(`${units} ${unit} of ${name}`);
         }
@@ -720,9 +748,9 @@ const faqSchema = {
     const fullText = `Shopping List:\n${listText}\n\nGenerated by StockTheEvent.com`;
 
     navigator.clipboard.writeText(fullText).then(() => {
-      copyBtn.textContent = 'Copied!';
+      copyBtn.textContent = 'Copied';
       setTimeout(() => {
-        copyBtn.textContent = 'Copy Shopping List';
+        copyBtn.textContent = 'Copy shopping list';
       }, 2000);
     });
   });

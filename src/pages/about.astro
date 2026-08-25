@@ -34,90 +34,149 @@ const personSchema = {
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </Fragment>
-  <section class="py-16 bg-gradient-to-b from-amber-50 to-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-display font-bold text-[var(--chocolate)] mb-6 text-center">
-        About StockTheEvent
-      </h1>
-      <p class="text-xl text-[var(--chocolate-light)] text-center mb-12">
-        Drink calculators that actually work
-      </p>
 
-      <div class="prose prose-lg max-w-none">
-        <div class="glass-card p-8 mb-8">
-          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">The Problem</h2>
-          <p class="text-[var(--chocolate-light)] leading-relaxed mb-4">
-            Every event planner faces the same dilemma: buy too little alcohol and run out mid-party (disaster), or buy too much and waste money on bottles you'll never open.
-          </p>
-          <p class="text-[var(--chocolate-light)] leading-relaxed">
-            Most online calculators give you a generic "1 drink per person per hour" formula. That might work for a corporate mixer, but it's wildly off for a Super Bowl party or a wedding reception.
-          </p>
-        </div>
+  <section class="container prose-page">
+    <nav class="prose-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>About</span>
+    </nav>
 
-        <div class="glass-card p-8 mb-8">
-          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Our Solution</h2>
-          <p class="text-[var(--chocolate-light)] leading-relaxed mb-4">
-            StockTheEvent uses a published formula you can check line by line. It factors in:
-          </p>
-          <ul class="space-y-3 text-[var(--chocolate-light)]">
-            <li class="flex items-start gap-3">
-              <span class="text-amber-500 font-bold">1.</span>
-              <span><strong>Event type modifiers</strong> - Weddings drink 20% more wine, Super Bowl parties drink 40% more beer</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-amber-500 font-bold">2.</span>
-              <span><strong>Consumption decay</strong> - People drink faster in the first hour and slow down as the event progresses</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-amber-500 font-bold">3.</span>
-              <span><strong>Guest count scaling</strong> - Larger events have a lower percentage of active drinkers</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="text-amber-500 font-bold">4.</span>
-              <span><strong>Safety buffer</strong> - We add 15% to ensure you never run out</span>
-            </li>
-          </ul>
-        </div>
+    <h1 class="prose-h1">About Stock the Event</h1>
+    <p class="prose-lede">Party quantity calculators with the whole method published.</p>
 
-        <div class="glass-card p-8 mb-8">
-          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">The Formula</h2>
-          <div class="bg-[var(--champagne-100)] rounded-xl p-6 font-mono text-sm text-[var(--chocolate-light)] mb-4">
-            <p class="mb-2">Base: 1.5 drinks/person/hour</p>
-            <p class="mb-2">Adjusted for: consumption decay curve</p>
-            <p class="mb-2">Modified by: event type (+/-)</p>
-            <p class="mb-2">Scaled by: guest count tier</p>
-            <p>Buffer: +15% safety margin</p>
-          </div>
-          <p class="text-[var(--chocolate-light)] leading-relaxed">
-            Every constant in that formula is published, with worked examples and two outside
-            comparisons, on the
-            <a href="/methodology/" class="text-[var(--primary-dark)] hover:underline">methodology page</a>.
-          </p>
-        </div>
+    <h2 class="prose-h2">The problem</h2>
+    <p>
+      Every event planner faces the same dilemma: buy too little alcohol and run
+      out mid-party, or buy too much and waste money on bottles that never get
+      opened.
+    </p>
+    <p>
+      Most online calculators give you a generic "1 drink per person per hour"
+      formula. That might work for a corporate mixer, but it is wildly off for a
+      Super Bowl party or a wedding reception.
+    </p>
 
-        <div class="glass-card p-8 mb-8">
-          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Our Mission</h2>
-          <p class="text-[var(--chocolate-light)] leading-relaxed">
-            We believe everyone deserves to throw a great party without the stress of running out of drinks or wasting money on over-buying.
-          </p>
-        </div>
+    <h2 class="prose-h2">Our solution</h2>
+    <p>StockTheEvent uses a published formula you can check line by line. It factors in:</p>
+    <ol class="prose-list">
+      <li><strong>Event type modifiers.</strong> Weddings drink 20% more wine; Super Bowl parties drink 40% more beer.</li>
+      <li><strong>Consumption decay.</strong> People drink faster in the first hour and slow down as the event progresses.</li>
+      <li><strong>Guest count scaling.</strong> Larger events have a lower percentage of active drinkers.</li>
+      <li><strong>A safety buffer.</strong> We add 15% so you never run out.</li>
+    </ol>
 
-        <div class="glass-card p-8">
-          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Who runs this site</h2>
-          <p class="text-[var(--chocolate)] font-semibold mb-1">{AUTHOR.name}</p>
-          <p class="text-[var(--chocolate-40)] text-sm mb-4">{AUTHOR.role}</p>
-          <p class="text-[var(--chocolate-light)] leading-relaxed">{AUTHOR.bio}</p>
-        </div>
-      </div>
+    <h2 class="prose-h2">The formula</h2>
+    <div class="num prose-formula">
+      <p>Base: 1.5 drinks per person per hour</p>
+      <p>Adjusted for: consumption decay curve</p>
+      <p>Modified by: event type</p>
+      <p>Scaled by: guest count tier</p>
+      <p>Buffer: +15% safety margin</p>
+    </div>
+    <p>
+      Every constant in that formula is published, with worked examples and two
+      outside comparisons, on the <a href="/methodology/">methodology page</a>.
+    </p>
 
-      <div class="mt-12 text-center">
-        <a
-          href="/"
-          class="inline-block sunset-gradient text-white font-bold py-4 px-8 rounded-xl hover:scale-105 transition-transform text-lg"
-        >
-          Try the Calculator
-        </a>
-      </div>
+    <h2 class="prose-h2">Our mission</h2>
+    <p>
+      We believe everyone deserves to throw a great party without the stress of
+      running out of drinks or wasting money on over-buying.
+    </p>
+
+    <div class="prose-author">
+      <h2 class="prose-h2">Who runs this site</h2>
+      <p class="prose-author-name">{AUTHOR.name}</p>
+      <p class="prose-author-role">{AUTHOR.role}</p>
+      <p>{AUTHOR.bio}</p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .prose-page {
+    max-width: 44rem;
+    padding-top: 40px;
+    padding-bottom: 64px;
+  }
+
+  .prose-crumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+
+  .prose-crumbs a,
+  .prose-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .prose-h1 {
+    margin: 0 0 12px;
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 900px) {
+    .prose-h1 {
+      font-size: 48px;
+    }
+  }
+
+  .prose-lede {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+
+  .prose-h2 {
+    margin: 36px 0 12px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .prose-page p {
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+
+  .prose-list {
+    padding-left: 1.25rem;
+    margin: 0 0 14px;
+  }
+
+  .prose-list li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .prose-formula {
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    margin: 0 0 16px;
+    color: var(--ink-2);
+  }
+
+  .prose-formula p {
+    margin: 0 0 4px;
+  }
+
+  .prose-author {
+    margin-top: 40px;
+    border-top: 1px solid var(--ink);
+    padding-top: 8px;
+  }
+
+  .prose-author-name {
+    font-weight: 600;
+    margin-bottom: 2px !important;
+  }
+
+  .prose-author-role {
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+</style>

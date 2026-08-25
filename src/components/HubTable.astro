@@ -74,7 +74,6 @@ const { caption, rowHeading, columns, rows, footnote } = Astro.props;
   /* Wide grids scroll inside their own container so the page body never does. */
   .hub-table-wrap {
     overflow-x: auto;
-    border: 1px solid var(--rule, #C7CDC8);
   }
 
   .hub-table {
@@ -85,32 +84,41 @@ const { caption, rowHeading, columns, rows, footnote } = Astro.props;
 
   .hub-table-caption {
     text-align: left;
-    padding: 0.75rem 1rem;
-    font-weight: 600;
-    color: var(--ink, #1B1F1D);
-    border-bottom: 1px solid var(--rule, #C7CDC8);
+    padding: 0 0 0.625rem;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink-2);
   }
 
   .hub-table th,
   .hub-table td {
-    padding: 0.625rem 1rem;
+    padding: 0.75rem 1rem 0.75rem 0;
     text-align: left;
-    border-bottom: 1px solid var(--rule, #C7CDC8);
+    border-bottom: 1px solid var(--rule);
     white-space: nowrap;
   }
 
   .hub-table thead th {
-    font-weight: 600;
-    background: var(--paper-2, #ECEEE9);
-  }
-
-  .hub-table tbody tr:last-child th,
-  .hub-table tbody tr:last-child td {
-    border-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--ink);
   }
 
   .hub-table tbody th {
-    font-weight: 600;
+    font-weight: 500;
+  }
+
+  .hub-table a {
+    color: var(--ink);
+  }
+
+  .hub-table tbody td a {
+    color: var(--accent);
   }
 
   /* Numbers line up column to column. */
@@ -119,12 +127,12 @@ const { caption, rowHeading, columns, rows, footnote } = Astro.props;
   }
 
   .hub-empty {
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
   }
 
   .hub-table-footnote {
     margin-top: 0.75rem;
     font-size: 0.8125rem;
-    color: var(--ink-2, #4B524E);
+    color: var(--ink-2);
   }
 </style>
