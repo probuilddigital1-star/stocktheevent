@@ -1,17 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR } from '../data/site';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'About', url: '/about/' }
 ];
 
+// A real person, described only by what this site demonstrates. The previous
+// schema named a fictional "StockTheEvent Team" and claimed a hospitality
+// credential that does not exist.
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "StockTheEvent Team",
-  "description": "Professional bartenders and event planners with 30+ years of combined experience in the hospitality industry.",
-  "jobTitle": "Party Planning Experts",
+  "name": AUTHOR.name,
+  "jobTitle": AUTHOR.role,
+  "description": AUTHOR.bio,
+  "url": "https://www.stocktheevent.com/about/",
+  ...(AUTHOR.links.length > 0 ? { sameAs: AUTHOR.links } : {}),
   "worksFor": {
     "@type": "Organization",
     "name": "StockTheEvent",
@@ -22,7 +28,7 @@ const personSchema = {
 
 <BaseLayout
   title="About StockTheEvent - Drink Calculator"
-  description="Learn about StockTheEvent and our bartender-tested drink calculation formulas. Never run out (or over-buy) for your event again."
+  description="Who publishes StockTheEvent and how the drink calculations work. Never run out, or over-buy, for your event again."
   breadcrumbs={breadcrumbs}
 >
   <Fragment slot="head">
@@ -51,7 +57,7 @@ const personSchema = {
         <div class="glass-card p-8 mb-8">
           <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Our Solution</h2>
           <p class="text-[var(--chocolate-light)] leading-relaxed mb-4">
-            StockTheEvent uses formulas refined by bartenders with 30+ years of experience. We factor in:
+            StockTheEvent uses a published formula you can check line by line. It factors in:
           </p>
           <ul class="space-y-3 text-[var(--chocolate-light)]">
             <li class="flex items-start gap-3">
@@ -83,15 +89,24 @@ const personSchema = {
             <p>Buffer: +15% safety margin</p>
           </div>
           <p class="text-[var(--chocolate-light)] leading-relaxed">
-            The result? Accurate drink counts that match real-world event consumption patterns.
+            Every constant in that formula is published, with worked examples and two outside
+            comparisons, on the
+            <a href="/methodology/" class="text-[var(--primary-dark)] hover:underline">methodology page</a>.
           </p>
         </div>
 
-        <div class="glass-card p-8">
+        <div class="glass-card p-8 mb-8">
           <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Our Mission</h2>
           <p class="text-[var(--chocolate-light)] leading-relaxed">
             We believe everyone deserves to throw a great party without the stress of running out of drinks or wasting money on over-buying.
           </p>
+        </div>
+
+        <div class="glass-card p-8">
+          <h2 class="text-2xl font-bold text-[var(--chocolate)] mb-4">Who runs this site</h2>
+          <p class="text-[var(--chocolate)] font-semibold mb-1">{AUTHOR.name}</p>
+          <p class="text-[var(--chocolate-40)] text-sm mb-4">{AUTHOR.role}</p>
+          <p class="text-[var(--chocolate-light)] leading-relaxed">{AUTHOR.bio}</p>
         </div>
       </div>
 

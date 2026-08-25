@@ -4,23 +4,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'super-bowl-party-calculator',
     shortName: 'Super Bowl Party',
-    title: 'Super Bowl Party Calculator 2026',
-    metaTitle: 'Super Bowl Party Calculator 2026 — How Much Food & Beer You Need',
-    metaDescription: 'Free Super Bowl party calculator. Find out exactly how many wings, pizzas, and beers for 25-300 guests. Bartender-tested formulas.',
-    h1: 'Super Bowl Party Calculator — Food & Drinks for Game Day',
+    title: 'Super Bowl Party Calculator',
+    metaTitle: 'Super Bowl Party Calculator, How Much Food & Beer You Need',
+    metaDescription: 'Free Super Bowl party calculator. Find out exactly how many wings, pizzas, and beers for 25-300 guests. Quantities you can check.',
+    h1: 'Super Bowl Party Calculator, Food & Drinks for Game Day',
     subhead: 'Never run out. Never over-buy. Plan the perfect Super Bowl party.',
     eventType: 'super-bowl',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['wings', 'pizza', 'sliders', 'appetizers'],
     emoji: '🏈',
     seasonalTips: [
-      "40% of all food is consumed during the first quarter — front-load your spread.",
+      "Most of the food goes early in the game, so put the full spread out before kickoff.",
       "Plan 2 beers per person for the first hour, 1 per hour after.",
-      "Wings are the #1 Super Bowl food — err on the side of too many.",
+      "Wings are the #1 Super Bowl food, err on the side of too many.",
       "Set up a separate kids station if families are coming.",
-      "Prep dips in slow cookers — they stay warm and free up oven space.",
-      "Use halftime to restock ALL coolers and food stations — you have exactly 25 minutes.",
-      "ALWAYS have 15% extra beer cold and ready — overtime games increase consumption by 50%.",
+      "Prep dips in slow cookers, they stay warm and free up oven space.",
+      "Use halftime to restock ALL coolers and food stations, you have exactly 25 minutes.",
+      "Keep spare beer cold and ready. A game that runs to overtime can go through far more than expected.",
     ],
     affiliateProducts: [
       { name: 'Air Fryer', searchTerm: 'air+fryer+chicken+wings', emoji: '🍗' },
@@ -38,23 +38,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'march-madness-party-calculator',
     shortName: 'March Madness Party',
-    title: 'March Madness Party Calculator 2026',
-    metaTitle: 'March Madness Party Calculator 2026 — Food & Drinks for Your Bracket Party',
+    title: 'March Madness Party Calculator',
+    metaTitle: 'March Madness Party Calculator, Food & Drinks for Your Bracket Party',
     metaDescription: 'Free March Madness party calculator. Calculate wings, pizza, and beer for 25-300 guests. Perfect for bracket parties and watch parties.',
-    h1: 'March Madness Party Calculator — Fuel Your Bracket Party',
+    h1: 'March Madness Party Calculator, Fuel Your Bracket Party',
     subhead: 'Keep your crowd fed through every upset and buzzer-beater.',
     eventType: 'march-madness',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['wings', 'pizza', 'sliders', 'appetizers'],
     emoji: '🏀',
     seasonalTips: [
-      "Tournament games can run 2+ hours each — plan for sustained snacking.",
-      "Bracket pools mean people arrive at different times — keep food stations refreshed.",
-      "Games run back-to-back during opening weekend — people may stay 6-8 hours.",
+      "Tournament games can run 2+ hours each, plan for sustained snacking.",
+      "Bracket pools mean people arrive at different times, keep food stations refreshed.",
+      "Games run back-to-back during opening weekend, people may stay 6-8 hours.",
       "Stock light beers for marathon watching sessions.",
-      "Multiple games mean multiple peaks — don't front-load everything.",
+      "Multiple games mean multiple peaks, don't front-load everything.",
       "Have non-alcoholic options for designated drivers and early bracket busts.",
-      "Weekend games have 30% higher consumption than weekday games.",
+      "Weekend games tend to run heavier than weekday games, since nobody is heading back to work.",
     ],
     affiliateProducts: [
       { name: 'Air Fryer', searchTerm: 'air+fryer+chicken+wings', emoji: '🍗' },
@@ -70,23 +70,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'graduation-party-calculator',
     shortName: 'Graduation Party',
-    title: 'Graduation Party Calculator 2026',
-    metaTitle: 'Graduation Party Calculator 2026 — Food & Drinks for Your Grad',
+    title: 'Graduation Party Calculator',
+    metaTitle: 'Graduation Party Calculator, Food & Drinks for Your Grad',
     metaDescription: 'Free graduation party calculator. Find out how much food and drinks for 25-300 guests. Plan the perfect celebration.',
-    h1: 'Graduation Party Calculator — Celebrate Your Graduate',
+    h1: 'Graduation Party Calculator, Celebrate Your Graduate',
     subhead: 'They worked hard. Make sure the party delivers.',
     eventType: 'graduation',
     featuredDrinks: ['wine', 'champagne', 'beer', 'spirits'],
     featuredFoods: ['appetizers', 'sliders', 'tacos', 'bbq'],
     emoji: '🎓',
     seasonalTips: [
-      "Graduation parties often span 4+ hours — plan for grazing, not a sit-down meal.",
-      "Young adults eat more than you think — add 20% to your calculations for ages 18-25.",
+      "Graduation parties often span 4+ hours, plan for grazing, not a sit-down meal.",
+      "Young adults eat more than you would expect, so add a margin to your calculations for that age group.",
       "Set up a separate kids' food station with pizza and sliders to keep parents happy.",
       "Outdoor graduation parties need food that won't spoil in summer heat.",
-      "Photo ops happen constantly — finger foods beat anything requiring utensils.",
+      "Photo ops happen constantly, finger foods beat anything requiring utensils.",
       "Set up a visible '21+ only' bar area and a killer mocktail station so younger guests feel included.",
-      "Keep champagne cold but corked until group photo time — pop bottles for the shot!",
+      "Keep champagne cold but corked until group photo time, pop bottles for the shot.",
     ],
     affiliateProducts: [
       { name: 'Graduation Decorations', searchTerm: 'graduation+party+supplies', emoji: '🎓' },
@@ -102,23 +102,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'fourth-of-july-party-calculator',
     shortName: '4th of July Party',
-    title: '4th of July Party Calculator 2026',
-    metaTitle: '4th of July Party Calculator 2026 — BBQ, Beer & More',
+    title: '4th of July Party Calculator',
+    metaTitle: '4th of July Party Calculator, BBQ, Beer & More',
     metaDescription: 'Free 4th of July party calculator. Calculate BBQ, burgers, beer and more for 25-300 guests. Plan your Independence Day cookout.',
-    h1: '4th of July Party Calculator — Plan Your Cookout',
+    h1: '4th of July Party Calculator, Plan Your Cookout',
     subhead: 'Fireworks are great. Running out of burgers is not.',
     eventType: 'fourth-of-july',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['bbq', 'sliders', 'appetizers'],
     emoji: '🎆',
     seasonalTips: [
-      "Outdoor grilling is expected — plan for burgers, hot dogs, and BBQ.",
-      "Hot weather means lighter appetites — reduce food quantities by 10-15%.",
-      "Keep cold foods cold — refresh ice every 90 minutes in summer heat.",
-      "Fireworks timing matters — have lighter snacks for after dark.",
-      "Outdoor heat increases beer consumption by 25% — have more than you think.",
-      "Ice melts FAST in July — buy 5lbs per person and have backup bags.",
-      "Coolers in shade last 40% longer than those in sun.",
+      "Outdoor grilling is expected, plan for burgers, hot dogs, and BBQ.",
+      "Hot weather means lighter appetites, so trim food quantities a little from an indoor plan.",
+      "Keep cold foods cold, refresh ice every 90 minutes in summer heat.",
+      "Fireworks timing matters, have lighter snacks for after dark.",
+      "Outdoor heat pushes beer consumption up, so buy more than you would for an indoor party.",
+      "Ice melts FAST in July, buy 5lbs per person and have backup bags.",
+      "Coolers kept in the shade hold their ice far longer than those sitting in direct sun.",
     ],
     affiliateProducts: [
       { name: 'Portable Grill', searchTerm: 'portable+grill+party', emoji: '🔥' },
@@ -134,22 +134,22 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'labor-day-party-calculator',
     shortName: 'Labor Day Party',
-    title: 'Labor Day Party Calculator 2026',
-    metaTitle: 'Labor Day Party Calculator 2026 — End of Summer BBQ Planning',
+    title: 'Labor Day Party Calculator',
+    metaTitle: 'Labor Day Party Calculator, End of Summer BBQ Planning',
     metaDescription: 'Free Labor Day party calculator. Plan your end-of-summer cookout with the right amount of food and drinks for 25-300 guests.',
-    h1: 'Labor Day Party Calculator — End Summer Right',
+    h1: 'Labor Day Party Calculator, End Summer Right',
     subhead: 'One last cookout before fall. Make it count.',
     eventType: 'labor-day',
     featuredDrinks: ['beer', 'wine', 'spirits'],
     featuredFoods: ['bbq', 'sliders', 'appetizers'],
     emoji: '☀️',
     seasonalTips: [
-      "Last cookout of summer — make it count with premium BBQ.",
-      "Weather can be unpredictable — have an indoor backup plan for food.",
+      "Last cookout of summer, make it count with premium BBQ.",
+      "Weather can be unpredictable, have an indoor backup plan for food.",
       "Pool parties need poolside snacks that won't blow away.",
-      "Kids go back to school soon — family-friendly food is key.",
+      "Kids go back to school soon, family-friendly food is key.",
       "End of summer means people are ready to indulge one last time.",
-      "It's often slightly cooler than July — ice lasts longer.",
+      "It's often slightly cooler than July, ice lasts longer.",
       "Monday holiday means people may drink a bit more than usual.",
     ],
     affiliateProducts: [
@@ -166,21 +166,21 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'halloween-party-calculator',
     shortName: 'Halloween Party',
-    title: 'Halloween Party Calculator 2026',
-    metaTitle: 'Halloween Party Calculator 2026 — Spooky Snacks & Drinks',
+    title: 'Halloween Party Calculator',
+    metaTitle: 'Halloween Party Calculator, Spooky Snacks & Drinks',
     metaDescription: 'Free Halloween party calculator. Plan creepy cocktails and monster munchies for 25-300 guests.',
-    h1: 'Halloween Party Calculator — Spooky Snacks & Scary Good Drinks',
+    h1: 'Halloween Party Calculator, Spooky Snacks & Scary Good Drinks',
     subhead: "The only thing scarier than your costume? Running out of food.",
     eventType: 'halloween',
     featuredDrinks: ['spirits', 'wine', 'beer'],
     featuredFoods: ['appetizers', 'sliders', 'pizza'],
     emoji: '🎃',
     seasonalTips: [
-      "Themed food is expected — deviled eggs, 'finger' foods, spooky presentation.",
-      "Sweet treats matter — have Halloween candy and themed desserts.",
-      "Costumes make eating difficult — finger foods only, nothing messy.",
+      "Themed food is expected, deviled eggs, 'finger' foods, spooky presentation.",
+      "Sweet treats matter, have Halloween candy and themed desserts.",
+      "Costumes make eating difficult, finger foods only, nothing messy.",
       "Purple, orange, and black food coloring elevates everything.",
-      "Specialty cocktails with spooky names are a must — batch them ahead.",
+      "Specialty cocktails with spooky names are a must, batch them ahead.",
       "Dark spirits (whiskey, dark rum) fit the theme better than clear spirits.",
       "Punch bowls with dry ice create amazing effects.",
     ],
@@ -198,10 +198,10 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'thanksgiving-calculator',
     shortName: 'Thanksgiving',
-    title: 'Thanksgiving Calculator 2026',
-    metaTitle: 'Thanksgiving Calculator 2026 — Turkey, Sides & Wine for Your Feast',
+    title: 'Thanksgiving Calculator',
+    metaTitle: 'Thanksgiving Calculator, Turkey, Sides & Wine for Your Feast',
     metaDescription: 'Free Thanksgiving calculator. Plan turkey, sides, wine and more for 10-50 guests. Never run short on the big day.',
-    h1: 'Thanksgiving Calculator — Plan Your Feast',
+    h1: 'Thanksgiving Calculator, Plan Your Feast',
     subhead: 'Grateful guests are well-fed guests.',
     eventType: 'thanksgiving',
     featuredDrinks: ['wine', 'beer', 'spirits'],
@@ -209,12 +209,12 @@ export const seasonalEvents: SeasonalEvent[] = [
     emoji: '🦃',
     seasonalTips: [
       "Turkey is 1-1.5 lbs per person (includes bone weight).",
-      "Appetizers before dinner should be light — 3-4 pieces per person max.",
-      "Plan 3-4 side dishes total — not 3-4 per person.",
-      "Dessert is non-negotiable — 1 pie per 6-8 guests.",
-      "Wine consumption peaks during dinner — have bottles ready at the table.",
+      "Appetizers before dinner should be light, 3-4 pieces per person max.",
+      "Plan 3-4 side dishes total, not 3-4 per person.",
+      "Dessert is non-negotiable, 1 pie per 6-8 guests.",
+      "Wine consumption peaks during dinner, have bottles ready at the table.",
       "Football watching = beer in the afternoon before dinner.",
-      "Leftovers are part of Thanksgiving — plan for turkey sandwiches.",
+      "Leftovers are part of Thanksgiving, plan for turkey sandwiches.",
     ],
     affiliateProducts: [
       { name: 'Roasting Pan', searchTerm: 'turkey+roasting+pan', emoji: '🦃' },
@@ -230,23 +230,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'christmas-party-calculator',
     shortName: 'Christmas Party',
-    title: 'Christmas Party Calculator 2026',
-    metaTitle: 'Christmas Party Calculator 2026 — Holiday Food & Drinks',
+    title: 'Christmas Party Calculator',
+    metaTitle: 'Christmas Party Calculator, Holiday Food & Drinks',
     metaDescription: 'Free Christmas party calculator. Plan appetizers, cocktails, and wine for 25-300 guests. Make your holiday party memorable.',
-    h1: 'Christmas Party Calculator — Holiday Hosting Made Easy',
+    h1: 'Christmas Party Calculator, Holiday Hosting Made Easy',
     subhead: "Tis the season to never run out of eggnog.",
     eventType: 'holiday-party',
     featuredDrinks: ['wine', 'champagne', 'spirits'],
     featuredFoods: ['appetizers', 'sliders'],
     emoji: '🎄',
     seasonalTips: [
-      "Red wine outsells white 2:1 at winter holidays — adjust accordingly.",
-      "Festive signature cocktails are expected — plan for mixers like cranberry juice and eggnog.",
-      "Holiday appetizers should be elevated — cheese boards, shrimp cocktail, stuffed mushrooms.",
-      "Sweet treats are expected — have a dessert station with cookies and holiday candies.",
+      "Red wine outsells white 2:1 at winter holidays, adjust accordingly.",
+      "Festive signature cocktails are expected, plan for mixers like cranberry juice and eggnog.",
+      "Holiday appetizers should be elevated, cheese boards, shrimp cocktail, stuffed mushrooms.",
+      "Sweet treats are expected, have a dessert station with cookies and holiday candies.",
       "Warm drinks like mulled wine and hot toddies are crowd pleasers in cold months.",
-      "People drink 20% more at company holiday parties than other corporate events.",
-      "Dietary restrictions matter more at holidays — have vegetarian and gluten-free options clearly labeled.",
+      "People drink more freely at a company holiday party than at an ordinary corporate event.",
+      "Dietary restrictions matter more at holidays, have vegetarian and gluten-free options clearly labeled.",
     ],
     affiliateProducts: [
       { name: 'Christmas Supplies', searchTerm: 'christmas+party+supplies', emoji: '🎄' },
@@ -263,20 +263,20 @@ export const seasonalEvents: SeasonalEvent[] = [
     slug: 'new-years-eve-party-calculator',
     shortName: "New Year's Eve Party",
     title: "New Year's Eve Party Calculator 2026",
-    metaTitle: "New Year's Eve Party Calculator 2026 — Champagne, Cocktails & Appetizers",
+    metaTitle: "New Year's Eve Party Calculator 2026, Champagne, Cocktails & Appetizers",
     metaDescription: "Free New Year's Eve party calculator. Plan champagne, cocktails, and appetizers for 25-300 guests. Ring in the new year right.",
-    h1: "New Year's Eve Party Calculator — Ring In the New Year",
+    h1: "New Year's Eve Party Calculator, Ring In the New Year",
     subhead: 'Midnight toast ready. Hangover breakfast optional.',
     eventType: 'new-years-eve',
     featuredDrinks: ['champagne', 'spirits', 'wine'],
     featuredFoods: ['appetizers', 'sliders'],
     emoji: '🥳',
     seasonalTips: [
-      "70% of champagne is consumed between 11:30pm and 12:15am — time your chilling.",
+      "Champagne goes almost entirely in the window around midnight, so time your chilling for the countdown.",
       "Have champagne COLD and ready to pour at 11:55pm.",
       "People pace themselves until 10pm then drinking accelerates.",
-      "Elegant appetizers are expected — this is a dressy event.",
-      "Late-night food is essential — sliders or pizza around 12:30am.",
+      "Elegant appetizers are expected, this is a dressy event.",
+      "Late-night food is essential, sliders or pizza around 12:30am.",
       "Heavy apps early, lighter as midnight approaches.",
       "Noisemakers and party favors should be near the champagne station.",
     ],
@@ -295,22 +295,22 @@ export const seasonalEvents: SeasonalEvent[] = [
     slug: 'st-patricks-day-party-calculator',
     shortName: "St. Patrick's Day Party",
     title: "St. Patrick's Day Party Calculator 2026",
-    metaTitle: "St. Patrick's Day Party Calculator 2026 — Irish Food, Green Beer & More",
-    metaDescription: "Free St. Patrick's Day party calculator. Plan Irish food, green beer, and Guinness for 25-300 guests. Bartender-tested formulas.",
-    h1: "St. Patrick's Day Party Calculator — Go Green Without Going Broke",
+    metaTitle: "St. Patrick's Day Party Calculator 2026, Irish Food, Green Beer & More",
+    metaDescription: "Free St. Patrick's Day party calculator. Plan Irish food, green beer, and Guinness for 25-300 guests. Quantities you can check.",
+    h1: "St. Patrick's Day Party Calculator, Go Green Without Going Broke",
     subhead: "Sláinte! Plan the perfect Irish celebration without running dry.",
     eventType: 'holiday-party',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['sliders', 'appetizers'],
     emoji: '☘️',
     seasonalTips: [
-      "Guinness is expected — plan at least 40% of your beer budget on stouts and Irish lagers.",
-      "Green beer is fun but messy — use food-safe coloring and serve in clear cups.",
+      "Guinness is expected, so weight the beer budget toward stouts and Irish lagers.",
+      "Green beer is fun but messy, use food-safe coloring and serve in clear cups.",
       "Irish soda bread, corned beef sliders, and shepherd's pie bites are crowd favorites.",
       "Irish whiskey cocktails (Irish Mule, Whiskey Sour) are easier to batch than you think.",
-      "Drinking starts early on St. Patrick's Day — plan for a longer event window.",
+      "Drinking starts early on St. Patrick's Day, plan for a longer event window.",
       "Serve colcannon bites and mini Reuben sliders for authentic Irish-inspired finger food.",
-      "Have a non-alcoholic Irish cream coffee station — it keeps the party going without overdoing it.",
+      "Have a non-alcoholic Irish cream coffee station, it keeps the party going without overdoing it.",
     ],
     affiliateProducts: [
       { name: 'Irish Party Supplies', searchTerm: 'st+patricks+day+party+supplies', emoji: '☘️' },
@@ -326,22 +326,22 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'cinco-de-mayo-party-calculator',
     shortName: 'Cinco de Mayo Party',
-    title: 'Cinco de Mayo Party Calculator 2026',
-    metaTitle: 'Cinco de Mayo Party Calculator 2026 — Margaritas, Tacos & Mexican Beer',
+    title: 'Cinco de Mayo Party Calculator',
+    metaTitle: 'Cinco de Mayo Party Calculator, Margaritas, Tacos & Mexican Beer',
     metaDescription: 'Free Cinco de Mayo party calculator. Plan margaritas, tacos, and Mexican beer for 25-300 guests. Fiesta-ready formulas.',
-    h1: 'Cinco de Mayo Party Calculator — Fiesta-Ready in Minutes',
+    h1: 'Cinco de Mayo Party Calculator, Fiesta-Ready in Minutes',
     subhead: 'Tacos, tequila, and zero stress. Plan your fiesta the smart way.',
     eventType: 'holiday-party',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['tacos', 'appetizers'],
     emoji: '🇲🇽',
     seasonalTips: [
-      "Margaritas are the #1 drink — batch them in pitchers to save time and money.",
-      "Mexican beer with lime is non-negotiable — stock Corona, Modelo, and Dos Equis.",
-      "Set up a build-your-own taco bar — it feeds more people with less effort.",
-      "Chips and salsa disappear fast — plan 1/2 lb of chips per 5 guests minimum.",
-      "Tequila shots spike after 9pm — have extra limes and salt ready.",
-      "Guacamole browns quickly — make it in batches and keep reserves in the fridge.",
+      "Margaritas are the #1 drink, batch them in pitchers to save time and money.",
+      "Mexican beer with lime is non-negotiable, stock Corona, Modelo, and Dos Equis.",
+      "Set up a build-your-own taco bar, it feeds more people with less effort.",
+      "Chips and salsa disappear fast, plan 1/2 lb of chips per 5 guests minimum.",
+      "Tequila shots spike after 9pm, have extra limes and salt ready.",
+      "Guacamole browns quickly, make it in batches and keep reserves in the fridge.",
       "A horchata or agua fresca station gives non-drinkers a festive option.",
     ],
     affiliateProducts: [
@@ -358,23 +358,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'memorial-day-party-calculator',
     shortName: 'Memorial Day Cookout',
-    title: 'Memorial Day Party Calculator 2026',
-    metaTitle: 'Memorial Day Party Calculator 2026 — BBQ, Beer & Summer Kickoff',
+    title: 'Memorial Day Party Calculator',
+    metaTitle: 'Memorial Day Party Calculator, BBQ, Beer & Summer Kickoff',
     metaDescription: 'Free Memorial Day party calculator. Plan your summer kickoff BBQ with the right amount of food and drinks for 25-300 guests.',
-    h1: 'Memorial Day Party Calculator — Kick Off Summer Right',
+    h1: 'Memorial Day Party Calculator, Kick Off Summer Right',
     subhead: 'Fire up the grill. Summer starts now.',
     eventType: 'labor-day',
     featuredDrinks: ['beer', 'spirits', 'wine'],
     featuredFoods: ['bbq', 'sliders', 'appetizers'],
     emoji: '🇺🇸',
     seasonalTips: [
-      "Memorial Day is the unofficial start of summer — go big on outdoor BBQ.",
+      "Memorial Day is the unofficial start of summer, go big on outdoor BBQ.",
       "Burgers, hot dogs, and ribs are the holy trinity of Memorial Day grilling.",
-      "Beer consumption spikes at outdoor cookouts — plan 3 beers per person for the first 2 hours.",
-      "Late May weather can be unpredictable — have a rain plan for food stations.",
+      "Beer consumption spikes at outdoor cookouts, plan 3 beers per person for the first 2 hours.",
+      "Late May weather can be unpredictable, have a rain plan for food stations.",
       "Patriotic-themed desserts (flag cakes, red-white-blue fruit) are easy crowd pleasers.",
       "Rosé and light white wines are perfect for the first warm-weather party of the year.",
-      "Set up yard games — cornhole and horseshoes keep people entertained and drinking longer.",
+      "Set up yard games, cornhole and horseshoes keep people entertained and drinking longer.",
     ],
     affiliateProducts: [
       { name: 'Portable Grill', searchTerm: 'portable+grill+party', emoji: '🔥' },
@@ -390,23 +390,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'easter-brunch-party-calculator',
     shortName: 'Easter Brunch',
-    title: 'Easter Brunch Party Calculator 2026',
-    metaTitle: 'Easter Brunch Party Calculator 2026 — Mimosas, Ham & Spring Brunch',
+    title: 'Easter Brunch Party Calculator',
+    metaTitle: 'Easter Brunch Party Calculator, Mimosas, Ham & Spring Brunch',
     metaDescription: 'Free Easter brunch calculator. Plan mimosas, ham, and spring brunch dishes for 25-300 guests. Perfect for family gatherings.',
-    h1: 'Easter Brunch Calculator — Spring Entertaining Made Easy',
+    h1: 'Easter Brunch Calculator, Spring Entertaining Made Easy',
     subhead: 'Mimosas flowing, ham glazed, and every guest happy.',
     eventType: 'holiday-party',
     featuredDrinks: ['champagne', 'wine'],
     featuredFoods: ['appetizers', 'sliders'],
     emoji: '🐣',
     seasonalTips: [
-      "Mimosas are the star — plan 1 bottle of champagne per 3 guests for brunch service.",
+      "Mimosas are the star, plan 1 bottle of champagne per 3 guests for brunch service.",
       "A Bellini and mimosa bar with fresh juices lets guests customize their own drinks.",
-      "Glazed ham is traditional — plan 1/2 lb per adult, 1/4 lb per child.",
+      "Glazed ham is traditional, plan 1/2 lb per adult, 1/4 lb per child.",
       "Spring vegetables like asparagus, peas, and carrots elevate any brunch spread.",
-      "Deviled eggs are on-theme and disappear fast — make double what you think.",
+      "Deviled eggs are on-theme and disappear fast, so make more than seems reasonable.",
       "Hot cross buns and lemon desserts give your table a seasonal touch.",
-      "Brunch timing matters — 11am-2pm is the sweet spot for Easter entertaining.",
+      "Brunch timing matters, 11am-2pm is the sweet spot for Easter entertaining.",
     ],
     affiliateProducts: [
       { name: 'Champagne Flutes', searchTerm: 'champagne+flutes', emoji: '🥂' },
@@ -422,23 +422,23 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'tailgate-party-calculator',
     shortName: 'Tailgate',
-    title: 'Tailgate Party Calculator 2026',
-    metaTitle: 'Tailgate Party Calculator 2026 — BBQ, Beer & Game Day Grub',
+    title: 'Tailgate Party Calculator',
+    metaTitle: 'Tailgate Party Calculator, BBQ, Beer & Game Day Grub',
     metaDescription: 'Free tailgate party calculator. Plan BBQ, wings, and beer for 25-300 guests. Built for parking lot parties and game day gatherings.',
-    h1: 'Tailgate Party Calculator — Fuel Up Before Kickoff',
+    h1: 'Tailgate Party Calculator, Fuel Up Before Kickoff',
     subhead: 'Cold beer, hot grill, game day ready.',
     eventType: 'super-bowl',
     featuredDrinks: ['beer', 'spirits'],
     featuredFoods: ['bbq', 'wings', 'sliders'],
     emoji: '🏟️',
     seasonalTips: [
-      "Portable grills are king — plan for burgers, brats, and wings you can cook on-site.",
-      "Cooler space is limited — pre-chill everything and pack ice strategically.",
-      "Finger foods only — nobody wants to juggle a plate and a drink in a parking lot.",
+      "Portable grills are king, plan for burgers, brats, and wings you can cook on-site.",
+      "Cooler space is limited, pre-chill everything and pack ice strategically.",
+      "Finger foods only, nobody wants to juggle a plate and a drink in a parking lot.",
       "Plan for 3-4 hours of eating and drinking before the game even starts.",
-      "Bring more beer than you think — tailgates run long and neighbors will wander over.",
-      "Prep marinades and rubs the night before — morning-of setup should be fast.",
-      "Pack heavy-duty trash bags and paper towels — cleanup is part of the tailgate code.",
+      "Bring more beer than you think, tailgates run long and neighbors will wander over.",
+      "Prep marinades and rubs the night before, morning-of setup should be fast.",
+      "Pack heavy-duty trash bags and paper towels, cleanup is part of the tailgate code.",
     ],
     affiliateProducts: [
       { name: 'Portable Grill', searchTerm: 'portable+grill+tailgate', emoji: '🔥' },
@@ -456,6 +456,47 @@ export const seasonalEvents: SeasonalEvent[] = [
 export const getSeasonalEventBySlug = (slug: string): SeasonalEvent | undefined => {
   return seasonalEvents.find(event => event.slug === slug);
 };
+
+const MONTH_NAMES = [
+  'january', 'february', 'march', 'april', 'may', 'june',
+  'july', 'august', 'september', 'october', 'november', 'december',
+];
+
+/**
+ * The seasonal event to feature at build time.
+ *
+ * Prefers an event whose peakMonths includes the current month; where several
+ * qualify, the earliest in the array wins, so the choice is deterministic. If no
+ * event peaks this month, falls back to the one whose next peak month is
+ * soonest, wrapping around the end of the year. Every month is currently
+ * covered, so the fallback is not reachable with today's data, but it keeps the
+ * function total if a peak month is ever dropped.
+ *
+ * Used for the Seasonal nav link and the homepage seasonal card, which were both
+ * hardcoded to one event year-round.
+ */
+export function nextSeasonalEvent(now: Date): SeasonalEvent {
+  const monthIndex = now.getMonth();
+  const month = MONTH_NAMES[monthIndex];
+
+  const inPeak = seasonalEvents.find(event => event.peakMonths.includes(month));
+  if (inPeak) return inPeak;
+
+  let best = seasonalEvents[0];
+  let bestDistance = Number.POSITIVE_INFINITY;
+  for (const event of seasonalEvents) {
+    for (const peak of event.peakMonths) {
+      const peakIndex = MONTH_NAMES.indexOf(peak.toLowerCase());
+      if (peakIndex === -1) continue;
+      const distance = (peakIndex - monthIndex + 12) % 12;
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        best = event;
+      }
+    }
+  }
+  return best;
+}
 
 export const getSeasonalEventsByMonth = (month: string): SeasonalEvent[] => {
   return seasonalEvents.filter(event => event.peakMonths.includes(month.toLowerCase()));

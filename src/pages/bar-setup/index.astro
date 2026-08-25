@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HubTable from '../../components/HubTable.astro';
+import type { HubRow } from '../../components/HubTable.astro';
+import { items } from '../../data/items';
+import { events } from '../../data/events';
+import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
+import { drinkPage, fullBarTotals } from '../../lib/pageData';
+import { drinkShare, formatSharePercent } from '../../data/eventSplits';
+
+const GUESTS = INDEXABLE_GUEST_COUNTS;
+const ANCHOR = 100;
+const DRINK_IDS = items.map((i) => i.id);
+
+const wedding = events.find((e) => e.id === 'wedding')!;
+const weddingTotals = fullBarTotals(DRINK_IDS, wedding.slug, ANCHOR)!;
+
+// The per-drink breakdown behind the anchor figure, read from the generated pages.
+const weddingBreakdown = items.map((item) => {
+  const page = drinkPage(item.id, wedding.slug, ANCHOR)!;
+  return `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay} of ${item.name.toLowerCase()}`;
+});
+
+// Which drink leads each event's bar, so the split note is derived rather than asserted.
+function leadingDrink(eventSlug: string, eventId: string) {
+  return items
+    .map((item) => ({ item, share: drinkShare(eventId, item.id) }))
+    .sort((a, b) => b.share - a.share)[0];
+}
+
+const beerLed = events.filter((e) => leadingDrink(e.slug, e.id).item.id === 'beer');
+const wineLed = events.filter((e) => leadingDrink(e.slug, e.id).item.id === 'wine');
+const superBowlBeer = drinkShare('super-bowl', 'beer');
+const showerChampagne = drinkShare('wedding-shower', 'champagne');
+
+const rows: HubRow[] = events.map((event) => ({
+  label: event.name,
+  href: `/calculators/${event.id}/`,
+  cells: GUESTS.map((guests) => {
+    const totals = fullBarTotals(DRINK_IDS, event.slug, guests);
+    return totals
+      ? {
+          label: `${totals.units} items`,
+          href: `/bar-setup/${event.slug}-${guests}-guests/`,
+        }
+      : { label: null, href: null };
+  }),
+}));
+
+const title = 'How Much Alcohol for a Party? Full Bar Calculator | StockTheEvent';
+const description = `A full bar for ${ANCHOR} wedding guests is about ${weddingTotals.units} items, roughly ${weddingTotals.servings} drinks. Wine, beer, spirits and champagne together for every event at 25 to 200 guests.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Full bar', url: '/bar-setup/' },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="hub">
+    <div class="hub-inner">
+      <nav class="hub-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Full bar</span>
+      </nav>
+
+      <h1 class="hub-h1">How Much Alcohol for a Party?</h1>
+
+      <p class="hub-intro">
+        A full bar for {ANCHOR} guests at a wedding comes to about {weddingTotals.units} items,
+        roughly {weddingTotals.servings} drinks once the {wedding.defaultDuration}-hour reception is
+        accounted for. That breaks down as {weddingBreakdown.slice(0, -1).join(', ')}, and
+        {' '}{weddingBreakdown[weddingBreakdown.length - 1]}. Every figure includes a 15 percent
+        buffer, so the totals here are what to buy rather than what will be drunk exactly.
+      </p>
+
+      <p class="hub-intro">
+        The number of drinks is set by guest count and how long the party runs, not by how many
+        kinds of alcohol you put out. Serving four drinks instead of one does not raise the total;
+        it divides the same total between them. What changes by event is the split. Wine leads the
+        bar at {wineLed.length} of the {events.length} events here, beer at {beerLed.length},
+        and the extremes are wide: beer takes {formatSharePercent(superBowlBeer)} percent of a
+        Super Bowl bar, while champagne takes {formatSharePercent(showerChampagne)} percent of a
+        wedding shower. Pick your event below for the full breakdown.
+      </p>
+
+      <HubTable
+        caption="Full bar size by event and guest count"
+        rowHeading="Event"
+        columns={GUESTS}
+        rows={rows}
+        footnote="Items means bottles and cases combined across wine, beer, spirits and champagne. Each event page shows the four categories separately, and each drink's own page shows what it would take if it were the only alcohol served."
+      />
+
+      <div class="hub-links">
+        <h2 class="hub-h2">One drink at a time</h2>
+        <ul class="hub-link-list">
+          {items.map((item) => (
+            <li><a href={`/calculators/${item.id}/`}>{item.name}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <p class="hub-method">
+        The split, the buffer and the pour sizes behind these numbers are set out on the
+        <a href="/methodology/">methodology page</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hub {
+    padding: 3rem 0 4rem;
+  }
+
+  .hub-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hub-crumbs {
+    font-size: 0.8125rem;
+    color: var(--ink-2, #4B524E);
+    margin-bottom: 1.5rem;
+  }
+
+  .hub-crumbs span {
+    margin: 0 0.5rem;
+  }
+
+  .hub-h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .hub-h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .hub-intro {
+    max-width: 44rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .hub-links {
+    margin-top: 2.5rem;
+  }
+
+  .hub-link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .hub-method {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+  }
+</style>

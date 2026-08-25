@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HubTable from '../../components/HubTable.astro';
+import type { HubRow } from '../../components/HubTable.astro';
+import { foodItems } from '../../data/foodItems';
+import { items } from '../../data/items';
+import { events } from '../../data/events';
+import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
+import { foodPage, slugFor } from '../../lib/pageData';
+import { FOOD_HUB_QUESTION, hubIntro } from '../../data/hubCopy';
+
+export function getStaticPaths() {
+  return foodItems.map((food) => ({
+    params: { category: food.id },
+    props: { foodId: food.id },
+  }));
+}
+
+const { foodId } = Astro.props;
+const food = foodItems.find((f) => f.id === foodId)!;
+
+const GUESTS = INDEXABLE_GUEST_COUNTS;
+const ANCHOR = 100;
+
+const anchor = foodPage(food.id, 'wedding', ANCHOR);
+
+const h1 = FOOD_HUB_QUESTION[food.id];
+const title = `${h1} Calculator for 25 to 200 Guests | StockTheEvent`;
+const description = `${food.name} for ${ANCHOR} wedding guests as the main dish is ${anchor!.calculation.unitsNeeded} ${anchor!.calculation.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
+const intro = hubIntro(`food:${food.id}`);
+
+const rows: HubRow[] = events.map((event) => ({
+  label: event.name,
+  href: `/calculators/${event.id}/`,
+  cells: GUESTS.map((guests) => {
+    const page = foodPage(food.id, event.slug, guests);
+    return page
+      ? {
+          label: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}`,
+          href: `/food/${slugFor(food.id, event.slug, guests)}/`,
+        }
+      : { label: null, href: null };
+  }),
+}));
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Food Calculators', url: '/food/' },
+  { name: food.name, url: `/food/${food.id}/` },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="hub">
+    <div class="hub-inner">
+      <nav class="hub-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/food/">Food Calculators</a>
+        <span aria-hidden="true">/</span>
+        <span>{food.name}</span>
+      </nav>
+
+      <h1 class="hub-h1">{h1}</h1>
+
+      {intro.split('\n\n').map((para) => <p class="hub-intro">{para}</p>)}
+
+      <HubTable
+        caption={`${food.name} as the main dish, by event and guest count`}
+        rowHeading="Event"
+        columns={GUESTS}
+        rows={rows}
+        footnote={`Ordered in ${food.orderUnit}, ${food.servingsPerOrderUnit} servings per ${food.orderUnitSingular}, with a 15 percent buffer included. Figures assume ${food.name.toLowerCase()} is the main dish; serving several dishes together lowers each one.`}
+      />
+
+      <div class="hub-links">
+        <h2 class="hub-h2">Other food calculators</h2>
+        <ul class="hub-link-list">
+          {foodItems.filter((f) => f.id !== food.id).map((f) => (
+            <li><a href={`/food/${f.id}/`}>{f.name}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="hub-links">
+        <h2 class="hub-h2">Drink calculators</h2>
+        <ul class="hub-link-list">
+          {items.map((item) => (
+            <li><a href={`/calculators/${item.id}/`}>{item.name}</a></li>
+          ))}
+          <li><a href="/bar-setup/">All four together</a></li>
+        </ul>
+      </div>
+
+      <p class="hub-method">
+        Every number here comes from the same model, explained in full on the
+        <a href="/methodology/">methodology page</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hub {
+    padding: 3rem 0 4rem;
+  }
+
+  .hub-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hub-crumbs {
+    font-size: 0.8125rem;
+    color: var(--ink-2, #4B524E);
+    margin-bottom: 1.5rem;
+  }
+
+  .hub-crumbs span {
+    margin: 0 0.5rem;
+  }
+
+  .hub-h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .hub-h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .hub-intro {
+    max-width: 44rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .hub-links {
+    margin-top: 2.5rem;
+  }
+
+  .hub-link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .hub-method {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+  }
+</style>

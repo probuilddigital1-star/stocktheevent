@@ -124,6 +124,26 @@ internal links keep their trailing slash. It exits non-zero on any failure.
 A prompt is not done until `npm run deploy` has succeeded and
 `npm run verify:live` passes.
 
+### Monthly rebuild
+
+Two things on the site follow the calendar rather than the content, and both are
+resolved at build time, not in the browser:
+
+- The featured seasonal event. `nextSeasonalEvent()` in
+  `src/data/seasonalEvents.ts` picks the event whose `peakMonths` includes the
+  build month, which drives the "Seasonal" nav link and the homepage seasonal
+  card. Without a rebuild, the nav keeps pointing at whichever event was in
+  season the last time the site was built.
+- The year appended to seasonal page titles. The year is no longer stored in
+  `title`, `metaTitle` or `h1`; it is added to the rendered `<title>` from the
+  build date, so a stale build shows a stale year.
+
+Keep both current with a monthly rebuild: a Cloudflare Pages deploy hook,
+triggered from n8n on the 1st of each month. Create the hook in the Cloudflare
+Pages project under Settings, Builds and deployments, Deploy hooks, then POST to
+that URL from a scheduled n8n workflow. No content change is needed; the build
+reads the current date.
+
 ## Ops toolkit
 
 `scripts/ops/` holds command-line tooling for the housekeeping that would

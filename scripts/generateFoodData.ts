@@ -26,20 +26,7 @@ import { events, type ExtendedEventType } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
 import { items as drinkItems } from '../src/data/items';
 
-// =============================================================================
-// FOOD CALCULATION CONSTANTS
-// =============================================================================
-
-const BUFFER_PERCENTAGE = 0.15;   // 15% buffer for safety
-
-// Eating percentage by guest count tier (similar to drinking)
-// Larger events = slightly lower percentage eating full servings
-const EATING_PERCENTAGE: Record<string, number> = {
-  small: 0.95,   // 95% of 10-30 guests eat full servings
-  medium: 0.90,  // 90% of 40-75 guests eat full servings
-  large: 0.85,   // 85% of 100-150 guests eat full servings
-  xlarge: 0.80,  // 80% of 200+ guests eat full servings
-};
+import { BUFFER_PERCENTAGE, EATING_PERCENTAGE } from '../src/data/model';
 
 // =============================================================================
 // CALCULATION ENGINE

@@ -4,6 +4,12 @@ import { events } from '../data/events';
 import { guestCounts } from '../data/guestCounts';
 import { EVENT_SPLITS } from '../data/eventSplits';
 import { totalCalculatorsLabel } from '../data';
+import {
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  HOURLY_DECAY,
+  DRINKING_PERCENTAGE,
+} from '../data/model';
 
 // Pass data to client
 const itemsData = items.map(i => ({
@@ -55,7 +61,7 @@ const drinkIcons = {
         Plan the Perfect Party
       </h1>
       <p class="text-lg text-[var(--chocolate-light)] max-w-2xl mx-auto">
-        Calculate exactly what you need with our <span class="text-[var(--primary-dark)] font-semibold">bartender-tested formulas</span>
+        Calculate exactly what you need with a <span class="text-[var(--primary-dark)] font-semibold">published, checkable formula</span>
       </p>
       <p class="text-sm text-[var(--chocolate-40)] mt-2 tabular-nums">{totalCalculatorsLabel()} drink, food, and event combinations available</p>
     </div>
@@ -304,20 +310,10 @@ const drinkIcons = {
   }
 </style>
 
-<script define:vars={{ itemsData, eventsData, guestCountsData, EVENT_SPLITS }}>
-  // Bartender constants
-  const BASE_DRINKS_PER_HOUR = 1.5;
-  const BUFFER_PERCENTAGE = 0.15;
-  const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
-  const DRINKING_PERCENTAGE = {
-    small: 0.80,
-    medium: 0.75,
-    large: 0.70,
-    xlarge: 0.65,
-  };
-
-  // Drink splits come from src/data/eventSplits.ts via define:vars, so this
-  // calculator, the bar-setup pages, and the generator all read one table.
+<script define:vars={{ itemsData, eventsData, guestCountsData, EVENT_SPLITS, BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, HOURLY_DECAY, DRINKING_PERCENTAGE }}>
+  // Model constants come from src/data/model.ts and drink splits from
+  // src/data/eventSplits.ts, both via define:vars, so this calculator, the
+  // bar-setup pages, and the generator all read one source.
 
   // Calculate tier based on guest count
   function getTierFromGuestCount(guests) {

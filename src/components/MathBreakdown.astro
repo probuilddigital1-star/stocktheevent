@@ -15,7 +15,7 @@ const { steps } = Astro.props;
         How We Calculated This
       </h2>
       <p class="text-[var(--chocolate-40)]">
-        Our bartender-tested formula, step by step
+        The formula, step by step
       </p>
     </div>
 
@@ -55,11 +55,12 @@ const { steps } = Astro.props;
     <div class="mt-10 p-6 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-2xl border border-emerald-200 text-center">
       <div class="flex items-center justify-center gap-2 mb-2">
         <span class="text-2xl">&#10003;</span>
-        <span class="font-semibold text-emerald-800">Why trust this formula?</span>
+        <span class="font-semibold text-emerald-800">Where this number comes from</span>
       </div>
       <p class="text-sm text-emerald-700 max-w-xl mx-auto leading-relaxed">
-        Based on industry standards and refined by bartenders with 30+ years of experience.
-        We factor in consumption decay (people drink less as events progress) and real-world drinking percentages.
+        Every constant behind this figure is published, including the drinking rate by guest count,
+        the hourly decay curve, the per-event split and the 15 percent buffer.
+        <a href="/methodology/" class="underline">Read the methodology</a>.
       </p>
     </div>
   </div>

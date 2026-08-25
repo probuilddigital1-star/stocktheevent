@@ -1,190 +1,297 @@
 ---
-import * as fs from 'fs';
-import * as path from 'path';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import HubTable from '../../components/HubTable.astro';
+import type { HubRow } from '../../components/HubTable.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
-
-// Event emoji mapping (keys match event.id)
-const eventEmojis: Record<string, string> = {
-  wedding: '💒',
-  graduation: '🎓',
-  corporate: '💼',
-  birthday: '🎂',
-  'super-bowl': '🏈',
-  'holiday-party': '🎄',
-  'wedding-shower': '💐',
-  'march-madness': '🏀',
-  'fourth-of-july': '🎆',
-  'labor-day': '☀️',
-  'halloween': '🎃',
-  'thanksgiving': '🦃',
-  'new-years-eve': '🥳',
-};
+import { foodItems } from '../../data/foodItems';
+import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
+import { drinkPage, foodPage, fullBarTotals, slugFor } from '../../lib/pageData';
+import { DRINK_HUB_QUESTION, hubIntro } from '../../data/hubCopy';
 
 export function getStaticPaths() {
-  const itemPaths = items.map(item => ({
-    params: { category: item.id },
-    props: { type: 'item', data: item },
-  }));
-
-  const eventPaths = events.map(event => ({
-    params: { category: event.id },
-    props: { type: 'event', data: event },
-  }));
-
-  return [...itemPaths, ...eventPaths];
+  return [
+    ...items.map((item) => ({ params: { category: item.id }, props: { type: 'item' as const, itemId: item.id } })),
+    ...events.map((event) => ({ params: { category: event.id }, props: { type: 'event' as const, eventId: event.id } })),
+  ];
 }
 
-const { category } = Astro.params;
-const { type, data } = Astro.props;
+const props = Astro.props as
+  | { type: 'item'; itemId: string }
+  | { type: 'event'; eventId: string };
 
-// Read all calculator JSON files directly
-const calcDir = path.join(process.cwd(), 'src/content/calculators');
-const files = fs.readdirSync(calcDir).filter(f => f.endsWith('.json') && !f.startsWith('_'));
-const allCalculators = files.map(file => {
-  const pageData = JSON.parse(fs.readFileSync(path.join(calcDir, file), 'utf-8'));
-  return {
-    slug: file.replace('.json', ''),
-    item: pageData.item.id,
-    event: pageData.event.id,
-    guests: pageData.guestCount.value
-  };
-});
+const GUESTS = INDEXABLE_GUEST_COUNTS;
+const ANCHOR = 100;
 
-// Filter calculators based on category type
-let filteredCalculators;
-if (type === 'item') {
-  filteredCalculators = allCalculators.filter((c: { item: string }) => c.item === category);
+let h1: string;
+let title: string;
+let description: string;
+let intro: string;
+let breadcrumbLabel: string;
+let breadcrumbUrl: string;
+
+// Drink hub: one table, 13 events by 6 guest counts, showing this drink's
+// full-bar quantity. Event hub: two tables, drinks and foods.
+let drinkRows: HubRow[] = [];
+let foodRows: HubRow[] = [];
+let tableCaption = '';
+let foodTableCaption = '';
+let eventTips: string[] = [];
+let barSetupHref = '';
+let barSetupSummary = '';
+
+if (props.type === 'item') {
+  const item = items.find((i) => i.id === props.itemId)!;
+  const anchor = drinkPage(item.id, 'wedding', ANCHOR);
+
+  h1 = DRINK_HUB_QUESTION[item.id];
+  title = `${h1} Calculator for 25 to 200 Guests | StockTheEvent`;
+  description = `${item.name} for ${ANCHOR} wedding guests on a full bar is ${anchor!.calculation.fullBar.unitsNeeded} ${anchor!.calculation.fullBar.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
+  intro = hubIntro(`drink:${item.id}`);
+  breadcrumbLabel = item.name;
+  breadcrumbUrl = `/calculators/${item.id}/`;
+  tableCaption = `${item.name} on a full bar, by event and guest count`;
+
+  drinkRows = events.map((event) => ({
+    label: event.name,
+    href: `/calculators/${event.id}/`,
+    cells: GUESTS.map((guests) => {
+      const page = drinkPage(item.id, event.slug, guests);
+      return page
+        ? {
+            label: `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay}`,
+            href: `/${slugFor(item.id, event.slug, guests)}/`,
+          }
+        : { label: null, href: null };
+    }),
+  }));
 } else {
-  filteredCalculators = allCalculators.filter((c: { event: string }) => c.event === category);
+  const event = events.find((e) => e.id === props.eventId)!;
+  const totals = fullBarTotals(items.map((i) => i.id), event.slug, ANCHOR);
+
+  h1 = `${event.name} Drink and Food Calculator`;
+  title = `${h1}: 25 to 200 Guests | StockTheEvent`;
+  description = `A ${ANCHOR}-guest ${event.lowerName} needs about ${totals!.units} bar items, roughly ${totals!.servings} drinks. Wine, beer, spirits, champagne and six foods at 25 to 200 guests.`;
+  intro = hubIntro(`event:${event.id}`);
+  breadcrumbLabel = event.name;
+  breadcrumbUrl = `/calculators/${event.id}/`;
+  tableCaption = `Drinks for a ${event.lowerName}, by guest count`;
+  foodTableCaption = `Food for a ${event.lowerName}, by guest count`;
+
+  drinkRows = items.map((item) => ({
+    label: item.name,
+    href: `/calculators/${item.id}/`,
+    cells: GUESTS.map((guests) => {
+      const page = drinkPage(item.id, event.slug, guests);
+      return page
+        ? {
+            label: `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay}`,
+            href: `/${slugFor(item.id, event.slug, guests)}/`,
+          }
+        : { label: null, href: null };
+    }),
+  }));
+
+  foodRows = foodItems.map((food) => ({
+    label: food.name,
+    href: `/food/${food.id}/`,
+    cells: GUESTS.map((guests) => {
+      const page = foodPage(food.id, event.slug, guests);
+      return page
+        ? {
+            label: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}`,
+            href: `/food/${slugFor(food.id, event.slug, guests)}/`,
+          }
+        : { label: null, href: null };
+    }),
+  }));
+
+  // The tips in src/data/events.ts are already plain guidance; the fabricated
+  // statistics they used to carry were rewritten at the source.
+  eventTips = event.proTips.slice(0, 2);
+  barSetupHref = `/bar-setup/${event.slug}-${ANCHOR}-guests/`;
+  barSetupSummary = `${totals!.units} items, about ${totals!.servings} drinks`;
 }
 
-// Get display info
-const isItem = type === 'item';
-const title = isItem ? `${data.name} Calculators` : `${data.name} Drink Calculators`;
-const emoji = isItem ? data.emoji : (eventEmojis[data.id] || '🎉');
-const description = isItem
-  ? `Calculate how much ${data.name.toLowerCase()} you need for any event and guest count.`
-  : `Calculate how much wine, beer, champagne, or spirits you need for your ${data.name.toLowerCase()}.`;
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Calculators', url: '/calculators/' },
+  { name: breadcrumbLabel, url: breadcrumbUrl },
+];
 ---
 
-<BaseLayout
-  title={`${title} | StockTheEvent`}
-  description={description}
->
-  <!-- Hero -->
-  <section class="py-12 md:py-16 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <!-- Breadcrumb -->
-      <nav class="mb-6 text-sm text-[var(--chocolate-40)] text-center">
-        <a href="/" class="hover:text-[var(--forest)] transition-colors">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/calculators/" class="hover:text-[var(--forest)] transition-colors">Calculators</a>
-        <span class="mx-2">/</span>
-        <span class="text-[var(--chocolate-light)]">{isItem ? data.name : data.name}</span>
+<BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <section class="hub">
+    <div class="hub-inner">
+      <nav class="hub-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/calculators/">Calculators</a>
+        <span aria-hidden="true">/</span>
+        <span>{breadcrumbLabel}</span>
       </nav>
 
-      <div class="text-center">
-        <div class="text-7xl mb-6">{emoji}</div>
-        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--chocolate)] mb-4">
-          {title}
-        </h1>
-        <p class="text-xl text-[var(--chocolate-light)] max-w-2xl mx-auto">
-          {description}
+      <h1 class="hub-h1">{h1}</h1>
+
+      {intro.split('\n\n').map((para) => <p class="hub-intro">{para}</p>)}
+
+      {props.type === 'event' && (
+        <p class="hub-callout">
+          <a href={barSetupHref}>See the whole bar for a {events.find((e) => e.id === props.eventId)!.lowerName} at {ANCHOR} guests</a>
+          <span class="hub-callout-note">{barSetupSummary}, wine, beer, spirits and champagne together.</span>
         </p>
-        <p class="text-[var(--forest)] font-semibold mt-4">
-          {filteredCalculators.length} calculators available
-        </p>
-      </div>
-    </div>
-  </section>
+      )}
 
-  <!-- Pro Tip (for events) or Serving Info (for items) -->
-  {isItem ? (
-    <section class="py-8 bg-white border-b border-[var(--primary-10)]">
-      <div class="max-w-3xl mx-auto px-4 text-center">
-        <div class="inline-flex items-center gap-3 bg-amber-50 px-6 py-3 rounded-full">
-          <span class="text-2xl">{data.emoji}</span>
-          <span class="text-[var(--chocolate-light)]">
-            <strong>{data.servingsPerUnit} servings</strong> per {data.unitSingular}
-          </span>
+      <HubTable
+        caption={tableCaption}
+        rowHeading={props.type === 'item' ? 'Event' : 'Drink'}
+        columns={GUESTS}
+        rows={drinkRows}
+        footnote="Every figure is that drink's share of a full bar, with a 15 percent buffer included. Each page also shows what you would need if it were the only alcohol served."
+      />
+
+      {props.type === 'event' && (
+        <div class="hub-second-table">
+          <HubTable
+            caption={foodTableCaption}
+            rowHeading="Food"
+            columns={GUESTS}
+            rows={foodRows}
+            footnote="Food figures assume that dish is the main food. Serving several dishes together lowers each one."
+          />
         </div>
-      </div>
-    </section>
-  ) : (
-    <section class="py-8 bg-white border-b border-[var(--primary-10)]">
-      <div class="max-w-3xl mx-auto px-4 text-center">
-        <div class="bg-[var(--forest-light)]/10 px-6 py-4 rounded-2xl">
-          <p class="text-[var(--forest)]">
-            <span class="font-semibold">Pro tip:</span> {data.proTips[0]}
-          </p>
+      )}
+
+      {eventTips.length > 0 && (
+        <div class="hub-tips">
+          <h2 class="hub-h2">Planning notes</h2>
+          <ul>
+            {eventTips.map((tip) => <li>{tip}</li>)}
+          </ul>
         </div>
+      )}
+
+      <div class="hub-links">
+        <h2 class="hub-h2">Food calculators</h2>
+        <ul class="hub-link-list">
+          {foodItems.map((food) => (
+            <li><a href={`/food/${food.id}/`}>{food.name}</a></li>
+          ))}
+        </ul>
       </div>
-    </section>
-  )}
 
-  <!-- Calculator Grid -->
-  <section class="py-12 bg-white">
-    <div class="max-w-5xl mx-auto px-4">
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredCalculators.map((calc: { slug: string; item: string; event: string; guests: number }) => {
-          const item = items.find(i => i.id === calc.item);
-          const event = events.find(e => e.id === calc.event);
-          return (
-            <a
-              href={`/${calc.slug}/`}
-              class="bg-white p-5 rounded-2xl border border-[var(--primary-10)] shadow-sm hover:shadow-lg hover:border-emerald-300 hover:scale-[1.02] transition-all group"
-            >
-              <div class="flex items-center gap-4">
-                <span class="text-4xl group-hover:scale-110 transition-transform">{item?.emoji}</span>
-                <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-[var(--chocolate)] group-hover:text-emerald-600 truncate">
-                    {isItem ? event?.name : item?.name}
-                  </div>
-                  <div class="text-sm text-[var(--chocolate-40)]">
-                    <span class="font-medium text-[var(--chocolate-light)]">{calc.guests}</span> guests
-                  </div>
-                </div>
-                <div class="w-8 h-8 bg-[var(--primary-10)] rounded-full flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[var(--chocolate-40)] group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </div>
-  </section>
+      {props.type === 'item' && (
+        <div class="hub-links">
+          <h2 class="hub-h2">Other drinks</h2>
+          <ul class="hub-link-list">
+            {items.filter((i) => i.id !== props.itemId).map((item) => (
+              <li><a href={`/calculators/${item.id}/`}>{item.name}</a></li>
+            ))}
+            <li><a href="/bar-setup/">All four together</a></li>
+          </ul>
+        </div>
+      )}
 
-  <!-- CTA Section -->
-  <section class="py-16 forest-gradient relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
-
-    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <h2 class="font-display text-3xl font-bold text-white mb-4">
-        Need a different calculation?
-      </h2>
-      <p class="text-amber-100 mb-8 text-lg">
-        Use our interactive calculator for any combination
+      <p class="hub-method">
+        Every number here comes from the same model, explained in full on the
+        <a href="/methodology/">methodology page</a>.
       </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a
-          href="/"
-          class="inline-block bg-white text-[var(--forest)] px-8 py-4 rounded-xl font-bold hover:bg-amber-50 hover:scale-105 transition-all shadow-xl"
-        >
-          Interactive Calculator
-        </a>
-        <a
-          href="/calculators/"
-          class="inline-block bg-white/20 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all"
-        >
-          All Categories
-        </a>
-      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hub {
+    padding: 3rem 0 4rem;
+  }
+
+  .hub-inner {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .hub-crumbs {
+    font-size: 0.8125rem;
+    color: var(--ink-2, #4B524E);
+    margin-bottom: 1.5rem;
+  }
+
+  .hub-crumbs span {
+    margin: 0 0.5rem;
+  }
+
+  .hub-h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .hub-h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .hub-intro {
+    max-width: 44rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .hub-callout {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--rule, #C7CDC8);
+    background: var(--paper-2, #ECEEE9);
+  }
+
+  .hub-callout a {
+    font-weight: 600;
+  }
+
+  .hub-callout-note {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+    margin-top: 0.25rem;
+  }
+
+  .hub-second-table {
+    margin-top: 2rem;
+  }
+
+  .hub-tips {
+    margin-top: 2.5rem;
+    max-width: 44rem;
+  }
+
+  .hub-tips ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+
+  .hub-tips li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .hub-links {
+    margin-top: 2.5rem;
+  }
+
+  .hub-link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .hub-method {
+    margin-top: 2.5rem;
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+  }
+</style>

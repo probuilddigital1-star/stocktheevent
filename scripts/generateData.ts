@@ -28,40 +28,12 @@ import { items, toastBottles } from '../src/data/items';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
 import { drinkShare, formatSharePercent } from '../src/data/eventSplits';
-
-// =============================================================================
-// BARTENDER'S REFINED CONSTANTS
-// =============================================================================
-
-const BASE_DRINKS_PER_HOUR = 1.5; // Industry standard: 1.5 drinks/person/hour
-const BUFFER_PERCENTAGE = 0.15;   // 15% buffer for safety
-
-// Consumption decay curve - drinking slows over time
-// Hour 1: 100%, Hour 2: 90%, Hour 3: 75%, Hour 4: 60%, Hour 5+: 50%
-const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5];
-
-// Drinking percentage by guest count tier
-// Larger events = lower percentage actually drinking
-const DRINKING_PERCENTAGE: Record<string, number> = {
-  small: 0.80,   // 80% of 10-30 guests drink
-  medium: 0.75,  // 75% of 40-75 guests drink
-  large: 0.70,   // 70% of 100-150 guests drink
-  xlarge: 0.65,  // 65% of 200+ guests drink
-};
-
-// =============================================================================
-// CALCULATION ENGINE
-// =============================================================================
-
-function calculateConsumptionMultiplier(durationHours: number): number {
-  // Calculate total drinks considering decay curve
-  let totalMultiplier = 0;
-  for (let hour = 0; hour < durationHours; hour++) {
-    const decayIndex = Math.min(hour, HOURLY_DECAY.length - 1);
-    totalMultiplier += HOURLY_DECAY[decayIndex];
-  }
-  return totalMultiplier;
-}
+import {
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  DRINKING_PERCENTAGE,
+  consumptionMultiplier as calculateConsumptionMultiplier,
+} from '../src/data/model';
 
 function calculateServings(
   guests: number,

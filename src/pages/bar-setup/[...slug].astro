@@ -7,6 +7,13 @@ import { guestCounts } from '../../data/guestCounts';
 import { affiliateLinks } from '../../lib/affiliates';
 import { isIndexable } from '../../data/indexing';
 import { drinkShare, splitsForEvent, varietyNote, DRINK_VARIETIES } from '../../data/eventSplits';
+import {
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  HOURLY_DECAY,
+  DRINKING_PERCENTAGE,
+  consumptionMultiplier as calculateConsumptionMultiplier,
+} from '../../data/model';
 
 // Generate static paths for all event/guest combinations
 export function getStaticPaths() {
@@ -35,27 +42,6 @@ const guestData = guestCounts.find(g => g.value === guestCount) || guestCounts[7
 
 // Default duration from event (can be overridden client-side)
 const duration = event.defaultDuration;
-
-// Calculation constants (same as InteractiveCalculator)
-const BASE_DRINKS_PER_HOUR = 1.5;
-const BUFFER_PERCENTAGE = 0.15;
-const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
-const DRINKING_PERCENTAGE: Record<string, number> = {
-  small: 0.80,
-  medium: 0.75,
-  large: 0.70,
-  xlarge: 0.65,
-};
-
-// Calculate consumption multiplier
-function calculateConsumptionMultiplier(durationHours: number): number {
-  let total = 0;
-  for (let hour = 0; hour < durationHours; hour++) {
-    const decayIndex = Math.min(hour, HOURLY_DECAY.length - 1);
-    total += HOURLY_DECAY[decayIndex];
-  }
-  return total;
-}
 
 // ALWAYS calculate for ALL 4 drinks at build time
 // Client-side JS will filter based on query params
@@ -160,8 +146,8 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title={`Complete Bar for ${event.name} (${guestCount} guests) | StockTheEvent`}
-  description={`Complete bar breakdown for your ${event.lowerName} with ${guestCount} guests. Wine, beer, champagne, and spirits quantities with 15% buffer included.`}
+  title={`${event.name} Alcohol Calculator: ${guestCount} Guests (Wine, Beer, Spirits, Champagne)`}
+  description={`A full bar for ${guestCount} guests at a ${event.lowerName} is ${grandTotalUnits} items, about ${grandTotalServings} drinks. Wine, beer, spirits and champagne quantities with a 15 percent buffer included.`}
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">
@@ -185,9 +171,17 @@ const faqSchema = {
       <!-- Hero -->
       <div class="text-center mb-8">
         <div class="text-6xl mb-4">{eventEmojis[event.id] || '🎉'}</div>
-        <h1 id="page-title" class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
-          Your Complete Bar
+        <!--
+          The H1 is the page's own heading and stays put. The selection label
+          below it is what the client script rewrites when ?drinks= narrows the
+          list, so changing the selection no longer overwrites the heading.
+        -->
+        <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-4">
+          {event.name} Alcohol Calculator: {guestCount} Guests
         </h1>
+        <p id="page-title" class="text-lg font-semibold text-slate-700 mb-2">
+          Your Complete Bar
+        </p>
         <p class="text-xl text-slate-600">
           {event.name} • <span id="guest-display">{guestCount}</span> guests • <span id="duration-display">{duration}</span> hours
         </p>
@@ -494,12 +488,9 @@ const faqSchema = {
   </section>
 </BaseLayout>
 
-<script define:vars={{ clientData }}>
-  // Calculation constants for guest count recalculation
-  const BASE_DRINKS_PER_HOUR = 1.5;
-  const BUFFER_PERCENTAGE = 0.15;
-  const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
-  const DRINKING_PERCENTAGE = { small: 0.80, medium: 0.75, large: 0.70, xlarge: 0.65 };
+<script define:vars={{ clientData, BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, HOURLY_DECAY, DRINKING_PERCENTAGE }}>
+  // Model constants arrive from src/data/model.ts via define:vars rather than
+  // being redeclared here, so this recalculation cannot drift from the generator.
 
   function getTier(guests) {
     if (guests <= 30) return 'small';

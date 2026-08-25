@@ -82,7 +82,7 @@ const eventFoodBuyingGuide = (page.event as any).foodBuyingGuide || '';
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Food Calculators', url: '/food/' },
-  { name: page.item.name, url: '/food/' },
+  { name: page.item.name, url: `/food/${page.item.id}/` },
   { name: `${page.guestCount.value} Guests`, url: `/food/${page.slug}/` }
 ];
 
@@ -323,8 +323,8 @@ const shoppingListSchema = {
         <div class="flex items-center gap-3">
           <span class="text-2xl">✓</span>
           <div>
-            <div class="font-semibold text-emerald-800">Caterer-Tested Formula</div>
-            <div class="text-sm text-emerald-700">Our calculations are based on real event data from professional caterers and party planners.</div>
+            <div class="font-semibold text-emerald-800">Where this number comes from</div>
+            <div class="text-sm text-emerald-700">Every constant behind this figure is published, including the eating rate by guest count and the 15 percent buffer. <a href="/methodology/" class="underline">Read the methodology</a>.</div>
           </div>
         </div>
       </div>

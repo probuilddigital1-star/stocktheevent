@@ -21,6 +21,11 @@ interface Props {
 
 const { seasonalEvent } = Astro.props;
 
+// The year is appended at build time rather than stored in the data, so the
+// copy does not go stale on its own. A monthly rebuild keeps it current; see
+// the monthly rebuild note in README.md.
+const buildYear = new Date().getFullYear();
+
 // Get the base event data
 const baseEvent = events.find(e => e.id === seasonalEvent.eventType);
 
@@ -90,7 +95,7 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title={seasonalEvent.metaTitle}
+  title={`${seasonalEvent.metaTitle} ${buildYear}`}
   description={seasonalEvent.metaDescription}
 >
   <Fragment slot="head">

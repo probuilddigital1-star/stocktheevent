@@ -1,0 +1,130 @@
+---
+/**
+ * HubTable.astro - the quantity grid every hub uses.
+ *
+ * Rows are events (or drinks, or foods); columns are guest counts. Each cell is
+ * a link to the calculator page for that combination, showing the number that
+ * page itself shows. Cells with no generated page render as a dash rather than
+ * an estimate.
+ *
+ * Guest columns come from INDEXABLE_GUEST_COUNTS, so a noindexed guest count can
+ * never appear in a hub listing.
+ */
+
+export interface HubCell {
+  /** What the cell shows, for example "41 bottles". Null renders a dash. */
+  label: string | null;
+  /** Where the cell links. Null renders plain text. */
+  href: string | null;
+}
+
+export interface HubRow {
+  label: string;
+  /** Optional link for the row label itself. */
+  href?: string;
+  cells: HubCell[];
+}
+
+interface Props {
+  caption: string;
+  rowHeading: string;
+  columns: number[];
+  rows: HubRow[];
+  footnote?: string;
+}
+
+const { caption, rowHeading, columns, rows, footnote } = Astro.props;
+---
+
+<div class="hub-table-wrap">
+  <table class="hub-table">
+    <caption class="hub-table-caption">{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{rowHeading}</th>
+        {columns.map((guests) => (
+          <th scope="col" class="hub-num">{guests} guests</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <th scope="row">
+            {row.href ? <a href={row.href}>{row.label}</a> : row.label}
+          </th>
+          {row.cells.map((cell) => (
+            <td class="hub-num">
+              {cell.label === null
+                ? <span class="hub-empty" aria-label="not available">&#8212;</span>
+                : cell.href
+                  ? <a href={cell.href}>{cell.label}</a>
+                  : cell.label}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+{footnote && <p class="hub-table-footnote">{footnote}</p>}
+
+<style>
+  /* Wide grids scroll inside their own container so the page body never does. */
+  .hub-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--rule, #C7CDC8);
+  }
+
+  .hub-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .hub-table-caption {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--ink, #1B1F1D);
+    border-bottom: 1px solid var(--rule, #C7CDC8);
+  }
+
+  .hub-table th,
+  .hub-table td {
+    padding: 0.625rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rule, #C7CDC8);
+    white-space: nowrap;
+  }
+
+  .hub-table thead th {
+    font-weight: 600;
+    background: var(--paper-2, #ECEEE9);
+  }
+
+  .hub-table tbody tr:last-child th,
+  .hub-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .hub-table tbody th {
+    font-weight: 600;
+  }
+
+  /* Numbers line up column to column. */
+  .hub-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hub-empty {
+    color: var(--ink-2, #4B524E);
+  }
+
+  .hub-table-footnote {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--ink-2, #4B524E);
+  }
+</style>

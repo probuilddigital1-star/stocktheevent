@@ -16,9 +16,12 @@ const SAMPLE_PATHS = [
   '/',
   '/calculators/wine/',
   '/wine-for-wedding-100-guests/',
+  '/food/pizza/',
   '/food/pizza-for-birthday-party-50-guests/',
   '/party/cinco-de-mayo-party-calculator/',
+  '/bar-setup/',
   '/bar-setup/fourth-of-july-party-100-guests/',
+  '/methodology/',
 ];
 
 const NOINDEX_PATH = '/wine-for-birthday-party-10-guests/';

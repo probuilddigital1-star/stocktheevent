@@ -1,6 +1,11 @@
 ---
 import '../styles/global.css';
 import { totalCalculatorsLabel } from '../data';
+import { nextSeasonalEvent } from '../data/seasonalEvents';
+
+// The featured seasonal event follows the build month rather than being pinned
+// to one page year-round. A monthly rebuild keeps it current.
+const featuredSeasonal = nextSeasonalEvent(new Date());
 
 interface BreadcrumbItem {
   name: string;
@@ -34,13 +39,13 @@ const organizationSchema = {
   "name": "StockTheEvent",
   "url": siteUrl,
   "logo": `${siteUrl}/logo.png`,
-  "description": "Free food and drink calculators for party planning. Caterer-tested formulas for weddings, birthdays, Super Bowl parties, and more.",
+  "description": "Free food and drink calculators for party planning. Published quantities for weddings, birthdays, Super Bowl parties, and more, with the full calculation model shown.",
   "foundingDate": "2024",
   "sameAs": [],
   "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "customer service",
-    "url": `${siteUrl}/about`
+    "url": `${siteUrl}/about/`
   }
 };
 
@@ -143,10 +148,11 @@ const breadcrumbSchema = breadcrumbs ? {
         </a>
 
         <!-- Desktop Nav -->
-        <div class="hidden sm:flex items-center gap-8 text-sm font-medium">
+        <div class="hidden sm:flex items-center gap-5 md:gap-8 text-sm font-medium">
           <a href="/calculators/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Drinks</a>
           <a href="/food/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Food</a>
-          <a href="/party/march-madness-party-calculator/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Seasonal</a>
+          <a href="/bar-setup/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Full bar</a>
+          <a href={`/party/${featuredSeasonal.slug}/`} class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">Seasonal</a>
           <a href="/about/" class="text-[var(--chocolate-light)] hover:text-[var(--primary-dark)] transition-colors">About</a>
           <a href="/" class="forest-gradient text-white px-5 py-2.5 rounded-xl font-semibold hover:scale-105 transition-transform">
             Try Calculator
@@ -169,7 +175,8 @@ const breadcrumbSchema = breadcrumbs ? {
         <div class="flex flex-col gap-4 text-base font-medium">
           <a href="/calculators/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Drink Calculators</a>
           <a href="/food/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Food Calculators</a>
-          <a href="/party/march-madness-party-calculator/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Seasonal Parties</a>
+          <a href="/bar-setup/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Full Bar Calculator</a>
+          <a href={`/party/${featuredSeasonal.slug}/`} class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">Seasonal Parties</a>
           <a href="/about/" class="text-[var(--chocolate)] hover:text-[var(--primary-dark)] transition-colors py-2">About</a>
           <a href="/" class="forest-gradient text-white px-4 py-3 rounded-xl text-center font-semibold">
             Try Calculator
@@ -213,7 +220,7 @@ const breadcrumbSchema = breadcrumbs ? {
               </div>
             </div>
             <p class="text-sm leading-relaxed mb-6 text-[var(--champagne-300)]">
-              Food & drink calculators backed by caterer-tested formulas.
+              Food and drink calculators with the whole method published.
               Never run out (or over-buy) for your event again.
             </p>
             <div class="flex items-center gap-2 text-sm">
@@ -282,6 +289,7 @@ const breadcrumbSchema = breadcrumbs ? {
               <a href="/privacy/" class="hover:text-[var(--primary)] transition-colors">Privacy Policy</a>
               <a href="/terms/" class="hover:text-[var(--primary)] transition-colors">Terms of Service</a>
               <a href="/about/" class="hover:text-[var(--primary)] transition-colors">About</a>
+              <a href="/methodology/" class="hover:text-[var(--primary)] transition-colors">Methodology</a>
             </div>
             <p class="text-[var(--chocolate-light)]">&copy; {new Date().getFullYear()} StockTheEvent. Drink responsibly. 21+</p>
           </div>

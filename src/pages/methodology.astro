@@ -1,0 +1,341 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { items, FLUTES_PER_BOTTLE, TOAST_FLUTES_PER_GUEST, toastBottles } from '../data/items';
+import { events } from '../data/events';
+import {
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  HOURLY_DECAY,
+  DRINKING_PERCENTAGE,
+  EATING_PERCENTAGE,
+  consumptionMultiplier,
+} from '../data/model';
+import { drinkShare, formatSharePercent } from '../data/eventSplits';
+import { drinkPage, fullBarTotals } from '../lib/pageData';
+import { AUTHOR, CONTENT_UPDATED } from '../data/site';
+
+// Everything on this page is read from the same modules the generator uses, so
+// the explanation cannot drift from the arithmetic it describes.
+const ANCHOR = 100;
+const wedding = events.find((e) => e.id === 'wedding')!;
+const DRINK_IDS = items.map((i) => i.id);
+
+const bufferPercent = Math.round(BUFFER_PERCENTAGE * 100);
+const decayTotal = consumptionMultiplier(wedding.defaultDuration);
+const drinkingRate = DRINKING_PERCENTAGE.large;
+const drinkers = Math.round(ANCHOR * drinkingRate);
+
+const weddingTotals = fullBarTotals(DRINK_IDS, wedding.slug, ANCHOR)!;
+const winePage = drinkPage('wine', wedding.slug, ANCHOR)!;
+const wineShare = drinkShare('wedding', 'wine');
+
+// The one-drink-per-hour convention, for comparison.
+const conventionDrinks = ANCHOR * wedding.defaultDuration;
+const ourDrinks = weddingTotals.servings;
+const underBy = Math.round(((conventionDrinks - ourDrinks) / conventionDrinks) * 100);
+
+const tierLabels: Record<string, string> = {
+  small: '10 to 30 guests',
+  medium: '40 to 75 guests',
+  large: '100 to 150 guests',
+  xlarge: '200 or more guests',
+};
+
+// The Knot, "How to Stock the Bar at Your Wedding", updated September 30, 2025.
+const THE_KNOT_URL = 'https://www.theknot.com/content/how-to-stock-the-bar-at-your-wedding';
+const theKnot = [
+  { label: 'Wine', theirs: '20 bottles (750 ml)', ours: `${drinkPage('wine', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Champagne or sparkling', theirs: '17 bottles (750 ml)', ours: `${drinkPage('champagne', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Liquor', theirs: '11 bottles (1 liter)', ours: `${drinkPage('spirits', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Beer', theirs: '100 cans or bottles', ours: `${drinkPage('beer', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} cases, ${drinkPage('beer', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded * 24} cans` },
+];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR.name,
+  jobTitle: AUTHOR.role,
+  description: AUTHOR.bio,
+  url: 'https://www.stocktheevent.com/about/',
+  ...(AUTHOR.links.length > 0 ? { sameAs: AUTHOR.links } : {}),
+};
+
+const title = 'How the Calculator Works: Methodology | StockTheEvent';
+const description = `Every constant behind the numbers: ${BASE_DRINKS_PER_HOUR} drinks per drinker per hour, the decay curve, the per-event split, and the ${bufferPercent} percent buffer, compared against a ${ANCHOR}-guest wedding list.`;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Methodology', url: '/methodology/' },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </Fragment>
+
+  <section class="method">
+    <div class="method-inner">
+      <nav class="method-crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span>Methodology</span>
+      </nav>
+
+      <h1 class="method-h1">How the Calculator Works</h1>
+
+      <p class="method-lede">
+        Every quantity on this site comes from one model with no hidden steps. This page sets out
+        each constant, in the order the calculation applies them, and then compares the result
+        against two outside reference points. The constants below are read directly from the same
+        files the page generator uses, so this description cannot fall out of step with the math.
+      </p>
+
+      <h2 class="method-h2">1. How many guests are drinking</h2>
+      <p>
+        Not everyone at a party drinks alcohol, and the share falls as the guest list grows. The
+        model uses a drinking rate by guest-count tier.
+      </p>
+      <table class="method-table">
+        <thead><tr><th scope="col">Tier</th><th scope="col">Guests</th><th scope="col">Drinking</th></tr></thead>
+        <tbody>
+          {Object.entries(DRINKING_PERCENTAGE).map(([tier, rate]) => (
+            <tr>
+              <td>{tier}</td>
+              <td>{tierLabels[tier]}</td>
+              <td class="method-num">{Math.round(rate * 100)} percent</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p>
+        For {ANCHOR} guests that is {drinkers} drinkers. Food uses a separate and higher rate,
+        since nearly everyone eats: {Object.entries(EATING_PERCENTAGE).map(([t, r], i, a) => `${Math.round(r * 100)} percent for ${t}${i < a.length - 1 ? ', ' : ''}`).join('')}.
+      </p>
+
+      <h2 class="method-h2">2. Drinks per hour, and how that fades</h2>
+      <p>
+        The base rate is {BASE_DRINKS_PER_HOUR} drinks per drinker per hour. People drink fastest
+        early and slow down, so each hour carries a decay factor rather than counting equally.
+      </p>
+      <table class="method-table">
+        <thead><tr><th scope="col">Hour</th>{HOURLY_DECAY.map((_, i) => <th scope="col" class="method-num">{i + 1}</th>)}</tr></thead>
+        <tbody>
+          <tr><th scope="row">Factor</th>{HOURLY_DECAY.map((d) => <td class="method-num">{d.toFixed(2)}</td>)}</tr>
+        </tbody>
+      </table>
+      <p>
+        The last figure repeats for any hour beyond the list. A {wedding.defaultDuration}-hour
+        reception therefore counts as {decayTotal.toFixed(2)} drink-hours, not
+        {' '}{wedding.defaultDuration}. For {ANCHOR} wedding guests:
+        {' '}{drinkers} drinkers times {BASE_DRINKS_PER_HOUR} times {decayTotal.toFixed(2)}.
+      </p>
+
+      <h2 class="method-h2">3. The event modifier</h2>
+      <p>
+        Each event moves each drink up or down from that baseline. A wedding lifts wine to
+        {' '}{wedding.modifiers.wine} and trims beer to {wedding.modifiers.beer}; a Super Bowl party
+        does close to the reverse. These modifiers are per event and per drink, and they are listed
+        in full in the site data.
+      </p>
+
+      <h2 class="method-h2">4. Share of the bar</h2>
+      <p>
+        The headline number on each drink page is that drink's share of a full bar, not the amount
+        you would need if it were the only thing served. Total drinks are fixed by guest count and
+        duration; putting out four kinds of alcohol divides that total rather than multiplying it.
+        Each event has a weighting across the four drinks, normalized so the shares sum to one. At a
+        wedding, wine is {formatSharePercent(wineShare)} percent of the bar, which turns
+        {' '}{winePage.calculation.onlyDrink.totalServings} servings into
+        {' '}{winePage.calculation.fullBar.totalServings}.
+      </p>
+      <p>
+        Every page also publishes the only-drink figure, so if you really are serving one thing,
+        the larger number is right there.
+      </p>
+
+      <h2 class="method-h2">5. Pour sizes</h2>
+      <p>Servings per container, which convert drinks into things you can buy:</p>
+      <table class="method-table">
+        <thead><tr><th scope="col">Drink</th><th scope="col">Container</th><th scope="col">Servings</th></tr></thead>
+        <tbody>
+          {items.map((item) => (
+            <tr>
+              <td>{item.name}</td>
+              <td>{item.unitSingular}</td>
+              <td class="method-num">{item.servingsPerUnit}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h2 class="method-h2">6. The buffer</h2>
+      <p>
+        Every quantity is multiplied by {1 + BUFFER_PERCENTAGE} and rounded up, a
+        {' '}{bufferPercent} percent margin for heavy pours, spills, and guests who stay late.
+        Running short is worse than having a few bottles left over, and unopened bottles can often
+        go back.
+      </p>
+
+      <h2 class="method-h2">7. The toast</h2>
+      <p>
+        Champagne pages carry a separate toast figure. A toast is the one moment where headcount
+        matters more than drinking habits, because people who are not drinking still take a glass.
+        So the toast counts {TOAST_FLUTES_PER_GUEST} flute for every guest, not just the drinkers,
+        at {FLUTES_PER_BOTTLE} flutes per bottle plus the same buffer. For {ANCHOR} guests that is
+        {' '}{toastBottles(ANCHOR, BUFFER_PERCENTAGE)} bottles.
+      </p>
+
+      <h2 class="method-h2">How this compares</h2>
+      <h3 class="method-h3">Against one drink per guest per hour</h3>
+      <p>
+        The common rule of thumb is one drink per guest per hour. For {ANCHOR} guests over
+        {' '}{wedding.defaultDuration} hours that is {conventionDrinks} drinks. This model lands at
+        {' '}{ourDrinks}, about {underBy} percent lower, because it counts only the guests who
+        drink and applies the decay curve instead of treating every hour the same.
+      </p>
+
+      <h3 class="method-h3">Against The Knot's wedding list</h3>
+      <p>
+        The Knot publishes a sample bar for a {ANCHOR}-guest, five-hour reception of average
+        drinkers, assuming one drink per guest per hour and a 50 percent liquor, 25 percent beer,
+        25 percent wine mix. Their figures beside ours:
+      </p>
+      <div class="method-table-wrap">
+        <table class="method-table">
+          <thead><tr><th scope="col">Category</th><th scope="col">The Knot</th><th scope="col">StockTheEvent</th></tr></thead>
+          <tbody>
+            {theKnot.map((row) => (
+              <tr><th scope="row">{row.label}</th><td>{row.theirs}</td><td>{row.ours}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="method-source">
+        Source: <a href={THE_KNOT_URL} rel="nofollow noopener" target="_blank">The Knot, How to Stock the Bar at Your Wedding</a>, updated September 30, 2025.
+      </p>
+      <p>
+        The champagne, liquor, and beer figures land close together. Wine is the one real gap, and
+        the reason is the split rather than the pour rate: our wedding profile gives wine
+        {' '}{formatSharePercent(wineShare)} percent of the bar against their 25 percent, and we
+        count {items.find((i) => i.id === 'wine')!.servingsPerUnit} glasses to a bottle before
+        adding the buffer. If your wedding pours less wine than that, the share and only-drink
+        figures on each page are there to adjust from.
+      </p>
+
+      <h2 class="method-h2">What this model does not do</h2>
+      <p>
+        It does not know your guests. It has no data on your particular crowd, the weather, whether
+        the bar is open or cash, or how heavy your pours are. It is arithmetic applied to reasonable
+        assumptions, published in full so you can see where it would be wrong for you and shift it.
+      </p>
+
+      <div class="method-author">
+        <h2 class="method-h2">Who wrote this</h2>
+        <p><strong>{AUTHOR.name}</strong>, {AUTHOR.role}</p>
+        <p>{AUTHOR.bio}</p>
+        <p class="method-updated">Calculation model last updated {CONTENT_UPDATED}.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .method {
+    padding: 3rem 0 4rem;
+  }
+
+  .method-inner {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .method-crumbs {
+    font-size: 0.8125rem;
+    color: var(--ink-2, #4B524E);
+    margin-bottom: 1.5rem;
+  }
+
+  .method-crumbs span {
+    margin: 0 0.5rem;
+  }
+
+  .method-h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+
+  .method-h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  .method-h3 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .method-lede {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .method p {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .method-table-wrap {
+    overflow-x: auto;
+  }
+
+  .method-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    margin: 1rem 0 1.25rem;
+    border: 1px solid var(--rule, #C7CDC8);
+  }
+
+  .method-table th,
+  .method-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--rule, #C7CDC8);
+  }
+
+  .method-table thead th {
+    background: var(--paper-2, #ECEEE9);
+    font-weight: 600;
+  }
+
+  .method-table tbody tr:last-child th,
+  .method-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .method-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .method-source {
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+  }
+
+  .method-author {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule, #C7CDC8);
+  }
+
+  .method-updated {
+    font-size: 0.875rem;
+    color: var(--ink-2, #4B524E);
+  }
+</style>

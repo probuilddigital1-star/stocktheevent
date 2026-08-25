@@ -12,15 +12,18 @@ import RelatedPages from '../components/RelatedPages.astro';
 import FaqSection from '../components/FaqSection.astro';
 import type { FaqItem } from '../components/FaqSection.astro';
 import type { CalculatorPage } from '../lib/types';
-import { isIndexable } from '../data/indexing';
+import { isIndexable, INDEXABLE_GUEST_COUNTS } from '../data/indexing';
 import { FLUTES_PER_BOTTLE, toastBottles } from '../data/items';
 import { totalCalculatorsLabel } from '../data';
 import { formatSharePercent } from '../data/eventSplits';
+import {
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  HOURLY_DECAY,
+  DRINKING_PERCENTAGE,
+} from '../data/model';
 
-// The 15% buffer used throughout the site. Passed into toastBottles() rather
-// than duplicating its formula here; kept in sync with scripts/generateData.ts.
-const BUFFER_PERCENTAGE = 0.15;
-const QUICK_REFERENCE_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];
+const QUICK_REFERENCE_GUEST_COUNTS = INDEXABLE_GUEST_COUNTS;
 const CALCULATORS_DIR = path.join(process.cwd(), 'src/content/calculators');
 
 /**
@@ -234,6 +237,11 @@ const shoppingListSchema = {
           If {page.item.name.toLowerCase()} is the only alcohol you serve:
           <span class="font-semibold text-[var(--chocolate)]">{page.calculation.onlyDrink.unitsNeeded} {page.calculation.onlyDrink.unitsDisplay}</span>
         </p>
+        <p class="answer-full-bar mt-2">
+          <a href={`/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`}>
+            Planning a full bar? See wine, beer, spirits, and champagne together for this {page.event.lowerName}
+          </a>
+        </p>
         {page.calculation.toastBottles && (
           <p class="answer-toast text-[var(--chocolate-light)] tabular-nums mt-2">
             For a toast only:
@@ -355,13 +363,14 @@ const shoppingListSchema = {
   itemData: { servingsPerUnit: page.item.servingsPerUnit, unit: page.item.unit, unitSingular: page.item.unitSingular, name: page.item.name },
   eventModifier: page.event.modifiers[page.item.id] || 1.0,
   eventDuration: page.event.defaultDuration,
-  barShare: page.calculation.barShare
+  barShare: page.calculation.barShare,
+  BASE_DRINKS_PER_HOUR,
+  BUFFER_PERCENTAGE,
+  HOURLY_DECAY,
+  DRINKING_PERCENTAGE
 }}>
-  // Calculation constants
-  const BASE_DRINKS_PER_HOUR = 1.5;
-  const BUFFER_PERCENTAGE = 0.15;
-  const HOURLY_DECAY = [1.0, 0.9, 0.75, 0.6, 0.5, 0.45];
-  const DRINKING_PERCENTAGE = { small: 0.80, medium: 0.75, large: 0.70, xlarge: 0.65 };
+  // Model constants arrive from src/data/model.ts via define:vars rather than
+  // being redeclared here, so this recalculation cannot drift from the generator.
 
   function getTier(guests) {
     if (guests <= 30) return 'small';
