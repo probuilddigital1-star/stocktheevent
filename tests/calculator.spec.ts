@@ -20,22 +20,26 @@ function isInvalidNumber(value: string): boolean {
   return isNaN(num) || !isFinite(num) || value.toLowerCase().includes('nan');
 }
 
-// Helper to select drinks by clicking on drink buttons
+// Helper to select drinks by clicking the toggle buttons (aria-pressed carries
+// the selection state)
 async function selectDrinks(page: Page, drinkIds: string[]) {
-  // First, get all currently selected drinks
-  const buttons = page.locator('.drink-card');
-  const count = await buttons.count();
+  const toggles = page.locator('.drink-toggle');
+  const count = await toggles.count();
 
-  // Click to deselect all except the ones we want
+  // First make sure at least one wanted drink is on, so deselecting the rest
+  // never hits the "last drink cannot be removed" guard.
   for (let i = 0; i < count; i++) {
-    const btn = buttons.nth(i);
+    const btn = toggles.nth(i);
     const itemId = await btn.getAttribute('data-item');
-    const isSelected = await btn.evaluate(el => el.classList.contains('glass-card-selected'));
-    const shouldBeSelected = drinkIds.includes(itemId || '');
-
-    if (isSelected !== shouldBeSelected) {
+    if (drinkIds.includes(itemId || '') && (await btn.getAttribute('aria-pressed')) !== 'true') {
       await btn.click();
-      await page.waitForTimeout(100); // Small delay for animation
+    }
+  }
+  for (let i = 0; i < count; i++) {
+    const btn = toggles.nth(i);
+    const itemId = await btn.getAttribute('data-item');
+    if (!drinkIds.includes(itemId || '') && (await btn.getAttribute('aria-pressed')) === 'true') {
+      await btn.click();
     }
   }
 }
@@ -43,57 +47,49 @@ async function selectDrinks(page: Page, drinkIds: string[]) {
 // Helper to change event
 async function selectEvent(page: Page, eventId: string) {
   await page.selectOption('#event-select', eventId);
-  await page.waitForTimeout(200); // Wait for recalculation
+  await page.waitForTimeout(100);
+}
+
+// Helper to type a guest count into the stepper's number input
+async function setGuests(page: Page, guests: number) {
+  await page.fill('#guest-input', String(guests));
+  await page.dispatchEvent('#guest-input', 'change');
+  await page.waitForTimeout(100);
+}
+
+// Helper to type an hour count into the stepper's number input
+async function setDuration(page: Page, hours: number) {
+  await page.fill('#duration-input', String(hours));
+  await page.dispatchEvent('#duration-input', 'change');
+  await page.waitForTimeout(100);
+}
+
+// Visible rows of the "Your bar" table
+function visibleRows(page: Page) {
+  return page.locator('#bar-table tr[data-drink-id]:not([hidden])');
 }
 
 // Helper to check all displayed numbers for NaN
 async function checkForNaN(page: Page): Promise<{ hasNaN: boolean; locations: string[] }> {
   const locations: string[] = [];
 
-  // Check result units
-  const resultUnits = await page.locator('#result-units').textContent();
-  if (resultUnits && isInvalidNumber(resultUnits)) {
-    locations.push(`result-units: "${resultUnits}"`);
-  }
-
-  // Check result servings
-  const resultServings = await page.locator('#result-servings').textContent();
-  if (resultServings && isInvalidNumber(resultServings)) {
-    locations.push(`result-servings: "${resultServings}"`);
-  }
-
-  // Check result per person
-  const resultPerPerson = await page.locator('#result-per-person').textContent();
-  if (resultPerPerson && isInvalidNumber(resultPerPerson)) {
-    locations.push(`result-per-person: "${resultPerPerson}"`);
-  }
-
-  // Check total items (for full bar)
-  const totalItems = await page.locator('#total-items').textContent();
-  if (totalItems && isInvalidNumber(totalItems)) {
-    locations.push(`total-items: "${totalItems}"`);
-  }
-
-  // Check all drink cards in multi-drink grid
-  const multiDrinkCards = page.locator('#multi-drink-grid .drink-card-item');
-  const multiCount = await multiDrinkCards.count();
-  for (let i = 0; i < multiCount; i++) {
-    const card = multiDrinkCards.nth(i);
-    const units = await card.locator('.font-mono-luxe.text-2xl.font-bold').textContent();
-    if (units && isInvalidNumber(units)) {
-      locations.push(`multi-drink-card[${i}] units: "${units}"`);
+  const rows = visibleRows(page);
+  const rowCount = await rows.count();
+  for (let i = 0; i < rowCount; i++) {
+    const units = await rows.nth(i).locator('.drink-units').textContent();
+    if (!units || isInvalidNumber(units)) {
+      locations.push(`bar row[${i}] units: "${units}"`);
     }
   }
 
-  // Check all drink cards in full bar grid
-  const fullbarCards = page.locator('#fullbar-grid .drink-card-sm');
-  const fullbarCount = await fullbarCards.count();
-  for (let i = 0; i < fullbarCount; i++) {
-    const card = fullbarCards.nth(i);
-    const units = await card.locator('.font-mono-luxe.font-bold').textContent();
-    if (units && isInvalidNumber(units)) {
-      locations.push(`fullbar-card[${i}] units: "${units}"`);
-    }
+  const total = await page.locator('#bar-total').textContent();
+  if (!total || isInvalidNumber(total)) {
+    locations.push(`bar-total: "${total}"`);
+  }
+
+  const note = await page.locator('#calc-note').textContent();
+  if (note && note.toLowerCase().includes('nan')) {
+    locations.push(`calc-note: "${note}"`);
   }
 
   return { hasNaN: locations.length > 0, locations };
@@ -109,20 +105,16 @@ test.describe('Interactive Calculator - NaN Bug Tests', () => {
   for (const event of EVENTS) {
     for (const drink of DRINKS) {
       test(`Single ${drink} for ${event.name} - should not have NaN`, async ({ page }) => {
-        // Select only this drink
         await selectDrinks(page, [drink]);
-
-        // Select the event
         await selectEvent(page, event.id);
 
-        // Check for NaN
         const { hasNaN, locations } = await checkForNaN(page);
-
         expect(hasNaN, `NaN found in: ${locations.join(', ')}`).toBe(false);
 
-        // Also verify the displayed value is a positive number
-        const resultUnits = await page.locator('#result-units').textContent();
-        expect(parseInt(resultUnits || '0')).toBeGreaterThan(0);
+        // Exactly one visible row, with a positive unit count
+        expect(await visibleRows(page).count()).toBe(1);
+        const units = await visibleRows(page).first().locator('.drink-units').textContent();
+        expect(parseInt(units || '0')).toBeGreaterThan(0);
       });
     }
   }
@@ -135,10 +127,7 @@ test.describe('Interactive Calculator - NaN Bug Tests', () => {
 
       const { hasNaN, locations } = await checkForNaN(page);
       expect(hasNaN, `NaN found in: ${locations.join(', ')}`).toBe(false);
-
-      // Verify multi-result panel is visible
-      const multiResult = page.locator('#multi-result');
-      await expect(multiResult).not.toHaveClass(/hidden/);
+      expect(await visibleRows(page).count()).toBe(2);
     });
 
     test(`Two drinks (champagne+spirits) for ${event.name} - should not have NaN`, async ({ page }) => {
@@ -170,13 +159,9 @@ test.describe('Interactive Calculator - NaN Bug Tests', () => {
       const { hasNaN, locations } = await checkForNaN(page);
       expect(hasNaN, `NaN found in: ${locations.join(', ')}`).toBe(false);
 
-      // Verify fullbar-result panel is visible
-      const fullbarResult = page.locator('#fullbar-result');
-      await expect(fullbarResult).not.toHaveClass(/hidden/);
-
-      // Verify total items is a positive number
-      const totalItems = await page.locator('#total-items').textContent();
-      expect(parseInt(totalItems || '0')).toBeGreaterThan(0);
+      expect(await visibleRows(page).count()).toBe(4);
+      const total = await page.locator('#bar-total').textContent();
+      expect(parseInt(total || '0')).toBeGreaterThan(0);
     });
   }
 });
@@ -188,44 +173,33 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
   });
 
   test('Changing guest count updates calculations correctly', async ({ page }) => {
-    // Select wine and wedding
     await selectDrinks(page, ['wine']);
     await selectEvent(page, 'wedding');
 
-    // Get initial value
-    const initial = await page.locator('#result-units').textContent();
+    const initial = await visibleRows(page).first().locator('.drink-units').textContent();
     const initialNum = parseInt(initial || '0');
 
-    // Change guest slider to maximum (300 guests) - now percentage-based (100% = 300 guests)
-    await page.locator('#guest-slider').fill('100');
-    await page.waitForTimeout(200);
+    await setGuests(page, 300);
 
-    // Get new value
-    const afterMax = await page.locator('#result-units').textContent();
+    const afterMax = await visibleRows(page).first().locator('.drink-units').textContent();
     const afterMaxNum = parseInt(afterMax || '0');
 
-    // Should be larger with more guests
     expect(afterMaxNum).toBeGreaterThan(initialNum);
     expect(isInvalidNumber(afterMax || '')).toBe(false);
   });
 
-  test('Changing duration updates calculations correctly', async ({ page }) => {
+  test('Changing hours updates calculations correctly', async ({ page }) => {
     await selectDrinks(page, ['beer']);
     await selectEvent(page, 'super-bowl');
 
-    // Get initial value at default duration (5 hours for super-bowl)
-    const initial = await page.locator('#result-units').textContent();
+    const initial = await visibleRows(page).first().locator('.drink-units').textContent();
     const initialNum = parseInt(initial || '0');
 
-    // Change duration to minimum (1 hour)
-    await page.locator('#duration-slider').fill('1');
-    await page.waitForTimeout(200);
+    await setDuration(page, 1);
 
-    // Get new value
-    const afterMin = await page.locator('#result-units').textContent();
+    const afterMin = await visibleRows(page).first().locator('.drink-units').textContent();
     const afterMinNum = parseInt(afterMin || '0');
 
-    // Should be smaller or equal with less time (rounding may cause equal values)
     expect(afterMinNum).toBeLessThanOrEqual(initialNum);
     expect(isInvalidNumber(afterMin || '')).toBe(false);
   });
@@ -236,13 +210,13 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
     // when it is the only thing being served.
     await selectDrinks(page, ['wine']);
     await selectEvent(page, 'wedding');
-    const alone = parseInt((await page.locator('#result-units').textContent()) || '0');
+    const alone = parseInt(
+      (await visibleRows(page).first().locator('.drink-units').textContent()) || '0',
+    );
 
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
     const shared = await page
-      .locator('#fullbar-grid .drink-card-sm')
-      .filter({ hasText: 'Wine' })
-      .locator('.font-mono-luxe.font-bold')
+      .locator('#bar-table tr[data-drink-id="wine"] .drink-units')
       .textContent();
 
     expect(parseInt(shared || '0')).toBeLessThan(alone);
@@ -252,21 +226,41 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
   test('Event-specific modifiers affect calculations', async ({ page }) => {
     await selectDrinks(page, ['beer']);
 
-    // Super Bowl should have more beer than Wedding
     await selectEvent(page, 'super-bowl');
-    const superBowlBeer = await page.locator('#result-units').textContent();
+    const superBowlBeer = await visibleRows(page).first().locator('.drink-units').textContent();
     const superBowlNum = parseInt(superBowlBeer || '0');
 
     await selectEvent(page, 'wedding');
-    const weddingBeer = await page.locator('#result-units').textContent();
+    const weddingBeer = await visibleRows(page).first().locator('.drink-units').textContent();
     const weddingNum = parseInt(weddingBeer || '0');
 
     // Super Bowl has +40% beer modifier, wedding has -10%
-    // Due to ceiling/rounding, they might be equal
     expect(superBowlNum).toBeGreaterThanOrEqual(weddingNum);
-    // Both should be valid numbers
     expect(isInvalidNumber(superBowlBeer || '')).toBe(false);
     expect(isInvalidNumber(weddingBeer || '')).toBe(false);
+  });
+
+  test('The last selected drink cannot be removed', async ({ page }) => {
+    await selectDrinks(page, ['wine']);
+    await page.locator('.drink-toggle[data-item="wine"]').click();
+    await expect(page.locator('.drink-toggle[data-item="wine"]')).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+    expect(await visibleRows(page).count()).toBe(1);
+  });
+
+  test('Single drink links to its calculator page, several to bar setup', async ({ page }) => {
+    await selectDrinks(page, ['wine']);
+    await selectEvent(page, 'wedding');
+    expect(await page.locator('#detail-link').getAttribute('href')).toContain(
+      '/wine-for-wedding-100-guests/',
+    );
+
+    await selectDrinks(page, ['wine', 'beer']);
+    expect(await page.locator('#detail-link').getAttribute('href')).toContain(
+      '/bar-setup/wedding-100-guests/',
+    );
   });
 });
 
@@ -274,7 +268,6 @@ test.describe('Bar Setup Page - NaN Tests', () => {
   // Test the bar-setup pages directly for each event
   for (const event of EVENTS) {
     test(`Bar setup page for ${event.name} with all drinks - should not have NaN`, async ({ page }) => {
-      // Navigate to bar-setup page with all drinks
       const url = `/bar-setup/${event.id === 'wedding' ? 'wedding' :
         event.id === 'graduation' ? 'graduation-party' :
         event.id === 'corporate' ? 'corporate-event' :
@@ -286,7 +279,6 @@ test.describe('Bar Setup Page - NaN Tests', () => {
       await page.goto(url);
       await page.waitForLoadState('networkidle');
 
-      // Check all drink cards
       const drinkCards = page.locator('.drink-card');
       const count = await drinkCards.count();
 
@@ -299,7 +291,6 @@ test.describe('Bar Setup Page - NaN Tests', () => {
         expect((servings || '').includes('NaN'), `Drink card ${i} servings contains NaN: "${servings}"`).toBe(false);
       }
 
-      // Check totals
       const totalUnits = await page.locator('#total-units').textContent();
       const totalServings = await page.locator('#total-servings').textContent();
       const perPerson = await page.locator('#per-person').textContent();
@@ -316,15 +307,12 @@ test.describe('Edge Cases', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Select all drinks
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
 
-    // Rapidly switch between events
     for (const event of EVENTS) {
       await selectEvent(page, event.id);
     }
 
-    // Final check for NaN
     const { hasNaN, locations } = await checkForNaN(page);
     expect(hasNaN, `NaN found after rapid switching: ${locations.join(', ')}`).toBe(false);
   });
@@ -333,14 +321,9 @@ test.describe('Edge Cases', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Select all drinks
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
+    await setGuests(page, 10);
 
-    // Set to minimum guests - now percentage-based (0% = 10 guests)
-    await page.locator('#guest-slider').fill('0');
-    await page.waitForTimeout(200);
-
-    // Check all events
     for (const event of EVENTS) {
       await selectEvent(page, event.id);
       const { hasNaN, locations } = await checkForNaN(page);
@@ -352,14 +335,9 @@ test.describe('Edge Cases', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Select all drinks
     await selectDrinks(page, ['wine', 'beer', 'champagne', 'spirits']);
+    await setGuests(page, 300);
 
-    // Set to maximum guests - now percentage-based (100% = 300 guests)
-    await page.locator('#guest-slider').fill('100');
-    await page.waitForTimeout(200);
-
-    // Check all events
     for (const event of EVENTS) {
       await selectEvent(page, event.id);
       const { hasNaN, locations } = await checkForNaN(page);
@@ -368,86 +346,58 @@ test.describe('Edge Cases', () => {
   });
 });
 
-test.describe('Slider Sync Tests', () => {
-  // Slider is now percentage-based (0-100) with piecewise linear scale
-  // Labels at 0%=10, 33.33%=100, 66.66%=200, 100%=300
-
-  // Helper to set slider value via JavaScript (Playwright fill() doesn't work well with range inputs)
-  async function setSliderValue(page: any, value: number) {
-    await page.evaluate((val: number) => {
-      const slider = document.getElementById('guest-slider') as HTMLInputElement;
-      slider.value = String(val);
-      slider.dispatchEvent(new Event('input', { bubbles: true }));
-    }, value);
-    await page.waitForTimeout(100);
-  }
-
-  test('Guest slider default value should display 100', async ({ page }) => {
+test.describe('Stepper behavior', () => {
+  test('Guest stepper defaults to 100 and steps through page counts', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Check initial display value (33.33% = 100 guests)
-    const displayValue = await page.locator('#guest-display').textContent();
-    expect(displayValue).toBe('100');
+    await expect(page.locator('#guest-input')).toHaveValue('100');
+
+    // Plus steps to the next generated guest count (125), minus back to 100
+    await page.locator('#guest-stepper [data-step="up"]').click();
+    await expect(page.locator('#guest-input')).toHaveValue('125');
+    await page.locator('#guest-stepper [data-step="down"]').click();
+    await expect(page.locator('#guest-input')).toHaveValue('100');
   });
 
-  test('Guest slider labels align with slider positions', async ({ page }) => {
+  test('Typed guest counts are clamped to 10-300', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Test the 4 labeled positions: 10, 100, 200, 300
-    const labelPositions = [
-      { sliderValue: 0, expectedGuests: '10' },
-      { sliderValue: 33.33, expectedGuests: '100' },
-      { sliderValue: 66.66, expectedGuests: '200' },
-      { sliderValue: 100, expectedGuests: '300' },
-    ];
+    await setGuests(page, 5000);
+    await expect(page.locator('#guest-input')).toHaveValue('300');
 
-    for (const { sliderValue, expectedGuests } of labelPositions) {
-      await setSliderValue(page, sliderValue);
-      const displayValue = await page.locator('#guest-display').textContent();
-      expect(displayValue).toBe(expectedGuests);
-    }
+    await setGuests(page, 1);
+    await expect(page.locator('#guest-input')).toHaveValue('10');
   });
 
-  test('Guest slider interpolates between labels correctly', async ({ page }) => {
+  test('Hour stepper steps by one within 1-6', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Test interpolation at midpoints between labels
-    const interpolationTests = [
-      { sliderValue: 16.67, expectedGuests: 55 },   // Midpoint 10-100
-      { sliderValue: 50, expectedGuests: 150 },      // Midpoint 100-200
-      { sliderValue: 83.33, expectedGuests: 250 },   // Midpoint 200-300
-    ];
-
-    for (const { sliderValue, expectedGuests } of interpolationTests) {
-      await setSliderValue(page, sliderValue);
-      const displayValue = await page.locator('#guest-display').textContent();
-      const displayNum = parseInt(displayValue || '0');
-      // Allow +/- 2 for rounding differences
-      expect(displayNum).toBeGreaterThanOrEqual(expectedGuests - 2);
-      expect(displayNum).toBeLessThanOrEqual(expectedGuests + 2);
-    }
+    // Wedding default is 5 hours
+    await expect(page.locator('#duration-input')).toHaveValue('5');
+    await page.locator('#duration-stepper [data-step="up"]').click();
+    await expect(page.locator('#duration-input')).toHaveValue('6');
+    await page.locator('#duration-stepper [data-step="up"]').click();
+    await expect(page.locator('#duration-input')).toHaveValue('6');
   });
 
-  test('Guest slider fill gradient updates correctly', async ({ page }) => {
+  test('Changing the occasion resets hours to its default', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
 
-    // Move slider to min (0% = 10 guests)
-    await setSliderValue(page, 0);
-    let displayValue = await page.locator('#guest-display').textContent();
-    expect(displayValue).toBe('10');
+    await setDuration(page, 2);
+    await selectEvent(page, 'corporate');
+    await expect(page.locator('#duration-input')).toHaveValue('3');
+  });
 
-    // Move slider to mid (50% = 150 guests)
-    await setSliderValue(page, 50);
-    displayValue = await page.locator('#guest-display').textContent();
-    expect(displayValue).toBe('150');
+  test('Context line follows guests and hours', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
 
-    // Move slider to max (100% = 300 guests)
-    await setSliderValue(page, 100);
-    displayValue = await page.locator('#guest-display').textContent();
-    expect(displayValue).toBe('300');
+    await setGuests(page, 150);
+    await setDuration(page, 4);
+    await expect(page.locator('#calc-context')).toHaveText('150 guests · 4 hours');
   });
 });

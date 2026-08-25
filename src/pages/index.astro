@@ -1,196 +1,412 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InteractiveCalculator from '../components/InteractiveCalculator.astro';
-import EmailCapture from '../components/EmailCapture.astro';
-import { affiliateLinks } from '../lib/affiliates';
-import { totalCalculatorsLabel } from '../data';
+import Icon from '../components/Icon.astro';
+import { items } from '../data/items';
+import { events } from '../data/events';
+import { drinkShare, formatSharePercent } from '../data/eventSplits';
 import { nextSeasonalEvent } from '../data/seasonalEvents';
+import { AUTHOR } from '../data/site';
 
-// Follows the build month; a monthly rebuild keeps the card current.
+// Follows the build month; a monthly rebuild keeps the row current.
 const featuredSeasonal = nextSeasonalEvent(new Date());
+
+// One-line note per occasion, derived from the split data rather than written
+// by hand: the leading drink (or the leading pair when the bar is balanced)
+// and the default run time.
+function occasionNote(event: (typeof events)[number]): string {
+  const shares = items
+    .map((item) => ({ item, share: drinkShare(event.id, item.id) }))
+    .sort((a, b) => b.share - a.share);
+  const [top, second] = shares;
+  const lead =
+    top.share >= second.share * 1.4
+      ? `${top.item.name.toLowerCase()} forward`
+      : `${top.item.name.toLowerCase()} and ${second.item.name.toLowerCase()}`;
+  return `${lead} · ${event.defaultDuration} hours`;
+}
+
+// Rules of thumb rows, read from the data the calculator itself uses.
+const rulesRows = items.map((item) => {
+  const share = formatSharePercent(drinkShare('wedding', item.id));
+  const shareNote =
+    item.id === 'champagne'
+      ? ', plus one flute each for the toast'
+      : item.id === 'spirits'
+        ? ', plus mixers and ice'
+        : '';
+  return {
+    name: item.name,
+    pour: item.standardPour ?? '',
+    perUnit: `${item.servingsPerUnit} per ${item.unitSingular}`,
+    share: `${share}%${shareNote}`,
+  };
+});
 ---
 
 <BaseLayout
   title="Party Food & Drink Calculator | StockTheEvent"
   description="Calculate exactly how much food and drinks you need for your event. Quantities for weddings, birthdays, Super Bowl parties, and more, with the full method published. Wine, beer, pizza, wings & more."
+  calculatorHref="#calculator"
 >
-  <!-- Interactive Calculator Hero -->
-  <InteractiveCalculator />
-
-  <!-- Why Trust Our Calculator (moved up for credibility-first) -->
-  <section class="py-16 bg-white">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-12 text-center">
-        Why Trust Our Calculator?
-      </h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-          </div>
-          <h3 class="font-bold text-lg mb-2">Industry Standards</h3>
-          <p class="text-[var(--chocolate-light)] text-sm">Built on a rate of 1.5 drinks per drinker per hour, adjusted for how long the party runs.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-          </div>
-          <h3 class="font-bold text-lg mb-2">Smart Scaling</h3>
-          <p class="text-[var(--chocolate-light)] text-sm">We factor in that people drink less as events progress - so you don't over-buy.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-          </div>
-          <h3 class="font-bold text-lg mb-2">Event-Specific</h3>
-          <p class="text-[var(--chocolate-light)] text-sm">Weddings drink more wine, game day parties need more beer. We adjust for each event.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Popular Calculators -->
-  <section class="py-16 bg-[var(--champagne-100)]">
-    <div class="max-w-4xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-8 text-center">
-        Popular Calculators
-      </h2>
-      <div class="grid md:grid-cols-2 gap-4">
-        <a href="/wine-for-wedding-100-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex items-center gap-4">
-            <div>
-              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine for 100 Guest Wedding</div>
-              <div class="text-sm text-[var(--chocolate-40)]">Most popular calculator</div>
-            </div>
-          </div>
-        </a>
-        <a href={`/party/${featuredSeasonal.slug}/`} class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex items-center gap-4">
-            <div>
-              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">{featuredSeasonal.title}</div>
-              <div class="text-sm text-[var(--chocolate-40)]">In season now</div>
-            </div>
-          </div>
-        </a>
-        <a href="/champagne-for-holiday-party-75-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex items-center gap-4">
-            <div>
-              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Champagne for 75 Guest Holiday Party</div>
-              <div class="text-sm text-[var(--chocolate-40)]">Celebrate in style</div>
-            </div>
-          </div>
-        </a>
-        <a href="/spirits-for-birthday-party-30-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex items-center gap-4">
-            <div>
-              <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Spirits for 30 Guest Birthday</div>
-              <div class="text-sm text-[var(--chocolate-40)]">Party planning made easy</div>
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="text-center mt-8">
-        <a href="/calculators/" class="text-[var(--primary-dark)] hover:text-[var(--primary)] font-medium hover:underline">
-          View all {totalCalculatorsLabel()} calculators →
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Trust Signals -->
-  <section class="py-16 bg-white">
-    <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold text-[var(--chocolate)] mb-4">
-        Numbers you can check
-      </h2>
-      <p class="text-[var(--chocolate-light)] mb-8">
-        Every constant behind these quantities is published, so you can see exactly how a figure
-        was reached and adjust it for your own party.
-        <a href="/methodology/" class="text-[var(--primary-dark)] hover:underline">Read the methodology</a>.
+  <!-- Hero + calculator -->
+  <section class="container home-hero">
+    <div class="hero-copy">
+      <p class="label hero-kicker">Wine · Beer · Champagne · Spirits · Food</p>
+      <h1 class="hero-h1">How much should you buy?</h1>
+      <p class="hero-deck">
+        Real quantities for any party, built on how people actually drink: about a
+        drink and a half in the first hour, slowing after, split the way your
+        occasion pours, with a 15 percent margin so you never run out.
       </p>
-      <div class="flex justify-center gap-8 text-[var(--chocolate-40)]">
-        <div class="text-center">
-          <div class="text-4xl font-bold text-[var(--primary)] tabular-nums">{totalCalculatorsLabel()}</div>
-          <div class="text-sm">Calculators</div>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl font-bold text-[var(--primary)]">15%</div>
-          <div class="text-sm">Safety Buffer</div>
-        </div>
-        <div class="text-center">
-          <div class="text-4xl font-bold text-[var(--primary)]">4</div>
-          <div class="text-sm">Drinks Per Bar</div>
-        </div>
+      <div class="hero-checks">
+        <span><Icon name="check" size={20} /> Checked against The Knot and standard pours</span>
+        <span><Icon name="check" size={20} /> Free, no signup</span>
+      </div>
+      <div class="hero-icons" aria-hidden="true">
+        <Icon name="bottle" size={40} />
+        <Icon name="case" size={104} />
+        <Icon name="glass" size={56} />
+        <Icon name="bottle" size={40} />
       </div>
     </div>
-  </section>
-
-  <!-- Email Capture -->
-  <section class="py-12 bg-gradient-to-b from-[var(--champagne-100)] to-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <EmailCapture eventType="homepage" placement="inline" />
+    <div class="hero-calc">
+      <InteractiveCalculator />
     </div>
   </section>
 
-  <!-- Pro Tip: Stock Your Bar (Affiliate Links) -->
-  <section class="py-12 bg-[var(--champagne-100)]">
-    <div class="max-w-4xl mx-auto px-4">
-      <div class="text-center mb-8">
-        <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-2">
-          Pro Tip: Stock Your Bar
-        </h2>
-        <p class="text-[var(--chocolate-light)] text-sm">
-          Essential supplies every host needs
+  <!-- Rules of thumb -->
+  <section class="container home-section">
+    <div class="rule"></div>
+    <div class="section-grid home-section-grid">
+      <div class="section-head">
+        <span class="label head-label">Rules of thumb</span>
+        <h2 class="head-title">The numbers behind every answer</h2>
+        <p class="head-note">
+          Standard pours, standard packaging, a pace that slows as the night goes
+          on, and a split that changes with the occasion. Nothing here is a
+          secret; the calculator just does the arithmetic.
         </p>
       </div>
-
-      <div class="grid md:grid-cols-2 gap-3">
-        <a href={affiliateLinks['party-cups']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex-1">
-            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Party Cups</div>
-            <div class="text-sm text-[var(--chocolate-40)]">For beer, cocktails & more</div>
-          </div>
-        </a>
-        <a href={affiliateLinks['wine-glasses']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex-1">
-            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Glasses</div>
-            <div class="text-sm text-[var(--chocolate-40)]">Elegant party stemware</div>
-          </div>
-        </a>
-        <a href={affiliateLinks['ice-bucket']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex-1">
-            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Ice Bucket</div>
-            <div class="text-sm text-[var(--chocolate-40)]">Keep bottles chilled</div>
-          </div>
-        </a>
-        <a href={affiliateLinks['corkscrew']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <div class="flex-1">
-            <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Opener</div>
-            <div class="text-sm text-[var(--chocolate-40)]">Every bar needs one</div>
-          </div>
-        </a>
+      <div class="section-body table-scroll">
+        <table class="ledger">
+          <thead>
+            <tr>
+              <th class="rules-drink-col">Drink</th>
+              <th>Standard pour</th>
+              <th>Servings per unit</th>
+              <th class="rules-share-col">Share of a wedding bar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rulesRows.map((row) => (
+              <tr>
+                <td class="rules-name">{row.name}</td>
+                <td class="rules-muted">{row.pour}</td>
+                <td class="num">{row.perUnit}</td>
+                <td class="num rules-share">{row.share}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-
-      <p class="text-xs text-[var(--chocolate-40)] text-center mt-6">
-        As an Amazon Associate, we earn from qualifying purchases at no extra cost to you.
-      </p>
     </div>
   </section>
 
-  <!-- Cross-promotion: FreezerBatchCocktails -->
-  <section class="py-10 bg-white border-y border-[var(--primary-10)]">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-      <h2 class="font-display text-xl font-bold text-[var(--chocolate)] mb-2">
-        Be the Host, Not the Bartender
-      </h2>
-      <p class="text-[var(--chocolate-light)] mb-4">
-        Dinner party for 8? Batch your Negronis and Manhattans ahead of time. Perfectly chilled, zero effort.
-      </p>
-      <a
-        href="https://freezerbatchcocktails.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-block sunset-gradient text-white px-6 py-2 rounded-xl font-semibold hover:shadow-lg hover:scale-105 transition-all"
-      >
-        Explore Freezer Batching →
-      </a>
+  <!-- By occasion -->
+  <section class="container home-section">
+    <div class="rule"></div>
+    <div class="section-grid home-section-grid">
+      <div class="section-head">
+        <span class="label head-label">By occasion</span>
+        <h2 class="head-title">Weddings pour wine. Game day pours beer.</h2>
+        <p class="head-note">
+          Each occasion has its own split and its own pace. Pick yours to get the
+          right mix.
+        </p>
+      </div>
+      <div class="section-body occasion-index">
+        <a href={`/party/${featuredSeasonal.slug}/`} class="occasion-row occasion-featured">
+          <span>{featuredSeasonal.shortName}</span>
+          <span class="occasion-note">This month</span>
+        </a>
+        {events.map((event) => (
+          <a href={`/calculators/${event.id}/`} class="occasion-row">
+            <span>{event.name}</span>
+            <span class="occasion-note">{occasionNote(event)}</span>
+          </a>
+        ))}
+        <a href="/calculators/" class="occasion-row occasion-all">
+          <span>All {events.length} occasions</span>
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How the math works -->
+  <section class="container home-section">
+    <div class="rule"></div>
+    <div class="section-grid home-section-grid">
+      <div class="section-head">
+        <span class="label head-label">How the math works</span>
+        <h2 class="head-title">Every answer shows its work</h2>
+      </div>
+      <div class="method-copy">
+        <p>
+          Start with the guests who drink (70 to 80 percent, fewer at big
+          events). Give each one about a drink and a half in the first hour, then
+          slow the pace as the night goes on. Split the total across the drinks
+          you serve the way that occasion tends to, convert to bottles and cases,
+          and add 15 percent so the last hour is not a scramble.
+        </p>
+        <p>
+          Every calculator page prints those steps with your numbers in them, so
+          you can change any assumption you disagree with.
+        </p>
+        <a href="/methodology/" class="method-link">
+          Read the full methodology <Icon name="arrow" size={18} />
+        </a>
+      </div>
+      <div class="author-block">
+        <span class="label">Formulas by</span>
+        <span class="font-display author-name">{AUTHOR.name}</span>
+        <span class="author-bio">{AUTHOR.role}. {AUTHOR.bio}</span>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    padding-top: 40px;
+    padding-bottom: 56px;
+    align-items: start;
+  }
+
+  @media (min-width: 1000px) {
+    .home-hero {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 32px;
+      padding-top: 72px;
+      padding-bottom: 64px;
+    }
+
+    .hero-copy {
+      grid-column: span 5;
+      padding-right: 24px;
+    }
+
+    .hero-calc {
+      grid-column: span 7;
+    }
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .hero-kicker {
+    color: var(--accent);
+    margin: 0;
+  }
+
+  .hero-h1 {
+    margin: 0;
+    font-size: 40px;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  @media (min-width: 900px) {
+    .hero-h1 {
+      font-size: 64px;
+    }
+  }
+
+  .hero-deck {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 34ch;
+  }
+
+  .hero-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+
+  .hero-checks span {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-icons {
+    display: none;
+    align-items: flex-end;
+    gap: 28px;
+    padding-top: 20px;
+    color: var(--ink);
+  }
+
+  @media (min-width: 1000px) {
+    .hero-icons {
+      display: flex;
+    }
+  }
+
+  .home-section {
+    padding-bottom: 56px;
+  }
+
+  .home-section-grid {
+    padding-top: 40px;
+  }
+
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .head-label {
+    color: var(--accent);
+  }
+
+  .head-title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.15;
+  }
+
+  @media (min-width: 900px) {
+    .head-title {
+      font-size: 34px;
+    }
+  }
+
+  .head-note {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.55;
+    max-width: 32ch;
+  }
+
+  .rules-drink-col {
+    width: 18%;
+  }
+
+  .rules-share-col,
+  .rules-share {
+    text-align: right;
+  }
+
+  .rules-name {
+    font-weight: 500;
+  }
+
+  .rules-muted {
+    color: var(--ink-2);
+  }
+
+  .occasion-index {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 48px;
+  }
+
+  @media (min-width: 700px) {
+    .occasion-index {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .occasion-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    font-size: 17px;
+  }
+
+  .occasion-note {
+    font-size: 13px;
+    color: var(--ink-2);
+    text-align: right;
+  }
+
+  .occasion-featured .occasion-note {
+    color: var(--accent);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+  }
+
+  .occasion-all {
+    color: var(--accent);
+    font-weight: 500;
+    align-items: center;
+  }
+
+  .method-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 900px) {
+    .method-copy {
+      grid-column: span 5;
+    }
+
+    .author-block {
+      grid-column: span 3;
+    }
+  }
+
+  .method-copy p {
+    margin: 0;
+  }
+
+  .method-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+
+  .author-block {
+    border-top: 1px solid var(--ink);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .author-name {
+    font-size: 20px;
+  }
+
+  .author-bio {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+</style>
