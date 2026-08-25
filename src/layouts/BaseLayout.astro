@@ -107,13 +107,9 @@ const breadcrumbSchema = breadcrumbs ? {
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google Fonts - Golden Hour Design System -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-
-    <!-- Material Symbols for icons (subsetted) -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" />
+    <!-- Self-hosted fonts: preload the two faces used above the fold -->
+    <link rel="preload" href="/fonts/libre-caslon-text-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- Slot for page-specific head content (schema, etc) -->
     <slot name="head" />
@@ -138,7 +134,6 @@ const breadcrumbSchema = breadcrumbs ? {
       <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Logo -->
         <a href="/" class="flex items-center gap-3 group">
-          <span class="text-3xl group-hover:scale-110 transition-transform" aria-hidden="true">🥂</span>
           <div class="flex flex-col">
             <span class="font-display text-xl font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)] transition-colors">
               StockTheEvent
@@ -213,7 +208,6 @@ const breadcrumbSchema = breadcrumbs ? {
           <!-- Brand -->
           <div class="md:col-span-2">
             <div class="flex items-center gap-3 text-xl font-bold text-white mb-4">
-              <span class="text-3xl" aria-hidden="true">🥂</span>
               <div class="flex flex-col">
                 <span class="font-display">StockTheEvent</span>
                 <span class="h-0.5 w-8 bg-[var(--primary)] rounded-full"></span>
@@ -236,17 +230,13 @@ const breadcrumbSchema = breadcrumbs ? {
               Seasonal Parties
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/party/super-bowl-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🏈</span> Super Bowl Party
+              <li><a href="/party/super-bowl-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Super Bowl Party
               </a></li>
-              <li><a href="/party/graduation-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🎓</span> Graduation Party
+              <li><a href="/party/graduation-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Graduation Party
               </a></li>
-              <li><a href="/party/fourth-of-july-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🎆</span> 4th of July Party
+              <li><a href="/party/fourth-of-july-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> 4th of July Party
               </a></li>
-              <li><a href="/party/christmas-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🎄</span> Christmas Party
+              <li><a href="/party/christmas-party-calculator/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Christmas Party
               </a></li>
             </ul>
           </div>
@@ -258,17 +248,13 @@ const breadcrumbSchema = breadcrumbs ? {
               Food & Drinks
             </h4>
             <ul class="space-y-3 text-sm">
-              <li><a href="/food/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🍗</span> Food Calculators
+              <li><a href="/food/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Food Calculators
               </a></li>
-              <li><a href="/food/pizza-for-birthday-party-50-guests/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🍕</span> Pizza Calculator
+              <li><a href="/food/pizza-for-birthday-party-50-guests/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Pizza Calculator
               </a></li>
-              <li><a href="/calculators/beer/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🍺</span> Beer Calculators
+              <li><a href="/calculators/beer/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Beer Calculators
               </a></li>
-              <li><a href="/calculators/wine/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2">
-                <span>🍷</span> Wine Calculators
+              <li><a href="/calculators/wine/" class="hover:text-[var(--primary)] transition-colors flex items-center gap-2"> Wine Calculators
               </a></li>
             </ul>
           </div>

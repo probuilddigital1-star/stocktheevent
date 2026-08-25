@@ -1,0 +1,144 @@
+---
+/**
+ * Icon.astro - the only way icons are rendered on this site.
+ *
+ * Inline SVG, stroke currentColor at 1.5px, round caps and joins, fill none.
+ * Most icons live on a 24x24 viewBox; bottle (24x64), case (64x44) and
+ * glass (40x64) are taller illustrations for the homepage hero.
+ *
+ * Ids: wine, beer, flute, spirit, pizza, wings, tacos, sliders, appetizers,
+ * bbq, bottle, case, glass, check, arrow, minus, plus, external, menu, close,
+ * print, copy, mail, calendar.
+ */
+
+interface Props {
+  name: string;
+  /** Rendered width in px; height follows the viewBox aspect. Default 24. */
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 24, class: className } = Astro.props;
+
+const ICONS: Record<string, { viewBox: string; body: string }> = {
+  wine: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M7 3h10v6a5 5 0 0 1-10 0V3z"/><path d="M12 14v6"/><path d="M8 20h8"/><path d="M7.5 7h9"/>',
+  },
+  beer: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z"/><path d="M15 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><path d="M6 8a3 3 0 0 1 3-4 3 3 0 0 1 5.2-.5A2.5 2.5 0 0 1 16 8"/>',
+  },
+  flute: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M9 3h6l-1 9a2 2 0 0 1-4 0L9 3z"/><path d="M12 14v6"/><path d="M9 20h6"/>',
+  },
+  spirit: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M10 3h4v4l2 2v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-2V3z"/><path d="M8 13h8"/>',
+  },
+  pizza: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M12 21 4.5 6.2a15.5 15.5 0 0 1 15 0L12 21z"/><path d="M6 9.2a12 12 0 0 1 12 0"/><circle cx="10.5" cy="12.5" r="1.1"/><circle cx="13.5" cy="16" r="1.1"/>',
+  },
+  wings: {
+    viewBox: '0 0 24 24',
+    body: '<circle cx="13.5" cy="8.5" r="6"/><path d="M9.5 13 5.5 17"/><circle cx="4.5" cy="18" r="1.6"/><circle cx="6.5" cy="20" r="1.6"/>',
+  },
+  tacos: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M3 17a9 9 0 0 1 18 0z"/><path d="M6.5 17a5.5 5.5 0 0 1 11 0"/>',
+  },
+  sliders: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M5 10a7 7 0 0 1 14 0H5z"/><path d="M4 13.5h16"/><path d="M5 17h14v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-1z"/>',
+  },
+  appetizers: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M12 2v3.5"/><path d="M12 10.5v2.5"/><path d="M12 18v4"/><circle cx="12" cy="8" r="2.5"/><path d="M9.5 13h5v5h-5z"/>',
+  },
+  bbq: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M4 9h16a8 8 0 0 1-16 0z"/><path d="M8.5 16.5 6 21"/><path d="M15.5 16.5 18 21"/><path d="M12 17v4"/>',
+  },
+  bottle: {
+    viewBox: '0 0 24 64',
+    body: '<path d="M9 2h6v10c0 3 4 5 4 10v38a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V22c0-5 4-7 4-10V2z"/><path d="M5 34h14"/><path d="M5 50h14"/>',
+  },
+  case: {
+    viewBox: '0 0 64 44',
+    body: '<path d="M2 12h60v30H2z"/><path d="M2 12l6-10h48l6 10"/><path d="M32 2v10"/><path d="M22 27h20"/>',
+  },
+  glass: {
+    viewBox: '0 0 40 64',
+    body: '<path d="M6 2h28l-4 30a10 10 0 0 1-20 0L6 2z"/><path d="M20 42v16"/><path d="M10 60h20"/>',
+  },
+  check: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  },
+  arrow: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M4 12h15"/><path d="M13 6l6 6-6 6"/>',
+  },
+  minus: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M6 12h12"/>',
+  },
+  plus: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M12 6v12"/><path d="M6 12h12"/>',
+  },
+  external: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 13v6H5V6h6"/>',
+  },
+  menu: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>',
+  },
+  close: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M6 6l12 12"/><path d="M18 6L6 18"/>',
+  },
+  print: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/>',
+  },
+  copy: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M9 9h11v11H9z"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  },
+  mail: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M3 5h18v14H3z"/><path d="M3 6l9 7 9-7"/>',
+  },
+  calendar: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M4 5h16v16H4z"/><path d="M4 10h16"/><path d="M8 3v4"/><path d="M16 3v4"/>',
+  },
+};
+
+const icon = ICONS[name];
+if (!icon) {
+  throw new Error(`[Icon] Unknown icon id "${name}". Add it to Icon.astro or use one of: ${Object.keys(ICONS).join(', ')}`);
+}
+
+const [, , vbWidth, vbHeight] = icon.viewBox.split(' ').map(Number);
+const width = size;
+const height = Math.round((size * vbHeight) / vbWidth);
+---
+
+<svg
+  viewBox={icon.viewBox}
+  width={width}
+  height={height}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={className}
+  set:html={icon.body}
+/>

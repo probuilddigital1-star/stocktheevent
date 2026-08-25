@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { items } from '../data/items';
 import { events } from '../data/events';
 import { guestCounts } from '../data/guestCounts';
@@ -15,7 +16,7 @@ import {
 const itemsData = items.map(i => ({
   id: i.id,
   name: i.name,
-  emoji: i.emoji,
+  icon: i.icon,
   unit: i.unit,
   unitSingular: i.unitSingular,
   servingsPerUnit: i.servingsPerUnit,
@@ -36,21 +37,6 @@ const guestCountsData = guestCounts.map(g => ({
   tier: g.tier,
 }));
 
-// Drink category images (placeholder paths - can be replaced with actual images)
-const drinkImages = {
-  wine: '/images/wine-glass.jpg',
-  beer: '/images/beer-glass.jpg',
-  spirits: '/images/spirits-bottles.jpg',
-  champagne: '/images/champagne-glass.jpg',
-};
-
-// Material icons for drinks
-const drinkIcons = {
-  wine: 'wine_bar',
-  beer: 'sports_bar',
-  spirits: 'liquor',
-  champagne: 'local_bar',
-};
 ---
 
 <section class="py-12 md:py-20">
@@ -88,20 +74,9 @@ const drinkIcons = {
                       : 'glass-card hover:border-[var(--primary-40)]'
                   ]}
                 >
-                  <!-- Background gradient (simulating image) -->
-                  <div class="absolute inset-0 bg-gradient-to-br from-[var(--champagne-100)] to-[var(--cream-200)] opacity-60 group-hover:opacity-80 transition-opacity"></div>
-
-                  <!-- Material Icon -->
-                  <span class:list={[
-                    'material-symbols-outlined absolute top-3 left-3 text-xl transition-colors',
-                    idx === 0 ? 'text-[var(--primary)]' : 'text-[var(--chocolate-40)] group-hover:text-[var(--primary)]'
-                  ]} style="font-variation-settings: 'FILL' 0;">
-                    {drinkIcons[item.id as keyof typeof drinkIcons]}
-                  </span>
-
                   <!-- Content -->
-                  <div class="absolute inset-0 flex flex-col items-center justify-center p-4">
-                    <span class="text-5xl mb-2 group-hover:scale-110 transition-transform drop-shadow-md">{item.emoji}</span>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4">
+                    <Icon name={item.icon} size={40} />
                     <span class="font-semibold text-[var(--chocolate)] text-lg">{item.name}</span>
                   </div>
 
@@ -203,13 +178,11 @@ const drinkIcons = {
           <!-- Single Drink Result (default) -->
           <div id="single-result" class="result-panel p-8 md:p-10 text-center text-white">
             <p class="text-sm uppercase tracking-widest opacity-80 mb-6">You will need approx.</p>
-            <div id="result-emoji" class="text-7xl mb-4 drop-shadow-lg transition-transform">🍷</div>
             <div class="flex items-baseline justify-center gap-2 mb-2">
               <span id="result-units" class="font-mono-luxe text-7xl md:text-8xl font-bold text-glow">24</span>
             </div>
             <div id="result-unit-label" class="font-display text-2xl italic opacity-95">Bottles</div>
             <div class="flex items-center justify-center gap-2 mt-4 text-sm opacity-80">
-              <span class="material-symbols-outlined text-base">info</span>
               <span id="result-mix-label">Calculated for wine</span>
             </div>
           </div>
@@ -221,14 +194,12 @@ const drinkIcons = {
               <!-- Dynamically populated -->
             </div>
             <div class="flex items-center justify-center gap-2 mt-4 text-sm opacity-80">
-              <span class="material-symbols-outlined text-base">info</span>
               <span>15% buffer included on each</span>
             </div>
           </div>
 
           <!-- Full Bar Result (4 drinks) -->
           <div id="fullbar-result" class="result-panel hidden p-6 text-center text-white">
-            <div class="text-4xl mb-2">🎉</div>
             <p class="text-lg font-semibold mb-1">Your Complete Bar</p>
             <div id="total-items" class="font-mono-luxe text-5xl font-bold text-glow">106</div>
             <p class="text-sm opacity-80 mb-4">total items</p>
@@ -261,7 +232,7 @@ const drinkIcons = {
           class="block w-full forest-gradient text-white text-center py-4 rounded-2xl font-bold text-lg mt-4 hover:scale-[1.02] active:scale-[0.98] transition-transform flex items-center justify-center gap-2"
         >
           <span id="cta-text">Get Full Breakdown</span>
-          <span class="material-symbols-outlined">arrow_forward</span>
+          <Icon name="arrow" size={20} />
         </a>
         <p class="text-center text-sm text-[var(--chocolate-40)] mt-3">
           Pro tips • Step-by-step math • Copy-ready shopping list
@@ -391,7 +362,6 @@ const drinkIcons = {
   const fullbarResult = document.getElementById('fullbar-result');
 
   // Single result elements
-  const resultEmoji = document.getElementById('result-emoji');
   const resultUnits = document.getElementById('result-units');
   const resultUnitLabel = document.getElementById('result-unit-label');
   const resultMixLabel = document.getElementById('result-mix-label');
@@ -491,10 +461,6 @@ const drinkIcons = {
       singleResult.classList.remove('hidden');
       const result = calc.results[0];
 
-      resultEmoji.style.transform = 'scale(1.1) rotate(5deg)';
-      setTimeout(() => { resultEmoji.style.transform = 'scale(1) rotate(0deg)'; }, 200);
-
-      resultEmoji.textContent = result.item.emoji;
       resultUnits.textContent = result.unitsNeeded;
       resultUnits.classList.add('result-animate');
       setTimeout(() => { resultUnits.classList.remove('result-animate'); }, 300);
@@ -512,7 +478,6 @@ const drinkIcons = {
       multiDrinkGrid.innerHTML = calc.results.map(r => `
         <div class="drink-card-item flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">${r.item.emoji}</span>
             <span class="font-medium">${r.item.name}</span>
           </div>
           <div class="text-right">
@@ -535,7 +500,6 @@ const drinkIcons = {
       fullbarGrid.innerHTML = calc.results.map(r => `
         <div class="drink-card-sm flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <span class="text-xl">${r.item.emoji}</span>
             <span class="text-sm font-medium">${r.item.name}</span>
           </div>
           <div class="font-mono-luxe font-bold">${r.unitsNeeded}</div>
@@ -593,7 +557,6 @@ const drinkIcons = {
       const itemId = card.dataset.item;
       const isSelected = selectedItems.some(i => i.id === itemId);
       const selectionDot = card.querySelector('.selection-dot');
-      const icon = card.querySelector('.material-symbols-outlined');
 
       if (isSelected) {
         card.classList.remove('glass-card');
@@ -602,20 +565,12 @@ const drinkIcons = {
           selectionDot.style.background = 'var(--primary)';
           selectionDot.style.transform = 'scale(1)';
         }
-        if (icon) {
-          icon.classList.remove('text-[var(--chocolate-40)]');
-          icon.classList.add('text-[var(--primary)]');
-        }
       } else {
         card.classList.add('glass-card');
         card.classList.remove('glass-card-selected');
         if (selectionDot) {
           selectionDot.style.background = 'transparent';
           selectionDot.style.transform = 'scale(0)';
-        }
-        if (icon) {
-          icon.classList.add('text-[var(--chocolate-40)]');
-          icon.classList.remove('text-[var(--primary)]');
         }
       }
     });

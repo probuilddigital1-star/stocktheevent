@@ -56,7 +56,7 @@ const { caption, rowHeading, columns, rows, footnote } = Astro.props;
           {row.cells.map((cell) => (
             <td class="hub-num">
               {cell.label === null
-                ? <span class="hub-empty" aria-label="not available">&#8212;</span>
+                ? <span class="hub-empty" aria-label="not available">-</span>
                 : cell.href
                   ? <a href={cell.href}>{cell.label}</a>
                   : cell.label}

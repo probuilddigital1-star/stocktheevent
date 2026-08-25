@@ -4,7 +4,10 @@ export interface Item {
   id: string;
   name: string;
   namePlural: string;
-  emoji: string;
+  /** Icon id rendered by src/components/Icon.astro. */
+  icon: string;
+  /** The standard pour this item's servings are counted in, e.g. "5 oz glass". Drinks only. */
+  standardPour?: string;
   unit: string;
   unitSingular: string;
   servingsPerUnit: number;
@@ -150,7 +153,6 @@ export interface FoodCalculatorPage {
 export interface AffiliateProduct {
   name: string;
   searchTerm: string;
-  emoji: string;
 }
 
 export interface SeasonalEvent {
@@ -165,7 +167,6 @@ export interface SeasonalEvent {
   eventType: string;              // Maps to event.id
   featuredDrinks: string[];       // Item IDs
   featuredFoods: string[];        // Food item IDs
-  emoji: string;
   seasonalTips: string[];
   affiliateProducts: AffiliateProduct[];
   peakMonths: string[];

@@ -33,7 +33,6 @@ const { item, event, guestCount, calculation, h1 } = Astro.props;
       <!-- Content -->
       <div class="relative z-10">
         <p class="text-sm uppercase tracking-widest text-white/80 mb-4">You will need approx.</p>
-        <div class="text-8xl mb-6 drop-shadow-lg">{item.emoji}</div>
         <div class="font-mono-luxe text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-3 text-glow answer-number">
           {calculation.unitsNeeded}
         </div>
@@ -44,7 +43,6 @@ const { item, event, guestCount, calculation, h1 } = Astro.props;
           For a <span id="guest-count-display">{guestCount.value}</span>-guest {event.lowerName} lasting {event.defaultDuration} hours
         </p>
         <div class="mt-4 flex items-center justify-center gap-2 text-sm text-white/80">
-          <span class="material-symbols-outlined text-base">info</span>
           <span>15% buffer included</span>
         </div>
       </div>

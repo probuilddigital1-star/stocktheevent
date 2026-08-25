@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
@@ -87,17 +88,6 @@ const perPerson = Math.round((grandTotalServings / guestCount) * 10) / 10;
 // guessed per event id.
 const leadingDrink = fullBarResults.reduce((top, r) => (r.servings > top.servings ? r : top));
 
-// Event emoji mapping (keys match event.id)
-const eventEmojis: Record<string, string> = {
-  wedding: '💒',
-  graduation: '🎓',
-  corporate: '💼',
-  birthday: '🎂',
-  'super-bowl': '🏈',
-  'holiday-party': '🎄',
-  'wedding-shower': '💐',
-};
-
 // Pass calculation data to client-side script
 const clientData = {
   eventId: event.id,
@@ -170,8 +160,7 @@ const faqSchema = {
 
       <!-- Hero -->
       <div class="text-center mb-8">
-        <div class="text-6xl mb-4">{eventEmojis[event.id] || '🎉'}</div>
-        <!--
+          <!--
           The H1 is the page's own heading and stays put. The selection label
           below it is what the client script rewrites when ?drinks= narrows the
           list, so changing the selection no longer overwrites the heading.
@@ -201,7 +190,7 @@ const faqSchema = {
                 data-single-units={r.singleDrinkUnits}
                 data-single-servings={r.singleDrinkServings}
               >
-                <div class="text-5xl mb-2">{r.item.emoji}</div>
+                <div class="mb-2 flex justify-center"><Icon name={r.item.icon} size={36} /></div>
                 <div class="drink-units text-4xl font-black tabular-nums">{r.unitsNeeded}</div>
                 <div class="text-sm opacity-90">{r.item.unit}</div>
                 <div class="drink-servings text-xs opacity-75 mt-1 tabular-nums">{r.servings} servings</div>
@@ -240,7 +229,7 @@ const faqSchema = {
       <!-- Shopping List -->
       <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
         <h2 class="font-display text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <span>🛒</span> Shopping List
+          Shopping List
         </h2>
         <div id="shopping-list" class="space-y-3">
           {fullBarResults.map((r) => (
@@ -249,7 +238,7 @@ const faqSchema = {
               data-drink-id={r.item.id}
             >
               <div class="flex items-center gap-3">
-                <span class="text-2xl">{r.item.emoji}</span>
+                <Icon name={r.item.icon} size={22} />
                 <span class="font-medium text-slate-900">{r.item.name}</span>
               </div>
               <div class="text-right">
@@ -267,14 +256,14 @@ const faqSchema = {
           id="copy-list"
           class="mt-4 w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-medium transition-colors"
         >
-          📋 Copy Shopping List
+          Copy Shopping List
         </button>
       </div>
 
       <!-- Bar Supplies (Amazon Links) -->
       <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
         <h2 class="font-display text-2xl font-bold text-slate-900 mb-2 flex items-center gap-2">
-          <span>🛍️</span> Complete Your Bar Setup
+          Complete Your Bar Setup
         </h2>
         <p class="text-slate-600 mb-4 text-sm">Everything you need to serve your drinks (links open Amazon)</p>
 
@@ -286,7 +275,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🍷</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Glasses</div>
               <div class="text-sm text-slate-500">Party-ready stemware</div>
@@ -303,7 +291,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🔧</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Wine Opener</div>
               <div class="text-sm text-slate-500">Corkscrew & accessories</div>
@@ -320,7 +307,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🧊</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Beverage Cooler</div>
               <div class="text-sm text-slate-500">Keep drinks cold</div>
@@ -337,7 +323,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🥂</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Champagne Flutes</div>
               <div class="text-sm text-slate-500">Elegant toasting glasses</div>
@@ -354,7 +339,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🍸</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Cocktail Shaker Set</div>
               <div class="text-sm text-slate-500">Mix drinks like a pro</div>
@@ -371,7 +355,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🧰</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Bartender Kit</div>
               <div class="text-sm text-slate-500">Complete bar tool set</div>
@@ -388,7 +371,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🪣</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Ice Bucket</div>
               <div class="text-sm text-slate-500">Chill bottles in style</div>
@@ -405,7 +387,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
           >
-            <span class="text-3xl">🥤</span>
             <div class="flex-1">
               <div class="font-medium text-slate-900 group-hover:text-amber-700">Party Cups</div>
               <div class="text-sm text-slate-500">Disposable drinkware</div>
@@ -434,7 +415,7 @@ const faqSchema = {
               data-units={r.unitsNeeded}
               data-servings={r.servings}
             >
-              <span class="text-3xl">{r.item.emoji}</span>
+              <Icon name={r.item.icon} size={24} />
               <div class="flex-1">
                 <div class="font-medium text-slate-900 group-hover:text-emerald-600">{r.item.name} Details</div>
                 <div class="text-sm text-slate-500">
@@ -452,12 +433,11 @@ const faqSchema = {
       <!-- Pro Tips -->
       <div class="bg-emerald-50 rounded-2xl p-6">
         <h2 class="font-display text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
-          <span>💡</span> Pro Tips for Your {event.name}
+          Pro Tips for Your {event.name}
         </h2>
         <ul class="space-y-3">
           {event.proTips.slice(0, 3).map((tip) => (
             <li class="flex items-start gap-3">
-              <span class="text-emerald-500 mt-1">✓</span>
               <span class="text-emerald-800">{tip}</span>
             </li>
           ))}
@@ -740,9 +720,9 @@ const faqSchema = {
     const fullText = `Shopping List:\n${listText}\n\nGenerated by StockTheEvent.com`;
 
     navigator.clipboard.writeText(fullText).then(() => {
-      copyBtn.textContent = '✓ Copied!';
+      copyBtn.textContent = 'Copied!';
       setTimeout(() => {
-        copyBtn.textContent = '📋 Copy Shopping List';
+        copyBtn.textContent = 'Copy Shopping List';
       }, 2000);
     });
   });

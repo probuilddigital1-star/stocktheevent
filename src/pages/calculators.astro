@@ -1,18 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import { items } from '../data/items';
 import { events } from '../data/events';
-
-// Event emoji mapping (keys match event.id)
-const eventEmojis: Record<string, string> = {
-  wedding: '💒',
-  graduation: '🎓',
-  corporate: '💼',
-  birthday: '🎂',
-  'super-bowl': '🏈',
-  'holiday-party': '🎄',
-  'wedding-shower': '💐',
-};
 
 // Calculate counts
 const guestCounts = 14;
@@ -43,7 +33,6 @@ const breadcrumbs = [
 
       <!-- CTA to Homepage Calculator -->
       <div class="glass-card rounded-3xl shadow-xl p-8 md:p-10 max-w-xl mx-auto animate-fade-in-up animate-delay-100">
-        <div class="text-6xl mb-4">🍾</div>
         <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-3">
           Need a Quick Calculation?
         </h2>
@@ -77,9 +66,6 @@ const breadcrumbs = [
             class="group glass-card p-6 rounded-2xl hover:shadow-xl hover:border-[var(--forest-light)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-4">
-              <div class="text-5xl group-hover:scale-110 transition-transform">
-                {eventEmojis[event.id] || '🎉'}
-              </div>
               <div class="flex-1">
                 <div class="font-semibold text-lg text-[var(--chocolate)] group-hover:text-[var(--forest)]">
                   {event.name}
@@ -120,8 +106,8 @@ const breadcrumbs = [
             class="group glass-card p-8 rounded-2xl hover:shadow-xl hover:border-[var(--primary)] hover:scale-[1.02] transition-all"
           >
             <div class="flex items-center gap-5">
-              <div class="text-7xl group-hover:scale-110 transition-transform">
-                {item.emoji}
+              <div class="flex items-center justify-center">
+                <Icon name={item.icon} size={40} />
               </div>
               <div class="flex-1">
                 <div class="font-semibold text-xl text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">

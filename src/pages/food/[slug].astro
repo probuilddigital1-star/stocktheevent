@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { glob } from 'astro/loaders';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import type { FaqItem } from '../../components/FaqSection.astro';
@@ -192,7 +193,6 @@ const shoppingListSchema = {
 
       <!-- Hero -->
       <div class="text-center mb-8">
-        <div class="text-6xl mb-4">{page.item.emoji}</div>
         <h1 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--chocolate)] mb-4">
           {page.meta.h1}
         </h1>
@@ -256,14 +256,6 @@ const shoppingListSchema = {
         <span class="text-sm text-slate-500 mr-2">Switch food:</span>
         {['pizza', 'wings', 'tacos', 'sliders', 'appetizers', 'bbq'].map((foodId) => {
           const isActive = foodId === page.item.id;
-          const foodEmojis = {
-            pizza: '🍕',
-            wings: '🍗',
-            tacos: '🌮',
-            sliders: '🍔',
-            appetizers: '🍢',
-            bbq: '🍖',
-          };
           const foodNames = {
             pizza: 'Pizza',
             wings: 'Wings',
@@ -281,7 +273,7 @@ const shoppingListSchema = {
                   : 'bg-slate-100 text-slate-600 hover:bg-orange-100 hover:text-orange-700'
               }`}
             >
-              {foodEmojis[foodId]} {foodNames[foodId]}
+              <Icon name={foodId} size={16} class="inline-block align-middle" /> {foodNames[foodId]}
             </a>
           );
         })}
@@ -293,7 +285,6 @@ const shoppingListSchema = {
   <section class="py-12 bg-white">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-6 flex items-center gap-3">
-        <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">📐</span>
         Why This Amount Works
       </h2>
 
@@ -321,7 +312,6 @@ const shoppingListSchema = {
 
       <div class="mt-6 bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl p-4 border border-emerald-200">
         <div class="flex items-center gap-3">
-          <span class="text-2xl">✓</span>
           <div>
             <div class="font-semibold text-emerald-800">Where this number comes from</div>
             <div class="text-sm text-emerald-700">Every constant behind this figure is published, including the eating rate by guest count and the 15 percent buffer. <a href="/methodology/" class="underline">Read the methodology</a>.</div>
@@ -335,7 +325,6 @@ const shoppingListSchema = {
   <section class="py-10 bg-slate-50">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-        <span class="text-2xl">📊</span>
         Quick Reference: {page.item.name} by Guest Count
       </h2>
       <div class="overflow-x-auto bg-white rounded-xl shadow-sm">
@@ -375,7 +364,6 @@ const shoppingListSchema = {
   <section class="py-12 bg-white">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-        <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">🛒</span>
         Your Complete Shopping List
       </h2>
 
@@ -386,13 +374,13 @@ const shoppingListSchema = {
             return (
               <div class={`flex items-center justify-between p-4 ${index === 0 ? 'bg-orange-50' : ''}`}>
                 <div class="flex items-center gap-3">
-                  {index === 0 && <span class="text-2xl">{page.item.emoji}</span>}
+                  {index === 0 && <Icon name={page.item.icon} size={22} />}
                   <div>
                     <span class={`font-medium ${index === 0 ? 'text-orange-900' : 'text-slate-900'}`}>
                       {item.name}
                     </span>
                     {item.notes && (
-                      <span class="text-sm text-slate-500 ml-2">— {item.notes}</span>
+                      <span class="text-sm text-slate-500 ml-2">({item.notes})</span>
                     )}
                   </div>
                 </div>
@@ -428,15 +416,13 @@ const shoppingListSchema = {
     <section class="py-12 bg-white">
       <div class="max-w-3xl mx-auto px-4">
         <h2 class="font-display text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-          <span class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">💡</span>
-          Pro Tips for {page.event.name} Food
+            Pro Tips for {page.event.name} Food
         </h2>
 
         <div class="bg-amber-50 rounded-2xl p-6 border border-amber-200">
           <ul class="space-y-4">
             {eventFoodTips.slice(0, 5).map((tip: string) => (
               <li class="flex items-start gap-3">
-                <span class="text-amber-500 mt-1">✓</span>
                 <span class="text-amber-900">{tip}</span>
               </li>
             ))}
@@ -458,18 +444,17 @@ const shoppingListSchema = {
     <section class="py-12 bg-slate-50">
       <div class="max-w-3xl mx-auto px-4">
         <h2 class="font-display text-2xl font-bold text-[var(--chocolate)] mb-6 flex items-center gap-3">
-          <span class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">🍺</span>
-          Complete Your Bar
+            Complete Your Bar
         </h2>
         <p class="text-[var(--chocolate-light)] mb-4">Don't forget the drinks! See our drink calculators for this event:</p>
 
         <div class="grid md:grid-cols-3 gap-3">
           {page.relatedDrinks.map((drink) => {
-            const drinkEmojis = {
-              wine: '🍷',
-              beer: '🍺',
-              champagne: '🥂',
-              spirits: '🥃',
+            const drinkIcons = {
+              wine: 'wine',
+              beer: 'beer',
+              champagne: 'flute',
+              spirits: 'spirit',
             };
             const drinkId = drink.slug.split('-')[0];
             return (
@@ -477,7 +462,7 @@ const shoppingListSchema = {
                 href={`/${drink.slug}/`}
                 class="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--primary-10)] hover:border-[var(--forest-light)] hover:bg-emerald-50 transition-all group"
               >
-                <span class="text-3xl">{drinkEmojis[drinkId] || '🍹'}</span>
+                <Icon name={drinkIcons[drinkId] || 'glass'} size={24} />
                 <div class="flex-1">
                   <div class="font-medium text-[var(--chocolate)] group-hover:text-emerald-700">{drink.title.split(' for ')[0]}</div>
                   <div class="text-sm text-[var(--chocolate-40)]">Calculate now →</div>
@@ -519,7 +504,7 @@ const shoppingListSchema = {
             href={`/food/${related.slug}/`}
             class="flex items-center gap-3 p-4 bg-[var(--champagne-100)] rounded-xl border border-[var(--primary-10)] hover:border-[var(--primary)] hover:bg-[var(--primary-10)] transition-all group"
           >
-            <span class="text-2xl">{page.item.emoji}</span>
+            <Icon name={page.item.icon} size={22} />
             <div class="flex-1">
               <div class="font-medium text-[var(--chocolate)] group-hover:text-orange-700 text-sm">{related.title}</div>
             </div>
@@ -538,7 +523,6 @@ const shoppingListSchema = {
     <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
 
     <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <div class="text-6xl mb-6">🎉</div>
       <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
         Planning a different event?
       </h2>

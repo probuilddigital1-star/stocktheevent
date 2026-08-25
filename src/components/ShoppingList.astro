@@ -1,5 +1,6 @@
 ---
 import type { ShoppingItem, Item } from '../lib/types';
+import Icon from './Icon.astro';
 import { getAffiliateLink } from '../lib/affiliates';
 
 interface Props {
@@ -44,7 +45,7 @@ const accessories = shoppingItems.slice(1);
             </button>
             <div class="flex-1 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <span class="text-2xl">{mainItem.emoji}</span>
+                <Icon name={mainItem.icon} size={22} />
                 <span class="font-medium text-[var(--chocolate)] text-lg group-hover:text-[var(--primary-dark)] transition-colors">
                   {mainItemEntry.quantity} {mainItemEntry.unit} {mainItemEntry.name}
                 </span>
@@ -110,7 +111,7 @@ const accessories = shoppingItems.slice(1);
             type="button"
             class="flex items-center gap-2 px-4 py-2 bg-[var(--primary-10)] text-[var(--chocolate)] rounded-lg hover:bg-[var(--primary-20)] font-medium text-sm"
           >
-            <span class="material-symbols-outlined text-base">content_copy</span>
+            <Icon name="copy" size={18} />
             Copy List
           </button>
           <button
@@ -118,7 +119,7 @@ const accessories = shoppingItems.slice(1);
             type="button"
             class="flex items-center gap-2 px-4 py-2 bg-[var(--primary-10)] text-[var(--chocolate)] rounded-lg hover:bg-[var(--primary-20)] font-medium text-sm"
           >
-            <span class="material-symbols-outlined text-base">print</span>
+            <Icon name="print" size={18} />
             Print
           </button>
         </div>
@@ -129,7 +130,7 @@ const accessories = shoppingItems.slice(1);
             id="email-list-btn"
             class="flex-1 py-4 px-6 bg-[var(--forest)] hover:bg-[var(--forest-dark)] text-white rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2"
           >
-            <span class="material-symbols-outlined text-lg">mail</span>
+            <Icon name="mail" size={18} />
             Email List
           </button>
         </div>
@@ -225,7 +226,7 @@ const accessories = shoppingItems.slice(1);
       const btn = document.getElementById('copy-list-btn');
       if (btn) {
         const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base">check</span> Copied!';
+        btn.innerHTML = 'Copied!';
         setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
       }
     });

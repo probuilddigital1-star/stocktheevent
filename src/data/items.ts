@@ -5,7 +5,8 @@ export const items: Item[] = [
     id: 'wine',
     name: 'Wine',
     namePlural: 'Wine',
-    emoji: '🍷',
+    icon: 'wine',
+    standardPour: '5 oz glass',
     unit: 'bottles',
     unitSingular: 'bottle',
     servingsPerUnit: 5, // 5 glasses per 750ml bottle (5oz pour)
@@ -16,7 +17,8 @@ export const items: Item[] = [
     id: 'beer',
     name: 'Beer',
     namePlural: 'Beer',
-    emoji: '🍺',
+    icon: 'beer',
+    standardPour: '12 oz can or bottle',
     unit: 'cases',
     unitSingular: 'case',
     servingsPerUnit: 24, // 24 cans per case
@@ -27,7 +29,8 @@ export const items: Item[] = [
     id: 'champagne',
     name: 'Champagne',
     namePlural: 'Champagne',
-    emoji: '🥂',
+    icon: 'flute',
+    standardPour: '4 oz flute',
     unit: 'bottles',
     unitSingular: 'bottle',
     servingsPerUnit: 6, // 6 flutes per bottle (4oz pour)
@@ -38,7 +41,8 @@ export const items: Item[] = [
     id: 'spirits',
     name: 'Spirits',
     namePlural: 'Spirits',
-    emoji: '🥃',
+    icon: 'spirit',
+    standardPour: '1.5 oz pour',
     unit: 'bottles',
     unitSingular: 'bottle',
     servingsPerUnit: 17, // 17 drinks per 750ml (1.5oz shots)

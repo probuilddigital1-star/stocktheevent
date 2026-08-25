@@ -11,7 +11,7 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
 ---
 
 <BaseLayout
-  title="Party Food & Drink Calculator — StockTheEvent"
+  title="Party Food & Drink Calculator | StockTheEvent"
   description="Calculate exactly how much food and drinks you need for your event. Quantities for weddings, birthdays, Super Bowl parties, and more, with the full method published. Wine, beer, pizza, wings & more."
 >
   <!-- Interactive Calculator Hero -->
@@ -26,21 +26,18 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
       <div class="grid md:grid-cols-3 gap-8">
         <div class="text-center">
           <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">🎯</span>
           </div>
           <h3 class="font-bold text-lg mb-2">Industry Standards</h3>
           <p class="text-[var(--chocolate-light)] text-sm">Built on a rate of 1.5 drinks per drinker per hour, adjusted for how long the party runs.</p>
         </div>
         <div class="text-center">
           <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">📉</span>
           </div>
           <h3 class="font-bold text-lg mb-2">Smart Scaling</h3>
           <p class="text-[var(--chocolate-light)] text-sm">We factor in that people drink less as events progress - so you don't over-buy.</p>
         </div>
         <div class="text-center">
           <div class="w-16 h-16 bg-[var(--primary-10)] rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-3xl">🎊</span>
           </div>
           <h3 class="font-bold text-lg mb-2">Event-Specific</h3>
           <p class="text-[var(--chocolate-light)] text-sm">Weddings drink more wine, game day parties need more beer. We adjust for each event.</p>
@@ -58,7 +55,6 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
       <div class="grid md:grid-cols-2 gap-4">
         <a href="/wine-for-wedding-100-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
-            <span class="text-3xl">🍷</span>
             <div>
               <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine for 100 Guest Wedding</div>
               <div class="text-sm text-[var(--chocolate-40)]">Most popular calculator</div>
@@ -67,7 +63,6 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
         </a>
         <a href={`/party/${featuredSeasonal.slug}/`} class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
-            <span class="text-3xl">{featuredSeasonal.emoji}</span>
             <div>
               <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">{featuredSeasonal.title}</div>
               <div class="text-sm text-[var(--chocolate-40)]">In season now</div>
@@ -76,7 +71,6 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
         </a>
         <a href="/champagne-for-holiday-party-75-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
-            <span class="text-3xl">🥂</span>
             <div>
               <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Champagne for 75 Guest Holiday Party</div>
               <div class="text-sm text-[var(--chocolate-40)]">Celebrate in style</div>
@@ -85,7 +79,6 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
         </a>
         <a href="/spirits-for-birthday-party-30-guests/" class="glass-card p-5 rounded-xl hover:border-[var(--primary)] hover:shadow-md transition-all group">
           <div class="flex items-center gap-4">
-            <span class="text-3xl">🥃</span>
             <div>
               <div class="font-bold text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Spirits for 30 Guest Birthday</div>
               <div class="text-sm text-[var(--chocolate-40)]">Party planning made easy</div>
@@ -150,28 +143,24 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
 
       <div class="grid md:grid-cols-2 gap-3">
         <a href={affiliateLinks['party-cups']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <span class="text-3xl">🥤</span>
           <div class="flex-1">
             <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Party Cups</div>
             <div class="text-sm text-[var(--chocolate-40)]">For beer, cocktails & more</div>
           </div>
         </a>
         <a href={affiliateLinks['wine-glasses']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <span class="text-3xl">🍷</span>
           <div class="flex-1">
             <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Glasses</div>
             <div class="text-sm text-[var(--chocolate-40)]">Elegant party stemware</div>
           </div>
         </a>
         <a href={affiliateLinks['ice-bucket']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <span class="text-3xl">🪣</span>
           <div class="flex-1">
             <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Ice Bucket</div>
             <div class="text-sm text-[var(--chocolate-40)]">Keep bottles chilled</div>
           </div>
         </a>
         <a href={affiliateLinks['corkscrew']} target="_blank" rel="noopener sponsored" class="flex items-center gap-3 p-4 rounded-xl glass-card hover:border-[var(--primary)] hover:shadow-md transition-all group">
-          <span class="text-3xl">🔧</span>
           <div class="flex-1">
             <div class="font-medium text-[var(--chocolate)] group-hover:text-[var(--primary-dark)]">Wine Opener</div>
             <div class="text-sm text-[var(--chocolate-40)]">Every bar needs one</div>
@@ -188,7 +177,6 @@ const featuredSeasonal = nextSeasonalEvent(new Date());
   <!-- Cross-promotion: FreezerBatchCocktails -->
   <section class="py-10 bg-white border-y border-[var(--primary-10)]">
     <div class="max-w-2xl mx-auto px-4 text-center">
-      <p class="text-3xl mb-2">🍸</p>
       <h2 class="font-display text-xl font-bold text-[var(--chocolate)] mb-2">
         Be the Host, Not the Bartender
       </h2>

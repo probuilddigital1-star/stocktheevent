@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import { seasonalEvents } from '../../data/seasonalEvents';
 import { events } from '../../data/events';
@@ -104,11 +105,7 @@ const faqSchema = {
 
   <!-- Hero Section -->
   <section class="py-16 md:py-24 bg-gradient-to-b from-amber-50 via-orange-50/30 to-white relative overflow-hidden">
-    <div class="absolute top-10 right-10 text-9xl opacity-10">{seasonalEvent.emoji}</div>
-    <div class="absolute bottom-10 left-10 text-9xl opacity-10">{seasonalEvent.emoji}</div>
-
     <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
-      <div class="text-7xl mb-6">{seasonalEvent.emoji}</div>
       <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4">
         {seasonalEvent.h1}
       </h1>
@@ -146,7 +143,7 @@ const faqSchema = {
       <!-- Food Cards -->
       <div class="mb-8">
         <h3 class="text-lg font-semibold text-slate-700 mb-2 flex items-center gap-2">
-          <span class="text-2xl">🍽️</span> Food
+          Food
         </h3>
         <p class="text-sm text-slate-500 mb-4">Amounts calculated for a buffet spread with multiple options</p>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -156,7 +153,7 @@ const faqSchema = {
               class="food-card sunset-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-food-id={food.id}
             >
-              <div class="text-4xl mb-3">{food.emoji}</div>
+              <div class="mb-3 flex justify-center"><Icon name={food.icon} size={32} /></div>
               <div class="food-quantity text-4xl font-black mb-1" data-base-per-person={food.servingsPerPersonSide} data-servings-per-unit={food.servingsPerOrderUnit} data-modifier={(baseEvent as any).foodModifiers?.[food.id] || 1.0}>
                 {getExampleQuantity(food.id, 'food')}
               </div>
@@ -170,7 +167,7 @@ const faqSchema = {
       <!-- Drink Cards -->
       <div>
         <h3 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
-          <span class="text-2xl">🍺</span> Drinks
+          Drinks
         </h3>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           {featuredDrinkItems.map((drink) => drink && (
@@ -179,7 +176,7 @@ const faqSchema = {
               class="drink-card forest-gradient rounded-2xl p-6 text-white text-center hover:scale-105 transition-transform shadow-lg"
               data-drink-id={drink.id}
             >
-              <div class="text-4xl mb-3">{drink.emoji}</div>
+              <div class="mb-3 flex justify-center"><Icon name={drink.icon} size={32} /></div>
               <div class="drink-quantity text-4xl font-black mb-1" data-servings-per-unit={drink.servingsPerUnit} data-modifier={baseEvent?.modifiers[drink.id] || 1.0}>
                 {getExampleQuantity(drink.id, 'drink')}
               </div>
@@ -207,7 +204,7 @@ const faqSchema = {
         <!-- Food Calculators -->
         <div class="bg-white rounded-2xl shadow-lg p-6">
           <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <span class="text-2xl">🍽️</span> Food Calculators
+            Food Calculators
           </h3>
           <div class="space-y-2">
             {foodItems.map((food) => (
@@ -217,7 +214,7 @@ const faqSchema = {
                 data-base-href={`/food/${food.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               >
                 <div class="flex items-center gap-3">
-                  <span class="text-2xl">{food.emoji}</span>
+                  <Icon name={food.icon} size={22} />
                   <span class="font-medium text-slate-900 group-hover:text-orange-700">{food.name}</span>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -231,7 +228,7 @@ const faqSchema = {
         <!-- Drink Calculators -->
         <div class="bg-white rounded-2xl shadow-lg p-6">
           <h3 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <span class="text-2xl">🍺</span> Drink Calculators
+            Drink Calculators
           </h3>
           <div class="space-y-2">
             {drinkItems.map((drink) => (
@@ -241,7 +238,7 @@ const faqSchema = {
                 data-base-href={`/${drink.id}-for-${baseEvent?.slug || 'party'}-${defaultGuestCount}-guests/`}
               >
                 <div class="flex items-center gap-3">
-                  <span class="text-2xl">{drink.emoji}</span>
+                  <Icon name={drink.icon} size={22} />
                   <span class="font-medium text-slate-900 group-hover:text-emerald-700">{drink.name}</span>
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-400 group-hover:text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -271,7 +268,6 @@ const faqSchema = {
             rel="noopener sponsored"
             class="flex flex-col items-center p-6 bg-slate-50 rounded-2xl hover:bg-amber-50 hover:border-amber-300 border-2 border-transparent transition-all group"
           >
-            <span class="text-4xl mb-3">{product.emoji}</span>
             <span class="font-semibold text-slate-900 group-hover:text-amber-700 text-center">{product.name}</span>
             <span class="text-xs text-slate-500 mt-1">Shop on Amazon →</span>
           </a>
@@ -331,7 +327,6 @@ const faqSchema = {
               href={`/party/${event.slug}/`}
               class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-200 hover:border-amber-400 hover:bg-amber-50 transition-all group"
             >
-              <span class="text-4xl">{event.emoji}</span>
               <div>
                 <div class="font-semibold text-slate-900 group-hover:text-amber-700">{event.title.replace(' Calculator 2026', '')}</div>
                 <div class="text-sm text-slate-500">View calculator →</div>
@@ -348,7 +343,6 @@ const faqSchema = {
     <div class="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
 
     <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <div class="text-6xl mb-6">{seasonalEvent.emoji}</div>
       <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
         Ready to Plan Your {seasonalEvent.shortName}?
       </h2>

@@ -2,6 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
 import DrinkSwitcher from '../components/DrinkSwitcher.astro';
 import AnswerHero from '../components/AnswerHero.astro';
 import MathBreakdown from '../components/MathBreakdown.astro';
@@ -197,7 +198,7 @@ const shoppingListSchema = {
     <div class="max-w-4xl mx-auto px-4">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <span class="text-3xl">{page.item.emoji}</span>
+          <Icon name={page.item.icon} size={28} />
           <div>
             <div class="font-semibold">As part of your bar setup:</div>
             <div class="text-white/80">
@@ -260,7 +261,6 @@ const shoppingListSchema = {
   <section class="py-10 bg-white">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-display text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-        <span class="text-2xl">📊</span>
         Quick Reference: {page.item.name} by Guest Count
       </h2>
       <div class="overflow-x-auto">
@@ -340,7 +340,6 @@ const shoppingListSchema = {
     <div class="absolute top-1/2 right-10 w-24 h-24 bg-white/5 rounded-full hidden md:block"></div>
 
     <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
-      <div class="text-6xl mb-6">🎉</div>
       <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
         Planning a different event?
       </h2>

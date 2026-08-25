@@ -16,7 +16,7 @@ export const foodItems: FoodItem[] = [
     id: 'pizza',
     name: 'Pizza',
     namePlural: 'Pizzas',
-    emoji: '🍕',
+    icon: 'pizza',
     unit: 'pizzas',
     unitSingular: 'pizza',
     servingsPerUnit: 8,           // 8 slices per pizza
@@ -34,7 +34,7 @@ export const foodItems: FoodItem[] = [
     id: 'wings',
     name: 'Wings',
     namePlural: 'Wings',
-    emoji: '🍗',
+    icon: 'wings',
     unit: 'lbs',
     unitSingular: 'lb',
     servingsPerUnit: 10,          // ~10 wing pieces per lb (party wings)
@@ -52,7 +52,7 @@ export const foodItems: FoodItem[] = [
     id: 'tacos',
     name: 'Tacos',
     namePlural: 'Tacos',
-    emoji: '🌮',
+    icon: 'tacos',
     unit: 'tacos',
     unitSingular: 'taco',
     servingsPerUnit: 1,           // 1 taco = 1 serving
@@ -70,7 +70,7 @@ export const foodItems: FoodItem[] = [
     id: 'sliders',
     name: 'Sliders',
     namePlural: 'Sliders',
-    emoji: '🍔',
+    icon: 'sliders',
     unit: 'sliders',
     unitSingular: 'slider',
     servingsPerUnit: 1,           // 1 slider = 1 serving
@@ -88,7 +88,7 @@ export const foodItems: FoodItem[] = [
     id: 'appetizers',
     name: 'Appetizers',
     namePlural: 'Appetizers',
-    emoji: '🍢',
+    icon: 'appetizers',
     unit: 'pieces',
     unitSingular: 'piece',
     servingsPerUnit: 1,           // 1 piece = 1 serving
@@ -106,7 +106,7 @@ export const foodItems: FoodItem[] = [
     id: 'bbq',
     name: 'BBQ/Pulled Pork',
     namePlural: 'BBQ/Pulled Pork',
-    emoji: '🍖',
+    icon: 'bbq',
     unit: 'lbs',
     unitSingular: 'lb',
     servingsPerUnit: 3,           // 3 servings per lb (5-6oz each)

@@ -15,6 +15,10 @@ const CHECKS_ENFORCED: string[] = [
   'canonical-format',
   'internal-href-trailing-slash',
   'sitemap-noindex-guest-pages',
+  'no-google-fonts',
+  'no-emoji',
+  'single-h1',
+  'no-em-dash',
 ];
 
 const SITE_ORIGIN = 'https://www.stocktheevent.com';
@@ -223,6 +227,24 @@ function checkNoEmoji(htmlFiles: string[]): CheckResult {
   };
 }
 
+function checkNoEmDash(htmlFiles: string[]): CheckResult {
+  let failed = 0;
+  const examples: string[] = [];
+  for (const file of htmlFiles) {
+    const html = stripNonText(fs.readFileSync(file, 'utf8'));
+    if (html.includes('—')) {
+      failed += 1;
+      if (examples.length < 3) examples.push(path.relative(DIST_DIR, file));
+    }
+  }
+  return {
+    name: 'no-em-dash',
+    passed: failed === 0,
+    count: failed,
+    detail: `${failed} of ${htmlFiles.length} pages contain an em dash in text${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
+  };
+}
+
 function checkFontBytes(): CheckResult {
   if (!fs.existsSync(FONTS_DIR)) {
     return {
@@ -274,6 +296,7 @@ function main(): void {
     checkSingleH1(htmlFiles),
     checkNoGoogleFonts(textFiles),
     checkNoEmoji(htmlFiles),
+    checkNoEmDash(htmlFiles),
     checkFontBytes(),
   ];
 

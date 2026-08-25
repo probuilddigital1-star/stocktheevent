@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { items } from '../data/items';
 
 interface Props {
@@ -30,7 +31,7 @@ const { currentItemId, eventSlug, guestCount } = Astro.props;
                 : 'bg-[var(--primary-10)] text-[var(--chocolate)] hover:bg-[var(--primary-10)] hover:text-[var(--primary-dark)] hover:scale-105 hover:shadow-md'
             ]}
           >
-            <span class="text-2xl">{item.emoji}</span>
+            <Icon name={item.icon} size={22} />
             <span class="hidden sm:inline">{item.name}</span>
             {isActive && (
               <span class="hidden sm:inline text-xs bg-white/20 px-2 py-0.5 rounded-full">
