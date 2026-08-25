@@ -164,7 +164,7 @@ async function cmdBots(): Promise<void> {
   } else {
     const { ok, status, json } = await cf(`/zones/${ZONE_ID}/bot_management`, {
       method: 'PUT',
-      body: JSON.stringify({ ...current, fight_mode: true }),
+      body: JSON.stringify({ fight_mode: true }),
     });
     if (!ok) {
       if (status === 403) permissionHint('PUT bot_management', 'Zone Bot Management Edit');
@@ -176,10 +176,22 @@ async function cmdBots(): Promise<void> {
   console.log('after: fight_mode =', after ? after.fight_mode : 'unavailable');
 }
 
+function sanitizeRuleForPut(rule: any): any {
+  const { id, description, expression, action, action_parameters, enabled } = rule;
+  const clean: any = { description, expression, action };
+  if (id !== undefined) clean.id = id;
+  if (action_parameters !== undefined) clean.action_parameters = action_parameters;
+  if (enabled !== undefined) clean.enabled = enabled;
+  return clean;
+}
+
 async function cmdWaf(): Promise<void> {
   console.log(`--- WAF custom rule: ${WAF_RULE_DESCRIPTION} ---`);
   const { rules, found, status } = await getWafRule();
-  if (status === 403) return;
+  if (status !== 200 && status !== 404) {
+    console.error(`Unexpected status reading WAF entrypoint ruleset: HTTP ${status}. Refusing to PUT a replacement rule list.`);
+    return;
+  }
 
   console.log('before:', found ? { expression: found.expression, action: found.action } : 'rule does not exist');
 
@@ -188,9 +200,9 @@ async function cmdWaf(): Promise<void> {
     console.log('already correct; no change needed');
   } else {
     const desiredRule = { description: WAF_RULE_DESCRIPTION, expression: WAF_RULE_EXPRESSION, action: WAF_RULE_ACTION };
-    const newRules = [...rules];
-    const existingIndex = rules.findIndex((r) => r.description === WAF_RULE_DESCRIPTION);
-    if (existingIndex >= 0) newRules[existingIndex] = { ...found, ...desiredRule };
+    const newRules = rules.map(sanitizeRuleForPut);
+    const existingIndex = newRules.findIndex((r) => r.description === WAF_RULE_DESCRIPTION);
+    if (existingIndex >= 0) newRules[existingIndex] = { ...newRules[existingIndex], ...desiredRule };
     else newRules.push(desiredRule);
 
     const { ok, status: putStatus, json } = await cf(`/zones/${ZONE_ID}/rulesets/phases/${WAF_PHASE}/entrypoint`, {
