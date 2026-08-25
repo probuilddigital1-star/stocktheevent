@@ -83,7 +83,6 @@ const fullBarResults = allDrinks.map(item => {
 });
 
 const grandTotalServings = fullBarResults.reduce((sum, r) => sum + r.servings, 0);
-const grandTotalUnits = fullBarResults.reduce((sum, r) => sum + r.unitsNeeded, 0);
 const perPerson = Math.round((grandTotalServings / guestCount) * 10) / 10;
 
 // Which drink this event actually leans on, taken from the split rather than
@@ -134,7 +133,7 @@ const faqSchema = {
       "name": `How much alcohol do I need for a ${guestCount} guest ${event.lowerName}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `For a ${guestCount}-guest ${event.lowerName}, you need approximately ${grandTotalUnits} total items: ${fullBarResults.map(r => `${r.unitsNeeded} ${r.item.unit} of ${r.item.name.toLowerCase()}`).join(', ')}. This provides ${grandTotalServings} total servings (${perPerson} drinks per person) with a 15% buffer included.`
+        "text": `For a ${guestCount}-guest ${event.lowerName}, you need ${fullBarResults.map(r => `${r.unitsNeeded} ${r.item.unit} of ${r.item.name.toLowerCase()}`).join(', ')}, about ${grandTotalServings} total servings (${perPerson} drinks per person) with a 15% buffer included.`
       }
     },
     {
@@ -151,7 +150,7 @@ const faqSchema = {
 
 <BaseLayout
   title={`${event.name} Alcohol Calculator: ${guestCount} Guests (Wine, Beer, Spirits, Champagne)`}
-  description={`A full bar for ${guestCount} guests at a ${event.lowerName} is ${grandTotalUnits} items, about ${grandTotalServings} drinks. Wine, beer, spirits and champagne quantities with a 15 percent buffer included.`}
+  description={`A full bar for ${guestCount} guests at a ${event.lowerName} is about ${grandTotalServings} servings, ${perPerson} drinks per person. Wine, beer, spirits and champagne quantities with a 15 percent buffer included.`}
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">
@@ -199,8 +198,9 @@ const faqSchema = {
               <tr>
                 <td class="bar-icon"><Icon name={r.item.icon} size={20} /></td>
                 <td class="bar-name">{r.item.name}</td>
-                <td class="num bar-units drink-units">{r.unitsNeeded}</td>
-                <td class="bar-unit-label">{r.item.unit}</td>
+                <td class="num bar-units">
+                  <span class="bar-value drink-units">{r.unitsNeeded}</span><span class="bar-unit">{r.item.unit}</span>
+                </td>
                 <td class="num bar-servings drink-servings">{r.servings} servings</td>
               </tr>
               <tr class="bar-note-row" style={r.note ? undefined : 'display: none'}>
@@ -211,9 +211,7 @@ const faqSchema = {
           ))}
       </table>
       <p class="num bar-total-line">
-        Total: <span id="total-units" class="bar-total-strong">{grandTotalUnits} items</span> ·
-        <span id="total-servings">{grandTotalServings}</span> servings ·
-        <span id="per-person">{perPerson}</span> drinks per person
+        <span id="total-servings" class="bar-total-strong">{grandTotalServings}</span> servings, about <span id="per-person">{perPerson}</span> drinks per person
       </p>
       <p class="bar-buffer-note">15% buffer included on each category.</p>
     </div>
@@ -223,13 +221,10 @@ const faqSchema = {
     <div class="shop-list" id="shopping-list">
       {fullBarResults.map((r) => (
         <div class="shopping-item shop-row" data-drink-id={r.item.id}>
-          <span class="num shop-qty"><span class="item-units">{r.unitsNeeded}</span> <span class="shop-unit">{r.item.unit}</span></span>
+          <span class="num shop-qty"><span class="item-units">{r.unitsNeeded}</span><span class="shop-unit">{r.item.unit}</span></span>
           <span class="shop-name">{r.item.name}</span>
         </div>
       ))}
-      <p class="num shop-total">
-        Total items <span id="shopping-total" class="bar-total-strong">{grandTotalUnits}</span>
-      </p>
       <div class="shop-actions">
         <button id="copy-list" type="button" class="btn-secondary shop-btn">
           <Icon name="copy" size={18} /> Copy shopping list
@@ -363,14 +358,18 @@ const faqSchema = {
 
   .bar-units {
     text-align: right;
+  }
+
+  .bar-value {
     font-size: 22px;
     font-weight: 600;
   }
 
-  .bar-unit-label {
+  .bar-unit {
+    margin-left: 0.35em;
+    font-size: 16px;
+    font-weight: 400;
     color: var(--ink-2);
-    width: 84px;
-    padding-left: 16px;
   }
 
   .bar-servings {
@@ -426,6 +425,10 @@ const faqSchema = {
     border-top: 1px solid var(--ink);
   }
 
+  .shop-row:last-of-type {
+    border-bottom: 1px solid var(--ink);
+  }
+
   .shop-qty {
     font-weight: 600;
     width: 110px;
@@ -433,17 +436,9 @@ const faqSchema = {
   }
 
   .shop-unit {
+    margin-left: 0.35em;
     font-weight: 400;
     color: var(--ink-2);
-  }
-
-  .shop-total {
-    margin: 0;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--ink);
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
   }
 
   .shop-actions {
@@ -644,7 +639,6 @@ const faqSchema = {
   // Calculate total split for selected drinks only
   const totalSplit = selectedDrinkIds.reduce((sum, id) => sum + (splits[id] || 0.25), 0);
 
-  let newTotalUnits = 0;
   let newTotalServings = 0;
 
   // Recalculate each visible drink
@@ -712,22 +706,17 @@ const faqSchema = {
       detailLink.setAttribute('href', `${baseHref}${query ? `?${query}` : ''}`);
     }
 
-    newTotalUnits += newUnits;
     newTotalServings += newServings;
   });
 
   // Update all totals
   const perPerson = Math.round((newTotalServings / actualGuests) * 10) / 10;
 
-  const totalUnitsEl = document.getElementById('total-units');
   const totalServingsEl = document.getElementById('total-servings');
   const perPersonEl = document.getElementById('per-person');
-  const shoppingTotalEl = document.getElementById('shopping-total');
 
-  if (totalUnitsEl) totalUnitsEl.textContent = `${newTotalUnits} items`;
   if (totalServingsEl) totalServingsEl.textContent = newTotalServings.toString();
   if (perPersonEl) perPersonEl.textContent = perPerson.toString();
-  if (shoppingTotalEl) shoppingTotalEl.textContent = newTotalUnits.toString();
 
   // Copy shopping list functionality
   const copyBtn = document.getElementById('copy-list');

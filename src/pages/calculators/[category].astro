@@ -122,26 +122,36 @@ const breadcrumbs = [
 ---
 
 <BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
-  <section class="hub">
-    <div class="hub-inner">
-      <nav class="hub-crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        <span aria-hidden="true">/</span>
-        <a href="/calculators/">Calculators</a>
-        <span aria-hidden="true">/</span>
-        <span>{breadcrumbLabel}</span>
-      </nav>
+  <section class="container hub-hero">
+    <nav class="hub-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/calculators/">Calculators</a>
+      <span aria-hidden="true">/</span>
+      <span>{breadcrumbLabel}</span>
+    </nav>
 
-      <h1 class="hub-h1">{h1}</h1>
+    <div class="section-grid hub-hero-grid">
+      <div class="section-head">
+        <span class="label hub-label">{props.type === 'item' ? 'Drink calculator' : 'Occasion calculator'}</span>
+      </div>
+      <div class="section-body">
+        <h1 class="hub-h1">{h1}</h1>
 
-      {intro.split('\n\n').map((para) => <p class="hub-intro">{para}</p>)}
+        {intro.split('\n\n').map((para) => <p class="hub-intro">{para}</p>)}
 
-      {props.type === 'event' && (
-        <p class="hub-callout">
-          <a href={barSetupHref}>See the whole bar for a {events.find((e) => e.id === props.eventId)!.lowerName} at {ANCHOR} guests</a>
-          <span class="hub-callout-note">{barSetupSummary}, wine, beer, spirits and champagne together.</span>
-        </p>
-      )}
+        {props.type === 'event' && (
+          <p class="hub-callout">
+            <a href={barSetupHref}>See the whole bar for a {events.find((e) => e.id === props.eventId)!.lowerName} at {ANCHOR} guests</a>
+            <span class="hub-callout-note">{barSetupSummary}, wine, beer, spirits and champagne together.</span>
+          </p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="container hub-rest">
+    <div class="rule hub-rest-rule"></div>
 
       <HubTable
         caption={tableCaption}
@@ -197,19 +207,29 @@ const breadcrumbs = [
         Every number here comes from the same model, explained in full on the
         <a href="/methodology/">methodology page</a>.
       </p>
-    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hub {
-    padding: 3rem 0 4rem;
+  .hub-hero {
+    padding-top: 40px;
+    padding-bottom: 8px;
   }
 
-  .hub-inner {
-    max-width: 1296px;
-    margin: 0 auto;
-    padding: 0 24px;
+  .hub-hero-grid {
+    padding-top: 24px;
+  }
+
+  .hub-label {
+    color: var(--accent);
+  }
+
+  .hub-rest {
+    padding-bottom: 4rem;
+  }
+
+  .hub-rest-rule {
+    margin-bottom: 2rem;
   }
 
   .hub-crumbs {

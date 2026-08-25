@@ -75,4 +75,43 @@ const { title, note, steps } = Astro.props;
   .math-total .math-result {
     font-size: 20px;
   }
+
+  /* Under 640px, label and result share the first line (result right-aligned,
+     bold), with the formula beneath in --ink-2 at 14px. */
+  @media (max-width: 640px) {
+    .math-step {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .math-total {
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .math-ledger td {
+      border-bottom: 0;
+      padding: 0;
+    }
+
+    .math-label {
+      order: 1;
+      flex: 1 1 auto;
+      width: auto;
+      padding-right: 12px;
+    }
+
+    .math-result {
+      order: 2;
+      flex: 0 0 auto;
+    }
+
+    .math-formula {
+      order: 3;
+      flex: 0 0 100%;
+      padding-top: 6px;
+      font-size: 14px;
+    }
+  }
 </style>

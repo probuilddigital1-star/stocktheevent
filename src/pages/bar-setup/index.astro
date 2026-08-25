@@ -59,33 +59,43 @@ const breadcrumbs = [
 ---
 
 <BaseLayout title={title} description={description} breadcrumbs={breadcrumbs}>
-  <section class="hub">
-    <div class="hub-inner">
-      <nav class="hub-crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        <span aria-hidden="true">/</span>
-        <span>Full bar</span>
-      </nav>
+  <section class="container hub-hero">
+    <nav class="hub-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Full bar</span>
+    </nav>
 
-      <h1 class="hub-h1">How Much Alcohol for a Party?</h1>
+    <div class="section-grid hub-hero-grid">
+      <div class="section-head">
+        <span class="label hub-label">Full bar calculator</span>
+      </div>
+      <div class="section-body">
+        <h1 class="hub-h1">How Much Alcohol for a Party?</h1>
 
-      <p class="hub-intro">
-        A full bar for {ANCHOR} guests at a wedding comes to
-        {' '}{weddingBreakdown.slice(0, -1).join(', ')}, and
-        {' '}{weddingBreakdown[weddingBreakdown.length - 1]}, about {weddingTotals.servings} drinks
-        once the {wedding.defaultDuration}-hour reception is accounted for. Every figure includes a
-        15 percent buffer, so these are what to buy rather than what will be drunk exactly.
-      </p>
+        <p class="hub-intro">
+          A full bar for {ANCHOR} guests at a wedding comes to
+          {' '}{weddingBreakdown.slice(0, -1).join(', ')}, and
+          {' '}{weddingBreakdown[weddingBreakdown.length - 1]}, about {weddingTotals.servings} drinks
+          once the {wedding.defaultDuration}-hour reception is accounted for. Every figure includes a
+          15 percent buffer, so these are what to buy rather than what will be drunk exactly.
+        </p>
 
-      <p class="hub-intro">
-        The number of drinks is set by guest count and how long the party runs, not by how many
-        kinds of alcohol you put out. Serving four drinks instead of one does not raise the total;
-        it divides the same total between them. What changes by event is the split. Wine leads the
-        bar at {wineLed.length} of the {events.length} events here, beer at {beerLed.length},
-        and the extremes are wide: beer takes {formatSharePercent(superBowlBeer)} percent of a
-        Super Bowl bar, while champagne takes {formatSharePercent(showerChampagne)} percent of a
-        wedding shower. Pick your event below for the full breakdown.
-      </p>
+        <p class="hub-intro">
+          The number of drinks is set by guest count and how long the party runs, not by how many
+          kinds of alcohol you put out. Serving four drinks instead of one does not raise the total;
+          it divides the same total between them. What changes by event is the split. Wine leads the
+          bar at {wineLed.length} of the {events.length} events here, beer at {beerLed.length},
+          and the extremes are wide: beer takes {formatSharePercent(superBowlBeer)} percent of a
+          Super Bowl bar, while champagne takes {formatSharePercent(showerChampagne)} percent of a
+          wedding shower. Pick your event below for the full breakdown.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container hub-rest">
+    <div class="rule hub-rest-rule"></div>
 
       <HubTable
         caption="Full bar size by event and guest count"
@@ -108,19 +118,29 @@ const breadcrumbs = [
         The split, the buffer and the pour sizes behind these numbers are set out on the
         <a href="/methodology/">methodology page</a>.
       </p>
-    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .hub {
-    padding: 3rem 0 4rem;
+  .hub-hero {
+    padding-top: 40px;
+    padding-bottom: 8px;
   }
 
-  .hub-inner {
-    max-width: 1296px;
-    margin: 0 auto;
-    padding: 0 24px;
+  .hub-hero-grid {
+    padding-top: 24px;
+  }
+
+  .hub-label {
+    color: var(--accent);
+  }
+
+  .hub-rest {
+    padding-bottom: 4rem;
+  }
+
+  .hub-rest-rule {
+    margin-bottom: 2rem;
   }
 
   .hub-crumbs {

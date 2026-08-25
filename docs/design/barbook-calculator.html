@@ -1,0 +1,265 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
+  <style>
+    body { margin: 0; background: #F5F6F3; color: #1B1F1D; font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: #1F4D3A; text-decoration: none; }
+    a:hover { color: #163A2B; text-decoration: underline; text-underline-offset: 3px; }
+    .serif { font-family: 'Libre Caslon Text', 'Iowan Old Style', Georgia, serif; }
+    .num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+    .label { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #4B524E; font-weight: 500; }
+    .rule { height: 1px; background: #C7CDC8; }
+    table { border-collapse: collapse; width: 100%; }
+    th { text-align: left; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #4B524E; font-weight: 500; padding: 10px 0; border-bottom: 1px solid #1B1F1D; }
+    td { padding: 14px 0; border-bottom: 1px solid #C7CDC8; vertical-align: top; }
+    .ico { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .box { width: 22px; height: 22px; border: 1px solid #1B1F1D; flex-shrink: 0; }
+  </style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wine" viewBox="0 0 24 24"><path d="M7 3h10v6a5 5 0 0 1-10 0V3z"></path><path d="M12 14v6"></path><path d="M8 20h8"></path><path d="M7.5 7h9"></path></symbol>
+  <symbol id="i-beer" viewBox="0 0 24 24"><path d="M6 8h9v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8z"></path><path d="M15 10h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"></path><path d="M6 8a3 3 0 0 1 3-4 3 3 0 0 1 5.2-.5A2.5 2.5 0 0 1 16 8"></path></symbol>
+  <symbol id="i-flute" viewBox="0 0 24 24"><path d="M9 3h6l-1 9a2 2 0 0 1-4 0L9 3z"></path><path d="M12 14v6"></path><path d="M9 20h6"></path></symbol>
+  <symbol id="i-spirit" viewBox="0 0 24 24"><path d="M10 3h4v4l2 2v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-2V3z"></path><path d="M8 13h8"></path></symbol>
+  <symbol id="i-bottle" viewBox="0 0 24 64"><path d="M9 2h6v10c0 3 4 5 4 10v38a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V22c0-5 4-7 4-10V2z"></path><path d="M5 34h14"></path><path d="M5 50h14"></path></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15"></path><path d="M13 6l6 6-6 6"></path></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M6 12h12"></path></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12"></path><path d="M6 12h12"></path></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path><path d="M18 13v6H5V6h6"></path></symbol>
+</svg>
+
+<div style="width: 1440px; min-height: 2960px; background: #F5F6F3; margin: 0 auto; box-sizing: border-box;">
+
+  <!-- Masthead -->
+  <header style="display: flex; align-items: center; justify-content: space-between; padding: 22px 72px; border-bottom: 1px solid #1B1F1D;">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <span class="serif" style="font-size: 26px; font-weight: 700; letter-spacing: 0.01em; color: #1B1F1D;">Stock the Event</span>
+      <span class="label" style="color: #4B524E;">Party quantity calculators</span>
+    </div>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; font-weight: 500;">
+      <a href="#" style="color: #1B1F1D;">Drinks</a>
+      <a href="#" style="color: #1B1F1D;">Food</a>
+      <a href="#" style="color: #1B1F1D;">Full bar</a>
+      <a href="#" style="color: #1B1F1D;">Occasions</a>
+      <a href="#" style="color: #1B1F1D;">How the math works</a>
+    </nav>
+  </header>
+
+  <!-- Title + answer -->
+  <section style="padding: 48px 72px 56px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; align-items: start;">
+    <div style="grid-column: span 7; display: flex; flex-direction: column; gap: 22px;">
+      <nav style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: #4B524E;">
+        <a href="#" style="color: #4B524E;">Drinks</a><span>/</span><a href="#" style="color: #4B524E;">Wine</a><span>/</span><a href="#" style="color: #4B524E;">Wedding</a>
+      </nav>
+      <h1 class="serif" style="margin: 0; font-size: 56px; line-height: 1.06; font-weight: 400; letter-spacing: -0.01em; text-wrap: balance;">How much wine for a 100-guest wedding?</h1>
+      <div style="display: flex; align-items: flex-end; gap: 22px; padding-top: 8px;">
+        <span class="num" style="font-size: 148px; line-height: 0.9; font-weight: 600; letter-spacing: -0.03em; font-stretch: 105%; color: #1B1F1D;">41</span>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 10px;">
+          <span class="serif" style="font-size: 34px; line-height: 1; color: #1B1F1D;">bottles of wine</span>
+          <span style="font-size: 16px; color: #4B524E;">as part of a full bar, 5 hours · about 3½ cases · 177 glasses</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 12px; padding: 14px 0 0; border-top: 1px solid #C7CDC8; font-size: 16px;">
+        <span class="label" style="color: #1B1F1D;">If wine is the only alcohol you serve</span>
+        <span class="num" style="font-weight: 600;">109 bottles</span>
+        <span style="color: #4B524E;">(4.7 glasses per guest)</span>
+      </div>
+    </div>
+
+    <div style="grid-column: span 5; border: 1px solid #1B1F1D; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid #1B1F1D;">
+        <span class="label" style="color: #1B1F1D;">Adjust</span>
+        <span class="label">Updates the page and the list</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 22px 24px;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span class="label">Guests</span>
+          <div style="display: flex; align-items: center; border: 1px solid #1B1F1D;">
+            <div style="width: 44px; height: 46px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #C7CDC8;"><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-minus"></use></svg></div>
+            <div class="num" style="flex: 1; text-align: center; font-size: 22px; font-weight: 600;">100</div>
+            <div style="width: 44px; height: 46px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #C7CDC8;"><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-plus"></use></svg></div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <span class="label">Hours</span>
+          <div style="display: flex; align-items: center; border: 1px solid #1B1F1D;">
+            <div style="width: 44px; height: 46px; display: flex; align-items: center; justify-content: center; border-right: 1px solid #C7CDC8;"><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-minus"></use></svg></div>
+            <div class="num" style="flex: 1; text-align: center; font-size: 22px; font-weight: 600;">5</div>
+            <div style="width: 44px; height: 46px; display: flex; align-items: center; justify-content: center; border-left: 1px solid #C7CDC8;"><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-plus"></use></svg></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding: 0 24px 22px; display: flex; flex-direction: column; gap: 10px;">
+        <span class="label">Also at this wedding</span>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+          <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #C7CDC8; color: #1B1F1D;"><svg class="ico" style="width: 20px; height: 20px;"><use href="#i-beer"></use></svg><span>Beer</span></a>
+          <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #C7CDC8; color: #1B1F1D;"><svg class="ico" style="width: 20px; height: 20px;"><use href="#i-flute"></use></svg><span>Champagne</span></a>
+          <a href="#" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #C7CDC8; color: #1B1F1D;"><svg class="ico" style="width: 20px; height: 20px;"><use href="#i-spirit"></use></svg><span>Spirits</span></a>
+        </div>
+        <a href="#" style="display: flex; align-items: center; justify-content: space-between; margin-top: 6px; padding: 13px 16px; background: #1F4D3A; color: #F5F6F3; font-weight: 600;"><span>Plan the whole bar for this wedding</span><svg class="ico" style="width: 20px; height: 20px;"><use href="#i-arrow"></use></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ledger: how we got there -->
+  <section style="padding: 0 72px 56px;">
+    <div class="rule" style="background: #1B1F1D;"></div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding-top: 32px;">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <span class="label" style="color: #1F4D3A;">How we got there</span>
+        <h2 class="serif" style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400;">Six lines of arithmetic</h2>
+        <p style="margin: 0; color: #4B524E; font-size: 15px; line-height: 1.55; max-width: 30ch;">Change any assumption you disagree with; the answer follows.</p>
+      </div>
+      <div style="grid-column: span 8;">
+        <table>
+          <tbody>
+            <tr><td style="width: 44%;">Guests who drink</td><td class="num" style="color: #4B524E;">100 × 70%</td><td class="num" style="text-align: right; font-weight: 600;">70</td></tr>
+            <tr><td>Drinks over 5 hours, slowing after the first</td><td class="num" style="color: #4B524E;">70 × 1.5 an hour × 3.75 effective hours</td><td class="num" style="text-align: right; font-weight: 600;">394</td></tr>
+            <tr><td>Wine's share of a wedding bar</td><td class="num" style="color: #4B524E;">394 × 37.5%</td><td class="num" style="text-align: right; font-weight: 600;">147.8</td></tr>
+            <tr><td>Weddings pour more wine</td><td class="num" style="color: #4B524E;">147.8 × 1.2</td><td class="num" style="text-align: right; font-weight: 600;">177 glasses</td></tr>
+            <tr><td>Bottles</td><td class="num" style="color: #4B524E;">177 ÷ 5 glasses a bottle</td><td class="num" style="text-align: right; font-weight: 600;">35.4</td></tr>
+            <tr><td style="border-bottom: 1px solid #1B1F1D; font-weight: 500;">Margin, rounded up</td><td class="num" style="color: #4B524E; border-bottom: 1px solid #1B1F1D;">35.4 × 1.15</td><td class="num" style="text-align: right; font-weight: 600; border-bottom: 1px solid #1B1F1D; font-size: 20px;">41 bottles</td></tr>
+          </tbody>
+        </table>
+        <p style="margin: 14px 0 0; font-size: 14px; color: #4B524E;">The Knot's guide for a 100-guest, 5-hour reception lands at 20 bottles of wine alongside 17 of champagne, 11 of liquor, and 100 beers. We plan about one more drink per guest over the night and keep a margin; <a href="#">read the methodology</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick reference -->
+  <section style="padding: 0 72px 56px;">
+    <div class="rule"></div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding-top: 32px;">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <span class="label" style="color: #1F4D3A;">Quick reference</span>
+        <h2 class="serif" style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400;">Wine for a wedding, by guest count</h2>
+      </div>
+      <div style="grid-column: span 8;">
+        <table>
+          <thead><tr><th>Guests</th><th style="text-align: right;">Full bar</th><th style="text-align: right;">Wine only</th><th style="text-align: right;">Glasses</th></tr></thead>
+          <tbody>
+            <tr><td><a href="#" style="color: #1B1F1D;">25 guests</a></td><td class="num" style="text-align: right;">11 bottles</td><td class="num" style="text-align: right; color: #4B524E;">28 bottles</td><td class="num" style="text-align: right; color: #4B524E;">45</td></tr>
+            <tr><td><a href="#" style="color: #1B1F1D;">50 guests</a></td><td class="num" style="text-align: right;">21 bottles</td><td class="num" style="text-align: right; color: #4B524E;">55 bottles</td><td class="num" style="text-align: right; color: #4B524E;">89</td></tr>
+            <tr><td><a href="#" style="color: #1B1F1D;">75 guests</a></td><td class="num" style="text-align: right;">31 bottles</td><td class="num" style="text-align: right; color: #4B524E;">82 bottles</td><td class="num" style="text-align: right; color: #4B524E;">133</td></tr>
+            <tr style="background: #E3EBE6;"><td style="font-weight: 600; padding-left: 10px;">100 guests <span class="label" style="margin-left: 8px; color: #1F4D3A;">this page</span></td><td class="num" style="text-align: right; font-weight: 600;">41 bottles</td><td class="num" style="text-align: right; color: #4B524E;">109 bottles</td><td class="num" style="text-align: right; color: #4B524E; padding-right: 10px;">177</td></tr>
+            <tr><td><a href="#" style="color: #1B1F1D;">150 guests</a></td><td class="num" style="text-align: right;">62 bottles</td><td class="num" style="text-align: right; color: #4B524E;">164 bottles</td><td class="num" style="text-align: right; color: #4B524E;">266</td></tr>
+            <tr><td><a href="#" style="color: #1B1F1D;">200 guests</a></td><td class="num" style="text-align: right;">82 bottles</td><td class="num" style="text-align: right; color: #4B524E;">218 bottles</td><td class="num" style="text-align: right; color: #4B524E;">355</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shopping list + where to buy -->
+  <section style="padding: 0 72px 56px;">
+    <div class="rule"></div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding-top: 32px;">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <span class="label" style="color: #1F4D3A;">Shopping list</span>
+        <h2 class="serif" style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400;">What to put in the cart</h2>
+        <div style="display: flex; gap: 10px; padding-top: 6px;">
+          <a href="#" style="padding: 10px 14px; border: 1px solid #1B1F1D; color: #1B1F1D; font-size: 14px; font-weight: 500;">Copy</a>
+          <a href="#" style="padding: 10px 14px; border: 1px solid #1B1F1D; color: #1B1F1D; font-size: 14px; font-weight: 500;">Print</a>
+          <a href="#" style="padding: 10px 14px; border: 1px solid #1B1F1D; color: #1B1F1D; font-size: 14px; font-weight: 500;">Email it to me</a>
+        </div>
+      </div>
+      <div style="grid-column: span 8; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px;">
+        <div style="grid-column: span 7; display: flex; flex-direction: column;">
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid #1B1F1D; border-bottom: 1px solid #C7CDC8;"><span class="box"></span><span class="num" style="font-weight: 600; width: 96px;">41 bottles</span><span>Wine, about 60/40 red to white for a fall wedding</span></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #C7CDC8;"><span class="box"></span><span class="num" style="font-weight: 600; width: 96px;">140</span><span>Wine glasses, 2 per drinker</span></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #C7CDC8;"><span class="box"></span><span class="num" style="font-weight: 600; width: 96px;">2</span><span>Corkscrews, one as a spare</span></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #C7CDC8;"><span class="box"></span><span class="num" style="font-weight: 600; width: 96px;">3 tubs</span><span>Ice for the whites, refreshed every 90 minutes</span></div>
+          <div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid #1B1F1D;"><span class="box"></span><span class="num" style="font-weight: 600; width: 96px;">1</span><span>Wine bucket or cooler at the bar</span></div>
+        </div>
+        <div style="grid-column: span 5; border: 1px solid #1B1F1D; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px;">
+          <span class="label" style="color: #1B1F1D;">Where to buy 41 bottles</span>
+          <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;"><span><strong style="font-weight: 600;">Total Wine</strong><br><span style="font-size: 13px; color: #4B524E;">Case pricing, pickup today</span></span><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-ext"></use></svg></a>
+          <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;"><span><strong style="font-weight: 600;">Instacart</strong><br><span style="font-size: 13px; color: #4B524E;">Same-day delivery, ice and glasses too</span></span><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-ext"></use></svg></a>
+          <a href="#" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; color: #1B1F1D;"><span><strong style="font-weight: 600;">Wine.com</strong><br><span style="font-size: 13px; color: #4B524E;">Cases of 12, ships to most states</span></span><svg class="ico" style="width: 18px; height: 18px;"><use href="#i-ext"></use></svg></a>
+          <span style="font-size: 12px; color: #4B524E;">Some links pay us a small commission. Prices and delivery vary by state.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Questions -->
+  <section style="padding: 0 72px 56px;">
+    <div class="rule"></div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding-top: 32px;">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <span class="label" style="color: #1F4D3A;">Questions</span>
+        <h2 class="serif" style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400;">Wine at a wedding</h2>
+      </div>
+      <div style="grid-column: span 8; display: flex; flex-direction: column;">
+        <div style="padding: 18px 0; border-top: 1px solid #1B1F1D; border-bottom: 1px solid #C7CDC8; display: flex; flex-direction: column; gap: 8px;">
+          <span class="serif" style="font-size: 20px;">Red or white, and how much of each?</span>
+          <p style="margin: 0; color: #4B524E; font-size: 16px; line-height: 1.55; max-width: 62ch;">Plan 60/40 red to white for fall and winter and flip it for spring and summer. For 41 bottles that is 25 red and 16 white; buy an extra case of whichever your crowd favors.</p>
+        </div>
+        <div style="padding: 18px 0; border-bottom: 1px solid #C7CDC8; display: flex; flex-direction: column; gap: 8px;">
+          <span class="serif" style="font-size: 20px;">Should the champagne toast come out of this number?</span>
+          <p style="margin: 0; color: #4B524E; font-size: 16px; line-height: 1.55; max-width: 62ch;">No. One flute per guest for the toast is its own line: 17 bottles for 100 guests. Add it on the champagne page for this wedding.</p>
+        </div>
+        <div style="padding: 18px 0; border-bottom: 1px solid #C7CDC8; display: flex; flex-direction: column; gap: 8px;">
+          <span class="serif" style="font-size: 20px;">What if the venue charges corkage?</span>
+          <p style="margin: 0; color: #4B524E; font-size: 16px; line-height: 1.55; max-width: 62ch;">Ask whether unopened bottles can be returned; most retailers take back sealed cases within 30 days, which makes the 15 percent margin nearly free.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section style="padding: 0 72px 64px;">
+    <div class="rule"></div>
+    <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; padding-top: 32px;">
+      <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 12px;">
+        <span class="label" style="color: #1F4D3A;">Nearby</span>
+        <h2 class="serif" style="margin: 0; font-size: 32px; line-height: 1.15; font-weight: 400;">Other numbers you may need</h2>
+      </div>
+      <div style="grid-column: span 8; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px;">
+        <div style="display: flex; flex-direction: column;">
+          <span class="label" style="padding: 0 0 10px; border-bottom: 1px solid #1B1F1D;">Same wedding</span>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Beer for 100 guests</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Champagne for 100 guests</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Spirits for 100 guests</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Appetizers for 100 guests</a>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span class="label" style="padding: 0 0 10px; border-bottom: 1px solid #1B1F1D;">Different size</span>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 75-guest wedding</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 150-guest wedding</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 200-guest wedding</a>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span class="label" style="padding: 0 0 10px; border-bottom: 1px solid #1B1F1D;">Wine elsewhere</span>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 100-guest holiday party</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 100-guest corporate event</a>
+          <a href="#" style="padding: 12px 0; border-bottom: 1px solid #C7CDC8; color: #1B1F1D;">Wine for a 100-guest graduation party</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid #1B1F1D; padding: 32px 72px 40px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px; font-size: 14px; color: #4B524E;">
+    <div style="grid-column: span 4; display: flex; flex-direction: column; gap: 8px;">
+      <span class="serif" style="font-size: 20px; color: #1B1F1D;">Stock the Event</span>
+      <span>Party quantity calculators. Drink responsibly. 21+.</span>
+      <span>As an Amazon Associate we earn from qualifying purchases.</span>
+    </div>
+    <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 8px;"><span class="label">Drinks</span><a href="#" style="color: #1B1F1D;">Wine</a><a href="#" style="color: #1B1F1D;">Beer</a><a href="#" style="color: #1B1F1D;">Champagne</a><a href="#" style="color: #1B1F1D;">Spirits</a></div>
+    <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 8px;"><span class="label">Food</span><a href="#" style="color: #1B1F1D;">Pizza</a><a href="#" style="color: #1B1F1D;">Wings</a><a href="#" style="color: #1B1F1D;">Tacos</a><a href="#" style="color: #1B1F1D;">BBQ</a></div>
+    <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 8px;"><span class="label">Site</span><a href="#" style="color: #1B1F1D;">Methodology</a><a href="#" style="color: #1B1F1D;">Embed the calculator</a><a href="#" style="color: #1B1F1D;">About</a></div>
+    <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 8px;"><span class="label">Legal</span><a href="#" style="color: #1B1F1D;">Privacy</a><a href="#" style="color: #1B1F1D;">Terms</a></div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

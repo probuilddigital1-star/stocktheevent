@@ -53,12 +53,12 @@ const DEFAULT_HOURS = events[0].defaultDuration;
       <fieldset class="calc-field">
         <legend class="label">What are you serving</legend>
         <div class="drink-toggle-grid" id="item-selector">
-          {items.map((item, idx) => (
+          {items.map((item) => (
             <button
               type="button"
               class="drink-toggle"
               data-item={item.id}
-              aria-pressed={idx === 0 ? 'true' : 'false'}
+              aria-pressed="true"
             >
               <Icon name={item.icon} size={24} />
               <span>{item.name}</span>
@@ -133,15 +133,17 @@ const DEFAULT_HOURS = events[0].defaultDuration;
             <tr data-drink-id={item.id}>
               <td class="bar-icon"><Icon name={item.icon} size={20} /></td>
               <td class="bar-name">{item.name}</td>
-              <td class="num bar-units drink-units"></td>
-              <td class="bar-unit-label drink-unit-label">{item.unit}</td>
+              <td class="num bar-units">
+                <span class="bar-value drink-units"></span><span class="bar-unit drink-unit-label">{item.unit}</span>
+              </td>
             </tr>
           ))}
           <tr class="bar-total-row">
             <td></td>
             <td>Servings in total</td>
-            <td class="num bar-units" id="bar-total"></td>
-            <td class="bar-unit-label">drinks</td>
+            <td class="num bar-units">
+              <span class="bar-value" id="bar-total"></span><span class="bar-unit">drinks</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -280,14 +282,18 @@ const DEFAULT_HOURS = events[0].defaultDuration;
 
   .bar-units {
     text-align: right;
+  }
+
+  .bar-value {
     font-size: 22px;
     font-weight: 600;
   }
 
-  .bar-unit-label {
+  .bar-unit {
+    margin-left: 0.35em;
+    font-size: 16px;
+    font-weight: 400;
     color: var(--ink-2);
-    width: 84px;
-    padding-left: 16px;
   }
 
   .bar-total-row td {
@@ -336,8 +342,10 @@ const DEFAULT_HOURS = events[0].defaultDuration;
     return closest;
   }
 
-  // State
-  let selectedItems = [itemsData[0]];
+  // State: all four drinks are on by default, so the table shows the full
+  // bar and the primary button goes straight to bar setup. Deselecting down
+  // to one drink switches to that drink's own calculator page.
+  let selectedItems = [...itemsData];
   let selectedEvent = eventsData[0];
   let selectedGuests = 100;
   let selectedDuration = eventsData[0].defaultDuration;

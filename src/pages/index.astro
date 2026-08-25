@@ -225,7 +225,10 @@ const rulesRows = items.map((item) => {
 
   @media (min-width: 900px) {
     .hero-h1 {
-      font-size: 64px;
+      /* 56px, not the mockup's 64px: this column is narrower than the
+         mockup's (the site container pads inside its max-width rather than
+         outside it), and 64px balanced onto three lines instead of two. */
+      font-size: 56px;
     }
   }
 

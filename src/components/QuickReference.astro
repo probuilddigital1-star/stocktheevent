@@ -5,22 +5,39 @@
  * exactly what the page it links to shows. The current page's row is
  * filled with --accent-soft; the page script moves the highlight when the
  * Adjust steppers change the guest count.
+ *
+ * Cell values carry their unit separately from the number, so on mobile the
+ * unit can move into the column header ("Full bar, bottles") and the cell
+ * can stay pure digits, which never wraps in a narrow column.
  */
 import PageSection from './PageSection.astro';
+
+export interface QuickReferenceCell {
+  /** The number to display, e.g. "41". */
+  value: string;
+  /** The exact unit for this row, e.g. "bottles" or "bottle" (singular at 1). Omit for a bare count like Servings. */
+  unit?: string;
+}
+
+export interface QuickReferenceColumn {
+  label: string;
+  /** General plural unit shown beside the label on mobile only, e.g. "bottles". */
+  unit?: string;
+}
 
 export interface QuickReferenceRow {
   guests: number;
   /** Link target for the row; null on the current row. */
   href: string | null;
-  /** One value per column, aligned with `columns`. */
-  values: string[];
+  /** One cell per column, aligned with `columns`. */
+  values: QuickReferenceCell[];
   isCurrent: boolean;
 }
 
 interface Props {
   title: string;
   /** Column headers after the leading Guests column. */
-  columns: string[];
+  columns: QuickReferenceColumn[];
   rows: QuickReferenceRow[];
   footnote?: string;
 }
@@ -35,7 +52,9 @@ const { title, columns, rows, footnote } = Astro.props;
         <tr>
           <th>Guests</th>
           {columns.map((col) => (
-            <th class="qr-num-col">{col}</th>
+            <th class="qr-num-col">
+              {col.label}{col.unit && <span class="qr-col-unit">, {col.unit}</span>}
+            </th>
           ))}
         </tr>
       </thead>
@@ -48,8 +67,10 @@ const { title, columns, rows, footnote } = Astro.props;
                 : <span class="qr-guest-link">{row.guests} guests</span>}
               {row.isCurrent && <span class="label qr-this-page">this page</span>}
             </td>
-            {row.values.map((value, i) => (
-              <td class={`num qr-value${i === 0 ? ' qr-primary' : ''}`}>{value}</td>
+            {row.values.map((cell, i) => (
+              <td class={`num qr-value${i === 0 ? ' qr-primary' : ''}`}>
+                <span class="qr-num">{cell.value}</span>{cell.unit && <span class="qr-cell-unit"> {cell.unit}</span>}
+              </td>
             ))}
           </tr>
         ))}
@@ -62,6 +83,10 @@ const { title, columns, rows, footnote } = Astro.props;
 <style>
   .qr-num-col {
     text-align: right;
+  }
+
+  .qr-col-unit {
+    display: none;
   }
 
   .qr-value {
@@ -106,5 +131,21 @@ const { title, columns, rows, footnote } = Astro.props;
     margin: 12px 0 0;
     font-size: 13px;
     color: var(--ink-2);
+  }
+
+  /* Under 640px the unit moves into the header, so cells stay pure digits
+     and never wrap. */
+  @media (max-width: 640px) {
+    .qr-col-unit {
+      display: inline;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: normal;
+      font-size: 0.85em;
+    }
+
+    .qr-cell-unit {
+      display: none;
+    }
   }
 </style>

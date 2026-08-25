@@ -115,6 +115,16 @@ a:hover {
   font-family: var(--font-display);
 }
 
+/* --------------------------------------------
+   Icons. Every Icon.astro svg carries aria-hidden="true", so this catches
+   every icon on the site: without it, a narrow flex row (a drink toggle
+   next to a long label, for example) can shrink the icon's width below its
+   viewBox and collapse the glyph into a thin sliver.
+   -------------------------------------------- */
+svg[aria-hidden='true'] {
+  flex-shrink: 0;
+}
+
 /* Numbers line up everywhere. */
 .num,
 table,

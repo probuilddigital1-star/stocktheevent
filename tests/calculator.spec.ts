@@ -291,11 +291,9 @@ test.describe('Bar Setup Page - NaN Tests', () => {
         expect((servings || '').includes('NaN'), `Drink card ${i} servings contains NaN: "${servings}"`).toBe(false);
       }
 
-      const totalUnits = await page.locator('#total-units').textContent();
       const totalServings = await page.locator('#total-servings').textContent();
       const perPerson = await page.locator('#per-person').textContent();
 
-      expect((totalUnits || '').includes('NaN'), `total-units contains NaN: "${totalUnits}"`).toBe(false);
       expect(isInvalidNumber(totalServings || ''), `total-servings is NaN: "${totalServings}"`).toBe(false);
       expect(isInvalidNumber(perPerson || ''), `per-person is NaN: "${perPerson}"`).toBe(false);
     });

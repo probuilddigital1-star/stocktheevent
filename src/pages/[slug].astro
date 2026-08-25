@@ -6,7 +6,7 @@ import AnswerHeader from '../components/AnswerHeader.astro';
 import AdjustBox from '../components/AdjustBox.astro';
 import HowWeGotThere from '../components/HowWeGotThere.astro';
 import QuickReference from '../components/QuickReference.astro';
-import type { QuickReferenceRow } from '../components/QuickReference.astro';
+import type { QuickReferenceRow, QuickReferenceColumn } from '../components/QuickReference.astro';
 import ShoppingChecklist from '../components/ShoppingChecklist.astro';
 import FaqSection from '../components/FaqSection.astro';
 import type { FaqItem } from '../components/FaqSection.astro';
@@ -120,21 +120,21 @@ const quickReferenceRows: QuickReferenceRow[] = QUICK_REFERENCE_GUEST_COUNTS
       guests,
       href: isCurrent ? null : `/${page.item.id}-for-${page.event.slug}-${guests}-guests/`,
       values: [
-        `${sibling.calculation.fullBar.unitsNeeded} ${sibling.calculation.fullBar.unitsDisplay}`,
-        `${sibling.calculation.onlyDrink.unitsNeeded} ${sibling.calculation.onlyDrink.unitsDisplay}`,
-        ...(hasToastColumn ? [`${sibling.calculation.toastBottles} bottles`] : []),
-        `${sibling.calculation.fullBar.totalServings}`,
+        { value: String(sibling.calculation.fullBar.unitsNeeded), unit: sibling.calculation.fullBar.unitsDisplay },
+        { value: String(sibling.calculation.onlyDrink.unitsNeeded), unit: sibling.calculation.onlyDrink.unitsDisplay },
+        ...(hasToastColumn ? [{ value: String(sibling.calculation.toastBottles), unit: 'bottles' }] : []),
+        { value: String(sibling.calculation.fullBar.totalServings) },
       ],
       isCurrent,
     };
   })
   .filter((row): row is QuickReferenceRow => row !== null);
 
-const quickReferenceColumns = [
-  'Full bar',
-  `${page.item.name} only`,
-  ...(hasToastColumn ? ['Toast'] : []),
-  'Servings',
+const quickReferenceColumns: QuickReferenceColumn[] = [
+  { label: 'Full bar', unit: page.item.unit },
+  { label: `${page.item.name} only`, unit: page.item.unit },
+  ...(hasToastColumn ? [{ label: 'Toast', unit: 'bottles' }] : []),
+  { label: 'Servings' },
 ];
 
 // The other three drinks at this event, for the Adjust box.
