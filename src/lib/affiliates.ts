@@ -22,23 +22,23 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   // Drink accessories
   corkscrew: {
     name: 'Wine Opener',
-    asin: 'ASIN_TODO', // double-hinged waiter's corkscrew, 2-pack
+    asin: 'B08TM73664', // HYZ 2-pack waiter's corkscrew, black
     why: 'A backup means one stuck cork does not stall the bar.',
     category: 'drink',
     searchQuery: 'wine corkscrew',
   },
   'wine-glasses': {
     name: 'Wine Glasses, Plastic',
-    asin: 'ASIN_TODO', // 72-pack 12 oz clear plastic wine glasses
+    asin: 'B07TV8TL42', // Munfix stemless 12 oz plastic wine glasses, 48-pack
     why: 'Two per drinker covers a refill without a trip to the sink.',
-    packSize: 72,
+    packSize: 48,
     packUnit: 'glasses',
     category: 'drink',
     searchQuery: 'wine glasses party',
   },
   'champagne-flutes': {
     name: 'Champagne Flutes, Plastic',
-    asin: 'ASIN_TODO', // 24-pack 4 oz plastic champagne flutes
+    asin: 'B0929K1W38', // Prestee 4.5 oz disposable champagne flutes, 24-pack
     why: 'One per guest for the toast, no washing up after.',
     packSize: 24,
     packUnit: 'flutes',
@@ -47,37 +47,37 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   },
   'cocktail-glasses': {
     name: 'Cocktail Glasses, Plastic',
-    asin: 'ASIN_TODO', // 24-pack 9 oz plastic cocktail glasses
+    asin: 'B08DXG7V1S', // JOLLY CHEF 9 oz clear plastic tumblers, 100-pack
     why: 'Two per drinker keeps a fresh glass in hand between rounds.',
-    packSize: 24,
+    packSize: 100,
     packUnit: 'glasses',
     category: 'drink',
     searchQuery: 'plastic cocktail glasses party',
   },
   'ice-bucket': {
     name: 'Ice Bucket',
-    asin: 'ASIN_TODO', // double-wall insulated ice bucket with tongs
+    asin: 'B07YBGSL65', // stainless insulated ice bucket with lid, tongs, scoop, strainer
     why: 'Keeps a bottle at the ready without a trip back to the cooler.',
     category: 'drink',
     searchQuery: 'ice bucket party',
   },
   cooler: {
     name: 'Rolling Beverage Cooler',
-    asin: 'ASIN_TODO', // 75-quart wheeled cooler
+    asin: 'B08LMVJJ9Q', // Coleman Classic 100-quart rolling cooler
     why: 'Wheels it where the crowd is instead of the crowd finding it.',
     category: 'drink',
     searchQuery: 'beverage cooler party',
   },
   'cocktail-shaker': {
     name: 'Cocktail Shaker Set',
-    asin: 'ASIN_TODO', // cocktail shaker set with jigger and strainer
+    asin: 'B0957GCDKM', // KITESSENSU 24 oz cocktail shaker set with jigger and strainer
     why: 'Everything needed to mix drinks to order, not just pour them.',
     category: 'drink',
     searchQuery: 'cocktail shaker set',
   },
   'party-cups': {
     name: 'Party Cups',
-    asin: 'ASIN_TODO', // 100-pack 16 oz plastic party cups
+    asin: 'B0828FC2CQ', // TashiBox 16 oz crystal clear cups, 100-pack
     why: 'The default cup for beer, soda, and everything in between.',
     packSize: 100,
     packUnit: 'cups',
@@ -86,7 +86,7 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   },
   'bar-tools': {
     name: 'Bartender Kit',
-    asin: 'ASIN_TODO', // bartender kit with stand, jigger, muddler, strainer
+    asin: 'B08BYJ8KSR', // KITESSENSU bartender kit with stand
     why: 'Jigger, muddler, and strainer in one set covers most cocktails.',
     category: 'drink',
     searchQuery: 'bartender kit',
@@ -95,7 +95,7 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   // Food accessories
   napkins: {
     name: 'Cocktail Napkins',
-    asin: 'ASIN_TODO', // 200-pack cocktail napkins
+    asin: 'B095PF639K', // white 2-ply cocktail napkins, 200-pack
     why: 'Cheap, and the first thing a bar runs out of.',
     packSize: 200,
     packUnit: 'napkins',
@@ -104,7 +104,7 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   },
   'paper-plates': {
     name: 'Paper Plates',
-    asin: 'ASIN_TODO', // 100-pack heavy duty paper plates
+    asin: 'B00B9CTFWW', // Dixie Ultra 10 inch heavy duty plates, 100-pack
     why: 'Sturdy enough for a full plate, gone at the end of the night.',
     packSize: 100,
     packUnit: 'plates',
@@ -113,14 +113,14 @@ export const affiliateCatalog: Record<string, AffiliateProduct> = {
   },
   'serving-platters': {
     name: 'Serving Platters',
-    asin: 'ASIN_TODO', // set of 4 disposable serving platters
+    asin: 'B08NPPFYP8', // white and gold rim disposable serving platter set, 6-pack
     why: 'Keeps the spread looking intentional instead of straight from the box.',
     category: 'food',
     searchQuery: 'serving platters party',
   },
   'warming-tray': {
     name: 'Warming Tray',
-    asin: 'ASIN_TODO', // electric buffet warming tray
+    asin: 'B0FHHS7LHQ', // FEPPO electric warming tray, 33x15 glass surface
     why: 'Keeps the last batch as hot as the first.',
     category: 'food',
     searchQuery: 'warming tray party',
