@@ -23,7 +23,11 @@ import { foodItems } from '../src/data/foodItems';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
 import { isIndexable } from '../src/data/indexing';
+import { seasonalEvents } from '../src/data/seasonalEvents';
+import { drinkShare } from '../src/data/eventSplits';
+import { BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, DRINKING_PERCENTAGE, consumptionMultiplier } from '../src/data/model';
 import type { CalculatorPage, FoodCalculatorPage } from '../src/lib/types';
+import type { ExtendedEventType } from '../src/data/events';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -357,6 +361,90 @@ async function generateFoodCards(): Promise<WriteResult[]> {
 }
 
 // =============================================================================
+// Bar-setup and occasion cards: shared 4-drink ledger
+// =============================================================================
+
+/** Mirrors src/pages/bar-setup/[...slug].astro's fullBarResults computation. */
+function computeFullBar(event: ExtendedEventType, guestValue: number): { item: (typeof items)[number]; unitsNeeded: number }[] {
+  const guestData = guestCounts.find((g) => g.value === guestValue)!;
+  const drinkingPct = DRINKING_PERCENTAGE[guestData.tier];
+  const actualDrinkers = guestValue * drinkingPct;
+  const consumptionMult = consumptionMultiplier(event.defaultDuration);
+
+  return items.map((item) => {
+    const modifier = event.modifiers[item.id] || 1.0;
+    const totalServings = Math.round(actualDrinkers * BASE_DRINKS_PER_HOUR * consumptionMult * modifier);
+    const share = drinkShare(event.id, item.id);
+    const servings = Math.round(totalServings * share);
+    const unitsNeeded = Math.ceil((servings / item.servingsPerUnit) * (1 + BUFFER_PERCENTAGE));
+    return { item, unitsNeeded };
+  });
+}
+
+function ledgerRows(fullBar: { item: (typeof items)[number]; unitsNeeded: number }[]): LedgerRow[] {
+  return fullBar.map((r) => ({
+    label: r.item.name,
+    value: `${r.unitsNeeded} ${r.unitsNeeded === 1 ? r.item.unitSingular : r.item.unit}`,
+  }));
+}
+
+const BAR_SETUP_DATA_FILES = [
+  path.join(__dirname, '../src/data/events.ts'),
+  path.join(__dirname, '../src/data/guestCounts.ts'),
+  path.join(__dirname, '../src/data/model.ts'),
+  path.join(__dirname, '../src/data/eventSplits.ts'),
+  path.join(__dirname, '../src/data/items.ts'),
+];
+
+async function generateBarSetupCards(): Promise<WriteResult[]> {
+  const results: WriteResult[] = [];
+
+  for (const event of events) {
+    for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
+      const slug = `${event.slug}-${guestCount.value}-guests`;
+      const fullBar = computeFullBar(event, guestCount.value);
+      const outputPath = path.join(OG_DIR, `${slug}.png`);
+      results.push(
+        await writeCard(outputPath, BAR_SETUP_DATA_FILES, () =>
+          ledgerCard({
+            caption: 'Full bar',
+            rows: ledgerRows(fullBar),
+            context: `for a ${guestCount.value}-guest ${event.lowerName}`,
+          }),
+        ),
+      );
+    }
+  }
+
+  return results;
+}
+
+const OCCASION_DATA_FILES = [path.join(__dirname, '../src/data/seasonalEvents.ts'), ...BAR_SETUP_DATA_FILES];
+
+async function generateOccasionCards(): Promise<WriteResult[]> {
+  const results: WriteResult[] = [];
+
+  for (const seasonalEvent of seasonalEvents) {
+    const baseEvent = events.find((e) => e.id === seasonalEvent.eventType);
+    if (!baseEvent) continue;
+    const fullBar = computeFullBar(baseEvent, 100);
+    const outputPath = path.join(OG_DIR, `${seasonalEvent.slug}.png`);
+    results.push(
+      await writeCard(outputPath, OCCASION_DATA_FILES, () =>
+        ledgerCard({
+          headline: seasonalEvent.shortName,
+          caption: 'Full bar',
+          rows: ledgerRows(fullBar),
+          context: 'for 100 guests',
+        }),
+      ),
+    );
+  }
+
+  return results;
+}
+
+// =============================================================================
 // Default card
 // =============================================================================
 
@@ -376,6 +464,8 @@ async function main(): Promise<void> {
   results.push(await generateDefaultCard());
   results.push(...(await generateDrinkCards()));
   results.push(...(await generateFoodCards()));
+  results.push(...(await generateBarSetupCards()));
+  results.push(...(await generateOccasionCards()));
 
   const written = results.filter((r) => r.status === 'written').length;
   const largest = Math.max(...results.map((r) => r.bytes));
