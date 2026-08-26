@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AuthorBlock from '../components/AuthorBlock.astro';
 import { items, FLUTES_PER_BOTTLE, TOAST_FLUTES_PER_GUEST, toastBottles } from '../data/items';
 import { events } from '../data/events';
 import {
@@ -54,10 +55,9 @@ const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: AUTHOR.name,
-  jobTitle: AUTHOR.role,
   description: AUTHOR.bio,
   url: 'https://www.stocktheevent.com/about/',
-  ...(AUTHOR.links.length > 0 ? { sameAs: AUTHOR.links } : {}),
+  sameAs: AUTHOR.sites.map((site) => site.url),
 };
 
 const title = 'How the Calculator Works: Methodology | StockTheEvent';
@@ -232,8 +232,7 @@ const breadcrumbs = [
 
       <div class="method-author">
         <h2 class="method-h2">Who wrote this</h2>
-        <p><strong>{AUTHOR.name}</strong>, {AUTHOR.role}</p>
-        <p>{AUTHOR.bio}</p>
+        <AuthorBlock />
         <p class="method-updated">Calculation model last updated {CONTENT_UPDATED}.</p>
       </div>
     </div>

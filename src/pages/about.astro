@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AuthorBlock from '../components/AuthorBlock.astro';
 import { AUTHOR } from '../data/site';
 
 const breadcrumbs = [
@@ -7,17 +8,25 @@ const breadcrumbs = [
   { name: 'About', url: '/about/' }
 ];
 
-// A real person, described only by what this site demonstrates. The previous
-// schema named a fictional "StockTheEvent Team" and claimed a hospitality
-// credential that does not exist.
+const ABOUT_BIO =
+  'My wife Katie and I love to host, but we hate the hassle of mixing individual drinks all night and ' +
+  'guessing shopping quantities. So I built Stock the Event (stocktheevent.com) and Freezer Batch Cocktails ' +
+  '(freezerbatchcocktails.com). Enter a guest count, an occasion, and a run time, and you get a shopping list. ' +
+  'I kept the whole math model public, so anyone can double-check the numbers or adjust them for their own ' +
+  'gatherings.';
+
+// A real person, described only by what these sites demonstrate. The
+// schema description stays third person (AUTHOR.bio) even though the page
+// itself shows a first-person bio. The previous schema named a fictional
+// "StockTheEvent Team" and claimed a hospitality credential that does not
+// exist.
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": AUTHOR.name,
-  "jobTitle": AUTHOR.role,
   "description": AUTHOR.bio,
   "url": "https://www.stocktheevent.com/about/",
-  ...(AUTHOR.links.length > 0 ? { sameAs: AUTHOR.links } : {}),
+  "sameAs": AUTHOR.sites.map((site) => site.url),
   "worksFor": {
     "@type": "Organization",
     "name": "StockTheEvent",
@@ -93,9 +102,7 @@ const personSchema = {
 
     <div class="prose-author">
       <h2 class="prose-h2">Who runs this site</h2>
-      <p class="prose-author-name">{AUTHOR.name}</p>
-      <p class="prose-author-role">{AUTHOR.role}</p>
-      <p>{AUTHOR.bio}</p>
+      <AuthorBlock bio={ABOUT_BIO} />
     </div>
   </section>
 </BaseLayout>
@@ -174,15 +181,5 @@ const personSchema = {
     margin-top: 40px;
     border-top: 1px solid var(--ink);
     padding-top: 8px;
-  }
-
-  .prose-author-name {
-    font-weight: 600;
-    margin-bottom: 2px !important;
-  }
-
-  .prose-author-role {
-    color: var(--ink-2);
-    font-size: 14px;
   }
 </style>

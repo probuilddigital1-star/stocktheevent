@@ -2,11 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InteractiveCalculator from '../components/InteractiveCalculator.astro';
 import Icon from '../components/Icon.astro';
+import AuthorBlock from '../components/AuthorBlock.astro';
 import { items } from '../data/items';
 import { events } from '../data/events';
 import { drinkShare, formatSharePercent } from '../data/eventSplits';
 import { nextSeasonalEvent } from '../data/seasonalEvents';
-import { AUTHOR } from '../data/site';
 
 // Follows the build month; a monthly rebuild keeps the row current.
 const featuredSeasonal = nextSeasonalEvent(new Date());
@@ -170,8 +170,7 @@ const rulesRows = items.map((item) => {
       </div>
       <div class="author-block">
         <span class="label">Formulas by</span>
-        <span class="font-display author-name">{AUTHOR.name}</span>
-        <span class="author-bio">{AUTHOR.role}. {AUTHOR.bio}</span>
+        <AuthorBlock />
       </div>
     </div>
   </section>
@@ -401,15 +400,5 @@ const rulesRows = items.map((item) => {
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
-
-  .author-name {
-    font-size: 20px;
-  }
-
-  .author-bio {
-    font-size: 14px;
-    color: var(--ink-2);
-    line-height: 1.5;
   }
 </style>

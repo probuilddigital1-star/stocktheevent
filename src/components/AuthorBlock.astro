@@ -1,0 +1,79 @@
+---
+/**
+ * AuthorBlock.astro - name, role line, and bio for whoever runs this site.
+ * Every occurrence of a site's name inside the bio (matched against `sites`)
+ * is turned into a link to that site's url, so the bio text and its links
+ * are defined once here rather than duplicated per page. Used on the
+ * homepage, the methodology page, and the About page (which overrides only
+ * `bio` with a first-person version).
+ */
+import { AUTHOR } from '../data/site';
+
+interface Site {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  name?: string;
+  role?: string;
+  bio?: string;
+  sites?: Site[];
+}
+
+const {
+  name = AUTHOR.name,
+  role = AUTHOR.role,
+  bio = AUTHOR.bio,
+  sites = AUTHOR.sites,
+} = Astro.props;
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function isSameSite(url: string): boolean {
+  return url.startsWith('https://www.stocktheevent.com');
+}
+
+// Splits the bio on each site name, keeping the matched names in the
+// resulting array (String.split keeps a regex's captured groups), so the
+// template below can render each one as a link and everything else as
+// plain text.
+const bioParts: string[] =
+  sites.length > 0
+    ? bio.split(new RegExp(`(${sites.map((s) => escapeRegExp(s.name)).join('|')})`, 'g'))
+    : [bio];
+---
+
+<p class="author-block-name">{name}</p>
+<p class="author-block-role">{role}</p>
+<p class="author-block-bio">
+  {bioParts.map((part) => {
+    const site = sites.find((s) => s.name === part);
+    if (!site) return part;
+    return isSameSite(site.url) ? (
+      <a href={site.url}>{part}</a>
+    ) : (
+      <a href={site.url} target="_blank" rel="noopener">{part}</a>
+    );
+  })}
+</p>
+
+<style>
+  .author-block-name {
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+
+  .author-block-role {
+    color: var(--ink-2);
+    font-size: 14px;
+    margin: 0 0 10px;
+  }
+
+  .author-block-bio {
+    margin: 0;
+    line-height: 1.6;
+  }
+</style>
