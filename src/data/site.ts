@@ -8,7 +8,7 @@
  * rather than on every build. Bump this whenever page copy or the calculation
  * model changes.
  */
-export const CONTENT_UPDATED = '2026-08-25';
+export const CONTENT_UPDATED = '2026-08-26';
 
 /**
  * Who publishes this site. Used for the Person schema on the About page and the

@@ -19,6 +19,7 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogImageAlt?: string;
   breadcrumbs?: BreadcrumbItem[];
   /**
    * Where the header "Try the calculator" link points. The homepage passes
@@ -32,6 +33,7 @@ const {
   title,
   description,
   ogImage = '/og-default.png',
+  ogImageAlt = 'StockTheEvent party quantity calculators',
   breadcrumbs,
   calculatorHref = '/#calculator',
 } = Astro.props;
@@ -112,6 +114,7 @@ const navLinks = [
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:url" content={resolvedCanonical} />
 
     <!-- Twitter -->

@@ -156,6 +156,8 @@ const faqSchema = {
 <BaseLayout
   title={`${event.name} Alcohol Calculator: ${guestCount} Guests (Wine, Beer, Spirits, Champagne)`}
   description={`A full bar for ${guestCount} guests at a ${event.lowerName} is about ${grandTotalServings} servings, ${perPerson} drinks per person. Wine, beer, spirits and champagne quantities with a 15 percent buffer included.`}
+  ogImage={isIndexable(guestCount) ? `/og/${event.slug}-${guestCount}-guests.png` : undefined}
+  ogImageAlt={`${event.name} full bar for ${guestCount} guests`}
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">

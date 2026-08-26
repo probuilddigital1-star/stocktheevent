@@ -263,6 +263,8 @@ const shoppingListSchema = {
   description={page.meta.description}
   breadcrumbs={breadcrumbs}
   calculatorHref={barSetupHref}
+  ogImage={isIndexable(page.guestCount.value) ? `/og/${page.slug}.png` : undefined}
+  ogImageAlt={page.meta.h1}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">

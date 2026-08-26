@@ -102,6 +102,8 @@ const faqSchema = {
   title={`${seasonalEvent.metaTitle} ${buildYear}`}
   description={seasonalEvent.metaDescription}
   calculatorHref={baseEvent ? `/bar-setup/${baseEvent.slug}-${defaultGuestCount}-guests/` : undefined}
+  ogImage={`/og/${seasonalEvent.slug}.png`}
+  ogImageAlt={seasonalEvent.h1}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
