@@ -3,9 +3,12 @@
  * AuthorBlock.astro - name, role line, and bio for whoever runs this site.
  * Every occurrence of a site's name inside the bio (matched against `sites`)
  * is turned into a link to that site's url, so the bio text and its links
- * are defined once here rather than duplicated per page. Used on the
- * homepage, the methodology page, and the About page (which overrides only
- * `bio` with a first-person version).
+ * are defined once here rather than duplicated per page. Defaults to
+ * AUTHOR.bioOnSite (refers to this site as "this site", since this
+ * component only ever renders in place, on a page that already is this
+ * site) - AUTHOR.bio is the fully-named variant reserved for the Person
+ * schema description. Used on the homepage, the methodology page, and the
+ * About page (which overrides only `bio` with a first-person version).
  */
 import { AUTHOR } from '../data/site';
 
@@ -24,7 +27,7 @@ interface Props {
 const {
   name = AUTHOR.name,
   role = AUTHOR.role,
-  bio = AUTHOR.bio,
+  bio = AUTHOR.bioOnSite,
   sites = AUTHOR.sites,
 } = Astro.props;
 
