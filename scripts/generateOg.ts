@@ -306,6 +306,26 @@ async function writeCard(outputPath: string, dataPaths: string[], build: () => S
 
 const INDEXABLE_GUEST_COUNTS_LIST = guestCounts.filter((gc) => isIndexable(gc.value));
 
+// Freshness is checked against these source modules, not against the
+// per-page JSON in src/content/calculators - generateData.ts rewrites
+// every JSON file unconditionally on every npm run generate, even when its
+// content is unchanged, which would otherwise invalidate every drink card
+// on every single build.
+const DRINK_DATA_FILES = [
+  path.join(__dirname, '../src/data/items.ts'),
+  path.join(__dirname, '../src/data/events.ts'),
+  path.join(__dirname, '../src/data/guestCounts.ts'),
+  path.join(__dirname, '../src/data/eventSplits.ts'),
+  path.join(__dirname, '../src/data/model.ts'),
+];
+
+const FOOD_DATA_FILES = [
+  path.join(__dirname, '../src/data/foodItems.ts'),
+  path.join(__dirname, '../src/data/events.ts'),
+  path.join(__dirname, '../src/data/guestCounts.ts'),
+  path.join(__dirname, '../src/data/model.ts'),
+];
+
 async function generateDrinkCards(): Promise<WriteResult[]> {
   const results: WriteResult[] = [];
 
@@ -318,7 +338,7 @@ async function generateDrinkCards(): Promise<WriteResult[]> {
         const page: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
         const outputPath = path.join(OG_DIR, `${slug}.png`);
         results.push(
-          await writeCard(outputPath, [dataPath], () =>
+          await writeCard(outputPath, DRINK_DATA_FILES, () =>
             bigNumberCard({
               big: String(page.calculation.fullBar.unitsNeeded),
               unit: `${page.calculation.fullBar.unitsDisplay} of ${page.item.name.toLowerCase()}`,
@@ -345,7 +365,7 @@ async function generateFoodCards(): Promise<WriteResult[]> {
         const page: FoodCalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
         const outputPath = path.join(OG_DIR, `${slug}.png`);
         results.push(
-          await writeCard(outputPath, [dataPath], () =>
+          await writeCard(outputPath, FOOD_DATA_FILES, () =>
             bigNumberCard({
               big: String(page.calculation.unitsNeeded),
               unit: `${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}`,
@@ -473,4 +493,7 @@ async function main(): Promise<void> {
   console.log(`Largest file: ${largest} bytes.`);
 }
 
-main();
+// The resvg-js native addon can leave a handle open that keeps the event
+// loop alive after main() resolves, so exit explicitly rather than letting
+// the process hang after finishing.
+main().then(() => process.exit(0));
