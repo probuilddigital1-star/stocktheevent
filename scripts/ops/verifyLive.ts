@@ -208,6 +208,50 @@ async function checkOgImageSize(): Promise<CheckResult> {
   }
 }
 
+async function checkWineOgImageSize(): Promise<CheckResult> {
+  const MAX_BYTES = 150 * 1024;
+  const PAGE_PATH = '/wine-for-wedding-100-guests/';
+  try {
+    const { body } = await fetchFresh(PAGE_PATH);
+    const match = body.match(/<meta property="og:image" content="([^"]+)"/);
+    const imageUrl = match?.[1];
+    if (!imageUrl) {
+      return {
+        name: 'wine-og-image-under-150kb',
+        passed: false,
+        count: -1,
+        detail: `${PAGE_PATH} has no og:image meta tag`,
+      };
+    }
+    const { status, bytes } = await fetchFreshBinary(imageUrl);
+    const ok = status === 200 && bytes < MAX_BYTES;
+    return {
+      name: 'wine-og-image-under-150kb',
+      passed: ok,
+      count: bytes,
+      detail: `${imageUrl} is ${bytes} bytes (status ${status}), limit ${MAX_BYTES} bytes`,
+    };
+  } catch (err) {
+    return { name: 'wine-og-image-under-150kb', passed: false, count: -1, detail: `fetch error: ${(err as Error).message}` };
+  }
+}
+
+async function checkEmbedFrameAncestors(): Promise<CheckResult> {
+  try {
+    const { status, headers } = await fetchFresh('/embed/');
+    const csp = headers.get('content-security-policy') ?? '';
+    const ok = status === 200 && csp.includes('frame-ancestors');
+    return {
+      name: 'embed-frame-ancestors-header',
+      passed: ok,
+      count: ok ? 0 : 1,
+      detail: `/embed/ returned status ${status}, Content-Security-Policy: "${csp}"`,
+    };
+  } catch (err) {
+    return { name: 'embed-frame-ancestors-header', passed: false, count: 1, detail: `fetch error: ${(err as Error).message}` };
+  }
+}
+
 async function checkCacheControlMaxAge0(): Promise<CheckResult> {
   try {
     const { headers } = await fetchFresh('/');
@@ -305,6 +349,8 @@ async function main(): Promise<void> {
     await checkSitemapGuestCounts(),
     await checkLogoReturns200(),
     await checkOgImageSize(),
+    await checkWineOgImageSize(),
+    await checkEmbedFrameAncestors(),
     await checkCacheControlMaxAge0(),
     await checkAssetCacheControl(),
     await checkSampledHrefsTrailingSlash(),
