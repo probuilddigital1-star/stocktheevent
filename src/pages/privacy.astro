@@ -1,5 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { CONTENT_UPDATED } from '../data/site';
+
+const lastUpdated = new Date(CONTENT_UPDATED).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
 ---
 
 <BaseLayout
@@ -9,7 +17,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <section>
     <div class="container prose-page">
       <h1 class="prose-h1">Privacy Policy</h1>
-      <p class="prose-updated">Last updated: January 1, 2026</p>
+      <p class="prose-updated">Last updated: {lastUpdated}</p>
 
       <div>
         <h2 class="prose-h2">Information We Collect</h2>
@@ -17,32 +25,70 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           StockTheEvent is committed to protecting your privacy. We collect minimal information to provide our services:
         </p>
         <ul class="prose-ul">
-          <li><strong>Email Address:</strong> Only if you voluntarily subscribe to receive your shopping list or planning tips.</li>
-          <li><strong>Usage Data:</strong> Anonymous analytics about how visitors use our calculators (page views, calculator usage).</li>
-          <li><strong>Cookies:</strong> We use essential cookies for site functionality and analytics cookies to improve our service.</li>
+          <li><strong>Email address:</strong> Only if you voluntarily send yourself a shopping list or sign up for planning notes.</li>
+          <li><strong>Usage data:</strong> Anonymous analytics about how visitors use our calculators, through PostHog (see below).</li>
+          <li><strong>Cookies:</strong> Analytics cookies, only after you accept them where consent is required (see Analytics and Cookies).</li>
         </ul>
 
-        <h2 class="prose-h2">How We Use Your Information</h2>
-        <ul class="prose-ul">
-          <li>To send you the shopping list you requested</li>
-          <li>To send occasional party planning tips (if subscribed)</li>
-          <li>To improve our calculators and user experience</li>
-          <li>To analyze site traffic and usage patterns</li>
-        </ul>
+        <h2 class="prose-h2">Analytics and Cookies</h2>
+        <p class="prose-p">
+          We use PostHog, a product analytics service, to understand which calculators get used and how.
+          PostHog records page views and a handful of on-page actions (adjusting a guest count, copying a
+          shopping list, clicking a link) with no name, address, or other information that identifies you
+          personally. This PostHog project is shared with another site we operate; every event we send
+          carries a site tag so the two never get mixed together in our reports.
+        </p>
+        <p class="prose-p">
+          If your browser's timezone or language suggests you are in the EU or UK, you will see a banner
+          asking to accept analytics cookies or keep things essential-only. Until you accept, PostHog runs
+          cookieless: it keeps no cookie and remembers nothing between visits. Choosing "Essential only"
+          keeps it that way permanently. Choosing "Accept" lets PostHog remember your visit across pages and
+          future visits using a cookie and local storage. Outside the EU and UK, PostHog runs with its
+          normal, cookie-based behavior from the first page you load, and no banner is shown.
+        </p>
+        <p class="prose-p">
+          To opt out entirely, use your browser's tracking-protection or cookie settings to block requests to
+          posthog.com, or install a browser extension that blocks analytics scripts. Blocking PostHog never
+          breaks any calculator on this site; every number is computed in your own browser.
+        </p>
+
+        <h2 class="prose-h2">Advertising</h2>
+        <p class="prose-p">
+          We may run display advertising through Google AdSense. When ads are turned on, Google and its
+          advertising partners can set cookies to personalize and measure ads, subject to your consent choice
+          in the banner described above where consent is required. You can opt out of personalized
+          advertising generally at <a href="https://adssettings.google.com/">adssettings.google.com</a> or
+          <a href="https://optout.aboutads.info/">optout.aboutads.info</a>.
+        </p>
+
+        <h2 class="prose-h2">Affiliate Links</h2>
+        <p class="prose-p">
+          Many product links on this site, including the "Things to have on hand" and "Where to buy"
+          sections, are Amazon affiliate links. As an Amazon Associate we earn from qualifying purchases at
+          no extra cost to you. Clicking one of these links may set a cookie in your browser that tells
+          Amazon the sale came from this site.
+        </p>
+
+        <h2 class="prose-h2">Email and Shopping Lists</h2>
+        <p class="prose-p">
+          If you enter an email address to receive a shopping list or sign up for planning notes, that
+          address, the list itself, and the page you were on are sent to our email workflow, hosted on n8n,
+          which sends you the email and keeps a record so we can honor unsubscribe requests. We do not sell,
+          trade, or rent this information. Our sign-up forms also include a hidden field and timing check
+          that block obvious spam submissions before they reach that workflow.
+        </p>
 
         <h2 class="prose-h2">Information Sharing</h2>
         <p class="prose-p">
-          We do not sell, trade, or otherwise transfer your personal information to third parties. We may share anonymous, aggregated data for analytics purposes.
-        </p>
-
-        <h2 class="prose-h2">Third-Party Links</h2>
-        <p class="prose-p">
-          Our site contains links to Amazon and other retailers through affiliate programs. These sites have their own privacy policies, and we encourage you to review them. We earn a small commission from qualifying purchases at no extra cost to you.
+          We do not sell, trade, or otherwise transfer your personal information to third parties beyond the
+          PostHog, Amazon, and n8n relationships described above. We may share anonymous, aggregated data for
+          analytics purposes.
         </p>
 
         <h2 class="prose-h2">Data Security</h2>
         <p class="prose-p">
-          We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure.
+          We implement appropriate security measures to protect your personal information. However, no method
+          of transmission over the Internet is 100% secure.
         </p>
 
         <h2 class="prose-h2">Your Rights</h2>
@@ -52,6 +98,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <ul class="prose-ul">
           <li>Unsubscribe from our emails at any time</li>
           <li>Request deletion of your email from our records</li>
+          <li>Change your analytics cookie choice by clearing this site's local storage and reloading, which brings the consent banner back where it applies</li>
           <li>Access information we have about you</li>
         </ul>
 

@@ -1,0 +1,63 @@
+---
+/**
+ * AdSlot.astro - a single ad placement. Renders nothing at all when
+ * PUBLIC_AD_NETWORK is "none" (the default), so a disabled network leaves no
+ * ad markup in the built HTML. When PUBLIC_AD_NETWORK is "adsense", renders
+ * a ruled, labeled container with a reserved min-height so the unit filling
+ * in does not shift the page.
+ */
+interface Props {
+  /** Identifies this placement as an AdSense ad slot id. */
+  id: string;
+}
+
+const { id } = Astro.props;
+
+const AD_NETWORK = import.meta.env.PUBLIC_AD_NETWORK ?? 'none';
+const ADSENSE_CLIENT = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+const showAdSense = AD_NETWORK === 'adsense' && !!ADSENSE_CLIENT;
+---
+
+{showAdSense && (
+  <div class="container">
+    <div class="ad-slot">
+      <span class="label ad-slot-label">Advertisement</span>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={ADSENSE_CLIENT}
+        data-ad-slot={id}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <script is:inline>
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+)}
+
+<style>
+  .ad-slot {
+    border: 1px solid var(--rule);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 250px;
+  }
+
+  .ad-slot ins {
+    min-height: 250px;
+  }
+
+  @media (min-width: 700px) {
+    .ad-slot {
+      min-height: 280px;
+    }
+
+    .ad-slot ins {
+      min-height: 280px;
+    }
+  }
+</style>

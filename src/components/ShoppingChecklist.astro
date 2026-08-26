@@ -29,6 +29,8 @@ interface Props {
   whereToBuyQuantity?: number;
   whereToBuyUnit?: string;
   whereToBuyCasesLabel?: string;
+  /** Event id, threaded into the email_submit tracking event's "event" prop. */
+  eventId?: string;
 }
 
 const {
@@ -39,7 +41,10 @@ const {
   whereToBuyQuantity,
   whereToBuyUnit,
   whereToBuyCasesLabel,
+  eventId,
 } = Astro.props;
+
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
 // Every row after the first is an accessory; the main item is the drink or
 // food itself, not something sold through the affiliate catalog.
@@ -95,6 +100,18 @@ const thingsToHaveOnHand = shoppingItems
             />
             <button type="submit" class="btn-primary">Send</button>
           </div>
+          {/* Honeypot: visually hidden (not display:none, so simple bots that
+              skip display:none fields still fall for it), not tab-reachable,
+              and aria-hidden so screen reader users never encounter it. A
+              real visitor never fills this in. */}
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="shop-email-hp">Leave this field blank</label>
+            <input type="text" id="shop-email-hp" name="website" autocomplete="off" tabindex="-1" />
+          </div>
+          <input type="hidden" id="shop-email-started-at" name="formStartedAt" value="" />
+          {TURNSTILE_SITE_KEY && (
+            <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY}></div>
+          )}
         </form>
         <p id="email-message" class="shop-email-note hidden"></p>
         <p class="shop-email-fine">No spam, unsubscribe anytime.</p>
@@ -231,7 +248,17 @@ const thingsToHaveOnHand = shoppingItems
   }
 </style>
 
-<script define:vars={{ shoppingItems }}>
+<script define:vars={{ shoppingItems, eventId }}>
+  // define:vars scripts can't use ES `import` (Astro drops the whole script
+  // silently if they do), so tracking goes through window.track, set by
+  // BaseLayout's own script from src/lib/track.ts.
+
+  // The n8n workflow should verify turnstileToken against Cloudflare's
+  // siteverify endpoint (https://challenges.cloudflare.com/turnstile/v0/siteverify)
+  // once PUBLIC_TURNSTILE_SITE_KEY is set; this form only forwards the token.
+  const formStartedAtInput = document.getElementById('shop-email-started-at');
+  if (formStartedAtInput) formStartedAtInput.value = String(Date.now());
+
   // Checkbox toggle
   document.querySelectorAll('#shopping-list .check-box').forEach(checkbox => {
     checkbox.addEventListener('click', () => {
@@ -259,14 +286,17 @@ const thingsToHaveOnHand = shoppingItems
         setTimeout(() => { btn.innerHTML = original; }, 2000);
       }
     });
+    window.track?.('copy_list');
   });
 
   document.getElementById('print-list-btn')?.addEventListener('click', () => {
     window.print();
+    window.track?.('print_list');
   });
 
   document.getElementById('email-list-btn')?.addEventListener('click', () => {
     document.getElementById('email-form-container')?.classList.toggle('hidden');
+    window.track?.('email_open');
   });
 
   const emailForm = document.getElementById('email-list-form');
@@ -276,13 +306,31 @@ const thingsToHaveOnHand = shoppingItems
     const email = emailInput ? emailInput.value : '';
     const message = document.getElementById('email-message');
 
+    // Bot defense: a filled honeypot or a submit under 3 seconds after the
+    // form appeared drops the request client-side before it ever reaches
+    // the network. honeypot/elapsedMs still ride along on genuine
+    // submissions so the n8n workflow can apply the same check server-side.
+    const honeypot = emailForm.querySelector('input[name="website"]')?.value || '';
+    const startedAt = Number(emailForm.querySelector('input[name="formStartedAt"]')?.value || 0);
+    const elapsedMs = Date.now() - startedAt;
+    if (honeypot || elapsedMs < 3000) {
+      return;
+    }
+
+    const turnstileToken = emailForm.querySelector('[name="cf-turnstile-response"]')?.value || undefined;
+
     const payload = {
       email,
       shoppingList: shoppingItems,
       pageUrl: window.location.href,
       timestamp: new Date().toISOString(),
       source: 'shopping-list',
+      honeypot,
+      elapsedMs,
+      turnstileToken,
     };
+
+    window.track?.('email_submit', { source: 'shopping-list', event: eventId ?? null });
 
     try {
       const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {

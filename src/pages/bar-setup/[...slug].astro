@@ -8,6 +8,7 @@ import ThingsToHaveOnHand from '../../components/ThingsToHaveOnHand.astro';
 import WhereToBuy from '../../components/WhereToBuy.astro';
 import CrossPromo from '../../components/CrossPromo.astro';
 import AffiliateDisclosure from '../../components/AffiliateDisclosure.astro';
+import AdSlot from '../../components/AdSlot.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
@@ -229,6 +230,8 @@ const faqSchema = {
       <AffiliateDisclosure />
     </div>
   </section>
+
+  <AdSlot id="bar-setup-after-results" />
 
   <PageSection label="Shopping list" title="What to put in the cart">
     <div class="shop-list" id="shopping-list">

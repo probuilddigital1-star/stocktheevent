@@ -9,6 +9,7 @@ import QuickReference from '../components/QuickReference.astro';
 import type { QuickReferenceRow, QuickReferenceColumn } from '../components/QuickReference.astro';
 import ShoppingChecklist from '../components/ShoppingChecklist.astro';
 import CrossPromo from '../components/CrossPromo.astro';
+import AdSlot from '../components/AdSlot.astro';
 import FaqSection from '../components/FaqSection.astro';
 import type { FaqItem } from '../components/FaqSection.astro';
 import RelatedPages from '../components/RelatedPages.astro';
@@ -302,6 +303,8 @@ const shoppingListSchema = {
     />
   </AnswerHeader>
 
+  <AdSlot id="drink-after-answer" />
+
   <HowWeGotThere
     title={`${['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'][page.mathExplanation.length] ?? page.mathExplanation.length} lines of arithmetic`}
     note="Change any assumption you disagree with; the answer follows."
@@ -314,6 +317,8 @@ const shoppingListSchema = {
       <a href="/methodology/">read the methodology</a>.
     </p>
   </HowWeGotThere>
+
+  <AdSlot id="drink-mid-content" />
 
   <QuickReference
     title={`${page.item.name} for a ${eventName}, by guest count`}
@@ -330,6 +335,7 @@ const shoppingListSchema = {
     whereToBuyQuantity={fullBar.unitsNeeded}
     whereToBuyUnit={fullBar.unitsDisplay}
     whereToBuyCasesLabel={whereToBuyCasesLabel}
+    eventId={page.event.id}
   />
 
   {page.item.id === 'spirits' && <CrossPromo />}
@@ -338,6 +344,8 @@ const shoppingListSchema = {
     heading={`${page.item.name} at a ${eventName}`}
     items={faqItems}
   />
+
+  <AdSlot id="drink-before-nearby" />
 
   <RelatedPages
     pages={page.relatedPages}
@@ -376,6 +384,10 @@ const shoppingListSchema = {
   HOURLY_DECAY,
   DRINKING_PERCENTAGE
 }}>
+  // define:vars scripts can't use ES `import` (Astro drops the whole script
+  // silently if they do), so tracking goes through window.track, set by
+  // BaseLayout's own script from src/lib/track.ts.
+
   // Model constants arrive from src/data/model.ts via define:vars rather than
   // being redeclared here, so this recalculation cannot drift from the
   // generator. The steppers rewrite the answer, the math ledger, the
@@ -626,22 +638,38 @@ const shoppingListSchema = {
     applyState(currentGuests, hours, updateUrl);
   }
 
+  function trackGuestStepperChange() {
+    window.track?.('guest_stepper_change', {
+      guests: currentGuests,
+      duration: currentDuration,
+      page: window.location.pathname,
+    });
+  }
+
   guestStepper?.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-step]');
     if (!btn) return;
     const direction = btn.dataset.step === 'up' ? 1 : -1;
     const idx = nearestStepIndex(currentGuests);
     setGuests(GUEST_STEPS[clamp(idx + direction, 0, GUEST_STEPS.length - 1)]);
+    trackGuestStepperChange();
   });
 
   hoursStepper?.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-step]');
     if (!btn) return;
     setHours(currentDuration + (btn.dataset.step === 'up' ? 1 : -1));
+    trackGuestStepperChange();
   });
 
-  guestInput?.addEventListener('change', () => setGuests(parseInt(guestInput.value, 10)));
-  hoursInput?.addEventListener('change', () => setHours(parseInt(hoursInput.value, 10)));
+  guestInput?.addEventListener('change', () => {
+    setGuests(parseInt(guestInput.value, 10));
+    trackGuestStepperChange();
+  });
+  hoursInput?.addEventListener('change', () => {
+    setHours(parseInt(hoursInput.value, 10));
+    trackGuestStepperChange();
+  });
 
   // Apply URL parameters on load
   const urlParams = new URLSearchParams(window.location.search);

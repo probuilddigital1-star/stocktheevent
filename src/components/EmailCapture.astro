@@ -18,6 +18,8 @@ const {
 
 // Serialize shopping list for the form
 const shoppingListJson = JSON.stringify(shoppingList);
+
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
 <div class="email-capture">
@@ -50,6 +52,18 @@ const shoppingListJson = JSON.stringify(shoppingList);
     <input type="hidden" name="source" value={placement} />
     <input type="hidden" name="shoppingList" value={shoppingListJson} />
     <input type="hidden" name="pageUrl" id="page-url" value="" />
+    {/* Honeypot: visually hidden (not display:none, so simple bots that skip
+        display:none fields still fall for it), not tab-reachable, and
+        aria-hidden so screen reader users never encounter it. A real
+        visitor never fills this in. */}
+    <div class="visually-hidden" aria-hidden="true">
+      <label for="email-capture-hp">Leave this field blank</label>
+      <input type="text" id="email-capture-hp" name="website" autocomplete="off" tabindex="-1" />
+    </div>
+    <input type="hidden" id="email-capture-started-at" name="formStartedAt" value="" />
+    {TURNSTILE_SITE_KEY && (
+      <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY}></div>
+    )}
   </form>
   <p id="form-message" class="email-note hidden"></p>
   <p class="email-fine">No spam, unsubscribe anytime.</p>
@@ -101,10 +115,21 @@ const shoppingListJson = JSON.stringify(shoppingList);
 </style>
 
 <script>
+  import { track } from '../lib/track';
+
+  // The n8n workflow should verify turnstileToken against Cloudflare's
+  // siteverify endpoint (https://challenges.cloudflare.com/turnstile/v0/siteverify)
+  // once PUBLIC_TURNSTILE_SITE_KEY is set; this form only forwards the token.
+
   // Set the page URL on load
   const pageUrlInput = document.getElementById('page-url') as HTMLInputElement;
   if (pageUrlInput) {
     pageUrlInput.value = window.location.href;
+  }
+
+  const startedAtInput = document.getElementById('email-capture-started-at') as HTMLInputElement;
+  if (startedAtInput) {
+    startedAtInput.value = String(Date.now());
   }
 
   const form = document.getElementById('email-form');
@@ -116,6 +141,17 @@ const shoppingListJson = JSON.stringify(shoppingList);
     const formData = new FormData(form as HTMLFormElement);
     const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     const originalBtnText = submitBtn?.textContent ?? '';
+
+    // Bot defense: a filled honeypot or a submit under 3 seconds after the
+    // form appeared drops the request client-side before it ever reaches
+    // the network. honeypot/elapsedMs still ride along on genuine
+    // submissions so the n8n workflow can apply the same check server-side.
+    const honeypot = String(formData.get('website') || '');
+    const startedAt = Number(formData.get('formStartedAt') || 0);
+    const elapsedMs = Date.now() - startedAt;
+    if (honeypot || elapsedMs < 3000) {
+      return;
+    }
 
     // Set loading state
     if (submitBtn) {
@@ -132,6 +168,9 @@ const shoppingListJson = JSON.stringify(shoppingList);
       source: formData.get('source'),
       pageUrl: formData.get('pageUrl'),
       timestamp: new Date().toISOString(),
+      honeypot,
+      elapsedMs,
+      turnstileToken: formData.get('cf-turnstile-response') || undefined,
     };
 
     // Parse shopping list if present
@@ -143,6 +182,8 @@ const shoppingListJson = JSON.stringify(shoppingList);
         payload.shoppingList = [];
       }
     }
+
+    track('email_submit', { source: formData.get('source'), event: formData.get('eventType') });
 
     try {
       const response = await fetch('https://zax76.app.n8n.cloud/webhook/email-signup', {

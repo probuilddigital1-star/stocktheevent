@@ -4,6 +4,7 @@ import Icon from '../../components/Icon.astro';
 import EmailCapture from '../../components/EmailCapture.astro';
 import PageSection from '../../components/PageSection.astro';
 import ProTips from '../../components/ProTips.astro';
+import AdSlot from '../../components/AdSlot.astro';
 import { seasonalEvents } from '../../data/seasonalEvents';
 import { events } from '../../data/events';
 import { items as drinkItems } from '../../data/items';
@@ -191,6 +192,8 @@ const faqSchema = {
     </div>
     <p class="party-note">Open any line for the full breakdown and shopping list.</p>
   </PageSection>
+
+  <AdSlot id="occasion-after-results" />
 
   <!-- All calculators -->
   <PageSection

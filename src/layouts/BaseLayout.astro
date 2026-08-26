@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import { nextSeasonalEvent } from '../data/seasonalEvents';
 
 // The featured seasonal event follows the build month rather than being pinned
@@ -133,6 +134,11 @@ const navLinks = [
     <link rel="preload" href="/fonts/libre-caslon-text-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
 
+    <!-- Turnstile: only loaded once a site key exists (PUBLIC_TURNSTILE_SITE_KEY unset -> no script, no widget). -->
+    {import.meta.env.PUBLIC_TURNSTILE_SITE_KEY && (
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+    )}
+
     <!-- Slot for page-specific head content (schema, etc) -->
     <slot name="head" />
 
@@ -240,6 +246,80 @@ const navLinks = [
         </div>
       </div>
     </footer>
+
+    <ConsentBanner />
+
+    <script>
+      import { track } from '../lib/track';
+      import { isRegulatedRegion, getConsent } from '../lib/consent';
+      import { loadAdSenseScript } from '../lib/ads';
+
+      // Mirrored onto window: Astro's define:vars scripts (InteractiveCalculator,
+      // [slug].astro, food/[slug].astro, ShoppingChecklist.astro) can't use
+      // `import`, so they call window.track?.(...) instead.
+      window.track = track;
+
+      // The PostHog project is shared with another site; every event this
+      // site sends is tagged so it can be told apart in shared dashboards.
+      const SITE_PROPERTY = { site: 'stocktheevent' };
+
+      const POSTHOG_KEY = import.meta.env.PUBLIC_POSTHOG_KEY;
+      const POSTHOG_HOST = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+      const AD_NETWORK = import.meta.env.PUBLIC_AD_NETWORK || 'none';
+      const ADSENSE_CLIENT = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+
+      const regulated = isRegulatedRegion();
+      const consent = getConsent();
+      // Cookieless until a visitor in a regulated region explicitly accepts;
+      // outside the EU/UK, PostHog runs with its normal persistence.
+      const needsConsentGate = regulated && consent !== 'accepted';
+
+      if (POSTHOG_KEY) {
+        import('posthog-js')
+          .then(({ default: posthog }) => {
+            posthog.init(POSTHOG_KEY, {
+              api_host: POSTHOG_HOST,
+              autocapture: false,
+              disable_session_recording: true,
+              capture_pageview: true,
+              persistence: needsConsentGate ? 'memory' : 'localStorage+cookie',
+            });
+            posthog.register(SITE_PROPERTY);
+            window.posthog = posthog;
+          })
+          .catch(() => {
+            // Blocked (ad blocker, offline, etc). track() stays a no-op.
+          });
+      }
+
+      if (AD_NETWORK === 'adsense' && ADSENSE_CLIENT && !needsConsentGate) {
+        loadAdSenseScript(ADSENSE_CLIENT);
+      }
+
+      // Delegated click tracking: any affiliate link anywhere on the page,
+      // identified by data-affiliate or a sponsored rel, with no per-link
+      // listener to wire up.
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest('a');
+        if (!link) return;
+        const key = link.getAttribute('data-affiliate');
+        const rel = link.getAttribute('rel') || '';
+        if (!key && !rel.includes('sponsored')) return;
+        let retailer = null;
+        try {
+          retailer = new URL(link.href).hostname;
+        } catch {
+          retailer = null;
+        }
+        track('affiliate_click', {
+          key: key || null,
+          retailer,
+          page: window.location.pathname,
+        });
+      });
+    </script>
   </body>
 </html>
 

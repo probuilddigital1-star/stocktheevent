@@ -207,8 +207,7 @@ tsx scripts/ops/bing.ts status           # GetUserSites
 
 ## Environment variables
 
-None required to build the site itself. The ops toolkit above reads these
-at runtime, never at build time:
+The ops toolkit below reads these at runtime, never at build time:
 
 | Variable | Used by | Required for |
 |---|---|---|
@@ -216,6 +215,26 @@ at runtime, never at build time:
 | `CLOUDFLARE_ZONE_ID` | `scripts/ops/cloudflare.ts` | all subcommands |
 | `GOOGLE_APPLICATION_CREDENTIALS` | `scripts/ops/gsc.ts` | all subcommands |
 | `BING_WEBMASTER_API_KEY` | `scripts/ops/bing.ts` | all subcommands |
+
+The site itself reads a separate set of `PUBLIC_`-prefixed variables at
+**build time**, from a local `.env` file (gitignored, never committed).
+Astro inlines `PUBLIC_*` values into the client bundle during `npm run
+build`/`npm run dev`, so changing one requires a rebuild; there is no
+runtime toggle. All are optional, and the site builds and runs correctly
+with none of them set:
+
+| Variable | Used by | When missing |
+|---|---|---|
+| `PUBLIC_POSTHOG_KEY` | `BaseLayout.astro`, `src/lib/track.ts` | PostHog never loads. `track()` (and every event listed below) silently no-ops; nothing errors, nothing is sent. |
+| `PUBLIC_POSTHOG_HOST` | `BaseLayout.astro` | Falls back to `https://us.i.posthog.com`. Only matters when `PUBLIC_POSTHOG_KEY` is set. |
+| `PUBLIC_AD_NETWORK` | `AdSlot.astro`, `BaseLayout.astro`, `ConsentBanner.astro` | Falls back to `"none"`. With `"none"`, `AdSlot` renders nothing and no ad script loads; the built HTML contains no ad markup at all (`npm run check` reports this). The only other supported value is `"adsense"`. |
+| `PUBLIC_ADSENSE_CLIENT` | `AdSlot.astro`, `BaseLayout.astro`, `ConsentBanner.astro` | With `PUBLIC_AD_NETWORK=adsense` and this unset, ad slots still render nothing, since a client ID is required to build a slot. |
+| `PUBLIC_TURNSTILE_SITE_KEY` | `EmailCapture.astro`, `ShoppingChecklist.astro`, `BaseLayout.astro` | No Turnstile widget renders on either email form, and the Turnstile script never loads. Forms still submit; they rely on the honeypot field and the 3-second timing check instead. |
+
+`.env` is never read by Cloudflare Pages' own build (this project deploys
+via `npm run deploy`, which builds locally and uploads `dist/`, per the
+Deploy section above) - so the values baked into a given deploy are whatever
+was in `.env` on the machine that ran `npm run build`.
 
 Document any future variable here, including whether it's required at build
 time or only in Cloudflare Pages' runtime environment.

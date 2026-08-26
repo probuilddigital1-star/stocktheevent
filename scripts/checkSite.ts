@@ -245,6 +245,24 @@ function checkNoEmDash(htmlFiles: string[]): CheckResult {
   };
 }
 
+function checkNoAdMarkupWhenNetworkNone(htmlFiles: string[]): CheckResult {
+  // Looks for an actual rendered ad unit or the AdSense loader script, not
+  // just the word "adsbygoogle" - AdSlot.astro's own scoped CSS can contain
+  // that class name in an unused selector even when nothing renders.
+  const AD_MARKUP_RE = /<ins\s+class="adsbygoogle"|googlesyndication\.com/;
+  let count = 0;
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(file, 'utf8');
+    if (AD_MARKUP_RE.test(html)) count += 1;
+  }
+  return {
+    name: 'no-ad-markup-when-network-none',
+    passed: count === 0,
+    count,
+    detail: `${count} of ${htmlFiles.length} pages contain a rendered AdSense unit or loader script (expected 0 when PUBLIC_AD_NETWORK is "none")`,
+  };
+}
+
 function checkFontBytes(): CheckResult {
   if (!fs.existsSync(FONTS_DIR)) {
     return {
@@ -297,6 +315,7 @@ function main(): void {
     checkNoGoogleFonts(textFiles),
     checkNoEmoji(htmlFiles),
     checkNoEmDash(htmlFiles),
+    checkNoAdMarkupWhenNetworkNone(htmlFiles),
     checkFontBytes(),
   ];
 

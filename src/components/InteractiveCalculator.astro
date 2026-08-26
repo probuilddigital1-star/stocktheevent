@@ -367,6 +367,10 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
 </style>
 
 <script define:vars={{ itemsData, eventsData, EVENT_SPLITS, BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, HOURLY_DECAY, DRINKING_PERCENTAGE }}>
+  // define:vars scripts can't use ES `import` (Astro drops the whole script
+  // silently if they do), so tracking goes through window.track, set by
+  // BaseLayout's own script from src/lib/track.ts.
+
   // Model constants come from src/data/model.ts and drink splits from
   // src/data/eventSplits.ts, both via define:vars, so this calculator, the
   // bar-setup pages, and the generator all read one source.
@@ -468,6 +472,21 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
     return { results, grandTotalServings, perPerson };
   }
 
+  // The event fires 500ms after the last interaction rather than on every
+  // keystroke or click, so dragging through guest counts sends one event.
+  let calculatorResultTimer;
+  function trackCalculatorResult() {
+    clearTimeout(calculatorResultTimer);
+    calculatorResultTimer = setTimeout(() => {
+      window.track?.('calculator_result', {
+        drinks: selectedItems.map((i) => i.id),
+        event: selectedEvent.id,
+        guests: selectedGuests,
+        duration: selectedDuration,
+      });
+    }, 500);
+  }
+
   function updateResults() {
     const calc = calculate();
 
@@ -501,7 +520,13 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
       detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuests}-guests/?guests=${selectedGuests}&drinks=${drinks}&duration=${selectedDuration}`;
       ctaText.textContent = 'Plan the whole bar for this occasion';
     }
+
+    trackCalculatorResult();
   }
+
+  detailLink.addEventListener('click', () => {
+    window.track?.('breakdown_click');
+  });
 
   // Drink toggles
   drinkToggles.forEach(toggle => {

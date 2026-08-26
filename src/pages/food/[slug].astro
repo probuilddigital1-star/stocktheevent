@@ -8,6 +8,7 @@ import HowWeGotThere from '../../components/HowWeGotThere.astro';
 import QuickReference from '../../components/QuickReference.astro';
 import type { QuickReferenceRow, QuickReferenceColumn } from '../../components/QuickReference.astro';
 import ShoppingChecklist from '../../components/ShoppingChecklist.astro';
+import AdSlot from '../../components/AdSlot.astro';
 import ProTips from '../../components/ProTips.astro';
 import FaqSection from '../../components/FaqSection.astro';
 import type { FaqItem } from '../../components/FaqSection.astro';
@@ -256,6 +257,8 @@ const shoppingListSchema = {
     />
   </AnswerHeader>
 
+  <AdSlot id="food-after-answer" />
+
   <HowWeGotThere
     title={`${['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'][page.mathExplanation.length] ?? page.mathExplanation.length} lines of arithmetic`}
     note="Change any assumption you disagree with; the answer follows."
@@ -268,6 +271,8 @@ const shoppingListSchema = {
     </p>
   </HowWeGotThere>
 
+  <AdSlot id="food-mid-content" />
+
   <QuickReference
     title={`${page.item.name} for a ${eventName}, by guest count`}
     columns={[{ label: page.item.name, unit: page.item.orderUnit }, { label: 'Servings' }]}
@@ -279,6 +284,7 @@ const shoppingListSchema = {
     items={page.shoppingList}
     rowCalcs={rowCalcs}
     buyLabel={`${calc.unitsNeeded} ${calc.unitsDisplay}`}
+    eventId={page.event.id}
   />
 
   {eventFoodTips.length > 0 && (
@@ -316,6 +322,8 @@ const shoppingListSchema = {
       </div>
     </section>
   )}
+
+  <AdSlot id="food-before-nearby" />
 
   <RelatedPages
     pages={page.relatedPages}
@@ -405,6 +413,10 @@ const shoppingListSchema = {
   BUFFER_PERCENTAGE,
   EATING_PERCENTAGE
 }}>
+  // define:vars scripts can't use ES `import` (Astro drops the whole script
+  // silently if they do), so tracking goes through window.track, set by
+  // BaseLayout's own script from src/lib/track.ts.
+
   // Mirrors scripts/generateFoodData.ts. The guest stepper rewrites the
   // answer, the math ledger, the quick-reference highlight and the shopping
   // list, and mirrors the state into the URL with replaceState. Run time does
@@ -576,15 +588,27 @@ const shoppingListSchema = {
     applyState(guests, updateUrl);
   }
 
+  function trackGuestStepperChange() {
+    window.track?.('guest_stepper_change', {
+      guests: currentGuests,
+      duration: null,
+      page: window.location.pathname,
+    });
+  }
+
   guestStepper?.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-step]');
     if (!btn) return;
     const direction = btn.dataset.step === 'up' ? 1 : -1;
     const idx = nearestStepIndex(currentGuests);
     setGuests(GUEST_STEPS[clamp(idx + direction, 0, GUEST_STEPS.length - 1)]);
+    trackGuestStepperChange();
   });
 
-  guestInput?.addEventListener('change', () => setGuests(parseInt(guestInput.value, 10)));
+  guestInput?.addEventListener('change', () => {
+    setGuests(parseInt(guestInput.value, 10));
+    trackGuestStepperChange();
+  });
 
   // Apply URL parameters on load
   const urlParams = new URLSearchParams(window.location.search);

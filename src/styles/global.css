@@ -192,6 +192,21 @@ input[type='number'] {
   font-weight: 500;
 }
 
+/* Visually hidden but not display:none, so a simple bot filling a honeypot
+   field still finds it. Screen readers should never announce it either;
+   pair with aria-hidden="true" on the wrapper wherever it is used. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* --------------------------------------------
    Ledger tables
    -------------------------------------------- */

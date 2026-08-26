@@ -1,0 +1,96 @@
+---
+/**
+ * ConsentBanner.astro - a bottom bar shown only when the visitor's timezone
+ * or language suggests the EU or UK. Starts hidden (display:none) in the
+ * static HTML and is fixed-position, so it never shifts layout, whether or
+ * not JS ends up revealing it.
+ */
+---
+
+<div id="consent-banner" class="consent-banner hidden" role="region" aria-label="Cookie consent">
+  <div class="consent-inner">
+    <p class="consent-text">
+      We use cookies for analytics once you accept. Choosing essential only keeps things cookieless.
+    </p>
+    <div class="consent-actions">
+      <button type="button" id="consent-essential" class="btn-secondary">Essential only</button>
+      <button type="button" id="consent-accept" class="btn-primary">Accept</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .consent-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    background: var(--paper);
+    border-top: 1px solid var(--ink);
+  }
+
+  .consent-banner.hidden {
+    display: none;
+  }
+
+  .consent-inner {
+    max-width: 1296px;
+    margin-inline: auto;
+    padding: 16px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .consent-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+
+  .consent-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  import { isRegulatedRegion, getConsent, setConsent } from '../lib/consent';
+  import { loadAdSenseScript } from '../lib/ads';
+
+  const banner = document.getElementById('consent-banner');
+  const acceptBtn = document.getElementById('consent-accept');
+  const essentialBtn = document.getElementById('consent-essential');
+
+  if (isRegulatedRegion() && !getConsent()) {
+    banner?.classList.remove('hidden');
+  }
+
+  function hideBanner(): void {
+    banner?.classList.add('hidden');
+  }
+
+  acceptBtn?.addEventListener('click', () => {
+    setConsent('accepted');
+    hideBanner();
+
+    window.posthog?.set_config?.({ persistence: 'localStorage+cookie' });
+
+    const adNetwork = import.meta.env.PUBLIC_AD_NETWORK;
+    const adsenseClient = import.meta.env.PUBLIC_ADSENSE_CLIENT;
+    if (adNetwork === 'adsense' && adsenseClient) {
+      loadAdSenseScript(adsenseClient);
+    }
+  });
+
+  essentialBtn?.addEventListener('click', () => {
+    setConsent('essential');
+    hideBanner();
+  });
+</script>

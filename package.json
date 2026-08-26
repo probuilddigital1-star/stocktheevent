@@ -21,6 +21,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.6",
     "googleapis": "^176.0.0",
+    "posthog-js": "^1.419.4",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
