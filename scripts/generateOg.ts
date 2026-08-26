@@ -1,0 +1,315 @@
+/**
+ * generateOg.ts - renders a 1200x630 Bar-book-styled share image for every
+ * indexable calculator page, plus the site default. Run after
+ * generateData.ts and generateFoodData.ts (their JSON output feeds the
+ * drink/food cards).
+ *
+ * satori builds an SVG from a React-less element tree (plain
+ * { type, props: { style, children } } objects, built with the h() helper
+ * below); @resvg/resvg-js rasterizes that SVG to PNG. satori needs static
+ * TTF/OTF fonts, loaded once from scripts/fonts/ and reused for every
+ * render, and its layout engine is flexbox-only - every element with
+ * children must set display: 'flex' explicitly.
+ */
+
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import satori from 'satori';
+import { Resvg } from '@resvg/resvg-js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const PUBLIC_DIR = path.join(__dirname, '../public');
+const OG_DIR = path.join(PUBLIC_DIR, 'og');
+const FONTS_DIR = path.join(__dirname, 'fonts');
+
+/** This file's own mtime. Included in every freshness check below, so
+ * editing the rendering logic invalidates every previously-cached image,
+ * not just edits to the underlying data. */
+const SCRIPT_MTIME = fs.statSync(__filename).mtimeMs;
+
+// =============================================================================
+// Element tree helper (no react dependency)
+// =============================================================================
+
+interface SatoriNode {
+  type: string;
+  props: {
+    style?: Record<string, string | number>;
+    children?: SatoriNode | string | (SatoriNode | string)[];
+    [key: string]: unknown;
+  };
+}
+
+function h(
+  type: string,
+  props: Record<string, unknown> = {},
+  ...children: (SatoriNode | string | null | false)[]
+): SatoriNode {
+  const flatChildren = children.filter((c): c is SatoriNode | string => c !== null && c !== false);
+  return {
+    type,
+    props: {
+      ...props,
+      children: flatChildren.length === 1 ? flatChildren[0] : flatChildren,
+    },
+  };
+}
+
+// =============================================================================
+// Fonts
+// =============================================================================
+
+const FONTS = [
+  { name: 'Archivo', data: fs.readFileSync(path.join(FONTS_DIR, 'Archivo-Regular.ttf')), weight: 400 as const, style: 'normal' as const },
+  { name: 'Archivo', data: fs.readFileSync(path.join(FONTS_DIR, 'Archivo-SemiBold.ttf')), weight: 600 as const, style: 'normal' as const },
+  { name: 'Libre Caslon Text', data: fs.readFileSync(path.join(FONTS_DIR, 'LibreCaslonText-Regular.ttf')), weight: 400 as const, style: 'normal' as const },
+];
+
+// =============================================================================
+// Card frame (Bar book style: paper background, thin ink rule, small
+// wordmark footer)
+// =============================================================================
+
+const PAPER = '#F5F6F3';
+const INK = '#1B1F1D';
+const INK_2 = '#4B524E';
+const RULE = '#C7CDC8';
+const FONT_DISPLAY = 'Libre Caslon Text';
+const FONT_TEXT = 'Archivo';
+
+function cardFrame(...children: SatoriNode[]): SatoriNode {
+  return h(
+    'div',
+    {
+      style: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '1200px',
+        height: '630px',
+        backgroundColor: PAPER,
+        padding: '64px',
+        fontFamily: FONT_TEXT,
+      },
+    },
+    ...children,
+  );
+}
+
+function cardFooter(): SatoriNode {
+  return h(
+    'div',
+    { style: { display: 'flex', flexDirection: 'column' } },
+    h('div', { style: { display: 'flex', height: '1px', backgroundColor: INK, marginBottom: '24px' } }),
+    h(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          fontFamily: FONT_DISPLAY,
+          fontSize: '24px',
+          color: INK_2,
+          letterSpacing: '0.02em',
+        },
+      },
+      'Stock the Event',
+    ),
+  );
+}
+
+function bigNumberCard(opts: { big: string; unit: string; context: string }): SatoriNode {
+  return cardFrame(
+    h(
+      'div',
+      { style: { display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center' } },
+      h(
+        'div',
+        {
+          style: {
+            display: 'flex',
+            fontFamily: FONT_TEXT,
+            fontWeight: 600,
+            fontSize: '220px',
+            lineHeight: 1,
+            color: INK,
+            fontVariantNumeric: 'tabular-nums',
+          },
+        },
+        opts.big,
+      ),
+      h(
+        'div',
+        { style: { display: 'flex', fontFamily: FONT_DISPLAY, fontSize: '44px', color: INK, marginTop: '8px' } },
+        opts.unit,
+      ),
+      h(
+        'div',
+        { style: { display: 'flex', fontFamily: FONT_TEXT, fontSize: '28px', color: INK_2, marginTop: '16px' } },
+        opts.context,
+      ),
+    ),
+    cardFooter(),
+  );
+}
+
+interface LedgerRow {
+  label: string;
+  value: string;
+}
+
+function ledgerCard(opts: { headline?: string; caption: string; rows: LedgerRow[]; context: string }): SatoriNode {
+  return cardFrame(
+    h(
+      'div',
+      { style: { display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center' } },
+      ...(opts.headline
+        ? [
+            h(
+              'div',
+              { style: { display: 'flex', fontFamily: FONT_DISPLAY, fontSize: '68px', color: INK, marginBottom: '20px' } },
+              opts.headline,
+            ),
+          ]
+        : []),
+      h(
+        'div',
+        {
+          style: {
+            display: 'flex',
+            fontFamily: FONT_TEXT,
+            fontWeight: 600,
+            fontSize: '20px',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            color: INK_2,
+            marginBottom: '16px',
+          },
+        },
+        opts.caption,
+      ),
+      h(
+        'div',
+        { style: { display: 'flex', flexDirection: 'column' } },
+        ...opts.rows.map((row) =>
+          h(
+            'div',
+            {
+              style: {
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '10px 0',
+                borderBottom: `1px solid ${RULE}`,
+                width: '760px',
+              },
+            },
+            h('div', { style: { display: 'flex', fontFamily: FONT_TEXT, fontSize: '30px', color: INK } }, row.label),
+            h(
+              'div',
+              { style: { display: 'flex', fontFamily: FONT_TEXT, fontWeight: 600, fontSize: '30px', color: INK, fontVariantNumeric: 'tabular-nums' } },
+              row.value,
+            ),
+          ),
+        ),
+      ),
+      h(
+        'div',
+        { style: { display: 'flex', fontFamily: FONT_TEXT, fontSize: '28px', color: INK_2, marginTop: '20px' } },
+        opts.context,
+      ),
+    ),
+    cardFooter(),
+  );
+}
+
+function defaultCard(): SatoriNode {
+  return cardFrame(
+    h(
+      'div',
+      { style: { display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'center' } },
+      h('div', { style: { display: 'flex', fontFamily: FONT_DISPLAY, fontSize: '110px', color: INK } }, 'Stock the Event'),
+      h(
+        'div',
+        { style: { display: 'flex', fontFamily: FONT_TEXT, fontSize: '30px', color: INK_2, marginTop: '20px' } },
+        'Party quantity calculators',
+      ),
+    ),
+    h('div', { style: { display: 'flex', height: '1px', backgroundColor: INK, marginTop: 'auto' } }),
+  );
+}
+
+// =============================================================================
+// Render pipeline: satori (element tree -> SVG) -> resvg (SVG -> PNG)
+// =============================================================================
+
+const MAX_BYTES = 150 * 1024;
+
+async function renderPng(tree: SatoriNode, widthPx: number): Promise<Buffer> {
+  const svg = await satori(tree as any, { width: 1200, height: 630, fonts: FONTS });
+  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: widthPx } });
+  return resvg.render().asPng();
+}
+
+async function renderCardCapped(tree: SatoriNode): Promise<Buffer> {
+  const buffer = await renderPng(tree, 1200);
+  if (buffer.length <= MAX_BYTES) return buffer;
+  // The flat, gradient-free card design should never hit this in practice.
+  // Fall back to a smaller raster (still a valid og:image, just not the
+  // full 1200x630) rather than shipping an oversized file.
+  return renderPng(tree, 900);
+}
+
+function isFresh(outputPath: string, dataPaths: string[]): boolean {
+  if (!fs.existsSync(outputPath)) return false;
+  const outMtime = fs.statSync(outputPath).mtimeMs;
+  if (outMtime <= SCRIPT_MTIME) return false;
+  for (const dataPath of dataPaths) {
+    if (!fs.existsSync(dataPath)) continue;
+    if (outMtime <= fs.statSync(dataPath).mtimeMs) return false;
+  }
+  return true;
+}
+
+interface WriteResult {
+  status: 'written' | 'skipped';
+  bytes: number;
+}
+
+async function writeCard(outputPath: string, dataPaths: string[], build: () => SatoriNode): Promise<WriteResult> {
+  if (isFresh(outputPath, dataPaths)) {
+    return { status: 'skipped', bytes: fs.statSync(outputPath).size };
+  }
+  const buffer = await renderCardCapped(build());
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+  fs.writeFileSync(outputPath, buffer);
+  return { status: 'written', bytes: buffer.length };
+}
+
+// =============================================================================
+// Default card
+// =============================================================================
+
+async function generateDefaultCard(): Promise<WriteResult> {
+  const outputPath = path.join(PUBLIC_DIR, 'og-default.png');
+  return writeCard(outputPath, [], defaultCard);
+}
+
+// =============================================================================
+// Main
+// =============================================================================
+
+async function main(): Promise<void> {
+  fs.mkdirSync(OG_DIR, { recursive: true });
+
+  const results: WriteResult[] = [];
+  results.push(await generateDefaultCard());
+
+  const written = results.filter((r) => r.status === 'written').length;
+  const largest = Math.max(...results.map((r) => r.bytes));
+  console.log(`\nShare images: ${results.length} total, ${written} written, ${results.length - written} skipped (up to date).`);
+  console.log(`Largest file: ${largest} bytes.`);
+}
+
+main();

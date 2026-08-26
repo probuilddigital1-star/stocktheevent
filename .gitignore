@@ -5,6 +5,7 @@ dist/
 # generated page data (npm run generate)
 src/content/calculators/
 src/content/food-calculators/
+public/og/
 
 # dependencies
 node_modules/

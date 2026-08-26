@@ -8,7 +8,7 @@
     "build": "npm run generate && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate": "tsx scripts/generateData.ts && tsx scripts/generateFoodData.ts",
+    "generate": "tsx scripts/generateData.ts && tsx scripts/generateFoodData.ts && tsx scripts/generateOg.ts",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "check": "tsx scripts/checkSite.ts",
@@ -26,6 +26,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.33.4",
     "tsx": "^4.19.0"
   }
 }
