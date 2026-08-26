@@ -1,0 +1,92 @@
+---
+import '../../styles/global.css';
+import InteractiveCalculator from '../../components/InteractiveCalculator.astro';
+import { withTrailingSlash } from '../../lib/canonical';
+
+const resolvedCanonical = withTrailingSlash(new URL(Astro.url.pathname, Astro.site));
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <title>Stock the Event calculator</title>
+    <link rel="canonical" href={resolvedCanonical} />
+
+    <link rel="preload" href="/fonts/libre-caslon-text-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body class="embed-body">
+    <h1 class="visually-hidden">Party drink calculator</h1>
+
+    <InteractiveCalculator compact />
+
+    <a
+      id="powered-by-link"
+      href="https://www.stocktheevent.com/bar-setup/?utm_source=embed"
+      target="_top"
+      rel="noopener"
+      class="embed-powered-by"
+    >Powered by Stock the Event</a>
+
+    <script>
+      import { track } from '../../lib/track';
+      import { initAnalytics } from '../../lib/analytics';
+
+      // Mirrored onto window the same way BaseLayout does it, so
+      // InteractiveCalculator's define:vars script can call
+      // window.track?.(...).
+      window.track = track;
+
+      // Third-party iframe on someone else's site: cookies/localStorage are
+      // partitioned or blocked by most browsers there anyway, so always run
+      // cookieless rather than trying to gate on region.
+      initAnalytics({ extraProps: { surface: 'embed' }, forceMemoryPersistence: true });
+    </script>
+
+    <script>
+      // The CTA link inside the calculator already tracks the current
+      // drink/guest/occasion selection (single drink -> that drink's page,
+      // multiple drinks -> the matching bar-setup page). Mirror its target
+      // onto the powered-by link so "the matching calculator or bar-setup
+      // page" stays accurate as the visitor changes the selection, while
+      // the link still has a stable, crawlable href in the raw HTML.
+      const detailLink = document.getElementById('detail-link');
+      const poweredByLink = document.getElementById('powered-by-link');
+
+      function syncPoweredByLink() {
+        if (!detailLink || !poweredByLink) return;
+        const href = detailLink.getAttribute('href');
+        if (!href) return;
+        const separator = href.includes('?') ? '&' : '?';
+        poweredByLink.setAttribute('href', `https://www.stocktheevent.com${href}${separator}utm_source=embed`);
+      }
+
+      syncPoweredByLink();
+
+      if (detailLink) {
+        new MutationObserver(syncPoweredByLink).observe(detailLink, {
+          attributes: true,
+          attributeFilter: ['href'],
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .embed-body {
+    margin: 0;
+    padding: 10px;
+  }
+
+  .embed-powered-by {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+</style>

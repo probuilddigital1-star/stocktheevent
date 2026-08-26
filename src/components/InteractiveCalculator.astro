@@ -37,6 +37,13 @@ const eventsData = events.map(e => ({
   modifiers: e.modifiers,
 }));
 
+interface Props {
+  /** Tighter padding/gaps for the /embed/ widget. Same markup and math. */
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
 const DEFAULT_GUESTS = 100;
 const DEFAULT_EVENT = events[0];
 const DEFAULT_HOURS = DEFAULT_EVENT.defaultDuration;
@@ -81,7 +88,7 @@ const defaultPerPerson = Math.round((defaultGrandTotalServings / DEFAULT_GUESTS)
 const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-guests/?guests=${DEFAULT_GUESTS}&drinks=${items.map((i) => i.id).join(',')}&duration=${DEFAULT_HOURS}`;
 ---
 
-<div class="calc-box" id="calculator">
+<div class:list={['calc-box', { compact }]} id="calculator">
   <div class="calc-head">
     <span class="label calc-head-title">The calculator</span>
     <span class="label">Results update as you type</span>
@@ -363,6 +370,28 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
   .calc-cta {
     margin-top: auto;
     width: 100%;
+  }
+
+  .calc-box.compact .calc-head {
+    padding: 12px 20px;
+  }
+
+  .calc-box.compact .calc-inputs,
+  .calc-box.compact .calc-results {
+    padding: 20px 20px 18px;
+    gap: 16px;
+  }
+
+  .calc-box.compact .calc-steppers {
+    gap: 12px;
+  }
+
+  .calc-box.compact .drink-toggle-grid {
+    gap: 8px;
+  }
+
+  .calc-box.compact .bar-table td {
+    padding: 8px 0;
   }
 </style>
 

@@ -27,6 +27,7 @@ export default defineConfig({
       !page.includes('/terms') &&
       !page.includes('/unsubscribe') &&
       !page.includes('/404') &&
+      !page.includes('/embed/') &&
       hasIndexableGuestCount(page),
     // Fixed date, not new Date(), so lastmod only moves when content moves.
     lastmod: new Date(CONTENT_UPDATED),
