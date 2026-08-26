@@ -18,12 +18,21 @@ import { fileURLToPath } from 'url';
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
+import { items } from '../src/data/items';
+import { foodItems } from '../src/data/foodItems';
+import { events } from '../src/data/events';
+import { guestCounts } from '../src/data/guestCounts';
+import { isIndexable } from '../src/data/indexing';
+import type { CalculatorPage, FoodCalculatorPage } from '../src/lib/types';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const PUBLIC_DIR = path.join(__dirname, '../public');
 const OG_DIR = path.join(PUBLIC_DIR, 'og');
 const FONTS_DIR = path.join(__dirname, 'fonts');
+const CALCULATORS_DIR = path.join(__dirname, '../src/content/calculators');
+const FOOD_CALCULATORS_DIR = path.join(__dirname, '../src/content/food-calculators');
 
 /** This file's own mtime. Included in every freshness check below, so
  * editing the rendering logic invalidates every previously-cached image,
@@ -288,6 +297,66 @@ async function writeCard(outputPath: string, dataPaths: string[], build: () => S
 }
 
 // =============================================================================
+// Drink and food cards: big number + unit line + "for a N-guest event" line
+// =============================================================================
+
+const INDEXABLE_GUEST_COUNTS_LIST = guestCounts.filter((gc) => isIndexable(gc.value));
+
+async function generateDrinkCards(): Promise<WriteResult[]> {
+  const results: WriteResult[] = [];
+
+  for (const item of items) {
+    for (const event of events) {
+      for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
+        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
+        const dataPath = path.join(CALCULATORS_DIR, `${slug}.json`);
+        if (!fs.existsSync(dataPath)) continue;
+        const page: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+        const outputPath = path.join(OG_DIR, `${slug}.png`);
+        results.push(
+          await writeCard(outputPath, [dataPath], () =>
+            bigNumberCard({
+              big: String(page.calculation.fullBar.unitsNeeded),
+              unit: `${page.calculation.fullBar.unitsDisplay} of ${page.item.name.toLowerCase()}`,
+              context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+            }),
+          ),
+        );
+      }
+    }
+  }
+
+  return results;
+}
+
+async function generateFoodCards(): Promise<WriteResult[]> {
+  const results: WriteResult[] = [];
+
+  for (const item of foodItems) {
+    for (const event of events) {
+      for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
+        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
+        const dataPath = path.join(FOOD_CALCULATORS_DIR, `${slug}.json`);
+        if (!fs.existsSync(dataPath)) continue;
+        const page: FoodCalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+        const outputPath = path.join(OG_DIR, `${slug}.png`);
+        results.push(
+          await writeCard(outputPath, [dataPath], () =>
+            bigNumberCard({
+              big: String(page.calculation.unitsNeeded),
+              unit: `${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}`,
+              context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+            }),
+          ),
+        );
+      }
+    }
+  }
+
+  return results;
+}
+
+// =============================================================================
 // Default card
 // =============================================================================
 
@@ -305,6 +374,8 @@ async function main(): Promise<void> {
 
   const results: WriteResult[] = [];
   results.push(await generateDefaultCard());
+  results.push(...(await generateDrinkCards()));
+  results.push(...(await generateFoodCards()));
 
   const written = results.filter((r) => r.status === 'written').length;
   const largest = Math.max(...results.map((r) => r.bytes));
