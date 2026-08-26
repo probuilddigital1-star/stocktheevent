@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Embed the calculator', url: '/embed-calculator/' },
+];
+
+const IFRAME_SNIPPET = `<iframe
+  src="https://www.stocktheevent.com/embed/"
+  width="100%"
+  height="640"
+  style="border:1px solid #1B1F1D;"
+  title="Stock the Event calculator"
+  loading="lazy"
+></iframe>`;
+---
+
+<BaseLayout
+  title="Embed the Party Calculator on Your Site, Free | StockTheEvent"
+  description="Add the Stock the Event drink and food calculator to your own site with one iframe. Free, no signup, no attribution beyond the built-in link."
+  breadcrumbs={breadcrumbs}
+>
+  <section class="container prose-page">
+    <nav class="prose-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Embed the calculator</span>
+    </nav>
+
+    <h1 class="prose-h1">Embed the calculator on your site</h1>
+    <p class="prose-lede">
+      The same drink and food calculator that runs on this site, dropped
+      into yours with one iframe.
+    </p>
+
+    <h2 class="prose-h2">Who it is for</h2>
+    <p>
+      Wedding and event planners, venues, rental companies, and food and
+      wedding blogs that want to give their own visitors a working
+      quantity calculator without building one.
+    </p>
+
+    <h2 class="prose-h2">Preview</h2>
+    <div class="embed-preview">
+      <iframe
+        src="/embed/"
+        width="100%"
+        height="640"
+        style="border:1px solid var(--ink);"
+        title="Stock the Event calculator preview"
+        loading="lazy"
+      ></iframe>
+    </div>
+
+    <h2 class="prose-h2">The snippet</h2>
+    <p>Copy this into your page. No signup, no API key.</p>
+    <div class="embed-snippet-block">
+      <pre class="embed-snippet" id="embed-snippet-code">{IFRAME_SNIPPET}</pre>
+      <button type="button" id="embed-copy-btn" class="btn-secondary embed-copy-btn">
+        <Icon name="copy" size={18} /> Copy
+      </button>
+    </div>
+    <p class="embed-note">
+      On narrow screens the widget scrolls inside the frame rather than
+      being cut off.
+    </p>
+
+    <h2 class="prose-h2">Free to use</h2>
+    <p>
+      This widget is free to embed. No attribution is required beyond the
+      built-in "Powered by Stock the Event" link inside the widget itself.
+    </p>
+  </section>
+</BaseLayout>
+
+<script>
+  const copyBtn = document.getElementById('embed-copy-btn');
+  const codeEl = document.getElementById('embed-snippet-code');
+
+  copyBtn?.addEventListener('click', () => {
+    const text = codeEl?.textContent ?? '';
+    navigator.clipboard.writeText(text).then(() => {
+      if (!(copyBtn instanceof HTMLButtonElement)) return;
+      const original = copyBtn.innerHTML;
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => {
+        copyBtn.innerHTML = original;
+      }, 2000);
+    });
+  });
+</script>
+
+<style>
+  .prose-page {
+    max-width: 44rem;
+    padding-top: 40px;
+    padding-bottom: 64px;
+  }
+
+  .prose-crumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+
+  .prose-crumbs a,
+  .prose-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .prose-h1 {
+    margin: 0 0 12px;
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 900px) {
+    .prose-h1 {
+      font-size: 48px;
+    }
+  }
+
+  .prose-lede {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: var(--ink-2);
+  }
+
+  .prose-h2 {
+    margin: 36px 0 12px;
+    font-size: 24px;
+    line-height: 1.2;
+  }
+
+  .prose-page p {
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+
+  .embed-preview {
+    border: 1px solid var(--rule);
+    padding: 12px;
+  }
+
+  .embed-snippet-block {
+    border: 1px solid var(--ink);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .embed-snippet {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: monospace;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .embed-copy-btn {
+    align-self: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .embed-note {
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+</style>
