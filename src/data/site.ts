@@ -56,3 +56,10 @@ export const AUTHOR = {
   /** Social and professional profiles, added here when there are any to link. */
   links: [] as string[],
 };
+
+/**
+ * The published contact address for the site: the contact page's mailto
+ * link, the privacy page's "how to reach us" line, and the Person and
+ * Organization structured data.
+ */
+export const CONTACT_EMAIL = 'probuilddigital1@gmail.com';

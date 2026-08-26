@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { CONTENT_UPDATED } from '../data/site';
+import { CONTENT_UPDATED, CONTACT_EMAIL } from '../data/site';
 
 const lastUpdated = new Date(CONTENT_UPDATED).toLocaleDateString('en-US', {
   year: 'numeric',
@@ -114,7 +114,8 @@ const lastUpdated = new Date(CONTENT_UPDATED).toLocaleDateString('en-US', {
 
         <h2 class="prose-h2">Contact Us</h2>
         <p class="prose-p">
-          If you have questions about this privacy policy, please contact us through our website.
+          If you have questions about this privacy policy, contact us at
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
         </p>
       </div>
     </div>

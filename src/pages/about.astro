@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AuthorBlock from '../components/AuthorBlock.astro';
-import { AUTHOR } from '../data/site';
+import { AUTHOR, CONTACT_EMAIL } from '../data/site';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -24,6 +24,7 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": AUTHOR.name,
+  "email": CONTACT_EMAIL,
   "description": AUTHOR.bio,
   "url": "https://www.stocktheevent.com/about/",
   "sameAs": AUTHOR.sites.map((site) => site.url),
@@ -104,6 +105,8 @@ const personSchema = {
       <h2 class="prose-h2">Who runs this site</h2>
       <AuthorBlock bio={ABOUT_BIO} />
     </div>
+
+    <p>Have a question or found something that looks off? <a href="/contact/">Get in touch</a>.</p>
   </section>
 </BaseLayout>
 

@@ -4,6 +4,7 @@ import Icon from '../components/Icon.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import { nextSeasonalEvent } from '../data/seasonalEvents';
 import { withTrailingSlash } from '../lib/canonical';
+import { CONTACT_EMAIL } from '../data/site';
 
 // The featured seasonal event follows the build month rather than being pinned
 // to one page year-round. A monthly rebuild keeps it current. It is linked by
@@ -51,11 +52,19 @@ const organizationSchema = {
   "description": "Free food and drink calculators for party planning. Published quantities for weddings, birthdays, Super Bowl parties, and more, with the full calculation model shown.",
   "foundingDate": "2024",
   "sameAs": [],
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "customer service",
-    "url": `${siteUrl}/about/`
-  }
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "url": `${siteUrl}/about/`
+    },
+    {
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": CONTACT_EMAIL,
+      "url": `${siteUrl}/contact/`
+    }
+  ]
 };
 
 // WebSite Schema (for sitelinks search box)
@@ -238,6 +247,7 @@ const navLinks = [
           <a href={`/party/${featuredSeasonal.slug}/`}>{featuredSeasonal.shortName}</a>
           <a href="/embed-calculator/">Embed the calculator</a>
           <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
         </div>
         <div class="footer-col">
           <span class="label">Legal</span>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { AUTHOR, CONTACT_EMAIL } from '../data/site';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact/' },
+];
+---
+
+<BaseLayout
+  title="Contact StockTheEvent"
+  description="How to reach the person behind StockTheEvent: corrections, questions about using the calculator, or press."
+  breadcrumbs={breadcrumbs}
+>
+  <section class="container prose-page">
+    <nav class="prose-crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Contact</span>
+    </nav>
+
+    <h1 class="prose-h1">Contact</h1>
+
+    <p>Stock the Event is run by {AUTHOR.name}.</p>
+    <p>Reach out at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    <p>
+      Write in about a number that looks wrong, a correction, using the calculator on your own
+      site, or press.
+    </p>
+    <p>Replies usually come within a few days.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .prose-page {
+    max-width: 44rem;
+    padding-top: 40px;
+    padding-bottom: 64px;
+  }
+
+  .prose-crumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+  }
+
+  .prose-crumbs a,
+  .prose-crumbs span {
+    color: var(--ink-2);
+  }
+
+  .prose-h1 {
+    margin: 0 0 20px;
+    font-size: 36px;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 900px) {
+    .prose-h1 {
+      font-size: 48px;
+    }
+  }
+
+  .prose-page p {
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+</style>
