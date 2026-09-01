@@ -254,16 +254,25 @@ const rulesRows = items.map((item) => {
   }
 
   .hero-icons {
-    display: none;
+    display: flex;
     align-items: flex-end;
-    gap: 28px;
-    padding-top: 20px;
+    gap: 14px;
+    padding-top: 12px;
     color: var(--ink);
+  }
+
+  @media (max-width: 999px) {
+    .hero-icons svg {
+      height: auto;
+      max-height: 76px;
+    }
   }
 
   @media (min-width: 1000px) {
     .hero-icons {
       display: flex;
+      gap: 28px;
+      padding-top: 20px;
     }
   }
 
