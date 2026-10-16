@@ -15,21 +15,30 @@ test.describe('nextSeasonalEvent', () => {
     expect(picked.slug).toBe('fourth-of-july-party-calculator');
   });
 
-  test('returns an event whose peak months include the 15th, except when that month has none left', () => {
+  test('returns an event whose peak months include the build month, for every month', () => {
     const monthNames = [
       'january', 'february', 'march', 'april', 'may', 'june',
       'july', 'august', 'september', 'october', 'november', 'december',
     ];
-    // July 4 is over by the 15th and no other event peaks in July, so July
-    // falls back to the next upcoming event (see the edge-date test below).
+    // On the 1st of each month nothing has happened yet, so every month is
+    // covered by an event that peaks in it. If a peak month is ever dropped
+    // this test says so rather than the nav quietly drifting.
     for (let month = 0; month < 12; month++) {
-      if (monthNames[month] === 'july') continue;
-      const picked = nextSeasonalEvent(new Date(2026, month, 15));
+      const picked = nextSeasonalEvent(new Date(2026, month, 1));
       expect(
         picked.peakMonths,
         `${monthNames[month]} fell through to the nearest-upcoming fallback`,
       ).toContain(monthNames[month]);
     }
+  });
+
+  test('falls back to the next upcoming event when the month has none left', () => {
+    // July 4 is the only July event and it is over by Jul 10. The next dated
+    // event is Labor Day (Sep 7, 2026), which peaks in August and September,
+    // not July, so this exercises the fallback branch directly.
+    const picked = nextSeasonalEvent(new Date(2026, 6, 10));
+    expect(picked.slug).toBe('labor-day-party-calculator');
+    expect(picked.peakMonths).not.toContain('july');
   });
 
   test('never returns a past event on a month-end or between-event date', () => {
