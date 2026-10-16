@@ -17,22 +17,7 @@ import Icon from '../../components/Icon.astro';
 import { foodItems } from '../../data/foodItems';
 import { items as drinkItems } from '../../data/items';
 import type { FoodCalculatorPage } from '../../lib/types';
-import { isIndexable } from '../../data/indexing';
 import { BUFFER_PERCENTAGE, EATING_PERCENTAGE } from '../../data/model';
-
-const QUICK_REFERENCE_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];
-const FOOD_CALCULATORS_DIR = path.join(process.cwd(), 'src/content/food-calculators');
-
-/**
- * Reads a sibling food page's own generated data, so a quick-reference row
- * shows exactly what its linked page shows rather than a scaled estimate.
- * Returns null if that page was never generated.
- */
-function readSiblingFoodPage(itemId: string, eventSlug: string, guests: number): FoodCalculatorPage | null {
-  const filePath = path.join(FOOD_CALCULATORS_DIR, `${itemId}-for-${eventSlug}-${guests}-guests.json`);
-  if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-}
 
 export async function getStaticPaths() {
   // Read all food calculator JSON files directly
@@ -67,7 +52,7 @@ const food = page.item.name.toLowerCase();
 const eventName = page.event.lowerName;
 const calc = page.calculation;
 
-const contextLine = `as the main dish · ${calc.totalServings} servings · about ${calc.perPersonServings} per guest`;
+const contextLine = `${page.guestCount.value} guests · as the main dish · ${calc.totalServings} servings · about ${calc.perPersonServings} per guest`;
 const unitLine = `${calc.unitsDisplay} of ${food}`;
 
 // The shared-table figure: what this dish needs when it is one of several on
@@ -78,37 +63,27 @@ const sideServings = Math.round(page.guestCount.value * eatingPct * page.item.se
 const sideUnits = Math.ceil((sideServings / page.item.servingsPerOrderUnit) * (1 + BUFFER_PERCENTAGE));
 const sideDisplay = sideUnits === 1 ? page.item.orderUnitSingular : page.item.orderUnit;
 
-// Quick-reference rows read each sibling page's own generated numbers rather
-// than scaling this page's numbers by a guest ratio: the eating rate varies by
-// guest tier, so a scaled row can disagree with the page it links to. A guest
-// count with no generated page is skipped rather than estimated.
-const quickReferenceRows: QuickReferenceRow[] = QUICK_REFERENCE_GUEST_COUNTS
-  .map((guests) => {
-    const sibling = readSiblingFoodPage(page.item.id, page.event.slug, guests);
-    if (!sibling) return null;
-    const isCurrent = guests === page.guestCount.value;
-    return {
-      guests,
-      href: isCurrent ? null : `/food/${page.item.id}-for-${page.event.slug}-${guests}-guests/`,
-      values: [
-        { value: String(sibling.calculation.unitsNeeded), unit: sibling.calculation.unitsDisplay },
-        { value: String(sibling.calculation.totalServings) },
-      ],
-      isCurrent,
-    };
-  })
-  .filter((row): row is QuickReferenceRow => row !== null);
+// The ledger: one row per guest count, all from this page's own generated
+// data, so every row agrees with the answer the page shows at that count.
+const quickReferenceRows: QuickReferenceRow[] = page.ledger.map((row) => ({
+  guests: row.guests,
+  values: [
+    { value: String(row.calculation.unitsNeeded), unit: row.calculation.unitsDisplay },
+    { value: String(row.calculation.totalServings) },
+  ],
+  isCurrent: row.guests === page.guestCount.value,
+}));
 
 // The other foods at this event, for the Adjust box.
 const otherFoods = foodItems
   .filter((item) => item.id !== page.item.id)
   .map((item) => ({
-    href: `/food/${item.id}-for-${page.event.slug}-${page.guestCount.value}-guests/`,
+    href: `/food/${item.id}-for-${page.event.slug}/`,
     label: item.name,
     icon: item.icon,
   }));
 
-const barSetupHref = `/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`;
+const barSetupHref = `/bar-setup/${page.event.slug}/`;
 
 // How each shopping row's quantity derives from the calculation, matched to
 // scripts/generateFoodData.ts, so the client script can update quantities live.
@@ -135,7 +110,7 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Food Calculators', url: '/food/' },
   { name: page.item.name, url: `/food/${page.item.id}/` },
-  { name: `${page.guestCount.value} Guests`, url: `/food/${page.slug}/` }
+  { name: `${page.item.name} for a ${page.event.name}`, url: `/food/${page.slug}/` }
 ];
 
 const crumbs = [
@@ -148,7 +123,7 @@ const crumbs = [
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": `Calculate ${page.item.name} for ${page.guestCount.value} Guests`,
+  "name": `Calculate ${page.item.name} for a ${page.event.name}`,
   "description": page.meta.description,
   "step": page.mathExplanation.map((step, i) => ({
     "@type": "HowToStep",
@@ -207,7 +182,7 @@ const faqSchema = {
 const shoppingListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": `Shopping List: ${page.item.name} for ${page.guestCount.value} Guest ${page.event.name}`,
+  "name": `Shopping List: ${page.item.name} for a ${page.event.name} of ${page.guestCount.value} Guests`,
   "numberOfItems": page.shoppingList.length,
   "itemListElement": page.shoppingList.map((item, i) => ({
     "@type": "ListItem",
@@ -223,14 +198,11 @@ const shoppingListSchema = {
   description={page.meta.description}
   breadcrumbs={breadcrumbs}
   calculatorHref={barSetupHref}
-  ogImage={isIndexable(page.guestCount.value) ? `/og/${page.slug}.png` : undefined}
+  ogImage={`/og/${page.slug}.png`}
   ogImageAlt={page.meta.h1}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
-    {!isIndexable(page.guestCount.value) && (
-      <meta name="robots" content="noindex, follow" />
-    )}
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
@@ -523,7 +495,6 @@ const shoppingListSchema = {
   }
 
   let currentGuests = guestCount;
-  let displayedGuests = guestCount;
 
   function applyState(guests, updateUrl) {
     currentGuests = guests;
@@ -535,17 +506,11 @@ const shoppingListSchema = {
     if (answerUnit) answerUnit.textContent = `${unitsDisplay(calc.unitsNeeded)} of ${foodName}`;
     const answerContext = document.querySelector('.answer-context');
     if (answerContext) {
-      answerContext.textContent = `as the main dish · ${calc.totalServings} servings · about ${calc.perPerson} per guest`;
+      answerContext.textContent = `${guests} guests · as the main dish · ${calc.totalServings} servings · about ${calc.perPerson} per guest`;
     }
 
     const sideFigure = document.querySelector('.answer-only-drink .only-drink-figure');
     if (sideFigure) sideFigure.textContent = `${calc.sideUnits} ${calc.sideUnits === 1 ? itemData.orderUnitSingular : itemData.orderUnit}`;
-
-    const h1 = document.querySelector('h1');
-    if (h1 && h1.textContent.includes(String(displayedGuests))) {
-      h1.textContent = h1.textContent.replace(String(displayedGuests), String(guests));
-    }
-    displayedGuests = guests;
 
     updateMathLedger(calc, guests);
     updateQuickReference(guests);

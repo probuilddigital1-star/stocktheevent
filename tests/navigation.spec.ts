@@ -77,7 +77,7 @@ test.describe('Navigation and Cross-linking', () => {
   });
 
   test('Cross-links from food to drinks work', async ({ page }) => {
-    await page.goto('/food/pizza-for-super-bowl-party-50-guests/');
+    await page.goto('/food/pizza-for-super-bowl-party/');
 
     // Look for drink calculator links
     const drinkLinks = page.locator('a[href*="beer-for"], a[href*="wine-for"]');

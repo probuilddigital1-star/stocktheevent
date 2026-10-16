@@ -22,7 +22,6 @@ import { items } from '../src/data/items';
 import { foodItems } from '../src/data/foodItems';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
-import { isIndexable } from '../src/data/indexing';
 import { seasonalEvents } from '../src/data/seasonalEvents';
 import { drinkShare } from '../src/data/eventSplits';
 import { BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, DRINKING_PERCENTAGE, consumptionMultiplier } from '../src/data/model';
@@ -304,8 +303,6 @@ async function writeCard(outputPath: string, dataPaths: string[], build: () => S
 // Drink and food cards: big number + unit line + "for a N-guest event" line
 // =============================================================================
 
-const INDEXABLE_GUEST_COUNTS_LIST = guestCounts.filter((gc) => isIndexable(gc.value));
-
 // Freshness is checked against these source modules, not against the
 // per-page JSON in src/content/calculators - generateData.ts rewrites
 // every JSON file unconditionally on every npm run generate, even when its
@@ -331,22 +328,20 @@ async function generateDrinkCards(): Promise<WriteResult[]> {
 
   for (const item of items) {
     for (const event of events) {
-      for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
-        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
-        const dataPath = path.join(CALCULATORS_DIR, `${slug}.json`);
-        if (!fs.existsSync(dataPath)) continue;
-        const page: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-        const outputPath = path.join(OG_DIR, `${slug}.png`);
-        results.push(
-          await writeCard(outputPath, DRINK_DATA_FILES, () =>
-            bigNumberCard({
-              big: String(page.calculation.fullBar.unitsNeeded),
-              unit: `${page.calculation.fullBar.unitsDisplay} of ${page.item.name.toLowerCase()}`,
-              context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
-            }),
-          ),
-        );
-      }
+      const slug = `${item.id}-for-${event.slug}`;
+      const dataPath = path.join(CALCULATORS_DIR, `${slug}.json`);
+      if (!fs.existsSync(dataPath)) continue;
+      const page: CalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+      const outputPath = path.join(OG_DIR, `${slug}.png`);
+      results.push(
+        await writeCard(outputPath, DRINK_DATA_FILES, () =>
+          bigNumberCard({
+            big: String(page.calculation.fullBar.unitsNeeded),
+            unit: `${page.calculation.fullBar.unitsDisplay} of ${page.item.name.toLowerCase()}`,
+            context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+          }),
+        ),
+      );
     }
   }
 
@@ -358,22 +353,20 @@ async function generateFoodCards(): Promise<WriteResult[]> {
 
   for (const item of foodItems) {
     for (const event of events) {
-      for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
-        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
-        const dataPath = path.join(FOOD_CALCULATORS_DIR, `${slug}.json`);
-        if (!fs.existsSync(dataPath)) continue;
-        const page: FoodCalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
-        const outputPath = path.join(OG_DIR, `${slug}.png`);
-        results.push(
-          await writeCard(outputPath, FOOD_DATA_FILES, () =>
-            bigNumberCard({
-              big: String(page.calculation.unitsNeeded),
-              unit: `${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}`,
-              context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
-            }),
-          ),
-        );
-      }
+      const slug = `${item.id}-for-${event.slug}`;
+      const dataPath = path.join(FOOD_CALCULATORS_DIR, `${slug}.json`);
+      if (!fs.existsSync(dataPath)) continue;
+      const page: FoodCalculatorPage = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+      const outputPath = path.join(OG_DIR, `${slug}.png`);
+      results.push(
+        await writeCard(outputPath, FOOD_DATA_FILES, () =>
+          bigNumberCard({
+            big: String(page.calculation.unitsNeeded),
+            unit: `${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}`,
+            context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+          }),
+        ),
+      );
     }
   }
 
@@ -420,20 +413,18 @@ async function generateBarSetupCards(): Promise<WriteResult[]> {
   const results: WriteResult[] = [];
 
   for (const event of events) {
-    for (const guestCount of INDEXABLE_GUEST_COUNTS_LIST) {
-      const slug = `${event.slug}-${guestCount.value}-guests`;
-      const fullBar = computeFullBar(event, guestCount.value);
-      const outputPath = path.join(OG_DIR, `${slug}.png`);
-      results.push(
-        await writeCard(outputPath, BAR_SETUP_DATA_FILES, () =>
-          ledgerCard({
-            caption: 'Full bar',
-            rows: ledgerRows(fullBar),
-            context: `for a ${guestCount.value}-guest ${event.lowerName}`,
-          }),
-        ),
-      );
-    }
+    const slug = event.slug;
+    const fullBar = computeFullBar(event, event.defaultGuests);
+    const outputPath = path.join(OG_DIR, `${slug}.png`);
+    results.push(
+      await writeCard(outputPath, BAR_SETUP_DATA_FILES, () =>
+        ledgerCard({
+          caption: 'Full bar',
+          rows: ledgerRows(fullBar),
+          context: `for a ${event.defaultGuests}-guest ${event.lowerName}`,
+        }),
+      ),
+    );
   }
 
   return results;
@@ -479,6 +470,13 @@ async function generateDefaultCard(): Promise<WriteResult> {
 
 async function main(): Promise<void> {
   fs.mkdirSync(OG_DIR, { recursive: true });
+
+  // Cards from the old one-page-per-guest-count scheme (name-N-guests.png) have
+  // no page any more. Remove them so they are not shipped; the redirect rules
+  // send those URLs to the new cards.
+  for (const file of fs.readdirSync(OG_DIR)) {
+    if (/-\d+-guests\.png$/.test(file)) fs.unlinkSync(path.join(OG_DIR, file));
+  }
 
   const results: WriteResult[] = [];
   results.push(await generateDefaultCard());

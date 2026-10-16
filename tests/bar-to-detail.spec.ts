@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Bar Setup to Detail Page Flow', () => {
   test('Detail links show correct units from bar-setup', async ({ page }) => {
     // Go to a bar-setup page
-    await page.goto('/bar-setup/graduation-party-100-guests/?drinks=wine,beer,champagne,spirits');
+    await page.goto('/bar-setup/graduation-party/?guests=100&drinks=wine,beer,champagne,spirits');
     await page.waitForLoadState('networkidle');
 
     // Get the wine units displayed on the bar-setup page
@@ -21,13 +21,13 @@ test.describe('Bar Setup to Detail Page Flow', () => {
   test('Drink page headline matches the bar-setup card', async ({ page }) => {
     // The bar-setup card and the drink page's own headline both show the
     // drink's share of a full bar, so they must agree.
-    await page.goto('/bar-setup/graduation-party-100-guests/');
+    await page.goto('/bar-setup/graduation-party/?guests=100');
     await page.waitForLoadState('networkidle');
 
     const wineCard = page.locator('.drink-card[data-drink-id="wine"]');
     const barUnits = (await wineCard.locator('.drink-units').textContent())?.trim();
 
-    await page.goto('/wine-for-graduation-party-100-guests/');
+    await page.goto('/wine-for-graduation-party/?guests=100');
     await page.waitForLoadState('networkidle');
 
     const headline = (await page.locator('.answer-number').first().textContent())?.trim();
@@ -35,7 +35,7 @@ test.describe('Bar Setup to Detail Page Flow', () => {
   });
 
   test('Full flow: bar-setup card to matching drink page', async ({ page }) => {
-    await page.goto('/bar-setup/wedding-100-guests/?drinks=wine,beer,champagne,spirits');
+    await page.goto('/bar-setup/wedding/?drinks=wine,beer,champagne,spirits');
     await page.waitForLoadState('networkidle');
 
     const wineCard = page.locator('.drink-card[data-drink-id="wine"]');
@@ -52,7 +52,7 @@ test.describe('Bar Setup to Detail Page Flow', () => {
   });
 
   test('Adjust steppers recalculate the drink page live', async ({ page }) => {
-    await page.goto('/wine-for-wedding-100-guests/');
+    await page.goto('/wine-for-wedding/');
     await page.waitForLoadState('networkidle');
 
     const before = parseInt(
@@ -68,19 +68,21 @@ test.describe('Bar Setup to Detail Page Flow', () => {
     );
     expect(after).toBeGreaterThan(before);
 
-    // URL mirrors the adjusted state; the H1 follows the guest count
+    // URL mirrors the adjusted state; the context line follows the guest
+    // count. The H1 names the occasion, never a count, so it stays put.
     expect(page.url()).toContain('guests=200');
-    await expect(page.locator('main h1').first()).toContainText('200');
+    await expect(page.locator('.answer-context').first()).toContainText('200 guests');
+    await expect(page.locator('main h1').first()).not.toContainText('200');
   });
 
   test('URL parameters restore an adjusted state on load', async ({ page }) => {
-    await page.goto('/wine-for-wedding-100-guests/');
+    await page.goto('/wine-for-wedding/');
     await page.waitForLoadState('networkidle');
     const base = parseInt(
       (await page.locator('.answer-number').first().textContent()) || '0',
     );
 
-    await page.goto('/wine-for-wedding-100-guests/?guests=200');
+    await page.goto('/wine-for-wedding/?guests=200');
     await page.waitForLoadState('networkidle');
     const adjusted = parseInt(
       (await page.locator('.answer-number').first().textContent()) || '0',

@@ -8,31 +8,28 @@
 import { items } from './items';
 import { foodItems } from './foodItems';
 import { events } from './events';
-import { guestCounts } from './guestCounts';
 
-/** Drink calculator pages: one per drink, event, and guest count. */
+/** Drink calculator pages: one per drink and event. */
 export function drinkCalculators(): number {
-  return items.length * events.length * guestCounts.length;
+  return items.length * events.length;
 }
 
-/** Food calculator pages: one per food, event, and guest count. */
+/** Food calculator pages: one per food and event. */
 export function foodCalculators(): number {
-  return foodItems.length * events.length * guestCounts.length;
+  return foodItems.length * events.length;
 }
 
-/** Bar setup pages: one per event and guest count. */
+/** Bar setup pages: one per event. */
 export function barSetupCalculators(): number {
-  return events.length * guestCounts.length;
+  return events.length;
 }
 
-/**
- * Every generated calculator page, indexable and noindexed alike.
- */
+/** Every generated calculator page. */
 export function totalCalculators(): number {
   return drinkCalculators() + foodCalculators() + barSetupCalculators();
 }
 
-/** Same count, formatted for display (for example "2,002"). */
+/** Same count, formatted for display (for example "143"). */
 export function totalCalculatorsLabel(): string {
   return totalCalculators().toLocaleString('en-US');
 }

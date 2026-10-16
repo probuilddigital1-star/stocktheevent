@@ -4,11 +4,11 @@ import HubTable from '../../components/HubTable.astro';
 import type { HubRow } from '../../components/HubTable.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
-import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
-import { drinkPage, fullBarTotals } from '../../lib/pageData';
+import { HUB_GUEST_COUNTS } from '../../data/guestCounts';
+import { drinkAt, fullBarTotals } from '../../lib/pageData';
 import { drinkShare, formatSharePercent } from '../../data/eventSplits';
 
-const GUESTS = INDEXABLE_GUEST_COUNTS;
+const GUESTS = HUB_GUEST_COUNTS;
 const ANCHOR = 100;
 const DRINK_IDS = items.map((i) => i.id);
 
@@ -17,8 +17,8 @@ const weddingTotals = fullBarTotals(DRINK_IDS, wedding.slug, ANCHOR)!;
 
 // The per-drink breakdown behind the anchor figure, read from the generated pages.
 const weddingBreakdown = items.map((item) => {
-  const page = drinkPage(item.id, wedding.slug, ANCHOR)!;
-  return `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay} of ${item.name.toLowerCase()}`;
+  const calc = drinkAt(item.id, wedding.slug, ANCHOR)!;
+  return `${calc.fullBar.unitsNeeded} ${calc.fullBar.unitsDisplay} of ${item.name.toLowerCase()}`;
 });
 
 // Which drink leads each event's bar, so the split note is derived rather than asserted.
@@ -43,7 +43,7 @@ const rows: HubRow[] = events.map((event) => ({
     return totals
       ? {
           label: `${totals.servings} drinks`,
-          href: `/bar-setup/${event.slug}-${guests}-guests/`,
+          href: `/bar-setup/${event.slug}/?guests=${guests}`,
         }
       : { label: null, href: null };
   }),

@@ -2,13 +2,12 @@
 /**
  * HubTable.astro - the quantity grid every hub uses.
  *
- * Rows are events (or drinks, or foods); columns are guest counts. Each cell is
- * a link to the calculator page for that combination, showing the number that
- * page itself shows. Cells with no generated page render as a dash rather than
- * an estimate.
+ * Rows are events (or drinks, or foods); columns are guest counts. Each cell
+ * links to the calculator page for that row with ?guests= set, and shows the
+ * number that page shows at that guest count (read from the page's ledger).
+ * Cells with no generated figure render as a dash rather than an estimate.
  *
- * Guest columns come from INDEXABLE_GUEST_COUNTS, so a noindexed guest count can
- * never appear in a hub listing.
+ * Guest columns come from HUB_GUEST_COUNTS in src/data/guestCounts.ts.
  */
 
 export interface HubCell {

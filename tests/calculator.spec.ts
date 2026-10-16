@@ -254,12 +254,12 @@ test.describe('Interactive Calculator - Calculation Validity', () => {
     await selectDrinks(page, ['wine']);
     await selectEvent(page, 'wedding');
     expect(await page.locator('#detail-link').getAttribute('href')).toContain(
-      '/wine-for-wedding-100-guests/',
+      '/wine-for-wedding/',
     );
 
     await selectDrinks(page, ['wine', 'beer']);
     expect(await page.locator('#detail-link').getAttribute('href')).toContain(
-      '/bar-setup/wedding-100-guests/',
+      '/bar-setup/wedding/',
     );
   });
 });
@@ -274,7 +274,7 @@ test.describe('Bar Setup Page - NaN Tests', () => {
         event.id === 'birthday' ? 'birthday-party' :
         event.id === 'super-bowl' ? 'super-bowl-party' :
         event.id === 'holiday-party' ? 'holiday-party' :
-        'wedding-shower'}-100-guests/?drinks=wine,beer,champagne,spirits`;
+        'wedding-shower'}/?guests=100&drinks=wine,beer,champagne,spirits`;
 
       await page.goto(url);
       await page.waitForLoadState('networkidle');

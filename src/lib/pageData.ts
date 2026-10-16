@@ -6,14 +6,14 @@
  * fullBar quantity; every food figure is the primary quantity.
  *
  * The files are read once per build and cached at module scope. Before this
- * existed, each of the 17 hubs parsed all 728 drink files on its own, roughly
- * 12,400 parses per build; adding food hubs and a bar-setup index the same way
+ * existed, each of the 17 hubs parsed every per-guest-count drink file on its own,
+ * roughly 12,400 parses per build; adding food hubs and a bar-setup index the same way
  * would have made that far worse.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
-import type { CalculatorPage, FoodCalculatorPage } from './types';
+import type { CalculatorPage, CalculationResult, FoodCalculationResult, FoodCalculatorPage } from './types';
 
 const CALCULATORS_DIR = path.join(process.cwd(), 'src/content/calculators');
 const FOOD_CALCULATORS_DIR = path.join(process.cwd(), 'src/content/food-calculators');
@@ -41,18 +41,28 @@ function foodPages(): Map<string, FoodCalculatorPage> {
   return foodCache;
 }
 
-export function slugFor(itemId: string, eventSlug: string, guests: number): string {
-  return `${itemId}-for-${eventSlug}-${guests}-guests`;
+export function slugFor(itemId: string, eventSlug: string): string {
+  return `${itemId}-for-${eventSlug}`;
 }
 
 /** A generated drink page, or null when that combination was never generated. */
-export function drinkPage(itemId: string, eventSlug: string, guests: number): CalculatorPage | null {
-  return drinkPages().get(slugFor(itemId, eventSlug, guests)) ?? null;
+export function drinkPage(itemId: string, eventSlug: string): CalculatorPage | null {
+  return drinkPages().get(slugFor(itemId, eventSlug)) ?? null;
 }
 
 /** A generated food page, or null when that combination was never generated. */
-export function foodPage(itemId: string, eventSlug: string, guests: number): FoodCalculatorPage | null {
-  return foodPages().get(slugFor(itemId, eventSlug, guests)) ?? null;
+export function foodPage(itemId: string, eventSlug: string): FoodCalculatorPage | null {
+  return foodPages().get(slugFor(itemId, eventSlug)) ?? null;
+}
+
+/** The drink calculation at one guest count, from the page's ledger. */
+export function drinkAt(itemId: string, eventSlug: string, guests: number): CalculationResult | null {
+  return drinkPage(itemId, eventSlug)?.ledger.find((row) => row.guests === guests)?.calculation ?? null;
+}
+
+/** The food calculation at one guest count, from the page's ledger. */
+export function foodAt(itemId: string, eventSlug: string, guests: number): FoodCalculationResult | null {
+  return foodPage(itemId, eventSlug)?.ledger.find((row) => row.guests === guests)?.calculation ?? null;
 }
 
 export interface FullBarTotals {
@@ -72,10 +82,10 @@ export function fullBarTotals(drinkIds: string[], eventSlug: string, guests: num
   let units = 0;
   let servings = 0;
   for (const id of drinkIds) {
-    const page = drinkPage(id, eventSlug, guests);
-    if (!page) return null;
-    units += page.calculation.fullBar.unitsNeeded;
-    servings += page.calculation.fullBar.totalServings;
+    const calculation = drinkAt(id, eventSlug, guests);
+    if (!calculation) return null;
+    units += calculation.fullBar.unitsNeeded;
+    servings += calculation.fullBar.totalServings;
   }
   return { units, servings };
 }

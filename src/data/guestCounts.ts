@@ -20,3 +20,9 @@ export const guestCounts: GuestCount[] = [
 export const getGuestCountByValue = (value: number): GuestCount | undefined => {
   return guestCounts.find(gc => gc.value === value);
 };
+
+/**
+ * The guest counts hub tables show as columns. A subset of guestCounts: the
+ * full 14-row ledger lives on each calculator page.
+ */
+export const HUB_GUEST_COUNTS = [25, 50, 75, 100, 150, 200];

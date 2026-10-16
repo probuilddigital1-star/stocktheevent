@@ -1,6 +1,6 @@
 ---
 /**
- * RelatedPages.astro - the "Nearby" section: three text-index columns of
+ * RelatedPages.astro - the "Nearby" section: two text-index columns of
  * other calculator pages, grouped by how they relate to this one.
  */
 import PageSection from './PageSection.astro';
@@ -18,7 +18,6 @@ const { pages, currentEvent, currentItem, basePath = '/' } = Astro.props;
 
 const columns = [
   { label: `Same ${currentEvent.toLowerCase()}`, pages: pages.filter(p => p.relationship === 'same-event') },
-  { label: 'Different size', pages: pages.filter(p => p.relationship === 'adjacent-guests') },
   { label: `${currentItem} elsewhere`, pages: pages.filter(p => p.relationship === 'same-item') },
 ].filter(col => col.pages.length > 0);
 ---
@@ -47,7 +46,7 @@ const columns = [
 
   @media (min-width: 700px) {
     .nearby-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0 32px;
     }
   }

@@ -36,6 +36,8 @@ export interface EventType {
   slug: string;
   description: string;
   defaultDuration: number;
+  /** Guest count this event's pages open at. One of guestCounts. */
+  defaultGuests: number;
   modifiers: Record<string, number>;
   proTips: string[];
   buyingGuide: string;
@@ -97,7 +99,7 @@ export interface ShoppingItem {
 export interface RelatedPage {
   slug: string;
   title: string;
-  relationship: 'same-item' | 'same-event' | 'same-guests' | 'adjacent-guests';
+  relationship: 'same-item' | 'same-event';
 }
 
 export interface PageMeta {
@@ -106,12 +108,29 @@ export interface PageMeta {
   h1: string;
 }
 
+/** One row of a drink page's ledger: the calculation at one guest count. */
+export interface DrinkLedgerRow {
+  guests: number;
+  calculation: CalculationResult;
+}
+
+/** One row of a food page's ledger: the calculation at one guest count. */
+export interface FoodLedgerRow {
+  guests: number;
+  calculation: FoodCalculationResult;
+}
+
+/**
+ * One page per drink and event. `guestCount` and `calculation` are the
+ * default view (the event's defaultGuests); `ledger` has every guest count.
+ */
 export interface CalculatorPage {
   slug: string;
   item: Item;
   event: EventType;
   guestCount: GuestCount;
   calculation: CalculationResult;
+  ledger: DrinkLedgerRow[];
   meta: PageMeta;
   mathExplanation: MathStep[];
   shoppingList: ShoppingItem[];
@@ -139,6 +158,7 @@ export interface FoodCalculatorPage {
   event: EventType;
   guestCount: GuestCount;
   calculation: FoodCalculationResult;
+  ledger: FoodLedgerRow[];
   meta: PageMeta;
   mathExplanation: MathStep[];
   shoppingList: ShoppingItem[];

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Food Calculator Pages', () => {
   test('Super Bowl wings page renders correctly', async ({ page }) => {
-    await page.goto('/food/wings-for-super-bowl-party-50-guests/');
+    await page.goto('/food/wings-for-super-bowl-party/');
 
     // Check page loads
     await expect(page).toHaveTitle(/Wings.*Super Bowl/i);
@@ -12,7 +12,7 @@ test.describe('Food Calculator Pages', () => {
 
     // The Adjust box links to the other foods at this event
     await expect(
-      page.locator('a[href="/food/pizza-for-super-bowl-party-50-guests/"]').first(),
+      page.locator('a[href="/food/pizza-for-super-bowl-party/"]').first(),
     ).toBeVisible();
 
     // Check math ledger section
@@ -23,7 +23,7 @@ test.describe('Food Calculator Pages', () => {
   });
 
   test('Pizza page has correct structure', async ({ page }) => {
-    await page.goto('/food/pizza-for-birthday-party-30-guests/');
+    await page.goto('/food/pizza-for-birthday-party/');
 
     // Verify H1 exists (use main content area to avoid dev toolbar)
     const h1 = page.locator('main h1').first();
@@ -40,16 +40,16 @@ test.describe('Food Calculator Pages', () => {
   });
 
   test('Other-food links work', async ({ page }) => {
-    await page.goto('/food/pizza-for-wedding-100-guests/');
+    await page.goto('/food/pizza-for-wedding/');
 
-    const wingsLink = page.locator('a[href="/food/wings-for-wedding-100-guests/"]').first();
+    const wingsLink = page.locator('a[href="/food/wings-for-wedding/"]').first();
     await expect(wingsLink).toBeVisible();
   });
 
   test('Cross-links to drink calculators exist', async ({ page }) => {
-    await page.goto('/food/tacos-for-graduation-party-50-guests/');
+    await page.goto('/food/tacos-for-graduation-party/');
 
-    const drinkLinks = page.locator('a[href*="-for-graduation-party-50-guests/"]:not([href*="/food/"])');
+    const drinkLinks = page.locator('a[href*="-for-graduation-party/"]:not([href*="/food/"])');
     expect(await drinkLinks.count()).toBeGreaterThan(0);
   });
 
@@ -57,13 +57,13 @@ test.describe('Food Calculator Pages', () => {
     const foodTypes = ['pizza', 'wings', 'tacos', 'sliders', 'appetizers', 'bbq'];
 
     for (const food of foodTypes) {
-      const response = await page.goto(`/food/${food}-for-birthday-party-50-guests/`);
+      const response = await page.goto(`/food/${food}-for-birthday-party/`);
       expect(response?.status()).toBe(200);
     }
   });
 
   test('Guest stepper recalculates the answer live', async ({ page }) => {
-    await page.goto('/food/pizza-for-wedding-100-guests/');
+    await page.goto('/food/pizza-for-wedding/');
     await page.waitForLoadState('networkidle');
 
     const before = parseInt(

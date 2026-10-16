@@ -85,7 +85,7 @@ const defaultResults = items.map((item) => {
 
 const defaultGrandTotalServings = defaultResults.reduce((sum, r) => sum + r.servings, 0);
 const defaultPerPerson = Math.round((defaultGrandTotalServings / DEFAULT_GUESTS) * 10) / 10;
-const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-guests/?guests=${DEFAULT_GUESTS}&drinks=${items.map((i) => i.id).join(',')}&duration=${DEFAULT_HOURS}`;
+const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}/?guests=${DEFAULT_GUESTS}&drinks=${items.map((i) => i.id).join(',')}&duration=${DEFAULT_HOURS}`;
 ---
 
 <div class:list={['calc-box', { compact }]} id="calculator">
@@ -411,7 +411,7 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
     return 'xlarge';
   }
 
-  // Valid guest counts that have pre-generated pages. The steppers move
+  // The guest counts in each calculator page's ledger. The steppers move
   // through these; typing accepts any count from 10 to 300.
   const VALID_PAGE_GUESTS = [10, 15, 20, 25, 30, 40, 50, 75, 100, 125, 150, 200, 250, 300];
 
@@ -539,14 +539,13 @@ const defaultDetailHref = `/bar-setup/${DEFAULT_EVENT.slug}-${DEFAULT_GUESTS}-gu
       calcNote.textContent = `About ${calc.perPerson} drinks per guest over the evening, heaviest in the first hour. Includes a 15 percent margin.`;
     }
 
-    const pageGuests = getNearestValidGuests(selectedGuests);
     if (selectedItems.length === 1) {
-      const slug = `${selectedItems[0].id}-for-${selectedEvent.slug}-${pageGuests}-guests`;
+      const slug = `${selectedItems[0].id}-for-${selectedEvent.slug}`;
       detailLink.href = `/${slug}/?guests=${selectedGuests}&duration=${selectedDuration}`;
       ctaText.textContent = 'See the full breakdown and shopping list';
     } else {
       const drinks = selectedItems.map(i => i.id).join(',');
-      detailLink.href = `/bar-setup/${selectedEvent.slug}-${pageGuests}-guests/?guests=${selectedGuests}&drinks=${drinks}&duration=${selectedDuration}`;
+      detailLink.href = `/bar-setup/${selectedEvent.slug}/?guests=${selectedGuests}&drinks=${drinks}&duration=${selectedDuration}`;
       ctaText.textContent = 'Plan the whole bar for this occasion';
     }
 

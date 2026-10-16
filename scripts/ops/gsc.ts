@@ -21,7 +21,6 @@ import { google } from 'googleapis';
 import { events } from '../../src/data/events';
 import { items } from '../../src/data/items';
 import { foodItems } from '../../src/data/foodItems';
-import { INDEXABLE_GUEST_COUNTS } from '../../src/data/indexing';
 
 const DOMAIN_PROPERTY = 'sc-domain:stocktheevent.com';
 const URL_PREFIX_PROPERTY = 'https://www.stocktheevent.com/';
@@ -143,16 +142,15 @@ function sampleCycled<T>(arr: T[], n: number): T[] {
   return Array.from({ length: n }, (_, i) => arr[i % arr.length]);
 }
 
-/** 30 calculator URLs: 10 drink, 10 food, 10 bar-setup, cycled across all events and indexable guest counts. */
+/** 30 calculator URLs: 10 drink, 10 food, 10 bar-setup, cycled across all events. */
 function buildSampledCalculatorUrls(): string[] {
   const sEvents = sampleCycled(events, 10);
   const sItems = sampleCycled(items, 10);
   const sFoods = sampleCycled(foodItems, 10);
-  const sGuests = sampleCycled(INDEXABLE_GUEST_COUNTS, 10);
 
-  const drink = sEvents.map((e, i) => `/${sItems[i].id}-for-${e.slug}-${sGuests[i]}-guests/`);
-  const food = sEvents.map((e, i) => `/food/${sFoods[i].id}-for-${e.slug}-${sGuests[i]}-guests/`);
-  const bar = sEvents.map((e, i) => `/bar-setup/${e.slug}-${sGuests[i]}-guests/`);
+  const drink = sEvents.map((e, i) => `/${sItems[i].id}-for-${e.slug}/`);
+  const food = sEvents.map((e, i) => `/food/${sFoods[i].id}-for-${e.slug}/`);
+  const bar = sEvents.map((e) => `/bar-setup/${e.slug}/`);
   return [...drink, ...food, ...bar];
 }
 

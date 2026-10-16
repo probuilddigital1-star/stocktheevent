@@ -15,7 +15,6 @@ import type { FaqItem } from '../components/FaqSection.astro';
 import RelatedPages from '../components/RelatedPages.astro';
 import type { CalculatorPage } from '../lib/types';
 import { items } from '../data/items';
-import { isIndexable, INDEXABLE_GUEST_COUNTS } from '../data/indexing';
 import { FLUTES_PER_BOTTLE } from '../data/items';
 import { formatSharePercent } from '../data/eventSplits';
 import {
@@ -24,20 +23,6 @@ import {
   HOURLY_DECAY,
   DRINKING_PERCENTAGE,
 } from '../data/model';
-
-const QUICK_REFERENCE_GUEST_COUNTS = INDEXABLE_GUEST_COUNTS;
-const CALCULATORS_DIR = path.join(process.cwd(), 'src/content/calculators');
-
-/**
- * Reads a sibling drink page's own generated data, so a quick-reference row
- * shows exactly what its linked page shows rather than a scaled estimate.
- * Returns null if that page was never generated.
- */
-function readSiblingCalculatorPage(itemId: string, eventSlug: string, guests: number): CalculatorPage | null {
-  const filePath = path.join(CALCULATORS_DIR, `${itemId}-for-${eventSlug}-${guests}-guests.json`);
-  if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-}
 
 export async function getStaticPaths() {
   // Read all calculator JSON files directly
@@ -86,8 +71,8 @@ function fractionLabel(value: number): string {
   return hasHalf ? `${whole} 1/2` : `${whole}`;
 }
 
-function buildContextLine(units: number, servings: number, duration: number): string {
-  const parts = [`as part of a full bar, ${duration} hours`];
+function buildContextLine(guests: number, units: number, servings: number, duration: number): string {
+  const parts = [`${guests} guests`, `as part of a full bar, ${duration} hours`];
   if (page.item.unit === 'bottles' && units >= 6) {
     const cases = fractionLabel(units / 12);
     parts.push(`about ${cases} ${cases === '1' ? 'case' : 'cases'}`);
@@ -105,35 +90,25 @@ const drink = page.item.name.toLowerCase();
 const eventName = page.event.lowerName;
 const sharePercent = formatSharePercent(page.calculation.barShare);
 
-const contextLine = buildContextLine(fullBar.unitsNeeded, fullBar.totalServings, page.event.defaultDuration);
+const contextLine = buildContextLine(page.guestCount.value, fullBar.unitsNeeded, fullBar.totalServings, page.event.defaultDuration);
 const unitLine = `${fullBar.unitsDisplay} of ${drink}`;
 
 const whereToBuyCasesLabel =
   page.item.unit === 'bottles' && fullBar.unitsNeeded >= 6 ? fractionLabel(fullBar.unitsNeeded / 12) : undefined;
 
-// Quick-reference rows read each sibling page's own generated numbers rather
-// than scaling this page's numbers by a guest ratio: drinking rate varies by
-// guest tier, so a scaled row can disagree with the page it links to. A guest
-// count with no generated page is skipped rather than estimated.
+// The ledger: one row per guest count, all from this page's own generated
+// data, so every row agrees with the answer the page shows at that count.
 const hasToastColumn = page.calculation.toastBottles !== undefined;
-const quickReferenceRows: QuickReferenceRow[] = QUICK_REFERENCE_GUEST_COUNTS
-  .map((guests) => {
-    const sibling = readSiblingCalculatorPage(page.item.id, page.event.slug, guests);
-    if (!sibling) return null;
-    const isCurrent = guests === page.guestCount.value;
-    return {
-      guests,
-      href: isCurrent ? null : `/${page.item.id}-for-${page.event.slug}-${guests}-guests/`,
-      values: [
-        { value: String(sibling.calculation.fullBar.unitsNeeded), unit: sibling.calculation.fullBar.unitsDisplay },
-        { value: String(sibling.calculation.onlyDrink.unitsNeeded), unit: sibling.calculation.onlyDrink.unitsDisplay },
-        ...(hasToastColumn ? [{ value: String(sibling.calculation.toastBottles), unit: 'bottles' }] : []),
-        { value: String(sibling.calculation.fullBar.totalServings) },
-      ],
-      isCurrent,
-    };
-  })
-  .filter((row): row is QuickReferenceRow => row !== null);
+const quickReferenceRows: QuickReferenceRow[] = page.ledger.map((row) => ({
+  guests: row.guests,
+  values: [
+    { value: String(row.calculation.fullBar.unitsNeeded), unit: row.calculation.fullBar.unitsDisplay },
+    { value: String(row.calculation.onlyDrink.unitsNeeded), unit: row.calculation.onlyDrink.unitsDisplay },
+    ...(hasToastColumn ? [{ value: String(row.calculation.toastBottles), unit: 'bottles' }] : []),
+    { value: String(row.calculation.fullBar.totalServings) },
+  ],
+  isCurrent: row.guests === page.guestCount.value,
+}));
 
 const quickReferenceColumns: QuickReferenceColumn[] = [
   { label: 'Full bar', unit: page.item.unit },
@@ -146,12 +121,12 @@ const quickReferenceColumns: QuickReferenceColumn[] = [
 const otherDrinks = items
   .filter((item) => item.id !== page.item.id)
   .map((item) => ({
-    href: `/${item.id}-for-${page.event.slug}-${page.guestCount.value}-guests/`,
+    href: `/${item.id}-for-${page.event.slug}/`,
     label: item.name,
     icon: item.icon,
   }));
 
-const barSetupHref = `/bar-setup/${page.event.slug}-${page.guestCount.value}-guests/`;
+const barSetupHref = `/bar-setup/${page.event.slug}/`;
 
 // How each shopping row's quantity derives from the calculation, matched to
 // scripts/generateData.ts, so the client script can update quantities live.
@@ -169,7 +144,7 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Calculators', url: '/calculators/' },
   { name: page.item.name, url: `/calculators/${page.item.id}/` },
-  { name: `${page.guestCount.value} Guests`, url: `/${page.slug}/` }
+  { name: `${page.item.name} for a ${page.event.name}`, url: `/${page.slug}/` }
 ];
 
 const crumbs = [
@@ -182,7 +157,7 @@ const crumbs = [
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": `Calculate ${page.item.name} for ${page.guestCount.value} Guests`,
+  "name": `Calculate ${page.item.name} for a ${page.event.name}`,
   "description": page.meta.description,
   "step": page.mathExplanation.map((step, i) => ({
     "@type": "HowToStep",
@@ -247,7 +222,7 @@ const faqSchema = {
 const shoppingListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": `Shopping List: ${page.item.name} for ${page.guestCount.value} Guest ${page.event.name}`,
+  "name": `Shopping List: ${page.item.name} for a ${page.event.name} of ${page.guestCount.value} Guests`,
   "numberOfItems": page.shoppingList.length,
   "itemListElement": page.shoppingList.map((item, i) => ({
     "@type": "ListItem",
@@ -263,14 +238,11 @@ const shoppingListSchema = {
   description={page.meta.description}
   breadcrumbs={breadcrumbs}
   calculatorHref={barSetupHref}
-  ogImage={isIndexable(page.guestCount.value) ? `/og/${page.slug}.png` : undefined}
+  ogImage={`/og/${page.slug}.png`}
   ogImageAlt={page.meta.h1}
 >
   <!-- JSON-LD Schema -->
   <Fragment slot="head">
-    {!isIndexable(page.guestCount.value) && (
-      <meta name="robots" content="noindex, follow" />
-    )}
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(shoppingListSchema)} />
@@ -453,8 +425,8 @@ const shoppingListSchema = {
     return hasHalf ? `${whole} 1/2` : `${whole}`;
   }
 
-  function contextLine(calc, duration) {
-    const parts = [`as part of a full bar, ${duration} hours`];
+  function contextLine(calc, guests, duration) {
+    const parts = [`${guests} guests`, `as part of a full bar, ${duration} hours`];
     if (itemData.unit === 'bottles' && calc.unitsNeeded >= 6) {
       const cases = fractionLabel(calc.unitsNeeded / 12);
       parts.push(`about ${cases} ${cases === '1' ? 'case' : 'cases'}`);
@@ -551,7 +523,6 @@ const shoppingListSchema = {
 
   let currentGuests = guestCount;
   let currentDuration = eventDuration;
-  let displayedGuests = guestCount;
 
   function applyState(guests, duration, updateUrl) {
     currentGuests = guests;
@@ -564,7 +535,7 @@ const shoppingListSchema = {
     const answerUnit = document.querySelector('.answer-unit');
     if (answerUnit) answerUnit.textContent = `${unitsDisplay(calc.unitsNeeded)} of ${drinkName}`;
     const answerContext = document.querySelector('.answer-context');
-    if (answerContext) answerContext.textContent = contextLine(calc, duration);
+    if (answerContext) answerContext.textContent = contextLine(calc, guests, duration);
 
     // Only-drink and toast lines
     const onlyFigure = document.querySelector('.answer-only-drink .only-drink-figure');
@@ -575,13 +546,6 @@ const shoppingListSchema = {
       const toastFigure = document.querySelector('.answer-toast .toast-figure');
       if (toastFigure) toastFigure.textContent = `${calc.toastBottles} bottles`;
     }
-
-    // H1 carries the guest count
-    const h1 = document.querySelector('h1');
-    if (h1 && h1.textContent.includes(String(displayedGuests))) {
-      h1.textContent = h1.textContent.replace(String(displayedGuests), String(guests));
-    }
-    displayedGuests = guests;
 
     updateMathLedger(calc, guests, duration);
     updateQuickReference(guests);

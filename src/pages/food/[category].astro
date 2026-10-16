@@ -5,8 +5,8 @@ import type { HubRow } from '../../components/HubTable.astro';
 import { foodItems } from '../../data/foodItems';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
-import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
-import { foodPage, slugFor } from '../../lib/pageData';
+import { HUB_GUEST_COUNTS } from '../../data/guestCounts';
+import { foodAt, slugFor } from '../../lib/pageData';
 import { FOOD_HUB_QUESTION, hubIntro } from '../../data/hubCopy';
 
 export function getStaticPaths() {
@@ -19,25 +19,25 @@ export function getStaticPaths() {
 const { foodId } = Astro.props;
 const food = foodItems.find((f) => f.id === foodId)!;
 
-const GUESTS = INDEXABLE_GUEST_COUNTS;
+const GUESTS = HUB_GUEST_COUNTS;
 const ANCHOR = 100;
 
-const anchor = foodPage(food.id, 'wedding', ANCHOR);
+const anchor = foodAt(food.id, 'wedding', ANCHOR);
 
 const h1 = FOOD_HUB_QUESTION[food.id];
 const title = `${h1} Calculator for 25 to 200 Guests | StockTheEvent`;
-const description = `${food.name} for ${ANCHOR} wedding guests as the main dish is ${anchor!.calculation.unitsNeeded} ${anchor!.calculation.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
+const description = `${food.name} for ${ANCHOR} wedding guests as the main dish is ${anchor!.unitsNeeded} ${anchor!.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
 const intro = hubIntro(`food:${food.id}`);
 
 const rows: HubRow[] = events.map((event) => ({
   label: event.name,
   href: `/calculators/${event.id}/`,
   cells: GUESTS.map((guests) => {
-    const page = foodPage(food.id, event.slug, guests);
-    return page
+    const calc = foodAt(food.id, event.slug, guests);
+    return calc
       ? {
-          label: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}`,
-          href: `/food/${slugFor(food.id, event.slug, guests)}/`,
+          label: `${calc.unitsNeeded} ${calc.unitsDisplay}`,
+          href: `/food/${slugFor(food.id, event.slug)}/?guests=${guests}`,
         }
       : { label: null, href: null };
   }),

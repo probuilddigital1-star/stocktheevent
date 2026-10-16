@@ -1,13 +1,14 @@
 /**
  * verifyLive.ts - fetches the live site and checks it matches what was deployed.
  *
- * Run after `npm run deploy`: `npm run verify:live`.
+ * Run after the Cloudflare build of a push to main finishes, with a local
+ * `npm run build` of the same commit (and on the same day, since the featured
+ * occasion depends on the build date) present in dist/: `npm run verify:live`.
  * Exits non-zero if any check fails.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { INDEXABLE_GUEST_COUNTS } from '../../src/data/indexing';
 
 const SITE = 'https://www.stocktheevent.com';
 const DIST_DIR = path.join(process.cwd(), 'dist');
@@ -15,17 +16,24 @@ const DIST_DIR = path.join(process.cwd(), 'dist');
 const SAMPLE_PATHS = [
   '/',
   '/calculators/wine/',
-  '/wine-for-wedding-100-guests/',
+  '/wine-for-wedding/',
   '/food/pizza/',
-  '/food/pizza-for-birthday-party-50-guests/',
+  '/food/pizza-for-birthday-party/',
   '/party/cinco-de-mayo-party-calculator/',
   '/bar-setup/',
-  '/bar-setup/fourth-of-july-party-100-guests/',
+  '/bar-setup/fourth-of-july-party/',
   '/methodology/',
 ];
 
-const NOINDEX_PATH = '/wine-for-birthday-party-10-guests/';
-const INDEXED_PATH = '/beer-for-wedding-25-guests/';
+/** Old per-guest-count URLs and where they must 301 to. Slash and no-slash forms. */
+const OLD_URL_REDIRECTS: { from: string; to: string }[] = [
+  { from: '/wine-for-wedding-100-guests/', to: '/wine-for-wedding/' },
+  { from: '/food/pizza-for-birthday-party-50-guests', to: '/food/pizza-for-birthday-party/' },
+  { from: '/bar-setup/wedding-shower-125-guests/', to: '/bar-setup/wedding-shower/' },
+];
+
+/** A current URL whose name starts like an old one; it must stay a 200. */
+const CURRENT_PATH_NEAR_RULE = '/bar-setup/wedding-shower/';
 
 interface CheckResult {
   name: string;
@@ -92,38 +100,68 @@ async function checkCanonicalMatchesUrl(): Promise<CheckResult> {
   };
 }
 
-async function checkNoindexPresent(): Promise<CheckResult> {
-  try {
-    const { body } = await fetchFresh(NOINDEX_PATH);
-    const hasNoindex = /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(body);
-    return {
-      name: 'noindex-on-low-guest-count',
-      passed: hasNoindex,
-      count: hasNoindex ? 0 : 1,
-      detail: hasNoindex
-        ? `${NOINDEX_PATH} correctly has a noindex meta tag`
-        : `${NOINDEX_PATH} is missing the noindex meta tag`,
-    };
-  } catch (err) {
-    return { name: 'noindex-on-low-guest-count', passed: false, count: 1, detail: `fetch error: ${(err as Error).message}` };
-  }
-}
-
 async function checkNoindexAbsent(): Promise<CheckResult> {
+  const indexedPath = '/beer-for-wedding/';
   try {
-    const { body } = await fetchFresh(INDEXED_PATH);
+    const { body } = await fetchFresh(indexedPath);
     const hasNoindex = /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(body);
     return {
-      name: 'index-on-target-guest-count',
+      name: 'calculator-page-indexable',
       passed: !hasNoindex,
       count: hasNoindex ? 1 : 0,
       detail: hasNoindex
-        ? `${INDEXED_PATH} incorrectly has a noindex meta tag`
-        : `${INDEXED_PATH} correctly has no noindex meta tag`,
+        ? `${indexedPath} incorrectly has a noindex meta tag`
+        : `${indexedPath} correctly has no noindex meta tag`,
     };
   } catch (err) {
-    return { name: 'index-on-target-guest-count', passed: false, count: 1, detail: `fetch error: ${(err as Error).message}` };
+    return { name: 'calculator-page-indexable', passed: false, count: 1, detail: `fetch error: ${(err as Error).message}` };
   }
+}
+
+async function fetchNoFollow(pathname: string): Promise<{ status: number; location: string | null }> {
+  const res = await fetch(cacheBustUrl(`${SITE}${pathname}`), {
+    redirect: 'manual',
+    cache: 'no-store',
+    headers: { 'Cache-Control': 'no-store' },
+  });
+  await res.arrayBuffer();
+  return { status: res.status, location: res.headers.get('location') };
+}
+
+async function checkOldUrlRedirects(): Promise<CheckResult> {
+  const name = 'old-guest-count-urls-301';
+  let failed = 0;
+  const examples: string[] = [];
+  for (const { from, to } of OLD_URL_REDIRECTS) {
+    try {
+      const { status, location } = await fetchNoFollow(from);
+      const target = location ? new URL(location, SITE).pathname : null;
+      if (status !== 301 || target !== to) {
+        failed += 1;
+        if (examples.length < 3) examples.push(`${from} -> ${status} ${target ?? 'no Location'} (expected 301 ${to})`);
+      }
+    } catch (err) {
+      failed += 1;
+      if (examples.length < 3) examples.push(`${from}: fetch error: ${(err as Error).message}`);
+    }
+  }
+  try {
+    const { status } = await fetchNoFollow(CURRENT_PATH_NEAR_RULE);
+    if (status !== 200) {
+      failed += 1;
+      examples.push(`${CURRENT_PATH_NEAR_RULE} returned ${status}, expected 200`);
+    }
+  } catch (err) {
+    failed += 1;
+    examples.push(`${CURRENT_PATH_NEAR_RULE}: fetch error: ${(err as Error).message}`);
+  }
+  const total = OLD_URL_REDIRECTS.length + 1;
+  return {
+    name,
+    passed: failed === 0,
+    count: failed,
+    detail: `${failed} of ${total} redirect checks failed (${OLD_URL_REDIRECTS.length} old URLs 301 to the clean page, ${CURRENT_PATH_NEAR_RULE} stays 200)${examples.length ? ` (e.g. ${examples.join('; ')})` : ''}`,
+  };
 }
 
 function localSitemapUrls(): string[] | null {
@@ -163,18 +201,14 @@ async function checkSitemapGuestCounts(): Promise<CheckResult> {
     const { body } = await fetchFresh('/sitemap-0.xml');
     const liveUrls = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     const guestUrls = liveUrls.filter((u) => /-(\d+)-guests\/?$/.test(u));
-    const bad = guestUrls.filter((u) => {
-      const m = u.match(/-(\d+)-guests\/?$/);
-      return !INDEXABLE_GUEST_COUNTS.includes(Number(m![1]));
-    });
     return {
-      name: 'sitemap-guest-counts-indexable',
-      passed: bad.length === 0,
-      count: bad.length,
-      detail: `${bad.length} of ${guestUrls.length} guest-count sitemap URLs have a non-indexable guest count${bad.length ? ` (e.g. ${bad.slice(0, 3).join(', ')})` : ''}`,
+      name: 'sitemap-has-no-guest-count-urls',
+      passed: guestUrls.length === 0 && liveUrls.length < 200,
+      count: guestUrls.length,
+      detail: `${guestUrls.length} guest-count URLs in a sitemap of ${liveUrls.length} (limit 199)${guestUrls.length ? ` (e.g. ${guestUrls.slice(0, 3).join(', ')})` : ''}`,
     };
   } catch (err) {
-    return { name: 'sitemap-guest-counts-indexable', passed: false, count: -1, detail: `fetch error: ${(err as Error).message}` };
+    return { name: 'sitemap-has-no-guest-count-urls', passed: false, count: -1, detail: `fetch error: ${(err as Error).message}` };
   }
 }
 
@@ -210,7 +244,7 @@ async function checkOgImageSize(): Promise<CheckResult> {
 
 async function checkWineOgImageSize(): Promise<CheckResult> {
   const MAX_BYTES = 150 * 1024;
-  const PAGE_PATH = '/wine-for-wedding-100-guests/';
+  const PAGE_PATH = '/wine-for-wedding/';
   try {
     const { body } = await fetchFresh(PAGE_PATH);
     const match = body.match(/<meta property="og:image" content="([^"]+)"/);
@@ -343,8 +377,8 @@ async function main(): Promise<void> {
 
   const results: CheckResult[] = [
     await checkCanonicalMatchesUrl(),
-    await checkNoindexPresent(),
     await checkNoindexAbsent(),
+    await checkOldUrlRedirects(),
     await checkSitemapCount(),
     await checkSitemapGuestCounts(),
     await checkLogoReturns200(),

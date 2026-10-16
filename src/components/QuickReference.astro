@@ -1,10 +1,11 @@
 ---
 /**
- * QuickReference.astro - the by-guest-count table on calculator pages.
- * Values come from each sibling page's own generated data, so a row shows
- * exactly what the page it links to shows. The current page's row is
- * filled with --accent-soft; the page script moves the highlight when the
- * Adjust steppers change the guest count.
+ * QuickReference.astro - the by-guest-count ledger on calculator pages.
+ * Every row comes from the page's own generated ledger, so a row shows
+ * exactly what the answer above shows at that guest count. The selected
+ * row is filled with --accent-soft; the page script moves the highlight
+ * when the Adjust steppers change the guest count. All rows are in the
+ * static HTML.
  *
  * Cell values carry their unit separately from the number, so on mobile the
  * unit can move into the column header ("Full bar, bottles") and the cell
@@ -27,8 +28,6 @@ export interface QuickReferenceColumn {
 
 export interface QuickReferenceRow {
   guests: number;
-  /** Link target for the row; null on the current row. */
-  href: string | null;
   /** One cell per column, aligned with `columns`. */
   values: QuickReferenceCell[];
   isCurrent: boolean;
@@ -62,10 +61,8 @@ const { title, columns, rows, footnote } = Astro.props;
         {rows.map((row) => (
           <tr class={row.isCurrent ? 'qr-current' : ''} data-guests={row.guests}>
             <td class="qr-guests">
-              {row.href
-                ? <a href={row.href} class="qr-guest-link">{row.guests} guests</a>
-                : <span class="qr-guest-link">{row.guests} guests</span>}
-              {row.isCurrent && <span class="label qr-this-page">this page</span>}
+              <span class="qr-guest-link">{row.guests} guests</span>
+              {row.isCurrent && <span class="label qr-this-page">selected</span>}
             </td>
             {row.values.map((cell, i) => (
               <td class={`num qr-value${i === 0 ? ' qr-primary' : ''}`}>

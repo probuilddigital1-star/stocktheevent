@@ -20,6 +20,7 @@ import type {
   PageMeta,
   FoodCalculatorPage,
   FoodCalculationResult,
+  FoodLedgerRow,
 } from '../src/lib/types';
 import { foodItems, type FoodItem } from '../src/data/foodItems';
 import { events, type ExtendedEventType } from '../src/data/events';
@@ -224,62 +225,43 @@ function generateShoppingList(
 
 function generateRelatedPages(
   currentItem: FoodItem,
-  currentEvent: ExtendedEventType,
-  currentGuestCount: GuestCount
+  currentEvent: ExtendedEventType
 ): RelatedPage[] {
   const related: RelatedPage[] = [];
 
-  // Same event, same guests, different food items
+  // Same event, different food items
   foodItems.forEach(item => {
     if (item.id !== currentItem.id) {
       related.push({
-        slug: `${item.id}-for-${currentEvent.slug}-${currentGuestCount.value}-guests`,
-        title: `${item.name} for ${currentEvent.name} (${currentGuestCount.value} guests)`,
+        slug: `${item.id}-for-${currentEvent.slug}`,
+        title: `${item.name} for ${currentEvent.name}`,
         relationship: 'same-event',
       });
     }
   });
 
-  // Same item, same event, adjacent guest counts
-  const currentIndex = guestCounts.findIndex(gc => gc.value === currentGuestCount.value);
-  if (currentIndex > 0) {
-    const prev = guestCounts[currentIndex - 1];
+  // Same item, the next four other events in list order, wrapping, so every
+  // event page is linked from a different set of neighbors.
+  const start = events.findIndex(e => e.id === currentEvent.id);
+  for (let step = 1; step <= 4; step++) {
+    const event = events[(start + step) % events.length];
     related.push({
-      slug: `${currentItem.id}-for-${currentEvent.slug}-${prev.value}-guests`,
-      title: `${currentItem.name} for ${currentEvent.name} (${prev.value} guests)`,
-      relationship: 'adjacent-guests',
-    });
-  }
-  if (currentIndex < guestCounts.length - 1) {
-    const next = guestCounts[currentIndex + 1];
-    related.push({
-      slug: `${currentItem.id}-for-${currentEvent.slug}-${next.value}-guests`,
-      title: `${currentItem.name} for ${currentEvent.name} (${next.value} guests)`,
-      relationship: 'adjacent-guests',
-    });
-  }
-
-  // Same item, different events (limit to 2)
-  const otherEvents = events.filter(e => e.id !== currentEvent.id).slice(0, 2);
-  otherEvents.forEach(event => {
-    related.push({
-      slug: `${currentItem.id}-for-${event.slug}-${currentGuestCount.value}-guests`,
-      title: `${currentItem.name} for ${event.name} (${currentGuestCount.value} guests)`,
+      slug: `${currentItem.id}-for-${event.slug}`,
+      title: `${currentItem.name} for ${event.name}`,
       relationship: 'same-item',
     });
-  });
+  }
 
   return related;
 }
 
 // Generate cross-links to drink calculators
 function generateRelatedDrinks(
-  currentEvent: ExtendedEventType,
-  currentGuestCount: GuestCount
+  currentEvent: ExtendedEventType
 ): RelatedPage[] {
   const related: RelatedPage[] = [];
 
-  // Get top 2 drinks for this event type based on modifiers
+  // Get top 3 drinks for this event type based on modifiers
   const sortedDrinks = [...drinkItems].sort((a, b) => {
     const modA = currentEvent.modifiers[a.id] || 1.0;
     const modB = currentEvent.modifiers[b.id] || 1.0;
@@ -288,8 +270,8 @@ function generateRelatedDrinks(
 
   sortedDrinks.forEach(drink => {
     related.push({
-      slug: `${drink.id}-for-${currentEvent.slug}-${currentGuestCount.value}-guests`,
-      title: `${drink.name} for ${currentEvent.name} (${currentGuestCount.value} guests)`,
+      slug: `${drink.id}-for-${currentEvent.slug}`,
+      title: `${drink.name} for ${currentEvent.name}`,
       relationship: 'same-event',
     });
   });
@@ -303,14 +285,14 @@ function generateRelatedDrinks(
 
 function generateMeta(
   item: FoodItem,
-  event: ExtendedEventType,
-  guestCount: GuestCount,
-  result: FoodCalculationResult
+  event: ExtendedEventType
 ): PageMeta {
+  const first = guestCounts[0].value;
+  const last = guestCounts[guestCounts.length - 1].value;
   return {
-    title: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}? | ${result.unitsNeeded} ${result.unitsDisplay}`,
-    description: `Need ${item.name.toLowerCase()} for a ${guestCount.value}-guest ${event.lowerName}? You'll need exactly ${result.unitsNeeded} ${result.unitsDisplay}. Free calculator with pro tips for party planning.`,
-    h1: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}?`,
+    title: `How Much ${item.name} for a ${event.name}? Calculator and Chart`,
+    description: `How much ${item.name.toLowerCase()} to order for a ${event.lowerName}, for ${first} to ${last} guests. Pick your guest count for an exact quantity, a shopping list and pro tips.`,
+    h1: `How Much ${item.name} Do You Need for a ${event.name}?`,
   };
 }
 
@@ -323,27 +305,30 @@ function generateAllFoodPages(): FoodCalculatorPage[] {
 
   for (const item of foodItems) {
     for (const event of events) {
-      for (const guestCount of guestCounts) {
-        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
-
-        // Calculate as main dish (default)
-        const calculation = calculate(item, event, guestCount, true);
-
-        const page: FoodCalculatorPage = {
-          slug,
-          item,
-          event,
-          guestCount,
-          calculation,
-          meta: generateMeta(item, event, guestCount, calculation),
-          mathExplanation: generateMathExplanation(item, event, guestCount, calculation),
-          shoppingList: generateShoppingList(item, calculation),
-          relatedPages: generateRelatedPages(item, event, guestCount),
-          relatedDrinks: generateRelatedDrinks(event, guestCount),
-        };
-
-        pages.push(page);
+      // Calculated as a main dish (the default), once per guest count.
+      const ledger: FoodLedgerRow[] = guestCounts.map((gc) => ({
+        guests: gc.value,
+        calculation: calculate(item, event, gc, true),
+      }));
+      const guestCount = guestCounts.find((gc) => gc.value === event.defaultGuests);
+      if (!guestCount) {
+        throw new Error(`${event.id}: defaultGuests ${event.defaultGuests} is not in guestCounts`);
       }
+      const calculation = ledger.find((row) => row.guests === guestCount.value)!.calculation;
+
+      pages.push({
+        slug: `${item.id}-for-${event.slug}`,
+        item,
+        event,
+        guestCount,
+        calculation,
+        ledger,
+        meta: generateMeta(item, event),
+        mathExplanation: generateMathExplanation(item, event, guestCount, calculation),
+        shoppingList: generateShoppingList(item, calculation),
+        relatedPages: generateRelatedPages(item, event),
+        relatedDrinks: generateRelatedDrinks(event),
+      });
     }
   }
 
@@ -357,10 +342,9 @@ function generateAllFoodPages(): FoodCalculatorPage[] {
 function writeDataFiles(pages: FoodCalculatorPage[]): void {
   const outputDir = path.join(__dirname, '../src/content/food-calculators');
 
-  // Ensure output directory exists
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  // Start clean so pages from an older URL scheme cannot linger and be built.
+  fs.rmSync(outputDir, { recursive: true, force: true });
+  fs.mkdirSync(outputDir, { recursive: true });
 
   // Write individual page JSON files
   for (const page of pages) {
@@ -380,4 +364,4 @@ console.log('\n--- Food Generation Stats ---');
 console.log(`Food items: ${foodItems.length}`);
 console.log(`Events: ${events.length}`);
 console.log(`Guest counts: ${guestCounts.length}`);
-console.log(`Total food pages: ${foodItems.length * events.length * guestCounts.length}`);
+console.log(`Total food pages: ${foodItems.length * events.length}`);

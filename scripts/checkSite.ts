@@ -10,11 +10,20 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { items } from '../src/data/items';
+import { foodItems } from '../src/data/foodItems';
+import { events } from '../src/data/events';
+import { guestCounts } from '../src/data/guestCounts';
+import { redirectRules } from '../src/lib/redirects';
 
 const CHECKS_ENFORCED: string[] = [
   'canonical-format',
   'internal-href-trailing-slash',
-  'sitemap-noindex-guest-pages',
+  'sitemap-url-count',
+  'sitemap-no-noindex',
+  'redirect-rules',
+  'no-page-matches-redirect',
+  'old-urls-redirect-to-pages',
   'no-google-fonts',
   'no-emoji',
   'single-h1',
@@ -22,6 +31,11 @@ const CHECKS_ENFORCED: string[] = [
 ];
 
 const SITE_ORIGIN = 'https://www.stocktheevent.com';
+/** The consolidation target: fewer than 200 URLs in the sitemap. */
+const SITEMAP_URL_LIMIT = 200;
+/** Cloudflare Pages caps on _redirects. */
+const STATIC_REDIRECT_LIMIT = 2000;
+const DYNAMIC_REDIRECT_LIMIT = 100;
 const DIST_DIR = path.join(process.cwd(), 'dist');
 const FONTS_DIR = path.join(process.cwd(), 'public', 'fonts');
 
@@ -147,19 +161,17 @@ function checkTrailingSlashes(htmlFiles: string[]): CheckResult {
 function checkSitemapCount(sitemapUrls: string[]): CheckResult {
   return {
     name: 'sitemap-url-count',
-    passed: true,
+    passed: sitemapUrls.length < SITEMAP_URL_LIMIT,
     count: sitemapUrls.length,
-    detail: `${sitemapUrls.length} URLs in the sitemap`,
+    detail: `${sitemapUrls.length} URLs in the sitemap (limit ${SITEMAP_URL_LIMIT - 1})`,
   };
 }
 
-function checkSitemapNoindexGuestPages(sitemapUrls: string[]): CheckResult {
-  const guestPageUrls = sitemapUrls.filter((url) => /-\d+-guests?(\/|$)/.test(url));
+function checkSitemapNoNoindex(sitemapUrls: string[]): CheckResult {
   let failed = 0;
   const examples: string[] = [];
-  for (const url of guestPageUrls) {
-    const urlPath = url.replace(SITE_ORIGIN, '');
-    const filePath = urlPathToDistFile(urlPath);
+  for (const url of sitemapUrls) {
+    const filePath = urlPathToDistFile(url.replace(SITE_ORIGIN, ''));
     if (!fs.existsSync(filePath)) continue;
     const html = fs.readFileSync(filePath, 'utf8');
     if (/<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i.test(html)) {
@@ -168,10 +180,154 @@ function checkSitemapNoindexGuestPages(sitemapUrls: string[]): CheckResult {
     }
   }
   return {
-    name: 'sitemap-noindex-guest-pages',
+    name: 'sitemap-no-noindex',
     passed: failed === 0,
     count: failed,
-    detail: `${failed} of ${guestPageUrls.length} guest-count sitemap URLs are noindexed${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
+    detail: `${failed} of ${sitemapUrls.length} sitemap URLs are noindexed${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
+  };
+}
+
+// -----------------------------------------------------------------------------
+// Redirect rules (dist/_redirects)
+//
+// The authoritative test of the redirects is tests/redirects.spec.ts, which
+// runs them through Cloudflare's own engine (wrangler pages dev). These checks
+// are the fast structural half: the rule file is the expected one, it is
+// inside Cloudflare's limits, and the three rule shapes it contains (one `*`
+// splat each) resolve every old URL to a file that exists in dist.
+// -----------------------------------------------------------------------------
+
+interface RedirectRule {
+  from: string;
+  to: string;
+  status: number;
+}
+
+function readRedirectRules(): RedirectRule[] | null {
+  const file = path.join(DIST_DIR, '_redirects');
+  if (!fs.existsSync(file)) return null;
+  return fs
+    .readFileSync(file, 'utf8')
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line !== '' && !line.startsWith('#'))
+    .map((line) => {
+      const [from, to, status] = line.split(/\s+/);
+      return { from, to, status: Number(status ?? 302) };
+    });
+}
+
+/** Match a path against a `*` splat rule; returns the splat, or null. */
+function matchRule(rule: RedirectRule, urlPath: string): string | null {
+  const star = rule.from.indexOf('*');
+  if (star === -1) return rule.from === urlPath ? '' : null;
+  const prefix = rule.from.slice(0, star);
+  const suffix = rule.from.slice(star + 1);
+  if (urlPath.length < prefix.length + suffix.length) return null;
+  if (!urlPath.startsWith(prefix) || !urlPath.endsWith(suffix)) return null;
+  return urlPath.slice(prefix.length, urlPath.length - suffix.length);
+}
+
+function destination(rule: RedirectRule, splat: string): string {
+  return rule.to.replace(':splat', splat);
+}
+
+function checkRedirectRules(rules: RedirectRule[] | null): CheckResult {
+  if (!rules) {
+    return { name: 'redirect-rules', passed: false, count: 0, detail: 'dist/_redirects is missing' };
+  }
+  const isDynamic = (r: RedirectRule) => /[*:]/.test(r.from);
+  const dynamic = rules.filter(isDynamic).length;
+  const staticCount = rules.length - dynamic;
+  const expected = redirectRules().map((line) => line.split(' ').slice(0, 2).join(' '));
+  const actual = rules.map((r) => `${r.from} ${r.to}`);
+  const sameSet = expected.length === actual.length && expected.every((line, i) => line === actual[i]);
+  const allPermanent = rules.every((r) => r.status === 301);
+  const passed = sameSet && allPermanent && staticCount <= STATIC_REDIRECT_LIMIT && dynamic <= DYNAMIC_REDIRECT_LIMIT;
+  return {
+    name: 'redirect-rules',
+    passed,
+    count: rules.length,
+    detail: `${staticCount} static (limit ${STATIC_REDIRECT_LIMIT}), ${dynamic} dynamic (limit ${DYNAMIC_REDIRECT_LIMIT}); ${sameSet ? 'matches the generated rule set' : 'DIFFERS from the generated rule set'}; ${allPermanent ? 'all 301' : 'not all 301'}`,
+  };
+}
+
+function checkNoPageMatchesRedirect(rules: RedirectRule[] | null, htmlFiles: string[]): CheckResult {
+  if (!rules) return { name: 'no-page-matches-redirect', passed: false, count: 0, detail: 'dist/_redirects is missing' };
+  const urlPaths: string[] = [];
+  for (const file of htmlFiles) {
+    const rel = '/' + path.relative(DIST_DIR, file).split(path.sep).join('/');
+    if (rel.endsWith('/index.html')) {
+      const withSlash = rel.slice(0, -'index.html'.length);
+      urlPaths.push(withSlash, withSlash.replace(/\/$/, '') || '/');
+    } else {
+      urlPaths.push(rel);
+    }
+  }
+  const ogDir = path.join(DIST_DIR, 'og');
+  if (fs.existsSync(ogDir)) {
+    for (const file of walk(ogDir, (f) => f.endsWith('.png'))) {
+      urlPaths.push('/' + path.relative(DIST_DIR, file).split(path.sep).join('/'));
+    }
+  }
+  const examples: string[] = [];
+  let failed = 0;
+  for (const urlPath of urlPaths) {
+    if (rules.some((rule) => matchRule(rule, urlPath) !== null)) {
+      failed += 1;
+      if (examples.length < 3) examples.push(urlPath);
+    }
+  }
+  return {
+    name: 'no-page-matches-redirect',
+    passed: failed === 0,
+    count: failed,
+    detail: `${failed} of ${urlPaths.length} pages and share images (with and without slash) match a redirect rule${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
+  };
+}
+
+function checkOldUrlsRedirectToPages(rules: RedirectRule[] | null): CheckResult {
+  if (!rules) return { name: 'old-urls-redirect-to-pages', passed: false, count: 0, detail: 'dist/_redirects is missing' };
+
+  // Each old page URL (no trailing slash) and the share image name it had.
+  const oldPages: { page: string; image: string }[] = [];
+  for (const { value } of guestCounts) {
+    for (const event of events) {
+      for (const item of items) {
+        const name = `${item.id}-for-${event.slug}-${value}-guests`;
+        oldPages.push({ page: `/${name}`, image: `/og/${name}.png` });
+      }
+      for (const food of foodItems) {
+        const name = `${food.id}-for-${event.slug}-${value}-guests`;
+        oldPages.push({ page: `/food/${name}`, image: `/og/${name}.png` });
+      }
+      const bar = `${event.slug}-${value}-guests`;
+      oldPages.push({ page: `/bar-setup/${bar}`, image: `/og/${bar}.png` });
+    }
+  }
+
+  let checked = 0;
+  let failed = 0;
+  const examples: string[] = [];
+  const check = (oldUrl: string, toFile: (dest: string) => string) => {
+    checked += 1;
+    const rule = rules.find((r) => matchRule(r, oldUrl) !== null);
+    const dest = rule ? destination(rule, matchRule(rule, oldUrl)!) : null;
+    if (!dest || !fs.existsSync(toFile(dest))) {
+      failed += 1;
+      if (examples.length < 3) examples.push(`${oldUrl} -> ${dest ?? 'no rule'}`);
+    }
+  };
+  for (const { page, image } of oldPages) {
+    check(`${page}/`, urlPathToDistFile);
+    check(page, urlPathToDistFile);
+    check(image, (dest) => path.join(DIST_DIR, dest));
+  }
+  return {
+    name: 'old-urls-redirect-to-pages',
+    passed: failed === 0,
+    count: failed,
+    detail: `${failed} of ${checked} old drink, food and bar-setup URLs (with and without slash, plus share images) do not end at a file in dist${examples.length ? ` (e.g. ${examples.join(', ')})` : ''}`,
   };
 }
 
@@ -305,12 +461,16 @@ function main(): void {
   const htmlFiles = walk(DIST_DIR, (file) => file.endsWith('.html'));
   const textFiles = walk(DIST_DIR, (file) => /\.(html|css|js|xml|txt|svg)$/.test(file));
   const sitemapUrls = readSitemapUrls();
+  const redirectRulesInDist = readRedirectRules();
 
   const results: CheckResult[] = [
     checkCanonicalFormat(htmlFiles),
     checkTrailingSlashes(htmlFiles),
     checkSitemapCount(sitemapUrls),
-    checkSitemapNoindexGuestPages(sitemapUrls),
+    checkSitemapNoNoindex(sitemapUrls),
+    checkRedirectRules(redirectRulesInDist),
+    checkNoPageMatchesRedirect(redirectRulesInDist, htmlFiles),
+    checkOldUrlsRedirectToPages(redirectRulesInDist),
     checkSingleH1(htmlFiles),
     checkNoGoogleFonts(textFiles),
     checkNoEmoji(htmlFiles),

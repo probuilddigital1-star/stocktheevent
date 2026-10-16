@@ -5,8 +5,8 @@ import type { HubRow } from '../../components/HubTable.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { foodItems } from '../../data/foodItems';
-import { INDEXABLE_GUEST_COUNTS } from '../../data/indexing';
-import { drinkPage, foodPage, fullBarTotals, slugFor } from '../../lib/pageData';
+import { HUB_GUEST_COUNTS } from '../../data/guestCounts';
+import { drinkAt, foodAt, fullBarTotals, slugFor } from '../../lib/pageData';
 import { DRINK_HUB_QUESTION, hubIntro } from '../../data/hubCopy';
 
 export function getStaticPaths() {
@@ -20,7 +20,7 @@ const props = Astro.props as
   | { type: 'item'; itemId: string }
   | { type: 'event'; eventId: string };
 
-const GUESTS = INDEXABLE_GUEST_COUNTS;
+const GUESTS = HUB_GUEST_COUNTS;
 const ANCHOR = 100;
 
 let h1: string;
@@ -42,11 +42,11 @@ let barSetupSummary = '';
 
 if (props.type === 'item') {
   const item = items.find((i) => i.id === props.itemId)!;
-  const anchor = drinkPage(item.id, 'wedding', ANCHOR);
+  const anchor = drinkAt(item.id, 'wedding', ANCHOR);
 
   h1 = DRINK_HUB_QUESTION[item.id];
   title = `${h1} Calculator for 25 to 200 Guests | StockTheEvent`;
-  description = `${item.name} for ${ANCHOR} wedding guests on a full bar is ${anchor!.calculation.fullBar.unitsNeeded} ${anchor!.calculation.fullBar.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
+  description = `${item.name} for ${ANCHOR} wedding guests on a full bar is ${anchor!.fullBar.unitsNeeded} ${anchor!.fullBar.unitsDisplay}. Quantities for every event at 25 to 200 guests.`;
   intro = hubIntro(`drink:${item.id}`);
   breadcrumbLabel = item.name;
   breadcrumbUrl = `/calculators/${item.id}/`;
@@ -56,11 +56,11 @@ if (props.type === 'item') {
     label: event.name,
     href: `/calculators/${event.id}/`,
     cells: GUESTS.map((guests) => {
-      const page = drinkPage(item.id, event.slug, guests);
-      return page
+      const calc = drinkAt(item.id, event.slug, guests);
+      return calc
         ? {
-            label: `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay}`,
-            href: `/${slugFor(item.id, event.slug, guests)}/`,
+            label: `${calc.fullBar.unitsNeeded} ${calc.fullBar.unitsDisplay}`,
+            href: `/${slugFor(item.id, event.slug)}/?guests=${guests}`,
           }
         : { label: null, href: null };
     }),
@@ -82,11 +82,11 @@ if (props.type === 'item') {
     label: item.name,
     href: `/calculators/${item.id}/`,
     cells: GUESTS.map((guests) => {
-      const page = drinkPage(item.id, event.slug, guests);
-      return page
+      const calc = drinkAt(item.id, event.slug, guests);
+      return calc
         ? {
-            label: `${page.calculation.fullBar.unitsNeeded} ${page.calculation.fullBar.unitsDisplay}`,
-            href: `/${slugFor(item.id, event.slug, guests)}/`,
+            label: `${calc.fullBar.unitsNeeded} ${calc.fullBar.unitsDisplay}`,
+            href: `/${slugFor(item.id, event.slug)}/?guests=${guests}`,
           }
         : { label: null, href: null };
     }),
@@ -96,11 +96,11 @@ if (props.type === 'item') {
     label: food.name,
     href: `/food/${food.id}/`,
     cells: GUESTS.map((guests) => {
-      const page = foodPage(food.id, event.slug, guests);
-      return page
+      const calc = foodAt(food.id, event.slug, guests);
+      return calc
         ? {
-            label: `${page.calculation.unitsNeeded} ${page.calculation.unitsDisplay}`,
-            href: `/food/${slugFor(food.id, event.slug, guests)}/`,
+            label: `${calc.unitsNeeded} ${calc.unitsDisplay}`,
+            href: `/food/${slugFor(food.id, event.slug)}/?guests=${guests}`,
           }
         : { label: null, href: null };
     }),
@@ -109,7 +109,7 @@ if (props.type === 'item') {
   // The tips in src/data/events.ts are already plain guidance; the fabricated
   // statistics they used to carry were rewritten at the source.
   eventTips = event.proTips.slice(0, 2);
-  barSetupHref = `/bar-setup/${event.slug}-${ANCHOR}-guests/`;
+  barSetupHref = `/bar-setup/${event.slug}/?guests=${ANCHOR}`;
   // Drinks, not a combined unit count: bottles and cases are not the same thing.
   barSetupSummary = `About ${totals!.servings} drinks`;
 }

@@ -6,13 +6,15 @@ import PageSection from '../../components/PageSection.astro';
 import ProTips from '../../components/ProTips.astro';
 import ThingsToHaveOnHand from '../../components/ThingsToHaveOnHand.astro';
 import WhereToBuy from '../../components/WhereToBuy.astro';
+import QuickReference from '../../components/QuickReference.astro';
+import type { QuickReferenceRow, QuickReferenceColumn } from '../../components/QuickReference.astro';
 import CrossPromo from '../../components/CrossPromo.astro';
 import AffiliateDisclosure from '../../components/AffiliateDisclosure.astro';
 import AdSlot from '../../components/AdSlot.astro';
 import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
-import { isIndexable } from '../../data/indexing';
+import { drinkAt } from '../../lib/pageData';
 import { drinkShare, splitsForEvent, varietyNote, DRINK_VARIETIES } from '../../data/eventSplits';
 import {
   BASE_DRINKS_PER_HOUR,
@@ -22,30 +24,20 @@ import {
   consumptionMultiplier as calculateConsumptionMultiplier,
 } from '../../data/model';
 
-// Generate static paths for all event/guest combinations
+// One page per event. The page opens at the event's default guest count; the
+// ledger below covers every guest count and ?guests= overrides the view.
 export function getStaticPaths() {
-  const paths: { params: { slug: string }; props: { eventSlug: string; guestCount: number } }[] = [];
-
-  for (const event of events) {
-    for (const guest of guestCounts) {
-      // Create the full slug: e.g., "graduation-party-100-guests"
-      const slug = `${event.slug}-${guest.value}-guests`;
-      paths.push({
-        params: { slug },
-        props: { eventSlug: event.slug, guestCount: guest.value }
-      });
-    }
-  }
-
-  return paths;
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { eventSlug: event.slug },
+  }));
 }
 
-// Get props from getStaticPaths (avoids URL parsing issues)
-const { eventSlug, guestCount } = Astro.props;
+const { eventSlug } = Astro.props;
 
-// Find event and guest data
 const event = events.find(e => e.slug === eventSlug) || events[0];
-const guestData = guestCounts.find(g => g.value === guestCount) || guestCounts[7];
+const guestCount = event.defaultGuests;
+const guestData = guestCounts.find(g => g.value === guestCount) || guestCounts[0];
 
 // Default duration from event (can be overridden client-side)
 const duration = event.defaultDuration;
@@ -88,6 +80,27 @@ const fullBarResults = allDrinks.map(item => {
 
 const grandTotalServings = fullBarResults.reduce((sum, r) => sum + r.servings, 0);
 const perPerson = Math.round((grandTotalServings / guestCount) * 10) / 10;
+
+// The ledger: the full-bar quantity of each drink at every guest count, read
+// from the same generated data as each drink's own page so the numbers match.
+const ledgerColumns: QuickReferenceColumn[] = [
+  ...allDrinks.map((item) => ({ label: item.name, unit: item.unit })),
+  { label: 'Servings' },
+];
+const ledgerRows: QuickReferenceRow[] = guestCounts.map((gc) => {
+  const calcs = allDrinks.map((item) => drinkAt(item.id, event.slug, gc.value));
+  return {
+    guests: gc.value,
+    values: [
+      ...calcs.map((calc) => ({
+        value: String(calc?.fullBar.unitsNeeded ?? ''),
+        unit: calc?.fullBar.unitsDisplay,
+      })),
+      { value: String(calcs.reduce((sum, calc) => sum + (calc?.fullBar.totalServings ?? 0), 0)) },
+    ],
+    isCurrent: gc.value === guestCount,
+  };
+});
 
 // Which drink this event actually leans on, taken from the split rather than
 // guessed per event id.
@@ -154,16 +167,13 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title={`${event.name} Alcohol Calculator: ${guestCount} Guests (Wine, Beer, Spirits, Champagne)`}
-  description={`A full bar for ${guestCount} guests at a ${event.lowerName} is about ${grandTotalServings} servings, ${perPerson} drinks per person. Wine, beer, spirits and champagne quantities with a 15 percent buffer included.`}
-  ogImage={isIndexable(guestCount) ? `/og/${event.slug}-${guestCount}-guests.png` : undefined}
-  ogImageAlt={`${event.name} full bar for ${guestCount} guests`}
+  title={`${event.name} Alcohol Calculator: Wine, Beer, Spirits and Champagne`}
+  description={`How much wine, beer, spirits and champagne to buy for a ${event.lowerName}, for 10 to 300 guests. At ${guestCount} guests a full bar is about ${grandTotalServings} servings, ${perPerson} drinks per person, with a 15 percent buffer included.`}
+  ogImage={`/og/${event.slug}.png`}
+  ogImageAlt={`${event.name} full bar calculator`}
 >
   <!-- JSON-LD Schema for SEO/AIO -->
   <Fragment slot="head">
-    {!isIndexable(guestCount) && (
-      <meta name="robots" content="noindex, follow" />
-    )}
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
@@ -183,7 +193,7 @@ const faqSchema = {
           below it is what the client script rewrites when ?drinks= narrows the
           list, so changing the selection no longer overwrites the heading.
         -->
-        <h1 class="bar-h1">{event.name} Alcohol Calculator: {guestCount} Guests</h1>
+        <h1 class="bar-h1">{event.name} Alcohol Calculator</h1>
         <p class="bar-context">
           <span id="page-title" class="label bar-subtitle">Your Complete Bar</span>
           <span class="num bar-meta"><span id="guest-display">{guestCount}</span> guests · <span id="duration-display">{duration}</span> hours</span>
@@ -256,6 +266,13 @@ const faqSchema = {
     </div>
   </PageSection>
 
+  <QuickReference
+    title={`A full bar for a ${event.lowerName}, by guest count`}
+    columns={ledgerColumns}
+    rows={ledgerRows}
+    footnote="Each drink is its share of a four-drink bar, with a 15 percent buffer included."
+  />
+
   <PageSection
     label="More detail"
     title="Each drink, shown with its work"
@@ -264,7 +281,7 @@ const faqSchema = {
     <div class="detail-links" id="detail-links">
       {fullBarResults.map((r) => (
         <a
-          href={`/${r.item.id}-for-${event.slug}-${guestCount}-guests/`}
+          href={`/${r.item.id}-for-${event.slug}/`}
           class="detail-link"
           data-drink-id={r.item.id}
           data-units={r.unitsNeeded}
@@ -566,6 +583,19 @@ const faqSchema = {
     const guestDisplayEl = document.getElementById('guest-display');
     if (guestDisplayEl) guestDisplayEl.textContent = actualGuests.toString();
   }
+
+  // Highlight the ledger row nearest the requested guest count
+  const ledgerRowEls = document.querySelectorAll('#quick-reference tbody tr[data-guests]');
+  let nearestRow = null;
+  let nearestDiff = Infinity;
+  ledgerRowEls.forEach(row => {
+    const diff = Math.abs(parseInt(row.getAttribute('data-guests') || '0', 10) - actualGuests);
+    if (diff < nearestDiff) {
+      nearestDiff = diff;
+      nearestRow = row;
+    }
+  });
+  ledgerRowEls.forEach(row => row.classList.toggle('qr-current', row === nearestRow));
 
   // Update page title based on selection
   const pageTitle = document.getElementById('page-title');

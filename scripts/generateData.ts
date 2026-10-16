@@ -22,7 +22,8 @@ import type {
   ShoppingItem,
   RelatedPage,
   PageMeta,
-  CalculatorPage
+  CalculatorPage,
+  DrinkLedgerRow,
 } from '../src/lib/types';
 import { items, toastBottles } from '../src/data/items';
 import { events } from '../src/data/events';
@@ -238,50 +239,32 @@ function generateShoppingList(
 
 function generateRelatedPages(
   currentItem: Item,
-  currentEvent: EventType,
-  currentGuestCount: GuestCount
+  currentEvent: EventType
 ): RelatedPage[] {
   const related: RelatedPage[] = [];
 
-  // Same event, same guests, different items
+  // Same event, different items
   items.forEach(item => {
     if (item.id !== currentItem.id) {
       related.push({
-        slug: `${item.id}-for-${currentEvent.slug}-${currentGuestCount.value}-guests`,
-        title: `${item.name} for ${currentEvent.name} (${currentGuestCount.value} guests)`,
+        slug: `${item.id}-for-${currentEvent.slug}`,
+        title: `${item.name} for ${currentEvent.name}`,
         relationship: 'same-event',
       });
     }
   });
 
-  // Same item, same event, adjacent guest counts
-  const currentIndex = guestCounts.findIndex(gc => gc.value === currentGuestCount.value);
-  if (currentIndex > 0) {
-    const prev = guestCounts[currentIndex - 1];
+  // Same item, the next four other events in list order, wrapping, so every
+  // event page is linked from a different set of neighbors.
+  const start = events.findIndex(e => e.id === currentEvent.id);
+  for (let step = 1; step <= 4; step++) {
+    const event = events[(start + step) % events.length];
     related.push({
-      slug: `${currentItem.id}-for-${currentEvent.slug}-${prev.value}-guests`,
-      title: `${currentItem.name} for ${currentEvent.name} (${prev.value} guests)`,
-      relationship: 'adjacent-guests',
-    });
-  }
-  if (currentIndex < guestCounts.length - 1) {
-    const next = guestCounts[currentIndex + 1];
-    related.push({
-      slug: `${currentItem.id}-for-${currentEvent.slug}-${next.value}-guests`,
-      title: `${currentItem.name} for ${currentEvent.name} (${next.value} guests)`,
-      relationship: 'adjacent-guests',
-    });
-  }
-
-  // Same item, different events (limit to 2)
-  const otherEvents = events.filter(e => e.id !== currentEvent.id).slice(0, 2);
-  otherEvents.forEach(event => {
-    related.push({
-      slug: `${currentItem.id}-for-${event.slug}-${currentGuestCount.value}-guests`,
-      title: `${currentItem.name} for ${event.name} (${currentGuestCount.value} guests)`,
+      slug: `${currentItem.id}-for-${event.slug}`,
+      title: `${currentItem.name} for ${event.name}`,
       relationship: 'same-item',
     });
-  });
+  }
 
   return related;
 }
@@ -293,22 +276,20 @@ function generateRelatedPages(
 function generateMeta(
   item: Item,
   event: EventType,
-  guestCount: GuestCount,
   result: CalculationResult
 ): PageMeta {
   const drink = item.name.toLowerCase();
   const eventName = event.lowerName;
-  const fullBar = result.fullBar;
-  const onlyDrink = result.onlyDrink;
-
+  const first = guestCounts[0].value;
+  const last = guestCounts[guestCounts.length - 1].value;
   const toastSentence = result.toastBottles
-    ? ` For the toast alone, ${result.toastBottles} bottles.`
+    ? ' Includes the bottles for a toast.'
     : '';
 
   return {
-    title: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}? | ${fullBar.unitsNeeded} ${fullBar.unitsDisplay}`,
-    description: `Need ${drink} for a ${guestCount.value}-guest ${eventName}? Plan on ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} as part of a full bar, or ${onlyDrink.unitsNeeded} ${onlyDrink.unitsDisplay} if ${drink} is the only alcohol you serve.${toastSentence}`,
-    h1: `How Much ${item.name} for a ${guestCount.value}-Guest ${event.name}?`,
+    title: `How Much ${item.name} for a ${event.name}? Calculator and Chart`,
+    description: `How much ${drink} to buy for a ${eventName}, for ${first} to ${last} guests. Pick your guest count for a full-bar quantity, a ${drink}-only quantity and a shopping list.${toastSentence}`,
+    h1: `How Much ${item.name} Do You Need for a ${event.name}?`,
   };
 }
 
@@ -321,24 +302,28 @@ function generateAllPages(): CalculatorPage[] {
 
   for (const item of items) {
     for (const event of events) {
-      for (const guestCount of guestCounts) {
-        const slug = `${item.id}-for-${event.slug}-${guestCount.value}-guests`;
-        const calculation = calculate(item, event, guestCount);
-
-        const page: CalculatorPage = {
-          slug,
-          item,
-          event,
-          guestCount,
-          calculation,
-          meta: generateMeta(item, event, guestCount, calculation),
-          mathExplanation: generateMathExplanation(item, event, guestCount, calculation),
-          shoppingList: generateShoppingList(item, calculation),
-          relatedPages: generateRelatedPages(item, event, guestCount),
-        };
-
-        pages.push(page);
+      const ledger: DrinkLedgerRow[] = guestCounts.map((gc) => ({
+        guests: gc.value,
+        calculation: calculate(item, event, gc),
+      }));
+      const guestCount = guestCounts.find((gc) => gc.value === event.defaultGuests);
+      if (!guestCount) {
+        throw new Error(`${event.id}: defaultGuests ${event.defaultGuests} is not in guestCounts`);
       }
+      const calculation = ledger.find((row) => row.guests === guestCount.value)!.calculation;
+
+      pages.push({
+        slug: `${item.id}-for-${event.slug}`,
+        item,
+        event,
+        guestCount,
+        calculation,
+        ledger,
+        meta: generateMeta(item, event, calculation),
+        mathExplanation: generateMathExplanation(item, event, guestCount, calculation),
+        shoppingList: generateShoppingList(item, calculation),
+        relatedPages: generateRelatedPages(item, event),
+      });
     }
   }
 
@@ -352,10 +337,9 @@ function generateAllPages(): CalculatorPage[] {
 function writeDataFiles(pages: CalculatorPage[]): void {
   const outputDir = path.join(__dirname, '../src/content/calculators');
 
-  // Ensure output directory exists
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
+  // Start clean so pages from an older URL scheme cannot linger and be built.
+  fs.rmSync(outputDir, { recursive: true, force: true });
+  fs.mkdirSync(outputDir, { recursive: true });
 
   // Write individual page JSON files
   for (const page of pages) {
@@ -375,4 +359,4 @@ console.log('\n--- Generation Stats ---');
 console.log(`Items: ${items.length}`);
 console.log(`Events: ${events.length}`);
 console.log(`Guest counts: ${guestCounts.length}`);
-console.log(`Total pages: ${items.length * events.length * guestCounts.length}`);
+console.log(`Total pages: ${items.length * events.length}`);

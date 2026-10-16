@@ -12,7 +12,7 @@ import {
   consumptionMultiplier,
 } from '../data/model';
 import { drinkShare, formatSharePercent } from '../data/eventSplits';
-import { drinkPage, fullBarTotals } from '../lib/pageData';
+import { drinkAt, fullBarTotals } from '../lib/pageData';
 import { AUTHOR, CONTENT_UPDATED } from '../data/site';
 
 // Everything on this page is read from the same modules the generator uses, so
@@ -27,7 +27,7 @@ const drinkingRate = DRINKING_PERCENTAGE.large;
 const drinkers = Math.round(ANCHOR * drinkingRate);
 
 const weddingTotals = fullBarTotals(DRINK_IDS, wedding.slug, ANCHOR)!;
-const winePage = drinkPage('wine', wedding.slug, ANCHOR)!;
+const winePage = drinkAt('wine', wedding.slug, ANCHOR)!;
 const wineShare = drinkShare('wedding', 'wine');
 
 // The one-drink-per-hour convention, for comparison.
@@ -45,10 +45,10 @@ const tierLabels: Record<string, string> = {
 // The Knot, "How to Stock the Bar at Your Wedding", updated September 30, 2025.
 const THE_KNOT_URL = 'https://www.theknot.com/content/how-to-stock-the-bar-at-your-wedding';
 const theKnot = [
-  { label: 'Wine', theirs: '20 bottles (750 ml)', ours: `${drinkPage('wine', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
-  { label: 'Champagne or sparkling', theirs: '17 bottles (750 ml)', ours: `${drinkPage('champagne', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
-  { label: 'Liquor', theirs: '11 bottles (1 liter)', ours: `${drinkPage('spirits', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} bottles (750 ml)` },
-  { label: 'Beer', theirs: '100 cans or bottles', ours: `${drinkPage('beer', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded} cases, ${drinkPage('beer', 'wedding', ANCHOR)!.calculation.fullBar.unitsNeeded * 24} cans` },
+  { label: 'Wine', theirs: '20 bottles (750 ml)', ours: `${drinkAt('wine', 'wedding', ANCHOR)!.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Champagne or sparkling', theirs: '17 bottles (750 ml)', ours: `${drinkAt('champagne', 'wedding', ANCHOR)!.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Liquor', theirs: '11 bottles (1 liter)', ours: `${drinkAt('spirits', 'wedding', ANCHOR)!.fullBar.unitsNeeded} bottles (750 ml)` },
+  { label: 'Beer', theirs: '100 cans or bottles', ours: `${drinkAt('beer', 'wedding', ANCHOR)!.fullBar.unitsNeeded} cases, ${drinkAt('beer', 'wedding', ANCHOR)!.fullBar.unitsNeeded * 24} cans` },
 ];
 
 const personSchema = {
@@ -146,8 +146,8 @@ const breadcrumbs = [
         duration; putting out four kinds of alcohol divides that total rather than multiplying it.
         Each event has a weighting across the four drinks, normalized so the shares sum to one. At a
         wedding, wine is {formatSharePercent(wineShare)} percent of the bar, which turns
-        {' '}{winePage.calculation.onlyDrink.totalServings} servings into
-        {' '}{winePage.calculation.fullBar.totalServings}.
+        {' '}{winePage.onlyDrink.totalServings} servings into
+        {' '}{winePage.fullBar.totalServings}.
       </p>
       <p>
         Every page also publishes the only-drink figure, so if you really are serving one thing,
