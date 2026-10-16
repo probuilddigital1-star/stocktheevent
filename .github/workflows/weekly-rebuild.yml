@@ -1,0 +1,34 @@
+name: Weekly rebuild
+
+# Rebuilds the site every Monday at 6:00 AM Eastern so the "This month"
+# occasion (chosen at build time by nextSeasonalEvent) stays current.
+# GitHub cron runs in UTC, so there are two entries (EDT and EST) and the
+# guard step lets only the one that lands on 6 AM Eastern through.
+on:
+  schedule:
+    - cron: '0 10 * * 1'
+    - cron: '0 11 * * 1'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check it is 6 AM Eastern
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$(TZ=America/New_York date +%H)" = "06" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Trigger Cloudflare Pages deploy hook
+        if: steps.guard.outputs.go == 'true'
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}
+        run: |
+          curl --fail --silent --show-error --output /dev/null -X POST "$DEPLOY_HOOK_URL"
+          echo "Deploy hook triggered."

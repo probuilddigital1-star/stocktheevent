@@ -449,39 +449,87 @@ const MONTH_NAMES = [
 ];
 
 /**
- * The seasonal event to feature at build time.
+ * The calendar date each event falls on in a given year. Tailgate is a season,
+ * not a day, so it has no entry and is never featured. Graduation is a notional
+ * June 1 for the same reason: its peak runs April to June with no single day.
+ */
+const nthWeekday = (year: number, month: number, weekday: number, n: number): Date => {
+  const first = new Date(year, month, 1);
+  const offset = (weekday - first.getDay() + 7) % 7;
+  return new Date(year, month, 1 + offset + (n - 1) * 7);
+};
+
+const lastWeekday = (year: number, month: number, weekday: number): Date => {
+  const last = new Date(year, month + 1, 0);
+  return new Date(year, month, last.getDate() - ((last.getDay() - weekday + 7) % 7));
+};
+
+// Anonymous Gregorian computus.
+const easterSunday = (year: number): Date => {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31) - 1;
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month, day);
+};
+
+const eventDates: Record<string, (year: number) => Date> = {
+  'super-bowl-party-calculator': (y) => nthWeekday(y, 1, 0, 2),
+  'march-madness-party-calculator': (y) => nthWeekday(y, 2, 4, 3),
+  'graduation-party-calculator': (y) => new Date(y, 5, 1),
+  'fourth-of-july-party-calculator': (y) => new Date(y, 6, 4),
+  'labor-day-party-calculator': (y) => nthWeekday(y, 8, 1, 1),
+  'halloween-party-calculator': (y) => new Date(y, 9, 31),
+  'thanksgiving-calculator': (y) => nthWeekday(y, 10, 4, 4),
+  'christmas-party-calculator': (y) => new Date(y, 11, 25),
+  'new-years-eve-party-calculator': (y) => new Date(y, 11, 31),
+  'st-patricks-day-party-calculator': (y) => new Date(y, 2, 17),
+  'cinco-de-mayo-party-calculator': (y) => new Date(y, 4, 5),
+  'memorial-day-party-calculator': (y) => lastWeekday(y, 4, 1),
+  'easter-brunch-party-calculator': easterSunday,
+};
+
+/**
+ * The seasonal event to feature at build time: always one that has not
+ * happened yet.
  *
- * Prefers an event whose peakMonths includes the current month; where several
- * qualify, the earliest in the array wins, so the choice is deterministic. If no
- * event peaks this month, falls back to the one whose next peak month is
- * soonest, wrapping around the end of the year. Every month is currently
- * covered, so the fallback is not reachable with today's data, but it keeps the
- * function total if a peak month is ever dropped.
+ * Among events that peak this month and still fall on or after today in the
+ * current year, the soonest wins (array order breaks ties). If none qualifies,
+ * for example in the days after July 4 or Christmas, it falls back to the
+ * soonest upcoming event of any month, wrapping into next year. A weekly
+ * rebuild therefore never features a past event; the only lag is the month
+ * label, which turns over at the first build after the 1st.
  *
- * Used for the Seasonal nav link and the homepage seasonal card, which were both
- * hardcoded to one event year-round.
+ * Used for the Seasonal nav link and the homepage seasonal card.
  */
 export function nextSeasonalEvent(now: Date): SeasonalEvent {
-  const monthIndex = now.getMonth();
-  const month = MONTH_NAMES[monthIndex];
+  const year = now.getFullYear();
+  const today = new Date(year, now.getMonth(), now.getDate());
+  const month = MONTH_NAMES[today.getMonth()];
 
-  const inPeak = seasonalEvents.find(event => event.peakMonths.includes(month));
-  if (inPeak) return inPeak;
+  const candidates = seasonalEvents.flatMap((event, order) => {
+    const dateFor = eventDates[event.slug];
+    if (!dateFor) return [];
+    const thisYear = dateFor(year);
+    const date = thisYear >= today ? thisYear : dateFor(year + 1);
+    return [{ event, order, date, inThisYear: thisYear >= today }];
+  });
+  candidates.sort((x, y) => x.date.getTime() - y.date.getTime() || x.order - y.order);
 
-  let best = seasonalEvents[0];
-  let bestDistance = Number.POSITIVE_INFINITY;
-  for (const event of seasonalEvents) {
-    for (const peak of event.peakMonths) {
-      const peakIndex = MONTH_NAMES.indexOf(peak.toLowerCase());
-      if (peakIndex === -1) continue;
-      const distance = (peakIndex - monthIndex + 12) % 12;
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        best = event;
-      }
-    }
-  }
-  return best;
+  const thisMonth = candidates.find(
+    (c) => c.inThisYear && c.event.peakMonths.includes(month),
+  );
+  return (thisMonth ?? candidates[0]).event;
 }
 
 export const getSeasonalEventsByMonth = (month: string): SeasonalEvent[] => {
