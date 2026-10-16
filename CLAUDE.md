@@ -18,16 +18,24 @@ https://www.stocktheevent.com/.
 - `npm test`: run the Playwright test suite.
 - `npm run check`: inspect a built `dist/` and print a PASS/FAIL table for the
   site-wide rules below. Run it after `npm run build`.
+- Production deploys come from pushing `main`: Cloudflare Pages builds it
+  automatically. A GitHub Actions workflow (`weekly-rebuild.yml`) also triggers
+  a rebuild every Monday at 6:00 AM Eastern through a Cloudflare deploy hook,
+  which keeps the "Coming up" occasion current.
 - `npm run deploy`: build, check, and deploy `dist/` to Cloudflare Pages
-  production.
+  production. A fallback only, and only for code already pushed to `main`.
 - `npm run deploy:preview`: build, check, and deploy `dist/` as a Cloudflare
   Pages preview on the `redesign-a` branch. A preview deploy never runs with
   `--branch main`; `scripts/ops/deploy.ts` refuses it.
 - `npm run verify:live`: fetch the live site and check it matches what was
-  deployed. Run it after `npm run deploy`.
+  deployed. Run it after the Cloudflare build of a `main` push finishes. It
+  needs a local `npm run build` of the same commit first, run on the same day,
+  because the featured occasion depends on the build date. That local build
+  deploys nothing.
 
-A prompt is not done until `npm run deploy` has succeeded and
-`npm run verify:live` passes.
+A change that ships to production is not done until it is pushed to `main`, the
+Cloudflare build has finished, and `npm run verify:live` passes. Preview-only
+work ends at `npm run deploy:preview`.
 
 ## Rules every change must follow
 
