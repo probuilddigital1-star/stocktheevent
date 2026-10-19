@@ -26,6 +26,7 @@ import { foodItems, type FoodItem } from '../src/data/foodItems';
 import { events, type ExtendedEventType } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
 import { items as drinkItems } from '../src/data/items';
+import { withArticle, howQuantity } from '../src/lib/phrases';
 
 import { BUFFER_PERCENTAGE, EATING_PERCENTAGE } from '../src/data/model';
 
@@ -290,9 +291,9 @@ function generateMeta(
   const first = guestCounts[0].value;
   const last = guestCounts[guestCounts.length - 1].value;
   return {
-    title: `How Much ${item.name} for a ${event.name}? Calculator and Chart`,
-    description: `How much ${item.name.toLowerCase()} to order for a ${event.lowerName}, for ${first} to ${last} guests. Pick your guest count for an exact quantity, a shopping list and pro tips.`,
-    h1: `How Much ${item.name} Do You Need for a ${event.name}?`,
+    title: `${howQuantity(item)} ${item.name} for ${withArticle(event, event.name)}? Calculator and Chart`,
+    description: `${howQuantity(item)} ${item.name.toLowerCase()} to order for ${withArticle(event, event.lowerName)}, for ${first} to ${last} guests. Pick your guest count for an exact quantity, a shopping list and pro tips.`,
+    h1: `${howQuantity(item)} ${item.name} Do You Need for ${withArticle(event, event.name)}?`,
   };
 }
 

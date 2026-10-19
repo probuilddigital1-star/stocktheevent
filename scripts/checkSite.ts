@@ -27,6 +27,7 @@ const CHECKS_ENFORCED: string[] = [
   'no-google-fonts',
   'no-emoji',
   'single-h1',
+  'title-grammar',
   'no-em-dash',
 ];
 
@@ -331,6 +332,57 @@ function checkOldUrlsRedirectToPages(rules: RedirectRule[] | null): CheckResult 
   };
 }
 
+// -----------------------------------------------------------------------------
+// Title and heading grammar
+//
+// Wording comes from data (FoodItem.quantityWord, EventType.article), so these
+// guard against a template or new copy bypassing it: countable foods take "How
+// Many", Thanksgiving takes no article, and a year is not repeated in a title.
+// Titles, H1s, meta descriptions and Open Graph text are checked.
+// -----------------------------------------------------------------------------
+
+const BAD_PHRASES: { re: RegExp; why: string }[] = [
+  { re: /how much (wings|sliders|tacos|appetizers)\b/i, why: 'How Much with a countable food' },
+  { re: /\bfor a thanksgiving\b/i, why: '"for a Thanksgiving"' },
+];
+
+function textOf(html: string, re: RegExp): string[] {
+  return [...html.matchAll(re)].map((m) => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim());
+}
+
+function checkTitleGrammar(htmlFiles: string[]): CheckResult {
+  let failed = 0;
+  const examples: string[] = [];
+  const fail = (file: string, why: string, text: string) => {
+    failed += 1;
+    if (examples.length < 3) examples.push(`${path.relative(DIST_DIR, file)}: ${why} in "${text.slice(0, 70)}"`);
+  };
+  for (const file of htmlFiles) {
+    const html = fs.readFileSync(file, 'utf8');
+    const titles = textOf(html, /<title[^>]*>([\s\S]*?)<\/title>/gi);
+    const headings = textOf(html, /<h1[^>]*>([\s\S]*?)<\/h1>/gi);
+    const metas = [
+      ...textOf(html, /<meta[^>]+name="description"[^>]+content="([^"]*)"/gi),
+      ...textOf(html, /<meta[^>]+property="og:(?:title|description|image:alt)"[^>]+content="([^"]*)"/gi),
+    ];
+    for (const text of [...titles, ...headings, ...metas]) {
+      for (const { re, why } of BAD_PHRASES) {
+        if (re.test(text)) fail(file, why, text);
+      }
+    }
+    for (const title of titles) {
+      const years = title.match(/\b20\d{2}\b/g) ?? [];
+      if (new Set(years).size !== years.length) fail(file, 'a year appears twice', title);
+    }
+  }
+  return {
+    name: 'title-grammar',
+    passed: failed === 0,
+    count: failed,
+    detail: `${failed} title, heading or description problems across ${htmlFiles.length} pages${examples.length ? ` (e.g. ${examples.join('; ')})` : ''}`,
+  };
+}
+
 function checkSingleH1(htmlFiles: string[]): CheckResult {
   let failed = 0;
   const examples: string[] = [];
@@ -472,6 +524,7 @@ function main(): void {
     checkNoPageMatchesRedirect(redirectRulesInDist, htmlFiles),
     checkOldUrlsRedirectToPages(redirectRulesInDist),
     checkSingleH1(htmlFiles),
+    checkTitleGrammar(htmlFiles),
     checkNoGoogleFonts(textFiles),
     checkNoEmoji(htmlFiles),
     checkNoEmDash(htmlFiles),

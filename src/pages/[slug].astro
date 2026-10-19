@@ -17,6 +17,7 @@ import type { CalculatorPage } from '../lib/types';
 import { items } from '../data/items';
 import { FLUTES_PER_BOTTLE } from '../data/items';
 import { formatSharePercent } from '../data/eventSplits';
+import { withArticle } from '../lib/phrases';
 import {
   BASE_DRINKS_PER_HOUR,
   BUFFER_PERCENTAGE,
@@ -88,6 +89,8 @@ const fullBar = page.calculation.fullBar;
 const onlyDrink = page.calculation.onlyDrink;
 const drink = page.item.name.toLowerCase();
 const eventName = page.event.lowerName;
+const anEvent = withArticle(page.event, eventName);
+const anEventName = withArticle(page.event, page.event.name);
 const sharePercent = formatSharePercent(page.calculation.barShare);
 
 const contextLine = buildContextLine(page.guestCount.value, fullBar.unitsNeeded, fullBar.totalServings, page.event.defaultDuration);
@@ -144,7 +147,7 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Calculators', url: '/calculators/' },
   { name: page.item.name, url: `/calculators/${page.item.id}/` },
-  { name: `${page.item.name} for a ${page.event.name}`, url: `/${page.slug}/` }
+  { name: `${page.item.name} for ${anEventName}`, url: `/${page.slug}/` }
 ];
 
 const crumbs = [
@@ -157,7 +160,7 @@ const crumbs = [
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": `Calculate ${page.item.name} for a ${page.event.name}`,
+  "name": `Calculate ${page.item.name} for ${anEventName}`,
   "description": page.meta.description,
   "step": page.mathExplanation.map((step, i) => ({
     "@type": "HowToStep",
@@ -175,19 +178,19 @@ const howToSchema = {
 const faqItems: FaqItem[] = [
   {
     question: `How much ${drink} do I need for ${page.guestCount.value} guests?`,
-    answer: `You need ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} for ${page.guestCount.value} guests at a ${eventName}, assuming you are serving a full bar. That is ${fullBar.totalServings} servings with a 15% buffer. If ${drink} is the only alcohol you serve, plan on ${onlyDrink.unitsNeeded} ${onlyDrink.unitsDisplay} instead.`,
+    answer: `You need ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} for ${page.guestCount.value} guests at ${anEvent}, assuming you are serving a full bar. That is ${fullBar.totalServings} servings with a 15% buffer. If ${drink} is the only alcohol you serve, plan on ${onlyDrink.unitsNeeded} ${onlyDrink.unitsDisplay} instead.`,
   },
   {
-    question: `How much ${drink} per person for a ${eventName}?`,
-    answer: `Plan for ${fullBar.perPersonServings} servings of ${drink} per person at a ${eventName} with a full bar. This accounts for the fact that not everyone drinks alcohol, that consumption slows as the event progresses, and that ${drink} is only ${sharePercent} percent of what gets poured.`,
+    question: `How much ${drink} per person for ${anEvent}?`,
+    answer: `Plan for ${fullBar.perPersonServings} servings of ${drink} per person at ${anEvent} with a full bar. This accounts for the fact that not everyone drinks alcohol, that consumption slows as the event progresses, and that ${drink} is only ${sharePercent} percent of what gets poured.`,
   },
   {
     question: `How many servings are in a ${page.item.unitSingular} of ${drink}?`,
     answer: `One ${page.item.unitSingular} of ${drink} contains ${page.item.servingsPerUnit} servings. For ${page.guestCount.value} guests, you'll need ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} to provide ${fullBar.totalServings} total servings.`,
   },
   {
-    question: `What percentage of the bar is ${drink} at a ${eventName}?`,
-    answer: `About ${sharePercent} percent of the drinks poured at a ${eventName} are ${drink}. With ${page.guestCount.value} guests, roughly ${page.calculation.actualDrinkers} will be drinking, and that share works out to ${fullBar.unitsNeeded} ${fullBar.unitsDisplay}.`,
+    question: `What percentage of the bar is ${drink} at ${anEvent}?`,
+    answer: `About ${sharePercent} percent of the drinks poured at ${anEvent} are ${drink}. With ${page.guestCount.value} guests, roughly ${page.calculation.actualDrinkers} will be drinking, and that share works out to ${fullBar.unitsNeeded} ${fullBar.unitsDisplay}.`,
   },
   {
     question: `Should I buy extra ${drink} as a buffer?`,
@@ -195,7 +198,7 @@ const faqItems: FaqItem[] = [
   },
   {
     question: `How long will ${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} last for ${page.guestCount.value} guests?`,
-    answer: `${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} will last approximately ${page.event.defaultDuration} hours for ${page.guestCount.value} guests at a ${eventName}, alongside the other drinks on the bar. This factors in the natural slowdown of consumption as the event progresses.`,
+    answer: `${fullBar.unitsNeeded} ${fullBar.unitsDisplay} of ${drink} will last approximately ${page.event.defaultDuration} hours for ${page.guestCount.value} guests at ${anEvent}, alongside the other drinks on the bar. This factors in the natural slowdown of consumption as the event progresses.`,
   },
   ...(page.calculation.toastBottles
     ? [{
@@ -222,7 +225,7 @@ const faqSchema = {
 const shoppingListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": `Shopping List: ${page.item.name} for a ${page.event.name} of ${page.guestCount.value} Guests`,
+  "name": `Shopping List: ${page.item.name} for ${anEventName} of ${page.guestCount.value} Guests`,
   "numberOfItems": page.shoppingList.length,
   "itemListElement": page.shoppingList.map((item, i) => ({
     "@type": "ListItem",
@@ -295,10 +298,10 @@ const shoppingListSchema = {
   <AdSlot id="drink-mid-content" />
 
   <QuickReference
-    title={`${page.item.name} for a ${eventName}, by guest count`}
+    title={`${page.item.name} for ${anEvent}, by guest count`}
     columns={quickReferenceColumns}
     rows={quickReferenceRows}
-    footnote={`Full bar figures are ${drink}'s share of a four-drink bar for a ${eventName}, with a 15 percent buffer included.`}
+    footnote={`Full bar figures are ${drink}'s share of a four-drink bar for ${anEvent}, with a 15 percent buffer included.`}
   />
 
   <ShoppingChecklist
@@ -315,7 +318,7 @@ const shoppingListSchema = {
   {page.item.id === 'spirits' && <CrossPromo />}
 
   <FaqSection
-    heading={`${page.item.name} at a ${eventName}`}
+    heading={`${page.item.name} at ${anEvent}`}
     items={faqItems}
   />
 

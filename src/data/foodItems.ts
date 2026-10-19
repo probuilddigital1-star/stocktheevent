@@ -9,6 +9,8 @@ export interface FoodItem extends Item {
   orderUnit: string;              // What you order (pizzas, lbs, dozen)
   orderUnitSingular: string;      // Singular order unit
   servingsPerOrderUnit: number;   // Servings per order unit
+  /** "many" for foods you count (How Many Wings), "much" for the rest (How Much Pizza). */
+  quantityWord: 'much' | 'many';
 }
 
 export const foodItems: FoodItem[] = [
@@ -29,6 +31,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'pizzas',
     orderUnitSingular: 'pizza',
     servingsPerOrderUnit: 8,      // 8 slices per pizza
+    quantityWord: 'much',
   },
   {
     id: 'wings',
@@ -47,6 +50,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'lbs',
     orderUnitSingular: 'lb',
     servingsPerOrderUnit: 10,     // ~10 wing pieces per lb (party wings)
+    quantityWord: 'many',
   },
   {
     id: 'tacos',
@@ -65,6 +69,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'dozen',
     orderUnitSingular: 'dozen',
     servingsPerOrderUnit: 12,     // 12 tacos per dozen
+    quantityWord: 'many',
   },
   {
     id: 'sliders',
@@ -83,6 +88,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'dozen',
     orderUnitSingular: 'dozen',
     servingsPerOrderUnit: 12,     // 12 sliders per dozen
+    quantityWord: 'many',
   },
   {
     id: 'appetizers',
@@ -101,6 +107,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'platters',
     orderUnitSingular: 'platter',
     servingsPerOrderUnit: 30,     // ~30 pieces per platter
+    quantityWord: 'many',
   },
   {
     id: 'bbq',
@@ -119,6 +126,7 @@ export const foodItems: FoodItem[] = [
     orderUnit: 'lbs',
     orderUnitSingular: 'lb',
     servingsPerOrderUnit: 3,      // ~3 servings per lb (accounts for shrinkage)
+    quantityWord: 'much',
   },
 ];
 

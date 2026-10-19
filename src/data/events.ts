@@ -18,6 +18,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 5,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 100,
+    article: 'a',
     modifiers: {
       wine: 1.2,      // Weddings drink more wine
       beer: 0.9,      // Beer slightly lower
@@ -59,6 +60,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 50,
+    article: 'a',
     modifiers: {
       wine: 0.7,      // Less wine at graduations
       beer: 1.25,     // More beer (younger crowd)
@@ -100,6 +102,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 3,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 100,
+    article: 'a',
     modifiers: {
       wine: 1.1,      // Wine is perceived as professional
       beer: 0.85,     // Less casual beer drinking
@@ -141,6 +144,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: 'a',
     modifiers: {
       wine: 1.0,
       beer: 1.1,
@@ -182,6 +186,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 5,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: 'a',
     modifiers: {
       wine: 0.5,      // Almost no one drinks wine at Super Bowl
       beer: 1.4,      // +40% beer - this is THE beer event
@@ -223,6 +228,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 50,
+    article: 'a',
     modifiers: {
       wine: 1.25,     // Holiday wine flows
       beer: 0.9,      // Less beer at holiday parties
@@ -264,6 +270,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 3,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: 'a',
     modifiers: {
       wine: 1.4,      // Wine-heavy event
       beer: 0.3,      // Minimal beer at showers
@@ -308,6 +315,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: 'a',
     modifiers: {
       wine: 0.5,      // Low wine consumption
       beer: 1.35,     // Heavy beer event
@@ -349,6 +357,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 5,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 50,
+    article: 'a',
     modifiers: {
       wine: 0.6,      // Less wine outdoors
       beer: 1.4,      // Heavy beer event
@@ -390,6 +399,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 5,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 50,
+    article: 'a',
     modifiers: {
       wine: 0.7,      // Slightly higher than 4th
       beer: 1.3,      // Still heavy beer
@@ -431,6 +441,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: 'a',
     modifiers: {
       wine: 0.9,      // Red wine fits the theme
       beer: 1.1,      // Standard beer
@@ -472,6 +483,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 4,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 25,
+    article: '',
     modifiers: {
       wine: 1.3,      // Wine pairs with dinner
       beer: 0.8,      // Less beer at sit-down meals
@@ -513,6 +525,7 @@ export const events: ExtendedEventType[] = [
     defaultDuration: 5,
     /** Guest count the event's pages open at. Must be one of guestCounts. */
     defaultGuests: 50,
+    article: 'a',
     modifiers: {
       wine: 1.1,      // Standard wine
       beer: 0.8,      // Less beer

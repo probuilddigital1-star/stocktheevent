@@ -17,6 +17,7 @@ import Icon from '../../components/Icon.astro';
 import { foodItems } from '../../data/foodItems';
 import { items as drinkItems } from '../../data/items';
 import type { FoodCalculatorPage } from '../../lib/types';
+import { withArticle } from '../../lib/phrases';
 import { BUFFER_PERCENTAGE, EATING_PERCENTAGE } from '../../data/model';
 
 export async function getStaticPaths() {
@@ -50,6 +51,8 @@ const { page } = Astro.props;
 
 const food = page.item.name.toLowerCase();
 const eventName = page.event.lowerName;
+const anEvent = withArticle(page.event, eventName);
+const anEventName = withArticle(page.event, page.event.name);
 const calc = page.calculation;
 
 const contextLine = `${page.guestCount.value} guests · as the main dish · ${calc.totalServings} servings · about ${calc.perPersonServings} per guest`;
@@ -110,7 +113,7 @@ const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Food Calculators', url: '/food/' },
   { name: page.item.name, url: `/food/${page.item.id}/` },
-  { name: `${page.item.name} for a ${page.event.name}`, url: `/food/${page.slug}/` }
+  { name: `${page.item.name} for ${anEventName}`, url: `/food/${page.slug}/` }
 ];
 
 const crumbs = [
@@ -123,7 +126,7 @@ const crumbs = [
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": `Calculate ${page.item.name} for a ${page.event.name}`,
+  "name": `Calculate ${page.item.name} for ${anEventName}`,
   "description": page.meta.description,
   "step": page.mathExplanation.map((step, i) => ({
     "@type": "HowToStep",
@@ -140,12 +143,12 @@ const howToSchema = {
 // two cannot drift apart.
 const faqItems: FaqItem[] = [
   {
-    question: `How much ${food} do I need for ${page.guestCount.value} guests?`,
-    answer: `You need ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} for ${page.guestCount.value} guests at a ${eventName}. This provides ${calc.totalServings} total servings with a 15% buffer.`,
+    question: `How ${page.item.quantityWord} ${food} do I need for ${page.guestCount.value} guests?`,
+    answer: `You need ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} for ${page.guestCount.value} guests at ${anEvent}. This provides ${calc.totalServings} total servings with a 15% buffer.`,
   },
   {
-    question: `How much ${food} per person for a ${eventName}?`,
-    answer: `Plan for ${calc.perPersonServings} servings of ${food} per person at a ${eventName}. This assumes ${food} is your main food; reduce by 30-40% if serving multiple dishes.`,
+    question: `How ${page.item.quantityWord} ${food} per person for ${anEvent}?`,
+    answer: `Plan for ${calc.perPersonServings} servings of ${food} per person at ${anEvent}. This assumes ${food} is your main food; reduce by 30-40% if serving multiple dishes.`,
   },
   {
     question: `How many servings in ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food}?`,
@@ -153,7 +156,7 @@ const faqItems: FaqItem[] = [
   },
   {
     question: `Is ${calc.unitsNeeded} ${calc.unitsDisplay} of ${food} enough for ${page.guestCount.value} people?`,
-    answer: `Yes, ${calc.unitsNeeded} ${calc.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at a ${eventName}. This includes a 15% buffer (${calc.buffer} extra ${calc.unitsDisplay}) so you won't run short.`,
+    answer: `Yes, ${calc.unitsNeeded} ${calc.unitsDisplay} is the recommended amount for ${page.guestCount.value} guests at ${anEvent}. This includes a 15% buffer (${calc.buffer} extra ${calc.unitsDisplay}) so you won't run short.`,
   },
   {
     question: `Should I order more ${food} than calculated?`,
@@ -182,7 +185,7 @@ const faqSchema = {
 const shoppingListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "name": `Shopping List: ${page.item.name} for a ${page.event.name} of ${page.guestCount.value} Guests`,
+  "name": `Shopping List: ${page.item.name} for ${anEventName} of ${page.guestCount.value} Guests`,
   "numberOfItems": page.shoppingList.length,
   "itemListElement": page.shoppingList.map((item, i) => ({
     "@type": "ListItem",
@@ -248,7 +251,7 @@ const shoppingListSchema = {
   <AdSlot id="food-mid-content" />
 
   <QuickReference
-    title={`${page.item.name} for a ${eventName}, by guest count`}
+    title={`${page.item.name} for ${anEvent}, by guest count`}
     columns={[{ label: page.item.name, unit: page.item.orderUnit }, { label: 'Servings' }]}
     rows={quickReferenceRows}
     footnote={`Figures assume ${food} is the main dish; serving several dishes together lowers each one.`}
@@ -263,14 +266,14 @@ const shoppingListSchema = {
 
   {eventFoodTips.length > 0 && (
     <ProTips
-      title={`Food at a ${eventName}`}
+      title={`Food at ${anEvent}`}
       tips={eventFoodTips.slice(0, 5)}
       guide={eventFoodBuyingGuide}
     />
   )}
 
   <FaqSection
-    heading={`${page.item.name} at a ${eventName}`}
+    heading={`${page.item.name} at ${anEvent}`}
     items={faqItems}
   />
 

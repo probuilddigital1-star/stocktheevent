@@ -9,6 +9,7 @@ import { seasonalEvents } from '../../data/seasonalEvents';
 import { events } from '../../data/events';
 import { items as drinkItems } from '../../data/items';
 import { foodItems } from '../../data/foodItems';
+import { withArticle } from '../../lib/phrases';
 
 const AMAZON_TAG = 'probuild20-20';
 
@@ -81,7 +82,7 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": `How much beer and drinks for a ${seasonalEvent.shortName}?`,
+      "name": `How much beer and drinks for ${withArticle(seasonalEvent, seasonalEvent.shortName)}?`,
       "acceptedAnswer": {
         "@type": "Answer",
         "text": `For a ${defaultGuestCount}-person ${seasonalEvent.shortName}, plan for ${featuredDrinkItems.map(d => d ? `${getExampleQuantity(d.id, 'drink')} ${d.unit} of ${d.name.toLowerCase()}` : '').filter(Boolean).join(', ')}.`
@@ -89,10 +90,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": `What food is best for a ${seasonalEvent.shortName}?`,
+      "name": `What food is best for ${withArticle(seasonalEvent, seasonalEvent.shortName)}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `The most popular foods for a ${seasonalEvent.shortName} are ${featuredFoodItems.map(f => f?.name.toLowerCase()).filter(Boolean).join(', ')}. These are crowd favorites that are easy to serve and enjoy.`
+        "text": `The most popular foods for ${withArticle(seasonalEvent, seasonalEvent.shortName)} are ${featuredFoodItems.map(f => f?.name.toLowerCase()).filter(Boolean).join(', ')}. These are crowd favorites that are easy to serve and enjoy.`
       }
     }
   ]
@@ -201,7 +202,7 @@ const faqSchema = {
   <!-- All calculators -->
   <PageSection
     label="All calculators"
-    title={`Every number for a ${seasonalEvent.shortName}`}
+    title={`Every number for ${withArticle(seasonalEvent, seasonalEvent.shortName)}`}
   >
     <div class="party-tables">
       <div class="party-col">
@@ -246,7 +247,7 @@ const faqSchema = {
   </PageSection>
 
   <!-- Seasonal tips -->
-  <ProTips title={`Notes for a ${seasonalEvent.shortName}`} tips={seasonalEvent.seasonalTips} />
+  <ProTips title={`Notes for ${withArticle(seasonalEvent, seasonalEvent.shortName)}`} tips={seasonalEvent.seasonalTips} />
 
   <!-- Essentials (affiliate) -->
   <PageSection

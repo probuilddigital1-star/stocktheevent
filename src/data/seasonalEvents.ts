@@ -191,6 +191,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'thanksgiving-calculator',
+    article: '',
     shortName: 'Thanksgiving',
     title: 'Thanksgiving Calculator',
     metaTitle: 'Thanksgiving Calculator, Turkey, Sides & Wine for Your Feast',
@@ -254,8 +255,8 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'new-years-eve-party-calculator',
     shortName: "New Year's Eve Party",
-    title: "New Year's Eve Party Calculator 2026",
-    metaTitle: "New Year's Eve Party Calculator 2026, Champagne, Cocktails & Appetizers",
+    title: "New Year's Eve Party Calculator",
+    metaTitle: "New Year's Eve Party Calculator, Champagne, Cocktails & Appetizers",
     metaDescription: "Free New Year's Eve party calculator. Plan champagne, cocktails, and appetizers for 25-300 guests. Ring in the new year right.",
     h1: "New Year's Eve Party Calculator, Ring In the New Year",
     subhead: 'Midnight toast ready. Hangover breakfast optional.',
@@ -285,8 +286,8 @@ export const seasonalEvents: SeasonalEvent[] = [
   {
     slug: 'st-patricks-day-party-calculator',
     shortName: "St. Patrick's Day Party",
-    title: "St. Patrick's Day Party Calculator 2026",
-    metaTitle: "St. Patrick's Day Party Calculator 2026, Irish Food, Green Beer & More",
+    title: "St. Patrick's Day Party Calculator",
+    metaTitle: "St. Patrick's Day Party Calculator, Irish Food, Green Beer & More",
     metaDescription: "Free St. Patrick's Day party calculator. Plan Irish food, green beer, and Guinness for 25-300 guests. Quantities you can check.",
     h1: "St. Patrick's Day Party Calculator, Go Green Without Going Broke",
     subhead: "Sláinte! Plan the perfect Irish celebration without running dry.",
@@ -377,6 +378,7 @@ export const seasonalEvents: SeasonalEvent[] = [
   },
   {
     slug: 'easter-brunch-party-calculator',
+    article: 'an',
     shortName: 'Easter Brunch',
     title: 'Easter Brunch Party Calculator',
     metaTitle: 'Easter Brunch Party Calculator, Mimosas, Ham & Spring Brunch',

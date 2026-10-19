@@ -8,6 +8,7 @@ import { foodItems } from '../../data/foodItems';
 import { HUB_GUEST_COUNTS } from '../../data/guestCounts';
 import { drinkAt, foodAt, fullBarTotals, slugFor } from '../../lib/pageData';
 import { DRINK_HUB_QUESTION, hubIntro } from '../../data/hubCopy';
+import { withArticle } from '../../lib/phrases';
 
 export function getStaticPaths() {
   return [
@@ -75,8 +76,8 @@ if (props.type === 'item') {
   intro = hubIntro(`event:${event.id}`);
   breadcrumbLabel = event.name;
   breadcrumbUrl = `/calculators/${event.id}/`;
-  tableCaption = `Drinks for a ${event.lowerName}, by guest count`;
-  foodTableCaption = `Food for a ${event.lowerName}, by guest count`;
+  tableCaption = `Drinks for ${withArticle(event, event.lowerName)}, by guest count`;
+  foodTableCaption = `Food for ${withArticle(event, event.lowerName)}, by guest count`;
 
   drinkRows = items.map((item) => ({
     label: item.name,
@@ -142,7 +143,7 @@ const breadcrumbs = [
 
         {props.type === 'event' && (
           <p class="hub-callout">
-            <a href={barSetupHref}>See the whole bar for a {events.find((e) => e.id === props.eventId)!.lowerName} at {ANCHOR} guests</a>
+            <a href={barSetupHref}>See the whole bar for {withArticle(events.find((e) => e.id === props.eventId)!, events.find((e) => e.id === props.eventId)!.lowerName)} at {ANCHOR} guests</a>
             <span class="hub-callout-note">{barSetupSummary}, wine, beer, spirits and champagne together.</span>
           </p>
         )}

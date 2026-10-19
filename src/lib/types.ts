@@ -24,6 +24,8 @@ export interface FoodItem extends Item {
   orderUnit: string;              // What you order (pizzas, lbs, dozen)
   orderUnitSingular: string;      // Singular order unit
   servingsPerOrderUnit: number;   // Servings per order unit
+  /** "many" for foods you count (How Many Wings), "much" for the rest (How Much Pizza). */
+  quantityWord: 'much' | 'many';
 }
 
 export interface EventType {
@@ -38,6 +40,8 @@ export interface EventType {
   defaultDuration: number;
   /** Guest count this event's pages open at. One of guestCounts. */
   defaultGuests: number;
+  /** Indefinite article for "for a wedding": "a", or "" for "for Thanksgiving". */
+  article: string;
   modifiers: Record<string, number>;
   proTips: string[];
   buyingGuide: string;
@@ -177,6 +181,8 @@ export interface AffiliateProduct {
 
 export interface SeasonalEvent {
   slug: string;
+  /** Indefinite article before shortName ("a" when omitted, "an" for Easter, "" for Thanksgiving). */
+  article?: string;
   /** What this event is called in headings and CTAs. The base event drives math, not naming. */
   shortName: string;
   title: string;

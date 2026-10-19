@@ -15,6 +15,7 @@ import { items } from '../../data/items';
 import { events } from '../../data/events';
 import { guestCounts } from '../../data/guestCounts';
 import { drinkAt } from '../../lib/pageData';
+import { withArticle } from '../../lib/phrases';
 import { drinkShare, splitsForEvent, varietyNote, DRINK_VARIETIES } from '../../data/eventSplits';
 import {
   BASE_DRINKS_PER_HOUR,
@@ -37,6 +38,7 @@ const { eventSlug } = Astro.props;
 
 const event = events.find(e => e.slug === eventSlug) || events[0];
 const guestCount = event.defaultGuests;
+const anEvent = withArticle(event, event.lowerName);
 const guestData = guestCounts.find(g => g.value === guestCount) || guestCounts[0];
 
 // Default duration from event (can be overridden client-side)
@@ -156,10 +158,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      "name": `What is the drink breakdown for a ${event.lowerName} bar?`,
+      "name": `What is the drink breakdown for the bar at ${anEvent}?`,
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": `A balanced bar for a ${event.lowerName} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type. ${event.pluralName} tend to favor ${leadingDrink.item.name.toLowerCase()}.`
+        "text": `A balanced bar for ${anEvent} typically includes: ${fullBarResults.map(r => `${r.item.name} (${Math.round((r.servings / grandTotalServings) * 100)}%)`).join(', ')}. These proportions are adjusted based on event type. ${event.pluralName} tend to favor ${leadingDrink.item.name.toLowerCase()}.`
       }
     }
   ]
@@ -168,7 +170,7 @@ const faqSchema = {
 
 <BaseLayout
   title={`${event.name} Alcohol Calculator: Wine, Beer, Spirits and Champagne`}
-  description={`How much wine, beer, spirits and champagne to buy for a ${event.lowerName}, for 10 to 300 guests. At ${guestCount} guests a full bar is about ${grandTotalServings} servings, ${perPerson} drinks per person, with a 15 percent buffer included.`}
+  description={`How much wine, beer, spirits and champagne to buy for ${anEvent}, for 10 to 300 guests. At ${guestCount} guests a full bar is about ${grandTotalServings} servings, ${perPerson} drinks per person, with a 15 percent buffer included.`}
   ogImage={`/og/${event.slug}.png`}
   ogImageAlt={`${event.name} full bar calculator`}
 >
@@ -267,7 +269,7 @@ const faqSchema = {
   </PageSection>
 
   <QuickReference
-    title={`A full bar for a ${event.lowerName}, by guest count`}
+    title={`A full bar for ${anEvent}, by guest count`}
     columns={ledgerColumns}
     rows={ledgerRows}
     footnote="Each drink is its share of a four-drink bar, with a 15 percent buffer included."
@@ -297,7 +299,7 @@ const faqSchema = {
   </PageSection>
 
   <ProTips
-    title={`Planning notes for a ${event.lowerName}`}
+    title={`Planning notes for ${anEvent}`}
     tips={event.proTips.slice(0, 3)}
     guide={event.buyingGuide}
   />

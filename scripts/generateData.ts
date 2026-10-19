@@ -26,6 +26,7 @@ import type {
   DrinkLedgerRow,
 } from '../src/lib/types';
 import { items, toastBottles } from '../src/data/items';
+import { withArticle } from '../src/lib/phrases';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
 import { drinkShare, formatSharePercent } from '../src/data/eventSplits';
@@ -165,7 +166,7 @@ function generateMathExplanation(
       label: 'Share of the bar',
       formula: `${result.onlyDrink.totalServings} servings × ${sharePercent}%`,
       result: `${result.fullBar.totalServings} ${item.name.toLowerCase()} servings`,
-      explanation: `Share of the bar: ${sharePercent} percent of drinks at a ${event.lowerName} are ${item.name.toLowerCase()}. The rest of the bar covers the other drinks.`,
+      explanation: `Share of the bar: ${sharePercent} percent of drinks at ${withArticle(event, event.lowerName)} are ${item.name.toLowerCase()}. The rest of the bar covers the other drinks.`,
     },
     {
       step: 6,
@@ -287,9 +288,9 @@ function generateMeta(
     : '';
 
   return {
-    title: `How Much ${item.name} for a ${event.name}? Calculator and Chart`,
-    description: `How much ${drink} to buy for a ${eventName}, for ${first} to ${last} guests. Pick your guest count for a full-bar quantity, a ${drink}-only quantity and a shopping list.${toastSentence}`,
-    h1: `How Much ${item.name} Do You Need for a ${event.name}?`,
+    title: `How Much ${item.name} for ${withArticle(event, event.name)}? Calculator and Chart`,
+    description: `How much ${drink} to buy for ${withArticle(event, eventName)}, for ${first} to ${last} guests. Pick your guest count for a full-bar quantity, a ${drink}-only quantity and a shopping list.${toastSentence}`,
+    h1: `How Much ${item.name} Do You Need for ${withArticle(event, event.name)}?`,
   };
 }
 

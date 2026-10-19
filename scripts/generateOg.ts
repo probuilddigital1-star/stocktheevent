@@ -22,6 +22,7 @@ import { items } from '../src/data/items';
 import { foodItems } from '../src/data/foodItems';
 import { events } from '../src/data/events';
 import { guestCounts } from '../src/data/guestCounts';
+import { withArticle } from '../src/lib/phrases';
 import { seasonalEvents } from '../src/data/seasonalEvents';
 import { drinkShare } from '../src/data/eventSplits';
 import { BASE_DRINKS_PER_HOUR, BUFFER_PERCENTAGE, DRINKING_PERCENTAGE, consumptionMultiplier } from '../src/data/model';
@@ -338,7 +339,7 @@ async function generateDrinkCards(): Promise<WriteResult[]> {
           bigNumberCard({
             big: String(page.calculation.fullBar.unitsNeeded),
             unit: `${page.calculation.fullBar.unitsDisplay} of ${page.item.name.toLowerCase()}`,
-            context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+            context: `for ${page.guestCount.value} guests at ${withArticle(page.event, page.event.lowerName)}`,
           }),
         ),
       );
@@ -363,7 +364,7 @@ async function generateFoodCards(): Promise<WriteResult[]> {
           bigNumberCard({
             big: String(page.calculation.unitsNeeded),
             unit: `${page.calculation.unitsDisplay} of ${page.item.name.toLowerCase()}`,
-            context: `for a ${page.guestCount.value}-guest ${page.event.lowerName}`,
+            context: `for ${page.guestCount.value} guests at ${withArticle(page.event, page.event.lowerName)}`,
           }),
         ),
       );
@@ -421,7 +422,7 @@ async function generateBarSetupCards(): Promise<WriteResult[]> {
         ledgerCard({
           caption: 'Full bar',
           rows: ledgerRows(fullBar),
-          context: `for a ${event.defaultGuests}-guest ${event.lowerName}`,
+          context: `for ${event.defaultGuests} guests at ${withArticle(event, event.lowerName)}`,
         }),
       ),
     );
